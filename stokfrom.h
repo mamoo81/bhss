@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+
 namespace Ui {
 class StokFrom;
 }
@@ -15,8 +16,35 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
+
+
 private slots:
     void on_StokGrupBtn_clicked();
+
+    void formLoad();
+
+    void grupComboboxDoldur();
+
+    void stokKartlariniListele();
+
+    void tableViewAyarla();
+
+    void on_YeniBtn_clicked();
+
+    void on_DuzenleBtn_clicked();
+
+    void on_IptalBtn_clicked();
+
+    void alanlariTemizle();
+
+    void alanlariDoldur();
+
+    void closeEvent(QCloseEvent*);
+    void keyPressEvent(QKeyEvent *event);
+
+    void on_KaydetBtn_clicked();
+
+    void on_SilBtn_clicked();
 
 private:
     Ui::StokFrom *ui;

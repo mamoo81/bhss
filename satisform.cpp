@@ -33,8 +33,8 @@ void SatisForm::formLoad()
 
 void SatisForm::on_StokKartlariBtn_clicked()
 {
-    StokFrom *stokKartiFromu = new StokFrom(this);
-    stokKartiFromu->exec();
+    StokFrom *stokKartiFormu = new StokFrom(this);
+    stokKartiFormu->exec();
 }
 
 void SatisForm::initTableWidgets()

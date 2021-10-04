@@ -17,7 +17,7 @@ LoginForm::LoginForm(QWidget *parent)
 {
     ui->setupUi(this);
 
-    db = QSqlDatabase::addDatabase("QPSQL");
+    db = QSqlDatabase::addDatabase("QPSQL", "db_login");
     db.setHostName("localhost");
     db.setDatabaseName("mhss_data");
     db.setUserName("admin");
@@ -79,7 +79,7 @@ void LoginForm::closeEvent(QCloseEvent *)
 
 void LoginForm::getUsers()
 {
-    sorgu = QSqlQuery("SELECT kulUserName FROM kullanicilar");
+    sorgu = QSqlQuery("SELECT kulUserName FROM kullanicilar", db);
         while (sorgu.next()) {
             ui->CmBoxUserName->addItem(sorgu.value(0).toString());
         }
