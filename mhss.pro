@@ -12,16 +12,19 @@ SOURCES += \
     main.cpp \
     loginform.cpp \
     satisform.cpp \
+    stokfrom.cpp \
     user.cpp
 
 HEADERS += \
     loginform.h \
     satisform.h \
+    stokfrom.h \
     user.h
 
 FORMS += \
     loginform.ui \
-    satisform.ui
+    satisform.ui \
+    stokfrom.ui
 
 TRANSLATIONS += \
     mhss_tr_TR.ts

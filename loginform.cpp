@@ -49,7 +49,7 @@ void LoginForm::on_GirisBtn_clicked()
             SatisForm *satis = new SatisForm();
             User *u = new User();
             u->setUserInfos(sorgu.value(0).toString(),sorgu.value(1).toString(),sorgu.value(3).toString(), sorgu.value(4).toString());
-            //satis->setUser(u);
+            satis->setUser(u);
             satis->show();
             this->close();
         }
