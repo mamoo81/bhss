@@ -58,7 +58,7 @@
     <string>Stok grupları</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="KaydetBtn">
    <property name="geometry">
     <rect>
      <x>150</x>

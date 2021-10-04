@@ -2,6 +2,8 @@
 #define STOKGRUPFORM_H
 
 #include <QDialog>
+#include <QCloseEvent>
+#include <QKeyEvent>
 
 namespace Ui {
 class StokGrupForm;
@@ -14,6 +16,21 @@ class StokGrupForm : public QDialog
 public:
     explicit StokGrupForm(QWidget *parent = nullptr);
     ~StokGrupForm();
+
+private slots:
+    void formLoad();
+
+    void on_EkleBtn_clicked();
+
+    void on_SilBtn_clicked();
+
+    void on_KaydetBtn_clicked();
+
+    void stokGruplariGetir();
+
+    void closeEvent(QCloseEvent*);
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::StokGrupForm *ui;
