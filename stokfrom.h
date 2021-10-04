@@ -15,6 +15,9 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
+private slots:
+    void on_StokGrupBtn_clicked();
+
 private:
     Ui::StokFrom *ui;
 };

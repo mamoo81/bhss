@@ -21,8 +21,11 @@ public:
     void setUser(User *user);
     void formLoad();
 
+public slots:
+
 private slots:
     void on_StokKartlariBtn_clicked();
+    void initTableWidgets();
 
 private:
     Ui::SatisForm *ui;

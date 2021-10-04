@@ -28,12 +28,42 @@ void SatisForm::setUser(User *user)
 
 void SatisForm::formLoad()
 {
-
+    initTableWidgets();
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
 {
     StokFrom *stokKartiFromu = new StokFrom(this);
     stokKartiFromu->exec();
+}
+
+void SatisForm::initTableWidgets()
+{
+    ui->SepetlertabWidget->setCurrentIndex(0);
+    ui->HizliUrunlertabWidget->setCurrentIndex(0);
+    ui->sepet1TableWidget->setColumnWidth(0,135);
+    ui->sepet1TableWidget->setColumnWidth(1,200);
+    ui->sepet1TableWidget->setColumnWidth(2,95);
+    ui->sepet1TableWidget->setColumnWidth(3,88);
+    ui->sepet1TableWidget->setColumnWidth(4,45);
+    ui->sepet1TableWidget->setColumnWidth(5,100);
+    ui->sepet2TableWidget->setColumnWidth(0,135);
+    ui->sepet2TableWidget->setColumnWidth(1,200);
+    ui->sepet2TableWidget->setColumnWidth(2,95);
+    ui->sepet2TableWidget->setColumnWidth(3,88);
+    ui->sepet2TableWidget->setColumnWidth(4,45);
+    ui->sepet2TableWidget->setColumnWidth(5,100);
+    ui->sepet3TableWidget->setColumnWidth(0,135);
+    ui->sepet3TableWidget->setColumnWidth(1,200);
+    ui->sepet3TableWidget->setColumnWidth(2,95);
+    ui->sepet3TableWidget->setColumnWidth(3,88);
+    ui->sepet3TableWidget->setColumnWidth(4,45);
+    ui->sepet3TableWidget->setColumnWidth(5,100);
+    ui->sepet4TableWidget->setColumnWidth(0,135);
+    ui->sepet4TableWidget->setColumnWidth(1,200);
+    ui->sepet4TableWidget->setColumnWidth(2,95);
+    ui->sepet4TableWidget->setColumnWidth(3,88);
+    ui->sepet4TableWidget->setColumnWidth(4,45);
+    ui->sepet4TableWidget->setColumnWidth(5,100);
 }
 

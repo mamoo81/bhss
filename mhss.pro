@@ -13,18 +13,21 @@ SOURCES += \
     loginform.cpp \
     satisform.cpp \
     stokfrom.cpp \
+    stokgrupform.cpp \
     user.cpp
 
 HEADERS += \
     loginform.h \
     satisform.h \
     stokfrom.h \
+    stokgrupform.h \
     user.h
 
 FORMS += \
     loginform.ui \
     satisform.ui \
-    stokfrom.ui
+    stokfrom.ui \
+    stokgrupform.ui
 
 TRANSLATIONS += \
     mhss_tr_TR.ts

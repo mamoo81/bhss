@@ -1,5 +1,8 @@
 #include "stokfrom.h"
 #include "ui_stokfrom.h"
+#include "stokgrupform.h"
+
+
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -12,3 +15,10 @@ StokFrom::~StokFrom()
 {
     delete ui;
 }
+
+void StokFrom::on_StokGrupBtn_clicked()
+{
+    StokGrupForm *stkgrupform = new StokGrupForm(this);
+    stkgrupform->exec();
+}
+
