@@ -21,5 +21,6 @@
         <file>images/ui/identity-card.png</file>
         <file>images/ui/document.png</file>
         <file>images/ui/box.png</file>
+        <file>images/ui/search-100.png</file>
     </qresource>
 </RCC>

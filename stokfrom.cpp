@@ -53,6 +53,8 @@ void StokFrom::formLoad()
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
+
+    ui->AraLineEdit->setFocus();
 }
 
 void StokFrom::grupComboboxDoldur()
@@ -85,6 +87,7 @@ void StokFrom::stokKartlariniListele()
     sorgu_model->setQuery(sorgu_stok);
     tableViewAyarla();
     ui->StokKartlaritableView->setModel(sorgu_model);
+    ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
 }
 
 
@@ -197,6 +200,9 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
             if(QMessageBox::Yes == cevap){
                 this->close();
             }
+        }
+        else{
+            this->close();
         }
     }
 }
