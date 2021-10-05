@@ -10,12 +10,14 @@
 #include <QCloseEvent>
 #include <QKeyEvent>
 #include <QDateTime>
+#include <QModelIndex>
 
 QSqlDatabase db_stok;
 QSqlQuery sorgu_stok;
 QSqlQueryModel *sorgu_model;
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
+//QModelIndex index;
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -89,6 +91,11 @@ void StokFrom::stokKartlariniListele()
     tableViewAyarla();
     ui->StokKartlaritableView->setModel(sorgu_model);
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
+    QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
+    qDebug() << selectionModel->currentIndex().row();
+    QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
+    selectionModel->select(modelindex, QItemSelectionModel::ClearAndSelect);
+
 }
 
 
@@ -282,7 +289,7 @@ void StokFrom::on_KaydetBtn_clicked()
 void StokFrom::on_SilBtn_clicked()
 {
     if(ui->StokKartlaritableView->currentIndex().row() != -1){
-        int seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
+        seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
         QString mesajMetni = seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString() + " nolu\n" + seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString() + " isimli stok kartını silmek istediğinize emin misiniz?";
         QMessageBox::StandardButton cevap = QMessageBox::question(this, "Dikkat", mesajMetni, QMessageBox::Yes | QMessageBox::No);
@@ -299,5 +306,17 @@ void StokFrom::on_SilBtn_clicked()
     else{
         QMessageBox::information(this, "Uyarı", "Bir stok kartı seçiniz.", QMessageBox::Ok);
     }
+}
+
+
+void StokFrom::on_BckBtn_clicked()
+{
+    seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
+}
+
+
+void StokFrom::on_Fwbtn_clicked()
+{
+
 }
 

@@ -14,6 +14,7 @@ SOURCES += \
     satisform.cpp \
     stokfrom.cpp \
     stokgrupform.cpp \
+    stokkarti.cpp \
     user.cpp
 
 HEADERS += \
@@ -21,6 +22,7 @@ HEADERS += \
     satisform.h \
     stokfrom.h \
     stokgrupform.h \
+    stokkarti.h \
     user.h
 
 FORMS += \

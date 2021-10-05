@@ -46,6 +46,10 @@ private slots:
 
     void on_SilBtn_clicked();
 
+    void on_BckBtn_clicked();
+
+    void on_Fwbtn_clicked();
+
 private:
     Ui::StokFrom *ui;
 };
