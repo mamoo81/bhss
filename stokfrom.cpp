@@ -15,6 +15,7 @@ QSqlDatabase db_stok;
 QSqlQuery sorgu_stok;
 QSqlQueryModel *sorgu_model;
 QItemSelectionModel *seciliSatirModel;
+int seciliSatirIndex;
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -156,7 +157,7 @@ void StokFrom::alanlariTemizle()
 
 void StokFrom::alanlariDoldur()
 {
-    int seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
+    seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
     seciliSatirModel = ui->StokKartlaritableView->selectionModel();
     ui->BarkodLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString());
     ui->StokAdiLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString());
@@ -210,14 +211,48 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 
 void StokFrom::on_KaydetBtn_clicked()
 {
-    sorgu_stok = QSqlQuery(db_stok);
-    sorgu_stok.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
-    sorgu_stok.bindValue(0, ui->BarkodLnEdit->text());
-    sorgu_stok.exec();
-    if(!sorgu_stok.next())
-    {
-        sorgu_stok.prepare("INSERT INTO stokkartlari (stokID, barkod, ad, birim, miktar, stokGrup, aFiyat, sFiyat, kdv1, kdv2, kdv3, songuntarih, aciklama) "
-        "VALUES (nextval('stokID_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    if(ui->YeniBtn->isEnabled()){// yenibtn aktifse yeni stok kartı kaydı oluşturur.
+        sorgu_stok = QSqlQuery(db_stok);
+        sorgu_stok.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
+        sorgu_stok.bindValue(0, ui->BarkodLnEdit->text());
+        sorgu_stok.exec();
+        if(!sorgu_stok.next())
+        {
+            sorgu_stok.prepare("INSERT INTO stokkartlari (stokID, barkod, ad, birim, miktar, stokGrup, aFiyat, sFiyat, kdv1, kdv2, kdv3, songuntarih, aciklama) "
+            "VALUES (nextval('stokID_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            sorgu_stok.bindValue(0, ui->BarkodLnEdit->text());
+            sorgu_stok.bindValue(1, ui->StokAdiLnEdit->text());
+            sorgu_stok.bindValue(2, ui->BirimiComboBox->currentText());
+            sorgu_stok.bindValue(3, ui->MiktarLnEdit->text().toFloat());
+            sorgu_stok.bindValue(4, ui->StokGrubuComboBox->currentText());
+            sorgu_stok.bindValue(5, ui->AFiyatdoubleSpinBox->value());
+            sorgu_stok.bindValue(6, ui->SFiyatdoubleSpinBox->value());
+            sorgu_stok.bindValue(7, 0);
+            sorgu_stok.bindValue(8, 0);
+            sorgu_stok.bindValue(9, 0);
+            sorgu_stok.bindValue(10, QDateTime::currentDateTime());
+            sorgu_stok.bindValue(11, "stok kartı oluşturuldu");// buraya ilerde giriş yapan kullanıcı adını ekle.
+            if(sorgu_stok.exec())
+            {
+                QMessageBox::information(this, "Uyarı", "Stok kartı başarıyla oluşturuldu.", QMessageBox::Ok);
+                stokKartlariniListele();
+                alanlariTemizle();
+                emit on_IptalBtn_clicked();
+            }
+        }
+        else
+        {
+            QMessageBox::critical(this, "Hata", "Girdiğiniz barkod veritabanında zaten mevcut.", QMessageBox::Ok);
+        }
+    }
+    else if(ui->DuzenleBtn->isEnabled()){// duzenlebtn aktifse mevcut stok kartını günceller.
+        seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
+        seciliSatirModel = ui->StokKartlaritableView->selectionModel();
+        QString duzenlenecekStokId = seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString();
+        sorgu_stok = QSqlQuery(db_stok);
+        sorgu_stok.prepare("UPDATE stokkartlari SET (barkod, ad, birim, miktar, stokgrup, afiyat, sfiyat, kdv1, kdv2, kdv3, songuntarih, aciklama)"
+                            "=(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                            "WHERE stokid = ?");
         sorgu_stok.bindValue(0, ui->BarkodLnEdit->text());
         sorgu_stok.bindValue(1, ui->StokAdiLnEdit->text());
         sorgu_stok.bindValue(2, ui->BirimiComboBox->currentText());
@@ -229,19 +264,17 @@ void StokFrom::on_KaydetBtn_clicked()
         sorgu_stok.bindValue(8, 0);
         sorgu_stok.bindValue(9, 0);
         sorgu_stok.bindValue(10, QDateTime::currentDateTime());
-        sorgu_stok.bindValue(11, "stok kartı oluşturuldu");// buraya ilerde giriş yapan kullanıcı adını ekle.
-        bool ok = sorgu_stok.exec();
-        if(ok)
-        {
-            QMessageBox::information(this, "Uyarı", "Stok kartı başarıyla oluşturuldu.", QMessageBox::Ok);
-            stokKartlariniListele();
-            alanlariTemizle();
+        sorgu_stok.bindValue(11, "stok kartı güncelleme: ");// buraya ileride kullanıcı adını ekle.
+        sorgu_stok.bindValue(12, duzenlenecekStokId);
+        if(sorgu_stok.exec()){
+            QMessageBox::information(this, "Uyarı", "Stok kartı güncellendi.", QMessageBox::Ok);
+            StokFrom::alanlariTemizle();
+            StokFrom::stokKartlariniListele();
             emit on_IptalBtn_clicked();
         }
-    }
-    else
-    {
-        QMessageBox::critical(this, "Hata", "Girdiğiniz barkod veritabanında zaten mevcut.", QMessageBox::Ok);
+        else{
+            QMessageBox::warning(this, "Hata", "Stok kartı güncellenemedi!", QMessageBox::Ok);
+        }
     }
 }
 
