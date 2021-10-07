@@ -722,7 +722,7 @@ color: rgb(0, 170, 0);</string>
     <double>1233.559999999999945</double>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="azaltBtn">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -745,7 +745,7 @@ color: rgb(0, 170, 0);</string>
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="artirBtn">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -768,7 +768,7 @@ color: rgb(0, 170, 0);</string>
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="satirSilBtn">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -867,7 +867,7 @@ color: rgb(0, 170, 0);</string>
     <string>Günlük İşlem Sayısı</string>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
+  <widget class="QListView" name="sonIslemlerListView">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -877,7 +877,7 @@ color: rgb(0, 170, 0);</string>
     </rect>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_4">
+  <widget class="QToolButton" name="satisYapBtn">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -903,7 +903,7 @@ color: rgb(0, 170, 0);</string>
     <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_5">
+  <widget class="QToolButton" name="iadeAlBtn">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -929,7 +929,7 @@ color: rgb(0, 170, 0);</string>
     <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_156">
+  <widget class="QToolButton" name="sepetSilBtn">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -4910,7 +4910,7 @@ color: rgb(0, 170, 0);</string>
      <string>BARKOD</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit"/>
+   <widget class="QLineEdit" name="barkodLineEdit"/>
   </widget>
  </widget>
  <resources>

@@ -27,6 +27,10 @@ private slots:
     void on_StokKartlariBtn_clicked();
     void initTableWidgets();
 
+    void on_SepetlertabWidget_currentChanged(int index);
+
+    void barkodBak(QString bakilacakBarkod);
+    void sepeteEkle();
 private:
     Ui::SatisForm *ui;
 };

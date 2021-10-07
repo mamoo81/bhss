@@ -2,9 +2,17 @@
 #include "ui_satisform.h"
 #include "user.h"
 #include "stokfrom.h"
+#include "sepet.h"
 
+#include <QDebug>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 User *kullanici;
+QSqlDatabase db_satis;
+QSqlQuery sorgu_satis;
 
 SatisForm::SatisForm(QWidget *parent) :
     QWidget(parent),
@@ -28,7 +36,20 @@ void SatisForm::setUser(User *user)
 
 void SatisForm::formLoad()
 {
+    db_satis.addDatabase("QPSQL", "db_satis");
+    db_satis.setDatabaseName("mhss_data");
+    db_satis.setHostName("localhost");
+    db_satis.setUserName("admin");
+    db_satis.setPassword("admin");
+    if(!db_satis.isOpen())
+    {
+        db_satis.open();
+    }
+
     initTableWidgets();
+
+
+    ui->barkodLineEdit->setFocus();
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
@@ -65,5 +86,16 @@ void SatisForm::initTableWidgets()
     ui->sepet4TableWidget->setColumnWidth(3,88);
     ui->sepet4TableWidget->setColumnWidth(4,45);
     ui->sepet4TableWidget->setColumnWidth(5,100);
+}
+
+
+void SatisForm::on_SepetlertabWidget_currentChanged(int index)
+{
+    qDebug() << index;
+}
+
+void SatisForm::barkodBak(QString bakilacakBarkod)
+{
+
 }
 

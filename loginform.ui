@@ -147,6 +147,12 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>CmBoxUserName</tabstop>
+  <tabstop>LeditPass</tabstop>
+  <tabstop>GirisBtn</tabstop>
+  <tabstop>KapatBtn</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     loginform.cpp \
     satisform.cpp \
+    sepet.cpp \
     stokfrom.cpp \
     stokgrupform.cpp \
     stokkarti.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     loginform.h \
     satisform.h \
+    sepet.h \
     stokfrom.h \
     stokgrupform.h \
     stokkarti.h \

@@ -21,10 +21,10 @@ public:
     QString getMiktar();
     void setGrup(QString p_Grup);
     QString getGrup();
-    void setAFiyat(QString p_AFiyat);
-    QString getAfiyat();
-    void setSFiyat(QString p_SFiyat);
-    QString getSFiyat();
+    void setAFiyat(double p_AFiyat);
+    double getAfiyat() const;
+    void setSFiyat(double p_SFiyat);
+    double getSFiyat() const;
     void setKDV1(int p_KDV1);
     int getKDV1();
     void setKDV2(int p_KDV2);
@@ -36,18 +36,20 @@ public:
     void setAciklama(QString p_Aciklama);
     QString getAciklama();
 
-private:
+
     QString id;
     QString barkod;
     QString ad;
     QString birim;
     QString miktar;
     QString grup;
-    QString aFiyat;
-    QString sFiyat;
+    double aFiyat;
+    double sFiyat;
     int kdv1, kdv2, kdv3;
     QDateTime sonGunTarih;
     QString aciklama;
+private:
+
 };
 
 #endif // STOKKARTI_H

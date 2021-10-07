@@ -32,7 +32,7 @@
   <widget class="QLineEdit" name="AraLineEdit">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>10</x>
      <y>60</y>
      <width>141</width>
      <height>31</height>
@@ -519,7 +519,7 @@
   <widget class="QRadioButton" name="barkodRadioButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>160</x>
      <y>60</y>
      <width>201</width>
      <height>21</height>
@@ -535,7 +535,7 @@
   <widget class="QRadioButton" name="adRadioButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>160</x>
      <y>80</y>
      <width>99</width>
      <height>21</height>
@@ -572,6 +572,31 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>AraLineEdit</tabstop>
+  <tabstop>BckBtn</tabstop>
+  <tabstop>Fwbtn</tabstop>
+  <tabstop>YeniBtn</tabstop>
+  <tabstop>DuzenleBtn</tabstop>
+  <tabstop>SilBtn</tabstop>
+  <tabstop>SatisGrfBtn</tabstop>
+  <tabstop>StokHrktBtn</tabstop>
+  <tabstop>StokGrupBtn</tabstop>
+  <tabstop>BarkodLnEdit</tabstop>
+  <tabstop>StokAdiLnEdit</tabstop>
+  <tabstop>BirimiComboBox</tabstop>
+  <tabstop>MiktarLnEdit</tabstop>
+  <tabstop>StokGrubuComboBox</tabstop>
+  <tabstop>AFiyatdoubleSpinBox</tabstop>
+  <tabstop>SFiyatdoubleSpinBox</tabstop>
+  <tabstop>AciklamaLnEdit</tabstop>
+  <tabstop>KaydetBtn</tabstop>
+  <tabstop>IptalBtn</tabstop>
+  <tabstop>adRadioButton</tabstop>
+  <tabstop>barkodRadioButton</tabstop>
+  <tabstop>StokKartlaritableView</tabstop>
+  <tabstop>araBtn</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

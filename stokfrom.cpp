@@ -92,9 +92,8 @@ void StokFrom::stokKartlariniListele()
     ui->StokKartlaritableView->setModel(sorgu_model);
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
     QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
-    qDebug() << selectionModel->currentIndex().row();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
-    selectionModel->select(modelindex, QItemSelectionModel::ClearAndSelect);
+    selectionModel->select(modelindex, QItemSelectionModel::Clear);
 
 }
 
@@ -213,6 +212,14 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
             this->close();
         }
     }
+    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
+        if(ui->stokKartBilGroupBox->isEnabled()){
+            emit on_KaydetBtn_clicked();
+        }
+        else{
+            emit on_araBtn_clicked();
+        }
+    }
 }
 
 
@@ -311,12 +318,48 @@ void StokFrom::on_SilBtn_clicked()
 
 void StokFrom::on_BckBtn_clicked()
 {
-    seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
+    ui->StokKartlaritableView->selectRow(ui->StokKartlaritableView->currentIndex().row() - 1);
 }
 
 
 void StokFrom::on_Fwbtn_clicked()
 {
+    ui->StokKartlaritableView->selectRow(ui->StokKartlaritableView->currentIndex().row() + 1);
+}
 
+void StokFrom::stokKartiAra(QString aranacakMetin)
+{
+    bool bulundumu(false);
+    if(ui->barkodRadioButton->isChecked()){
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(ui->StokKartlaritableView->model()->index(i, 1).data().toString().contains(aranacakMetin, Qt::CaseInsensitive)){
+                ui->StokKartlaritableView->selectRow(i);
+                bulundumu = true;
+                break;
+            }
+        }
+    }
+    if(ui->adRadioButton->isChecked()){
+        if(ui->barkodRadioButton->isChecked()){
+            for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+                if(ui->StokKartlaritableView->model()->index(i, 2).data().toString().contains(aranacakMetin, Qt::CaseInsensitive)){
+                    ui->StokKartlaritableView->selectRow(i);
+                    bulundumu = true;
+                    break;
+                }
+            }
+        }
+    }
+    if(!bulundumu){
+        QMessageBox::warning(this, "Uyarı", "Stok kartı bulunamadı.", QMessageBox::Ok);
+        ui->StokKartlaritableView->clearSelection();
+        StokFrom::alanlariTemizle();
+    }
+}
+
+
+void StokFrom::on_araBtn_clicked()
+{
+    stokKartiAra(ui->AraLineEdit->text());
 }
 

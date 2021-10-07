@@ -50,6 +50,10 @@ private slots:
 
     void on_Fwbtn_clicked();
 
+    void stokKartiAra(QString aranacakMetin);
+
+    void on_araBtn_clicked();
+
 private:
     Ui::StokFrom *ui;
 };
