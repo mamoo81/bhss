@@ -1,7 +1,7 @@
 #include "sepet.h"
 #include "stokkarti.h"
 
-
+#include <QDebug>
 
 Sepet::Sepet()
 {
@@ -10,14 +10,17 @@ Sepet::Sepet()
 
 void Sepet::ekle(StokKarti p_StokKarti)
 {
-    sepetUrunler.append(p_StokKarti);
+    if(!sepetUrunler.contains(p_StokKarti.getBarkod())){
+        sepetUrunler.insert(p_StokKarti.getBarkod(), p_StokKarti);
+        StokKarti gecicistokkarti = sepetUrunler.value(p_StokKarti.getBarkod());
+        qDebug() << gecicistokkarti.getAd();
+    }
+
 }
 
-double Sepet::toplamTutar()
+QString Sepet::satirToplami()
 {
-    double genelToplam = 0;
-    for(int i = 0; i < sepetUrunler.count(); i++){
-        genelToplam = genelToplam + sepetUrunler.at(i).getSFiyat();
-    }
+    QString genelToplam = 0;
     return genelToplam;
 }
+

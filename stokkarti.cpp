@@ -95,22 +95,22 @@ QString StokKarti::getGrup()
     }
 }
 
-void StokKarti::setAFiyat(double p_AFiyat)
+void StokKarti::setAFiyat(QString p_AFiyat)
 {
     aFiyat = p_AFiyat;
 }
 
-double StokKarti::getAfiyat() const
+QString StokKarti::getAfiyat() const
 {
     return aFiyat;
 }
 
-void StokKarti::setSFiyat(double p_SFiyat)
+void StokKarti::setSFiyat(QString p_SFiyat)
 {
     sFiyat = p_SFiyat;
 }
 
-double StokKarti::getSFiyat() const
+QString StokKarti::getSFiyat() const
 {
     return sFiyat;
 }

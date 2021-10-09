@@ -6,7 +6,7 @@
 
 #include <QString>
 #include <QDateTime>
-#include <QVector>
+#include <QHash>
 
 class Sepet
 {
@@ -15,13 +15,15 @@ public:
 
     void sat(User satisYapan, QString satisKanali);
     void ekle(StokKarti p_StokKarti);
-    double toplamTutar();
+    QString satirToplami();
+    QString genelToplam();
     void adetArtir(QString artirilacakBarkod);
     void adetAzalt(QString azaltilacakBarkod);
     void satirSil(QString silinecekBarkod);
 
 private:
-    QVector<StokKarti> sepetUrunler;
+    QHash<QString, StokKarti> sepetUrunler;
 };
+
 
 #endif // SEPET_H

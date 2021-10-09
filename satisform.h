@@ -2,9 +2,11 @@
 #define SATISFORM_H
 
 #include "user.h"
-
+#include "stokkarti.h"
 
 #include <QWidget>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 namespace Ui {
 class SatisForm;
@@ -28,9 +30,12 @@ private slots:
     void initTableWidgets();
 
     void on_SepetlertabWidget_currentChanged(int index);
-
-    void barkodBak(QString bakilacakBarkod);
-    void sepeteEkle();
+    void sepetToplaminiYaz(int p_HangiSepet);
+    void barkodVarmi(QString bakilacakBarkod);
+    void sepeteEkle(StokKarti p_StokKarti);
+    void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    bool urunSepetteVarmi(QString p_Barkod);
 private:
     Ui::SatisForm *ui;
 };
