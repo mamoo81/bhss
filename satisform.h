@@ -23,6 +23,7 @@ public:
     void setUser(User *user);
     void formLoad();
 
+    bool eventFilter(QObject *watched, QEvent *event);
 public slots:
 
 private slots:

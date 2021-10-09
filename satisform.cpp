@@ -55,7 +55,7 @@ void SatisForm::formLoad()
 
     initTableWidgets();
 
-
+    ui->barkodLineEdit->installEventFilter(this);
     ui->barkodLineEdit->setFocus();
 }
 
@@ -240,7 +240,47 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
 
 void SatisForm::closeEvent(QCloseEvent *event)
 {
+    if(ui->sepet1TableWidget->rowCount() > 0 || ui->sepet2TableWidget->rowCount() > 0 || ui->sepet3TableWidget->rowCount() > 0 || ui->sepet4TableWidget->rowCount() > 0){
+        QMessageBox msgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYinede çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
+        msgBox.setButtonText(QMessageBox::Yes,"Evet");
+        msgBox.setButtonText(QMessageBox::No, "Hayır");
+        msgBox.setDefaultButton(QMessageBox::No);
+        int cevap = msgBox.exec();
+        switch (cevap) {
+        case QMessageBox::Yes:
+            this->close();
+            break;
+        case QMessageBox::No:
+            event->ignore();
+            this->show();
+            break;
+        }
+    }
+}
 
+// focus QlineEdit deyken sağ-sol tuş eventlerini yakalamak için. QlineEdit sağ-sol tuşları imlecin yerini değiştirdiği için evente göndermiyor bu şekilde eventi yakalıyorum.
+bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
+    if(ui->barkodLineEdit == filtrelenecekObject){      // filtrelenecek obje ui->barkodLineEdit ise
+        if(event->type() == QEvent::KeyPress){      // event tipi QEvent::KeyPress ise
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);       // QKeyEvent eventi oluşturup,  key press event tipini QKeyEvent'e cast (kopyalıyorum) ediyorum.
+            if(keyEvent->key() == Qt::LeftArrow || keyEvent->key() == Qt::Key_Left){
+                if(ui->SepetlertabWidget->currentIndex() > 0){
+                    int currentIndex = ui->SepetlertabWidget->currentIndex();
+                    ui->SepetlertabWidget->setCurrentIndex(currentIndex - 1);
+                }
+                return true;
+            }
+            if(keyEvent->key() == Qt::RightArrow || keyEvent->key() == Qt::Key_Right){
+                if(ui->SepetlertabWidget->currentIndex() < 3){
+                    int currentIndex = ui->SepetlertabWidget->currentIndex();
+                    ui->SepetlertabWidget->setCurrentIndex(currentIndex + 1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    return SatisForm::eventFilter(filtrelenecekObject, event);      //
 }
 
 void SatisForm::keyPressEvent(QKeyEvent *event)
@@ -253,7 +293,7 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
             SatisForm::barkodVarmi(ui->barkodLineEdit->text());
         }
     }
-    if(event->key() == Qt::DownArrow || event->key() == Qt::Key_Down){
+    else if(event->key() == Qt::DownArrow || event->key() == Qt::Key_Down){
         switch (ui->SepetlertabWidget->currentIndex()) {
         case 0:
             ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() + 1);
@@ -269,7 +309,7 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
             break;
         }
     }
-    if(event->key() == Qt::UpArrow || event->key() == Qt::Key_Up){
+    else if(event->key() == Qt::UpArrow || event->key() == Qt::Key_Up){
         switch (ui->SepetlertabWidget->currentIndex()) {
         case 0:
             ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() - 1);
@@ -283,20 +323,6 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
         case 3:
             ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->currentIndex().row() - 1);
             break;
-        }
-    }
-    if(event->key() == Qt::LeftArrow || event->key() == Qt::Key_Left){
-        if(ui->SepetlertabWidget->currentIndex() > 0){
-            int currentIndex = ui->SepetlertabWidget->currentIndex();
-            ui->SepetlertabWidget->setCurrentIndex(currentIndex - 1);
-            qDebug() << ui->SepetlertabWidget->currentIndex();
-        }
-    }
-    if(event->key() == Qt::RightArrow || event->key() == Qt::Key_Right){
-        if(ui->SepetlertabWidget->currentIndex() < 3){
-            int currentIndex = ui->SepetlertabWidget->currentIndex();
-            ui->SepetlertabWidget->setCurrentIndex(currentIndex + 1);
-            qDebug() << ui->SepetlertabWidget->currentIndex();
         }
     }
 }
