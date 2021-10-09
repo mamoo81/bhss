@@ -157,7 +157,7 @@
      <height>32</height>
     </size>
    </property>
-   <widget class="QWidget" name="tab">
+   <widget class="QWidget" name="sepet1Tab">
     <attribute name="icon">
      <iconset resource="images.qrc">
       <normaloff>:/images/ui/shopping-cart.png</normaloff>:/images/ui/shopping-cart.png</iconset>
@@ -245,7 +245,7 @@
      </column>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_2">
+   <widget class="QWidget" name="sepet2Tab">
     <attribute name="icon">
      <iconset resource="images.qrc">
       <normaloff>:/images/ui/shopping-cart.png</normaloff>:/images/ui/shopping-cart.png</iconset>
@@ -333,7 +333,7 @@
      </column>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_3">
+   <widget class="QWidget" name="sepet3Tab">
     <attribute name="icon">
      <iconset resource="images.qrc">
       <normaloff>:/images/ui/shopping-cart.png</normaloff>:/images/ui/shopping-cart.png</iconset>
@@ -421,7 +421,7 @@
      </column>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_4">
+   <widget class="QWidget" name="sepet4Tab">
     <attribute name="icon">
      <iconset resource="images.qrc">
       <normaloff>:/images/ui/shopping-cart.png</normaloff>:/images/ui/shopping-cart.png</iconset>
@@ -4734,7 +4734,11 @@ color: rgb(0, 170, 0);</string>
      <string>BARKOD</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="barkodLineEdit"/>
+   <widget class="QLineEdit" name="barkodLineEdit">
+    <property name="placeholderText">
+     <string>barkodu girin</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>
