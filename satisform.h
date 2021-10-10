@@ -37,6 +37,15 @@ private slots:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     bool urunSepetteVarmi(QString p_Barkod);
+    int getSeciliSatirIndexi();
+    void on_artirBtn_clicked();
+
+    void on_azaltBtn_clicked();
+
+    void on_satirSilBtn_clicked();
+
+    void on_sepetSilBtn_clicked();
+
 private:
     Ui::SatisForm *ui;
 };

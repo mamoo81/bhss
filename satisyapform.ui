@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SatisYapForm</class>
+ <widget class="QDialog" name="SatisYapForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>912</width>
+    <height>584</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Monospace</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QToolButton" name="toolButton">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>280</y>
+     <width>121</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

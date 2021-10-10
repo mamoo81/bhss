@@ -20,7 +20,6 @@ StokKarti stokkarti;
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
 
-
 SatisForm::SatisForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SatisForm)
@@ -167,7 +166,7 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
             float yeniMiktar = 1 + ui->sepet1TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
-            ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount());
+            ui->sepet1TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet1TableWidget->insertRow(ui->sepet1TableWidget->rowCount());
@@ -185,7 +184,7 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
             float yeniMiktar = 1 + ui->sepet2TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
-            ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount());
+            ui->sepet2TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet2TableWidget->insertRow(ui->sepet2TableWidget->rowCount());
@@ -203,7 +202,7 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
             float yeniMiktar = 1 + ui->sepet3TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
-            ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount());
+            ui->sepet3TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet3TableWidget->insertRow(ui->sepet3TableWidget->rowCount());
@@ -221,7 +220,7 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
             float yeniMiktar = 1 + ui->sepet4TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
-            ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount());
+            ui->sepet4TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet4TableWidget->insertRow(ui->sepet4TableWidget->rowCount());
@@ -241,11 +240,11 @@ void SatisForm::sepeteEkle(StokKarti p_StokKarti)
 void SatisForm::closeEvent(QCloseEvent *event)
 {
     if(ui->sepet1TableWidget->rowCount() > 0 || ui->sepet2TableWidget->rowCount() > 0 || ui->sepet3TableWidget->rowCount() > 0 || ui->sepet4TableWidget->rowCount() > 0){
-        QMessageBox msgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYinede çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
-        msgBox.setButtonText(QMessageBox::Yes,"Evet");
-        msgBox.setButtonText(QMessageBox::No, "Hayır");
-        msgBox.setDefaultButton(QMessageBox::No);
-        int cevap = msgBox.exec();
+        QMessageBox closingMsgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYine de çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
+        closingMsgBox.setButtonText(QMessageBox::Yes, "Evet");
+        closingMsgBox.setButtonText(QMessageBox::No, "Hayır");
+        closingMsgBox.setDefaultButton(QMessageBox::No);
+        int cevap = closingMsgBox.exec();
         switch (cevap) {
         case QMessageBox::Yes:
             this->close();
@@ -383,5 +382,253 @@ bool SatisForm::urunSepetteVarmi(QString p_Barkod)
         }
         break;
     }
+}
+
+int SatisForm::getSeciliSatirIndexi()
+{
+    int index = -1;
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        if(!(ui->sepet1TableWidget->currentIndex().row() < 0)){
+            index = ui->sepet1TableWidget->currentIndex().row();
+        }
+        break;
+    case 1:
+        if(!(ui->sepet2TableWidget->currentIndex().row() < 0)){
+            index = ui->sepet2TableWidget->currentIndex().row();
+        }
+        break;
+    case 2:
+        if(!(ui->sepet3TableWidget->currentIndex().row() < 0)){
+            index = ui->sepet3TableWidget->currentIndex().row();
+        }
+        break;
+    case 3:
+        if(!(ui->sepet4TableWidget->currentIndex().row() < 0)){
+            index = ui->sepet4TableWidget->currentIndex().row();
+        }
+        break;
+    }
+    return index;
+}
+
+
+
+void SatisForm::on_artirBtn_clicked()
+{
+    float yeniMiktar;
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        yeniMiktar = 1 + ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat();
+        if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            // burada miktar artırımında stoktaki miktar kontrolü ekle.
+            ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+            ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+        }
+        else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+        }
+        break;
+    case 1:
+        yeniMiktar = 1 + ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat();
+        if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            // burada miktar artırımında stoktaki miktar kontrolü ekle.
+            ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+            ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+        }
+        else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+        }
+        break;
+    case 2:
+        yeniMiktar = 1 + ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat();
+        if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            // burada miktar artırımında stoktaki miktar kontrolü ekle.
+            ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+            ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+        }
+        else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+        }
+        break;
+    case 3:
+        yeniMiktar = 1 + ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat();
+        if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            // burada miktar artırımında stoktaki miktar kontrolü ekle.
+            ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+            ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+        }
+        else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+        }
+        break;
+    }
+    sepetToplaminiYaz(ui->SepetlertabWidget->currentIndex());
+    ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_azaltBtn_clicked()
+{
+    float yeniMiktar;
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        yeniMiktar = ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat() - 1;
+        if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            if(!(yeniMiktar < 1)){
+                ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+                ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+            }
+        }
+        else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            if(yeniMiktar < 0){
+                // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+            }
+        }
+        break;
+    case 1:
+        yeniMiktar = ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat() - 1;
+        if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            if(!(yeniMiktar < 1)){
+                ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+                ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+            }
+        }
+        else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            if(yeniMiktar < 0){
+                // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+            }
+        }
+        break;
+    case 2:
+        yeniMiktar = ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat() - 1;
+        if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            if(!(yeniMiktar < 1)){
+                ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+                ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+            }
+        }
+        else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            if(yeniMiktar < 0){
+                // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+            }
+        }
+        break;
+    case 3:
+        yeniMiktar = ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 4).data().toFloat() - 1;
+        if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "ADET"){
+            if(!(yeniMiktar < 1)){
+                ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(yeniMiktar)));
+                ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 5, new QTableWidgetItem(QString::number(yeniMiktar * ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 2).data().toFloat())));
+            }
+        }
+        else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
+            if(yeniMiktar < 0){
+                // buraya kilogram girme formu gösterilerek YENİ miktar bilgisi alınacak ve işlenecek.
+            }
+        }
+        break;
+    }
+    sepetToplaminiYaz(ui->SepetlertabWidget->currentIndex());
+    ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_satirSilBtn_clicked()
+{
+    QMessageBox msgBox(this);
+    msgBox.setText("Dikkat");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    msgBox.setButtonText(QMessageBox::Yes, "Evet");
+    msgBox.setButtonText(QMessageBox::No, "Hayır");
+    msgBox.setModal(true);
+    int cevap;
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        if(ui->sepet1TableWidget->rowCount() > 0){
+            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            cevap = msgBox.exec();
+            switch (cevap) {
+            case QMessageBox::Yes:
+                ui->sepet1TableWidget->removeRow(getSeciliSatirIndexi());
+                ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
+                break;
+            }
+        }
+        break;
+    case 1:
+        if(ui->sepet2TableWidget->rowCount() > 0){
+            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            cevap = msgBox.exec();
+            switch (cevap) {
+            case QMessageBox::Yes:
+                ui->sepet2TableWidget->removeRow(getSeciliSatirIndexi());
+                ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
+                break;
+            }
+        }
+        break;
+    case 2:
+        if(ui->sepet3TableWidget->rowCount() > 0){
+            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            cevap = msgBox.exec();
+            switch (cevap) {
+            case QMessageBox::Yes:
+                ui->sepet3TableWidget->removeRow(getSeciliSatirIndexi());
+                ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
+                break;
+            }
+        }
+        break;
+    case 3:
+        if(ui->sepet4TableWidget->rowCount() > 0){
+            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            cevap = msgBox.exec();
+            switch (cevap) {
+            case QMessageBox::Yes:
+                ui->sepet4TableWidget->removeRow(getSeciliSatirIndexi());
+                ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);
+                break;
+            }
+        }
+        break;
+    }
+    ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_sepetSilBtn_clicked()
+{
+    QMessageBox sepetSilMsgBox(this);
+    sepetSilMsgBox.setText("Dikkat");
+    sepetSilMsgBox.setInformativeText("Seçili Sepeti silmek istediğinize emin misiniz?");
+    sepetSilMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    sepetSilMsgBox.setDefaultButton(QMessageBox::No);
+    sepetSilMsgBox.setButtonText(QMessageBox::Yes, "Evet");
+    sepetSilMsgBox.setButtonText(QMessageBox::No, "Hayır");
+    sepetSilMsgBox.setModal(true);
+    int cevap = sepetSilMsgBox.exec();
+    if(cevap == QMessageBox::Yes){
+        switch (ui->SepetlertabWidget->currentIndex()) {
+        case 0:
+            ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+            ui->ToplamTutarlcdNumber->display(0);
+            break;
+        case 1:
+            ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+            ui->ToplamTutarlcdNumber->display(0);
+            break;
+        case 2:
+            ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+            ui->ToplamTutarlcdNumber->display(0);
+            break;
+        case 3:
+            ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+            ui->ToplamTutarlcdNumber->display(0);
+            break;
+        }
+    }
+    ui->barkodLineEdit->setFocus();
 }
 
