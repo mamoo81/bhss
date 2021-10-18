@@ -35,6 +35,7 @@ void StokGrupForm::formLoad()
         db_grup.open();
         stokGruplariGetir();
     }
+    ui->YenilineEdit->setFocus();
 }
 
 void StokGrupForm::on_EkleBtn_clicked()
@@ -56,6 +57,7 @@ void StokGrupForm::on_EkleBtn_clicked()
             QMessageBox::information(this,"Bilgi","Stok gurubu eklendi",QMessageBox::Ok);
             ui->YenilineEdit->clear();
             stokGruplariGetir();
+            ui->YenilineEdit->setFocus();
         }
     }
 }

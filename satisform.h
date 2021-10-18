@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QList>
 
 namespace Ui {
 class SatisForm;
@@ -31,12 +32,12 @@ private slots:
     void initTableWidgets();
 
     void on_SepetlertabWidget_currentChanged(int index);
-    void sepetToplaminiYaz(int p_HangiSepet);
+    void sepetToplaminiYaz();
     void barkodVarmi(QString bakilacakBarkod);
-    void sepeteEkle(StokKarti p_StokKarti);
+    void tableWidgetEkle(StokKarti p_StokKarti);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
-    bool urunSepetteVarmi(QString p_Barkod);
+    bool urunSepetteVarmi(QString _Barkod);
     int getSeciliSatirIndexi();
     void on_artirBtn_clicked();
 
@@ -45,6 +46,9 @@ private slots:
     void on_satirSilBtn_clicked();
 
     void on_sepetSilBtn_clicked();
+    void butonDurumlariniAyarla();
+
+    void on_satisYapBtn_clicked();
 
 private:
     Ui::SatisForm *ui;

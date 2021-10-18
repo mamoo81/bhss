@@ -1,5 +1,6 @@
 #ifndef SATISYAPFORM_H
 #define SATISYAPFORM_H
+#include "sepet.h"
 
 #include <QDialog>
 
@@ -14,6 +15,16 @@ class SatisYapForm : public QDialog
 public:
     explicit SatisYapForm(QWidget *parent = nullptr);
     ~SatisYapForm();
+
+    Sepet satilacakSepet;
+
+public slots:
+    void formLoad();
+
+private slots:
+
+
+    void on_satBtn_clicked();
 
 private:
     Ui::SatisYapForm *ui;

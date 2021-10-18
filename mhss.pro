@@ -17,7 +17,9 @@ SOURCES += \
     stokfrom.cpp \
     stokgrupform.cpp \
     stokkarti.cpp \
-    user.cpp
+    urun.cpp \
+    user.cpp \
+    veritabani.cpp
 
 HEADERS += \
     loginform.h \
@@ -27,7 +29,9 @@ HEADERS += \
     stokfrom.h \
     stokgrupform.h \
     stokkarti.h \
-    user.h
+    urun.h \
+    user.h \
+    veritabani.h
 
 FORMS += \
     loginform.ui \
@@ -48,3 +52,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images.qrc
+
+DISTFILES += \
+    Readme.md
