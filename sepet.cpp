@@ -10,12 +10,12 @@
 
 Sepet::Sepet()
 {
-    db_sepet = QSqlDatabase::addDatabase("QPSQL","db_sepet");
-    db_sepet.setDatabaseName("mhss_data");
-    db_sepet.setHostName("localhost");
-    db_sepet.setUserName("admin");
-    db_sepet.setPassword("admin");
-    db_sepet.open();
+//    db_sepet = QSqlDatabase::addDatabase("QPSQL","db_sepet");
+//    db_sepet.setDatabaseName("mhss_data");
+//    db_sepet.setHostName("localhost");
+//    db_sepet.setUserName("admin");
+//    db_sepet.setPassword("admin");
+//    db_sepet.open();
 }
 
 

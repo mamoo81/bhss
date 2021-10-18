@@ -4,19 +4,17 @@
 #include "stokfrom.h"
 #include "stokkarti.h"
 #include "satisyapform.h"
+#include "veritabani.h"
 
 #include <QDebug>
-#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QMessageBox>
 
-User *kullanici;
+User kullanici;
 Sepet sepet[4];
 
-QSqlDatabase db_satis;
-QSqlQuery sorgu_satis;
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
 
@@ -34,24 +32,14 @@ SatisForm::~SatisForm()
     delete ui;
 }
 
-void SatisForm::setUser(User *user)
+void SatisForm::setUser(User user)
 {
     kullanici = user;
-    this->setWindowTitle("MHSS - " + kullanici->getAdi());
+    this->setWindowTitle("MHSS - " + kullanici.getAdi());
 }
 
 void SatisForm::formLoad()
 {
-    db_satis = QSqlDatabase::addDatabase("QPSQL", "db_satis");
-    db_satis.setDatabaseName("mhss_data");
-    db_satis.setHostName("localhost");
-    db_satis.setUserName("admin");
-    db_satis.setPassword("admin");
-    if(!db_satis.isOpen())
-    {
-        db_satis.open();
-    }
-
     initTableWidgets();
 
     ui->barkodLineEdit->installEventFilter(this);
@@ -110,39 +98,39 @@ void SatisForm::sepetToplaminiYaz()
 
 void SatisForm::barkodVarmi(QString bakilacakBarkod)
 {
-    sorgu_satis= QSqlQuery(db_satis);
-    sorgu_satis.prepare("SELECT stokid, barkod, ad, birim, miktar, stokgrup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv1, kdv2, kdv3, songuntarih, aciklama FROM stokkartlari WHERE barkod = ?");
-    sorgu_satis.bindValue(0, bakilacakBarkod);
-    sorgu_satis.exec();
-    if(sorgu_satis.next()){
-        if(sorgu_satis.value(4).toFloat() > 0){
-            StokKarti stokkarti;
-            stokkarti.setID(sorgu_satis.value(0).toString());
-            stokkarti.setBarkod(sorgu_satis.value(1).toString());
-            stokkarti.setAd(sorgu_satis.value(2).toString());
-            stokkarti.setBirim(sorgu_satis.value(3).toString());
-            stokkarti.setMiktar(sorgu_satis.value(4).toString());
-            stokkarti.setGrup(sorgu_satis.value(5).toString());
-            stokkarti.setAFiyat(sorgu_satis.value(6).toString());
-            stokkarti.setSFiyat(sorgu_satis.value(7).toString());
-            stokkarti.setKDV1(sorgu_satis.value(8).toInt());
-            stokkarti.setKDV2(sorgu_satis.value(9).toInt());
-            stokkarti.setKDV3(sorgu_satis.value(10).toInt());
-            stokkarti.setSonGunTarih(sorgu_satis.value(11).toDateTime());
-            stokkarti.setAciklama(sorgu_satis.value(12).toString());
+//    sorgu_satis= QSqlQuery(db_satis);
+//    sorgu_satis.prepare("SELECT stokid, barkod, ad, birim, miktar, stokgrup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv1, kdv2, kdv3, songuntarih, aciklama FROM stokkartlari WHERE barkod = ?");
+//    sorgu_satis.bindValue(0, bakilacakBarkod);
+//    sorgu_satis.exec();
+//    if(sorgu_satis.next()){
+//        if(sorgu_satis.value(4).toFloat() > 0){
+//            StokKarti stokkarti;
+//            stokkarti.setID(sorgu_satis.value(0).toString());
+//            stokkarti.setBarkod(sorgu_satis.value(1).toString());
+//            stokkarti.setAd(sorgu_satis.value(2).toString());
+//            stokkarti.setBirim(sorgu_satis.value(3).toString());
+//            stokkarti.setMiktar(sorgu_satis.value(4).toString());
+//            stokkarti.setGrup(sorgu_satis.value(5).toString());
+//            stokkarti.setAFiyat(sorgu_satis.value(6).toString());
+//            stokkarti.setSFiyat(sorgu_satis.value(7).toString());
+//            stokkarti.setKDV1(sorgu_satis.value(8).toInt());
+//            stokkarti.setKDV2(sorgu_satis.value(9).toInt());
+//            stokkarti.setKDV3(sorgu_satis.value(10).toInt());
+//            stokkarti.setSonGunTarih(sorgu_satis.value(11).toDateTime());
+//            stokkarti.setAciklama(sorgu_satis.value(12).toString());
 
-            //alt satırı if ile adet mi kilogrammı kontrol et ona göre urunEkle() çağır.
-            sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
-            tableWidgetEkle(stokkarti);
-            sepetToplaminiYaz();
-        }
-        else{
-            QMessageBox::critical(this, "Dikkat", "ÜRÜN STOKTA YOK!", QMessageBox::Ok);
-        }
-    }
-    else{
-        QMessageBox::critical(this, "Uyarı", ui->barkodLineEdit->text() + "\n\nBARKODLU ÜRÜN BULUNAMADI!", QMessageBox::Ok);
-    }
+//            //alt satırı if ile adet mi kilogrammı kontrol et ona göre urunEkle() çağır.
+//            sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
+//            tableWidgetEkle(stokkarti);
+//            sepetToplaminiYaz();
+//        }
+//        else{
+//            QMessageBox::critical(this, "Dikkat", "ÜRÜN STOKTA YOK!", QMessageBox::Ok);
+//        }
+//    }
+//    else{
+//        QMessageBox::critical(this, "Uyarı", ui->barkodLineEdit->text() + "\n\nBARKODLU ÜRÜN BULUNAMADI!", QMessageBox::Ok);
+//    }
     ui->barkodLineEdit->clear();
     ui->barkodLineEdit->setFocus();
 }
@@ -278,7 +266,9 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
             //ödeme ekranı işlemleri.
         }
         else{
-            SatisForm::barkodVarmi(ui->barkodLineEdit->text());
+            if(vt.barkodVarmi(ui->barkodLineEdit->text())){
+                qDebug() << "var";
+            }
         }
     }
     else if(event->key() == Qt::DownArrow || event->key() == Qt::Key_Down){
@@ -317,9 +307,7 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
         this->close();
     }
 }
-/*!
-    ürün sepette var ise true döndürür.
-*/
+
 bool SatisForm::urunSepetteVarmi(QString _Barkod)
 {
     switch (ui->SepetlertabWidget->currentIndex()) {

@@ -3,6 +3,7 @@
 
 #include "user.h"
 #include "stokkarti.h"
+#include "veritabani.h"
 
 #include <QWidget>
 #include <QKeyEvent>
@@ -21,11 +22,10 @@ public:
     explicit SatisForm(QWidget *parent = nullptr);
     ~SatisForm();
 
-    void setUser(User *user);
+    void setUser(User user);
     void formLoad();
-
     bool eventFilter(QObject *watched, QEvent *event);
-public slots:
+    Veritabani vt;
 
 private slots:
     void on_StokKartlariBtn_clicked();
