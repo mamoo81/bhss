@@ -106,7 +106,7 @@ void SatisForm::sepeteEkle()
         QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün bulunamadı!"), QMessageBox::Ok, this);
         MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
         MsgBox.exec();
-    }bulunamadı
+    }
 }
 
 
