@@ -14,11 +14,9 @@ private:
     QString ad;
     QHash<QString, Urun> urunler;
 
-
 public:
     Sepet();
 
-    QSqlDatabase db_sepet;
     double sepetToplamTutari();
     void sepetiSat(QString _Kullanici);
     void urunEkle(StokKarti _StokKarti, float _miktar);

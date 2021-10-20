@@ -14,9 +14,10 @@
 
 User kullanici;
 Sepet sepet[4];
-
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
+
+
 
 SatisForm::SatisForm(QWidget *parent) :
     QWidget(parent),
@@ -84,6 +85,30 @@ void SatisForm::initTableWidgets()
     ui->sepet4TableWidget->setColumnWidth(5,100);
 }
 
+void SatisForm::sepeteEkle()
+{
+    Veritabani vt_satis = Veritabani();
+    if(vt_satis.barkodVarmi(ui->barkodLineEdit->text())){
+        StokKarti stokkarti = vt_satis.getStokKarti(ui->barkodLineEdit->text());
+        if(stokkarti.getMiktar() > 0){
+            tableWidgetEkle(stokkarti);
+            sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
+            sepetToplaminiYaz();
+            butonDurumlariniAyarla();
+        }
+        else{
+            QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
+            MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
+            MsgBox.exec();
+        }
+    }
+    else{
+        QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün bulunamadı!"), QMessageBox::Ok, this);
+        MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
+        MsgBox.exec();
+    }bulunamadı
+}
+
 
 void SatisForm::on_SepetlertabWidget_currentChanged(int index)
 {
@@ -94,45 +119,6 @@ void SatisForm::on_SepetlertabWidget_currentChanged(int index)
 void SatisForm::sepetToplaminiYaz()
 {
     ui->ToplamTutarlcdNumber->display(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari());
-}
-
-void SatisForm::barkodVarmi(QString bakilacakBarkod)
-{
-//    sorgu_satis= QSqlQuery(db_satis);
-//    sorgu_satis.prepare("SELECT stokid, barkod, ad, birim, miktar, stokgrup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv1, kdv2, kdv3, songuntarih, aciklama FROM stokkartlari WHERE barkod = ?");
-//    sorgu_satis.bindValue(0, bakilacakBarkod);
-//    sorgu_satis.exec();
-//    if(sorgu_satis.next()){
-//        if(sorgu_satis.value(4).toFloat() > 0){
-//            StokKarti stokkarti;
-//            stokkarti.setID(sorgu_satis.value(0).toString());
-//            stokkarti.setBarkod(sorgu_satis.value(1).toString());
-//            stokkarti.setAd(sorgu_satis.value(2).toString());
-//            stokkarti.setBirim(sorgu_satis.value(3).toString());
-//            stokkarti.setMiktar(sorgu_satis.value(4).toString());
-//            stokkarti.setGrup(sorgu_satis.value(5).toString());
-//            stokkarti.setAFiyat(sorgu_satis.value(6).toString());
-//            stokkarti.setSFiyat(sorgu_satis.value(7).toString());
-//            stokkarti.setKDV1(sorgu_satis.value(8).toInt());
-//            stokkarti.setKDV2(sorgu_satis.value(9).toInt());
-//            stokkarti.setKDV3(sorgu_satis.value(10).toInt());
-//            stokkarti.setSonGunTarih(sorgu_satis.value(11).toDateTime());
-//            stokkarti.setAciklama(sorgu_satis.value(12).toString());
-
-//            //alt satırı if ile adet mi kilogrammı kontrol et ona göre urunEkle() çağır.
-//            sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
-//            tableWidgetEkle(stokkarti);
-//            sepetToplaminiYaz();
-//        }
-//        else{
-//            QMessageBox::critical(this, "Dikkat", "ÜRÜN STOKTA YOK!", QMessageBox::Ok);
-//        }
-//    }
-//    else{
-//        QMessageBox::critical(this, "Uyarı", ui->barkodLineEdit->text() + "\n\nBARKODLU ÜRÜN BULUNAMADI!", QMessageBox::Ok);
-//    }
-    ui->barkodLineEdit->clear();
-    ui->barkodLineEdit->setFocus();
 }
 
 void SatisForm::tableWidgetEkle(StokKarti p_StokKarti)
@@ -266,9 +252,10 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
             //ödeme ekranı işlemleri.
         }
         else{
-            if(vt.barkodVarmi(ui->barkodLineEdit->text())){
-                qDebug() << "var";
-            }
+            //sepete ekleme işleri başlangıcı.
+            sepeteEkle();
+            ui->barkodLineEdit->clear();
+            ui->barkodLineEdit->setFocus();
         }
     }
     else if(event->key() == Qt::DownArrow || event->key() == Qt::Key_Down){

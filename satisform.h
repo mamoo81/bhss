@@ -25,15 +25,13 @@ public:
     void setUser(User user);
     void formLoad();
     bool eventFilter(QObject *watched, QEvent *event);
-    Veritabani vt;
 
 private slots:
     void on_StokKartlariBtn_clicked();
     void initTableWidgets();
-
+    void sepeteEkle();
     void on_SepetlertabWidget_currentChanged(int index);
     void sepetToplaminiYaz();
-    void barkodVarmi(QString bakilacakBarkod);
     void tableWidgetEkle(StokKarti p_StokKarti);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);

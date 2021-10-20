@@ -10,12 +10,7 @@
 
 Sepet::Sepet()
 {
-//    db_sepet = QSqlDatabase::addDatabase("QPSQL","db_sepet");
-//    db_sepet.setDatabaseName("mhss_data");
-//    db_sepet.setHostName("localhost");
-//    db_sepet.setUserName("admin");
-//    db_sepet.setPassword("admin");
-//    db_sepet.open();
+
 }
 
 
@@ -32,6 +27,7 @@ void Sepet::sepetiSat(QString _Kullanici)
 {
     // satış kayıtları ve veritabani işlemleri...
 }
+
 /**
  * @brief Sepet::urunEkle
  * @param _StokKarti
@@ -47,6 +43,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urun.birimFiyat = _StokKarti.getSFiyat().toDouble();
             urun.birim = _StokKarti.getBirim();
             urun.miktar = urun.miktar + _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar().toFloat();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat().toDouble();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
@@ -57,6 +54,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urun.birimFiyat = _StokKarti.getSFiyat().toDouble();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar().toFloat();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat().toDouble();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
@@ -76,25 +74,19 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
 void Sepet::urunArtir(QString _Barkod, float _miktar)
 {
     float yeniMiktar = urunler[_Barkod].miktar + _miktar;
-    QSqlQuery sorgu(db_sepet);
-    sorgu.prepare("SELECT miktar FROM stokkartlari WHERE barkod = ?");
-    sorgu.bindValue(0, _Barkod);
-    sorgu.exec();
-    if(sorgu.next()){
-        if(sorgu.value(0).toFloat() >= yeniMiktar){
-            urunler[_Barkod].miktar += _miktar;
-            urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat;
-        }
-        else{
-            QMessageBox msg(0);
-            msg.setIcon(QMessageBox::Warning);
-            msg.setWindowTitle("UYARI");
-            msg.setText("STOK MİKTARINDAN FAZLA OLAMAZ!");
-            msg.setModal(true);
-            msg.setDefaultButton(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
-            msg.exec();
-        }
+    if(urunler[_Barkod].stokMiktari  >= yeniMiktar){
+        urunler[_Barkod].miktar += _miktar;
+        urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat;
+    }
+    else{
+        QMessageBox msg(0);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle("UYARI");
+        msg.setText("STOK MİKTARINDAN FAZLA OLAMAZ!");
+        msg.setModal(true);
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
     }
 }
 

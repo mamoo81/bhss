@@ -1,8 +1,6 @@
 #ifndef LOGINFORM_H
 #define LOGINFORM_H
 
-#include "veritabani.h"
-
 #include <QMainWindow>
 #include <QCloseEvent>
 

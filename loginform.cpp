@@ -27,11 +27,11 @@ LoginForm::~LoginForm()
 void LoginForm::on_GirisBtn_clicked()
 {
     if(vt.loginControl(ui->CmBoxUserName->currentText(), ui->LeditPass->text())){
-        this->close();
         SatisForm *satis = new SatisForm();
         User u = vt.GetUserInfos(ui->CmBoxUserName->currentText());
         satis->setUser(u);
         satis->show();
+        this->close();
     }
     else{
         ui->LeditPass->clear();
@@ -48,7 +48,6 @@ void LoginForm::on_KapatBtn_clicked()
 void LoginForm::closeEvent(QCloseEvent *)
 {
     vt.db.removeDatabase("mhss");
-    vt.db.close();
 }
 
 void LoginForm::getUsers()

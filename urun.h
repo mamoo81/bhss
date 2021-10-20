@@ -13,6 +13,7 @@ public:
     double birimFiyat;
     QString birim;
     float miktar= 0;
+    float stokMiktari = 0;
     double toplam = 0;
 };
 
