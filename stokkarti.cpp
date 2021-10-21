@@ -65,19 +65,14 @@ QString StokKarti::getBirim()
     }
 }
 
-void StokKarti::setMiktar(QString p_Miktar)
+void StokKarti::setMiktar(float p_Miktar)
 {
     miktar = p_Miktar;
 }
 
-QString StokKarti::getMiktar()
+float StokKarti::getMiktar()
 {
-    if(!miktar.isEmpty() || !miktar.isNull()){
-        return miktar;
-    }
-    else{
-        return "";
-    }
+    return miktar;
 }
 
 void StokKarti::setGrup(QString p_Grup)
@@ -95,22 +90,22 @@ QString StokKarti::getGrup()
     }
 }
 
-void StokKarti::setAFiyat(QString p_AFiyat)
+void StokKarti::setAFiyat(double p_AFiyat)
 {
     aFiyat = p_AFiyat;
 }
 
-QString StokKarti::getAfiyat() const
+double StokKarti::getAfiyat() const
 {
     return aFiyat;
 }
 
-void StokKarti::setSFiyat(QString p_SFiyat)
+void StokKarti::setSFiyat(double p_SFiyat)
 {
     sFiyat = p_SFiyat;
 }
 
-QString StokKarti::getSFiyat() const
+double StokKarti::getSFiyat() const
 {
     return sFiyat;
 }

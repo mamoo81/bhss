@@ -89,7 +89,7 @@ QList<QString> Veritabani::GetUsers()
 
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
-    sorgu.prepare("SELECT stokid, barkod, ad, birim, miktar, stokgrup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv1, kdv2, kdv3, songuntarih, aciklama FROM stokkartlari WHERE barkod = ?");
+    sorgu.prepare("SELECT stokid, barkod, ad, birim, miktar, stokgrup, afiyat, sfiyat, kdv1, kdv2, kdv3, songuntarih, aciklama FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
     if(sorgu.next()){
@@ -98,19 +98,16 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
         kart.setBarkod(sorgu.value(1).toString());
         kart.setAd(sorgu.value(2).toString());
         kart.setBirim(sorgu.value(3).toString());
-        kart.setMiktar(sorgu.value(4).toString());
+        kart.setMiktar(sorgu.value(4).toFloat());
         kart.setGrup(sorgu.value(5).toString());
-        kart.setAFiyat(sorgu.value(6).toString());
-        kart.setSFiyat(sorgu.value(7).toString());
+        kart.setAFiyat(sorgu.value(6).toDouble());
+        kart.setSFiyat(sorgu.value(7).toDouble());
         kart.setKDV1(sorgu.value(8).toInt());
         kart.setKDV2(sorgu.value(9).toInt());
         kart.setKDV3(sorgu.value(10).toInt());
         kart.setSonGunTarih(sorgu.value(11).toDateTime());
         kart.setAciklama(sorgu.value(12).toString());
         return kart;
-    }
-    else{
-        QMessageBox::warning(0, "Uyarı", _Barkod + "\n\n Barkodlu Ürün stok kartı bulunamadı", QMessageBox::Ok);
     }
 }
 

@@ -40,33 +40,33 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             Urun urun;
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
-            urun.birimFiyat = _StokKarti.getSFiyat().toDouble();
+            urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar = urun.miktar + _miktar;
-            urun.stokMiktari = _StokKarti.getMiktar().toFloat();
-            urun.toplam = urun.miktar * _StokKarti.getSFiyat().toDouble();
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
         else if(_StokKarti.getBirim() == "KİLOGRAM"){
             Urun urun;
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
-            urun.birimFiyat = _StokKarti.getSFiyat().toDouble();
+            urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
-            urun.stokMiktari = _StokKarti.getMiktar().toFloat();
-            urun.toplam = urun.miktar * _StokKarti.getSFiyat().toDouble();
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = paraYuvarla(urun.miktar * _StokKarti.getSFiyat());
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
     }
     else{// arrayde var ise
         if(_StokKarti.getBirim() == "ADET"){
             ++urunler[_StokKarti.getBarkod()].miktar;
-            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat().toDouble();
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }
         else if(_StokKarti.getBirim() == "KİLOGRAM"){
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
-            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat().toDouble();
+            urunler[_StokKarti.getBarkod()].toplam = paraYuvarla(urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat());
         }
     }
 }
@@ -76,7 +76,7 @@ void Sepet::urunArtir(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar + _miktar;
     if(urunler[_Barkod].stokMiktari  >= yeniMiktar){
         urunler[_Barkod].miktar += _miktar;
-        urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat;
+        urunler[_Barkod].toplam = paraYuvarla(urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat);
     }
     else{
         QMessageBox msg(0);
@@ -95,7 +95,7 @@ void Sepet::urunAzalt(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar - _miktar;
     if(yeniMiktar > 0){
         urunler[_Barkod].miktar = yeniMiktar;
-        urunler[_Barkod].toplam = yeniMiktar * urunler[_Barkod].birimFiyat;
+        urunler[_Barkod].toplam = paraYuvarla(yeniMiktar * urunler[_Barkod].birimFiyat);
     }
 }
 
@@ -129,5 +129,10 @@ Urun Sepet::urunBilgileriniGetir(QString _Barkod)
     return urunler.value(_Barkod);
 }
 
-
+double Sepet::paraYuvarla(double _toplam)
+{
+    int noktaPosizyonu(QString::number(_toplam).indexOf('.'));
+    QString yeni(QString::number(_toplam, 'g', noktaPosizyonu + 2));
+    return yeni.toDouble();
+}
 

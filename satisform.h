@@ -32,7 +32,7 @@ private slots:
     void sepeteEkle();
     void on_SepetlertabWidget_currentChanged(int index);
     void sepetToplaminiYaz();
-    void tableWidgetEkle(StokKarti p_StokKarti);
+    void tableWidgetEkle(StokKarti p_StokKarti, float _miktar);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     bool urunSepetteVarmi(QString _Barkod);
@@ -48,6 +48,7 @@ private slots:
 
     void on_satisYapBtn_clicked();
 
+    double paraYuvarla(double _toplam);
 private:
     Ui::SatisForm *ui;
 };

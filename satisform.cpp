@@ -5,6 +5,7 @@
 #include "stokkarti.h"
 #include "satisyapform.h"
 #include "veritabani.h"
+#include "kgform.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -61,27 +62,27 @@ void SatisForm::initTableWidgets()
     ui->HizliUrunlertabWidget->setCurrentIndex(0);
     ui->sepet1TableWidget->setColumnWidth(0,135);
     ui->sepet1TableWidget->setColumnWidth(1,200);
-    ui->sepet1TableWidget->setColumnWidth(2,95);
+    ui->sepet1TableWidget->setColumnWidth(2,80);
     ui->sepet1TableWidget->setColumnWidth(3,88);
-    ui->sepet1TableWidget->setColumnWidth(4,45);
+    ui->sepet1TableWidget->setColumnWidth(4,60);
     ui->sepet1TableWidget->setColumnWidth(5,100);
     ui->sepet2TableWidget->setColumnWidth(0,135);
     ui->sepet2TableWidget->setColumnWidth(1,200);
-    ui->sepet2TableWidget->setColumnWidth(2,95);
+    ui->sepet2TableWidget->setColumnWidth(2,80);
     ui->sepet2TableWidget->setColumnWidth(3,88);
-    ui->sepet2TableWidget->setColumnWidth(4,45);
+    ui->sepet2TableWidget->setColumnWidth(4,60);
     ui->sepet2TableWidget->setColumnWidth(5,100);
     ui->sepet3TableWidget->setColumnWidth(0,135);
     ui->sepet3TableWidget->setColumnWidth(1,200);
-    ui->sepet3TableWidget->setColumnWidth(2,95);
+    ui->sepet3TableWidget->setColumnWidth(2,80);
     ui->sepet3TableWidget->setColumnWidth(3,88);
-    ui->sepet3TableWidget->setColumnWidth(4,45);
+    ui->sepet3TableWidget->setColumnWidth(4,60);
     ui->sepet3TableWidget->setColumnWidth(5,100);
     ui->sepet4TableWidget->setColumnWidth(0,135);
     ui->sepet4TableWidget->setColumnWidth(1,200);
-    ui->sepet4TableWidget->setColumnWidth(2,95);
+    ui->sepet4TableWidget->setColumnWidth(2,80);
     ui->sepet4TableWidget->setColumnWidth(3,88);
-    ui->sepet4TableWidget->setColumnWidth(4,45);
+    ui->sepet4TableWidget->setColumnWidth(4,60);
     ui->sepet4TableWidget->setColumnWidth(5,100);
 }
 
@@ -91,8 +92,17 @@ void SatisForm::sepeteEkle()
     if(vt_satis.barkodVarmi(ui->barkodLineEdit->text())){
         StokKarti stokkarti = vt_satis.getStokKarti(ui->barkodLineEdit->text());
         if(stokkarti.getMiktar() > 0){
-            tableWidgetEkle(stokkarti);
-            sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
+            if(stokkarti.getBirim() == "ADET"){
+                tableWidgetEkle(stokkarti, 1);
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
+            }
+            else if(stokkarti.getBirim() == "KİLOGRAM"){
+                KgForm *kgformu = new KgForm(this);
+                kgformu->setModal(true);
+                kgformu->exec();
+                tableWidgetEkle(stokkarti, kgformu->getGirilenKg());
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, kgformu->getGirilenKg());
+            }
             sepetToplaminiYaz();
             butonDurumlariniAyarla();
         }
@@ -121,78 +131,78 @@ void SatisForm::sepetToplaminiYaz()
     ui->ToplamTutarlcdNumber->display(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari());
 }
 
-void SatisForm::tableWidgetEkle(StokKarti p_StokKarti)
+void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
 {
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
         if(urunSepetteVarmi(p_StokKarti.getBarkod())){
-            float yeniMiktar = 1 + ui->sepet1TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
+            float yeniMiktar = _miktar + ui->sepet1TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
-            ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
+            ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
             ui->sepet1TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet1TableWidget->insertRow(ui->sepet1TableWidget->rowCount());
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
-            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 2, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat())));
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
-            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 4, new QTableWidgetItem("1"));
-            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 5, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
+            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(paraYuvarla(p_StokKarti.getSFiyat() * _miktar))));
             ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
         }
         break;
     case 1:
         if(urunSepetteVarmi(p_StokKarti.getBarkod())){
-            float yeniMiktar = 1 + ui->sepet2TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
+            float yeniMiktar = _miktar + ui->sepet2TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
-            ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
+            ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
             ui->sepet2TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet2TableWidget->insertRow(ui->sepet2TableWidget->rowCount());
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
-            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 2, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat())));
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
-            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 4, new QTableWidgetItem("1"));
-            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 5, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
+            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(paraYuvarla(p_StokKarti.getSFiyat() * _miktar))));
             ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
         }
         break;
     case 2:
         if(urunSepetteVarmi(p_StokKarti.getBarkod())){
-            float yeniMiktar = 1 + ui->sepet3TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
+            float yeniMiktar = _miktar + ui->sepet3TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
-            ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
+            ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
             ui->sepet3TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet3TableWidget->insertRow(ui->sepet3TableWidget->rowCount());
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
-            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 2, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat())));
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
-            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 4, new QTableWidgetItem("1"));
-            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 5, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
+            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(paraYuvarla(p_StokKarti.getSFiyat() * _miktar))));
             ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
         }
         break;
     case 3:
         if(urunSepetteVarmi(p_StokKarti.getBarkod())){
-            float yeniMiktar = 1 + ui->sepet4TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
+            float yeniMiktar = _miktar + ui->sepet4TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
-            ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(yeniMiktar * p_StokKarti.getSFiyat().toFloat())));
+            ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
             ui->sepet4TableWidget->selectRow(sepetMevcutUrunIndexi);
         }
         else{
             ui->sepet4TableWidget->insertRow(ui->sepet4TableWidget->rowCount());
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
-            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 2, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat())));
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
-            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 4, new QTableWidgetItem("1"));
-            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 5, new QTableWidgetItem(p_StokKarti.getSFiyat()));
+            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
+            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(paraYuvarla(p_StokKarti.getSFiyat() * _miktar))));
             ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);
         }
         break;
@@ -242,13 +252,13 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
         }
         return false;
     }
-    return SatisForm::eventFilter(filtrelenecekObject, event);      //
+    return SatisForm::eventFilter(filtrelenecekObject, event);
 }
 
 void SatisForm::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-        if(ui->barkodLineEdit->text().isEmpty()){
+        if(ui->barkodLineEdit->text().isEmpty()){// barkod lineedit boş ise ödeme ekranını göster.
             //ödeme ekranı işlemleri.
         }
         else{
@@ -381,7 +391,12 @@ int SatisForm::getSeciliSatirIndexi()
     return index;
 }
 
-
+double SatisForm::paraYuvarla(double _toplam)
+{
+    int noktaPosizyonu(QString::number(_toplam).indexOf('.'));
+    QString yeni(QString::number(_toplam, 'g', noktaPosizyonu + 2));
+    return yeni.toDouble();
+}
 
 void SatisForm::on_artirBtn_clicked()
 {
@@ -393,6 +408,10 @@ void SatisForm::on_artirBtn_clicked()
         }
         else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[0].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
         }
         guncelUrun = sepet[0].urunBilgileriniGetir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -404,6 +423,10 @@ void SatisForm::on_artirBtn_clicked()
         }
         else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[1].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
         }
         guncelUrun = sepet[1].urunBilgileriniGetir(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -415,6 +438,10 @@ void SatisForm::on_artirBtn_clicked()
         }
         else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[2].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
         }
         guncelUrun = sepet[2].urunBilgileriniGetir(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -426,6 +453,10 @@ void SatisForm::on_artirBtn_clicked()
         }
         else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[3].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
         }
         guncelUrun = sepet[3].urunBilgileriniGetir(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));

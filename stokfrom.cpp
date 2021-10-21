@@ -363,3 +363,5 @@ void StokFrom::on_araBtn_clicked()
     stokKartiAra(ui->AraLineEdit->text());
 }
 
+
+

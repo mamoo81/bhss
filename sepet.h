@@ -27,6 +27,7 @@ public:
     bool urunSepetteVarmi(QString _Barkod);
     QHash<QString, Urun> sepetiGetir();
     Urun urunBilgileriniGetir(QString _Barkod);
+    double paraYuvarla(double _toplam);
 };
 
 #endif // SEPET_H
