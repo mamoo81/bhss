@@ -3,7 +3,6 @@
 
 #include "stokkarti.h"
 #include "urun.h"
-#include "satisform.h"
 //********************
 #include <QMessageBox>
 #include <QSqlDatabase>
@@ -18,7 +17,7 @@ public:
     Sepet();
 
     double sepetToplamTutari();
-    void sepetiSat(QString _Kullanici);
+    bool sepetBosmu();
     void urunEkle(StokKarti _StokKarti, float _miktar);
     void urunArtir(QString _Barkod, float _miktar);
     void urunAzalt(QString _Barkod, float _miktar);

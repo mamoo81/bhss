@@ -67,7 +67,7 @@
     <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
-    <string>₺99999,99</string>
+    <string>0</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -130,7 +130,7 @@
     <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
-    <string>₺99999,99</string>
+    <string>0</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -151,7 +151,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="CariLineEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -261,10 +261,14 @@
    <property name="buttonSymbols">
     <enum>QAbstractSpinBox::UpDownArrows</enum>
    </property>
+   <property name="prefix">
+    <string>₺</string>
+   </property>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_2</tabstop>
+  <tabstop>OdenendoubleSpinBox</tabstop>
+  <tabstop>CariLineEdit</tabstop>
   <tabstop>satBtn</tabstop>
   <tabstop>iptalBtn</tabstop>
   <tabstop>pushButton_3</tabstop>

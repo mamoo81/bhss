@@ -2,8 +2,10 @@
 #define VERITABANI_H
 
 #include "user.h"
+#include "cari.h"
 #include "stokkarti.h"
-
+#include "sepet.h"
+//************************
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -24,11 +26,14 @@ public:
     QList<QString> GetUsers();
     QList<QString> users;
 private:
+    Sepet satilacakSepet;
 
 public slots:
     StokKarti getStokKarti(QString _Barkod);
     User GetUserInfos(QString _UserName);
+    QList<Cari> getCariKartlar();
     bool loginControl(QString _UserName, QString _Password);
+    void satisYap(Sepet _satilacakSepet, QString _satisYapanKullanici, QString _satisYapilanCari);
 };
 
 #endif // VERITABANI_H

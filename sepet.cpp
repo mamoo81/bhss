@@ -23,15 +23,20 @@ double Sepet::sepetToplamTutari()
     return sepetToplam;
 }
 
-void Sepet::sepetiSat(QString _Kullanici)
+bool Sepet::sepetBosmu()
 {
-    // satış kayıtları ve veritabani işlemleri...
+    if(urunler.isEmpty()){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 /**
  * @brief Sepet::urunEkle
- * @param _StokKarti
- * @param _miktar
+ * @param _StokKarti Sepete eklenecek stok kartı
+ * @param _miktar Sepete eklenecek miktar -> stok kartı
  */
 void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
 {
@@ -70,7 +75,11 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
         }
     }
 }
-
+/**
+ * @brief Sepet::urunArtir Gönderilen stok kartini gönderilen miktar kadar arttırır.
+ * @param _Barkod arttirilacak ürünün barkodu
+ * @param _miktar arttirilacak miktar
+ */
 void Sepet::urunArtir(QString _Barkod, float _miktar)
 {
     float yeniMiktar = urunler[_Barkod].miktar + _miktar;

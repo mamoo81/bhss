@@ -38,6 +38,8 @@ void SatisForm::setUser(User user)
 {
     kullanici = user;
     this->setWindowTitle("MHSS - " + kullanici.getAdi());
+    QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
+    ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
 }
 
 void SatisForm::formLoad()
@@ -100,8 +102,10 @@ void SatisForm::sepeteEkle()
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setModal(true);
                 kgformu->exec();
-                tableWidgetEkle(stokkarti, kgformu->getGirilenKg());
-                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, kgformu->getGirilenKg());
+                if(kgformu->getGirilenKg() != 0){
+                    tableWidgetEkle(stokkarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, kgformu->getGirilenKg());
+                }
             }
             sepetToplaminiYaz();
             butonDurumlariniAyarla();
@@ -260,6 +264,9 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
         if(ui->barkodLineEdit->text().isEmpty()){// barkod lineedit boş ise ödeme ekranını göster.
             //ödeme ekranı işlemleri.
+            if(!sepet[0].sepetBosmu() || !sepet[1].sepetBosmu() || !sepet[2].sepetBosmu() || !sepet[3].sepetBosmu()){
+                SatisForm::on_satisYapBtn_clicked();
+            }
         }
         else{
             //sepete ekleme işleri başlangıcı.
@@ -714,7 +721,8 @@ void SatisForm::butonDurumlariniAyarla()
 void SatisForm::on_satisYapBtn_clicked()
 {
     SatisYapForm *satisyapfrm = new SatisYapForm(this);
-    satisyapfrm->satilacakSepet = sepet[ui->SepetlertabWidget->currentIndex()];
+    satisyapfrm->setSatilacakSepet(sepet[ui->SepetlertabWidget->currentIndex()]);
+    satisyapfrm->setKullanici(kullanici);
     satisyapfrm->exec();
 }
 
