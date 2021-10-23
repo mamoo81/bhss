@@ -724,5 +724,29 @@ void SatisForm::on_satisYapBtn_clicked()
     satisyapfrm->setSatilacakSepet(sepet[ui->SepetlertabWidget->currentIndex()]);
     satisyapfrm->setKullanici(kullanici);
     satisyapfrm->exec();
+    //satış sonrası sepet ve tablo silme
+    if(satisyapfrm->satisYapildimi){
+        switch (ui->SepetlertabWidget->currentIndex()) {
+        case 0:
+            sepet[0].sepetiSil();
+            ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+            break;
+        case 1:
+            sepet[1].sepetiSil();
+            ui->sepet2TableWidget->model()->removeRows(0, ui->sepet2TableWidget->rowCount());
+            break;
+        case 2:
+            sepet[2].sepetiSil();
+            ui->sepet3TableWidget->model()->removeRows(0, ui->sepet3TableWidget->rowCount());
+            break;
+        case 3:
+            sepet[3].sepetiSil();
+            ui->sepet4TableWidget->model()->removeRows(0, ui->sepet4TableWidget->rowCount());
+            break;
+        }
+        butonDurumlariniAyarla();
+        sepetToplaminiYaz();
+        ui->barkodLineEdit->setFocus();
+    }
 }
 

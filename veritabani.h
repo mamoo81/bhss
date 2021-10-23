@@ -33,7 +33,7 @@ public slots:
     User GetUserInfos(QString _UserName);
     QList<Cari> getCariKartlar();
     bool loginControl(QString _UserName, QString _Password);
-    void satisYap(Sepet _satilacakSepet, QString _satisYapanKullanici, QString _satisYapilanCari);
+    void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
 };
 
 #endif // VERITABANI_H

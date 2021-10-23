@@ -21,6 +21,8 @@ public:
 
     Veritabani vt_satisFormu;
     QList<QString> cariAdlari;
+    QList<Cari> cariKartlar;
+    bool satisYapildimi;
 
     void setSatilacakSepet(const Sepet &newSatilacakSepet);
 

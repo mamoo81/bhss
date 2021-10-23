@@ -11,10 +11,12 @@ class Sepet
 {
 private:
     QString ad;
-    QHash<QString, Urun> urunler;
+
 
 public:
     Sepet();
+
+    QHash<QString, Urun> urunler;
 
     double sepetToplamTutari();
     bool sepetBosmu();

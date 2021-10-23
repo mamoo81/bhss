@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QVariant>
+#include <QDateTime>
 
 Veritabani::Veritabani()
 {
@@ -71,13 +72,41 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
  * @param _Kullanici Satışı yapan kullanıcı parametresi
  * @param _SatisYapilacakCari Satış yapılacak cari id parametresi
  */
-void Veritabani::satisYap(Sepet _satilacakSepet, QString _satisYapanKullanici, QString _satisYapilanCari)
+void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID)
 {
-    sorgu.exec("SELECT nextval('faturalar_sequence')");
+    //yeni fatura numarası için faturalar_sequence'den son değeri alma
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
     sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + sorgu.value(0).toString();
-    qDebug() << yeniFaturaNo;
-//    sorgu.prepare("UPDATE stokkartlari SET miktar WHERE barkod = ?")
+    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toInt() + 1);
+    //yeni fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, fatura_tarih, kullanici) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(1, _satisYapilanCariID);
+    sorgu.bindValue(2, "SATIŞ");
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(4, _satisYapanKullanici.getUserID());
+    sorgu.exec();
+    //sepetteki ürünlerin stok hareketlerine girişi
+    foreach (auto urun, _satilacakSepet.urunler) {
+        sorgu.prepare("INSERT INTO stokhareketleri (barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
+        sorgu.bindValue(0, urun.barkod);
+        sorgu.bindValue(1, yeniFaturaNo);
+        sorgu.bindValue(2, "SATIŞ");
+        sorgu.bindValue(3, urun.miktar);
+        sorgu.bindValue(4, QDateTime::currentDateTime());
+        sorgu.bindValue(5, _satisYapanKullanici.getUserID());
+        sorgu.bindValue(6, "SATIŞ");
+        sorgu.exec();
+    }
+    //sepetteki ürünlerin stoklardan düşülmesi
+    foreach (auto urun, _satilacakSepet.urunler) {
+        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
+        sorgu.bindValue(0, urun.stokMiktari - urun.miktar);
+        sorgu.bindValue(1, urun.barkod);
+        sorgu.exec();
+    }
 }
 
 User Veritabani::GetUserInfos(QString _UserName)

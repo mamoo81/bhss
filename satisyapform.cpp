@@ -24,7 +24,8 @@ SatisYapForm::~SatisYapForm()
 
 void SatisYapForm::formLoad()
 {
-    QList<Cari> cariKartlar = vt_satisFormu.getCariKartlar();
+    satisYapildimi = false;
+    cariKartlar = vt_satisFormu.getCariKartlar();
     foreach (auto cari, cariKartlar) {
         cariAdlari.append(cari.getAd());
     }
@@ -39,7 +40,14 @@ void SatisYapForm::formLoad()
 void SatisYapForm::on_satBtn_clicked()
 {
     if(cariAdlari.contains(ui->CariLineEdit->text())){
-        vt_satisFormu.satisYap(satilacakSepet, kullanici.getUserName(), ui->CariLineEdit->text());
+        int index = cariAdlari.indexOf(ui->CariLineEdit->text());
+        //veritabani clasına satiş gönderme
+        vt_satisFormu.satisYap(satilacakSepet, kullanici, cariKartlar.at(index).getId());
+
+        ui->OdenendoubleSpinBox->setValue(0);
+        ui->toplamLBL->setText(0);
+        satisYapildimi = true;
+        this->close();
     }
     else{
         QMessageBox::information(this, "Dikkat", "Girilen cari hesap bulunamadı tekrar kontrol ediniz.", QMessageBox::Ok);
