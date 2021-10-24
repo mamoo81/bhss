@@ -48,6 +48,7 @@ void SatisForm::formLoad()
 
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
+    getSonSatislar();
     ui->barkodLineEdit->setFocus();
 
 }
@@ -257,6 +258,14 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
         return false;
     }
     return SatisForm::eventFilter(filtrelenecekObject, event);
+}
+
+void SatisForm::getSonSatislar()
+{
+    Veritabani vt_satis = Veritabani();
+    ui->SonSatislarlistWidget->clear();
+    ui->SonSatislarlistWidget->addItems(vt_satis.getSonIslemler());
+    ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
 }
 
 void SatisForm::keyPressEvent(QKeyEvent *event)
@@ -724,7 +733,7 @@ void SatisForm::on_satisYapBtn_clicked()
     satisyapfrm->setSatilacakSepet(sepet[ui->SepetlertabWidget->currentIndex()]);
     satisyapfrm->setKullanici(kullanici);
     satisyapfrm->exec();
-    //satış sonrası sepet ve tablo silme
+    //satış sonrası sepet ve tablo silme, son işlemlere ekleme başlangıcı
     if(satisyapfrm->satisYapildimi){
         switch (ui->SepetlertabWidget->currentIndex()) {
         case 0:
@@ -746,7 +755,14 @@ void SatisForm::on_satisYapBtn_clicked()
         }
         butonDurumlariniAyarla();
         sepetToplaminiYaz();
+        getSonSatislar();
         ui->barkodLineEdit->setFocus();
     }
+}
+
+
+void SatisForm::on_SatisiGosterpushButton_clicked()
+{
+    ui->barkodLineEdit->setFocus();
 }
 

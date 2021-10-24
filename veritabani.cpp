@@ -109,6 +109,16 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     }
 }
 
+QStringList Veritabani::getSonIslemler()
+{
+    QStringList islemler;
+    sorgu.exec("SELECT fatura_no, fatura_tarih FROM faturalar WHERE fatura_tarih::date = now()::date ORDER BY fatura_no DESC");
+    while(sorgu.next()){
+        islemler.append(sorgu.value(0).toString() + " " + sorgu.value(1).toTime().toString("hh:mm:ss"));
+    }
+    return islemler;
+}
+
 User Veritabani::GetUserInfos(QString _UserName)
 {
     User u;

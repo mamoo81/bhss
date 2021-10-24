@@ -27,8 +27,8 @@ LoginForm::~LoginForm()
 void LoginForm::on_GirisBtn_clicked()
 {
     if(vt.loginControl(ui->CmBoxUserName->currentText(), ui->LeditPass->text())){
-        SatisForm *satis = new SatisForm();
         User u = vt.GetUserInfos(ui->CmBoxUserName->currentText());
+        SatisForm *satis = new SatisForm();
         satis->setUser(u);
         satis->show();
         this->close();

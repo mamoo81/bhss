@@ -22,9 +22,12 @@ public:
     explicit SatisForm(QWidget *parent = nullptr);
     ~SatisForm();
 
+
+
     void setUser(User user);
     void formLoad();
     bool eventFilter(QObject *watched, QEvent *event);
+    void getSonSatislar();
 
 private slots:
     void on_StokKartlariBtn_clicked();
@@ -49,6 +52,8 @@ private slots:
     void on_satisYapBtn_clicked();
 
     double paraYuvarla(double _toplam);
+    void on_SatisiGosterpushButton_clicked();
+
 private:
     Ui::SatisForm *ui;
 };

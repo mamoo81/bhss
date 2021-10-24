@@ -4669,17 +4669,7 @@ color: rgb(0, 170, 0);</string>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QListView" name="sonIslemlerListView">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>90</y>
-      <width>171</width>
-      <height>201</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="SatisiGosterpushButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -4730,7 +4720,7 @@ color: rgb(0, 170, 0);</string>
      <string>Ciro</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="IslemSayisilabel">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -4803,6 +4793,22 @@ color: rgb(0, 170, 0);</string>
     </property>
     <property name="text">
      <string>İşlemler</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="SonSatislarlistWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>171</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>10</pointsize>
+     </font>
     </property>
    </widget>
   </widget>
