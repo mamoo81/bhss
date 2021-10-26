@@ -15,7 +15,7 @@ LoginForm::LoginForm(QWidget *parent)
 {
     ui->setupUi(this);
 
-    getUsers();
+    formLoad();
 }
 
 LoginForm::~LoginForm()
@@ -23,6 +23,25 @@ LoginForm::~LoginForm()
     delete ui;
 }
 
+void LoginForm::formLoad()
+{
+    if(vt.db.isDriverAvailable("QPSQL")){
+        if(vt.veritabaniVarmi()){
+            getUsers();
+        }
+    }
+    else{
+        QMessageBox msg(this);
+        msg.setText("Uyarı");
+        msg.setInformativeText("Postgresql servisini kontrol ediniz.");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setModal(true);
+        msg.exec();
+    }
+}
 
 void LoginForm::on_GirisBtn_clicked()
 {

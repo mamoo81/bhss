@@ -18,6 +18,7 @@ public:
 
 
 
+    void formLoad();
 private slots:
     void on_GirisBtn_clicked();
 

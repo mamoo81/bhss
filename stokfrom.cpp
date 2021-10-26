@@ -44,8 +44,8 @@ void StokFrom::formLoad()
     db_stok = QSqlDatabase::addDatabase("QPSQL","db_stok");
     db_stok.setDatabaseName("mhss_data");
     db_stok.setHostName("localhost");
-    db_stok.setUserName("admin");
-    db_stok.setPassword("admin");
+    db_stok.setUserName("postgres");
+    db_stok.setPassword("postgres");
     if(!db_stok.isOpen()){
         db_stok.open();
         StokFrom::grupComboboxDoldur();

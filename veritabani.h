@@ -36,6 +36,8 @@ public slots:
     bool loginControl(QString _UserName, QString _Password);
     void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
     QStringList getSonIslemler();
+    void veritabaniOlustur();
+    bool veritabaniVarmi();
 };
 
 #endif // VERITABANI_H
