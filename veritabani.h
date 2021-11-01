@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlQueryModel>
 #include <QList>
 #include <QListWidgetItem>
 
@@ -38,6 +39,11 @@ public slots:
     QStringList getSonIslemler();
     void veritabaniOlustur();
     bool veritabaniVarmi();
+    void yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici);
+    void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *_YeniStokKarti, User *_Kullanici);
+    void stokKartiSil(QString _StokKartiID);
+    QSqlQueryModel* getStokKartlari();
+    QStringList stokGruplariGetir();
 };
 
 #endif // VERITABANI_H

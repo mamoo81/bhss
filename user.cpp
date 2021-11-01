@@ -5,50 +5,53 @@ User::User()
 
 }
 
-void User::setUserInfos(QString p_userID, QString p_userName, QString p_adi, QString p_cepNo)
+const QString &User::getUserID() const
 {
-    userID = p_userID;
-    userName = p_userName;
-    adi = p_adi;
-    cepNo = p_cepNo;
+    return userID;
 }
 
-QString User::getUserID()
+void User::setUserID(const QString &newUserID)
 {
-    if(!userID.isEmpty() || !userID.isNull()){
-        return userID;
-    }
-    else{
-        return "";
-    }
+    userID = newUserID;
 }
 
-QString User::getUserName()
+const QString &User::getUserName() const
 {
-    if(!userName.isEmpty() || !userName.isNull()){
-        return userName;
-    }
-    else {
-        return "";
-    }
+    return userName;
 }
 
-QString User::getAdi()
+void User::setUserName(const QString &newUserName)
 {
-    if(!adi.isEmpty() || !adi.isNull()){
-        return adi;
-    }
-    else{
-        return "";
-    }
+    userName = newUserName;
 }
 
-QString User::getCepNo()
+const QString &User::getAd() const
 {
-    if(!cepNo.isEmpty() || !cepNo.isNull()){
-        return cepNo;
-    }
-    else{
-        return "";
-    }
+    return ad;
 }
+
+void User::setAd(const QString &newAd)
+{
+    ad = newAd;
+}
+
+const QString &User::getSoyad() const
+{
+    return soyad;
+}
+
+void User::setSoyad(const QString &newSoyad)
+{
+    soyad = newSoyad;
+}
+
+const QString &User::getCepNo() const
+{
+    return cepNo;
+}
+
+void User::setCepNo(const QString &newCepNo)
+{
+    cepNo = newCepNo;
+}
+

@@ -1,13 +1,9 @@
 #include "stokgrupform.h"
 #include "ui_stokgrupform.h"
-
-#include <QtSql>
-#include <QSqlQuery>
+#include "veritabani.h"
+//*****************************
 #include <QMessageBox>
 #include <QDebug>
-
-QSqlDatabase db_grup;
-QSqlQuery sorgu_grup(db_grup);
 
 StokGrupForm::StokGrupForm(QWidget *parent) :
     QDialog(parent),
@@ -26,15 +22,7 @@ StokGrupForm::~StokGrupForm()
 
 void StokGrupForm::formLoad()
 {
-    db_grup = QSqlDatabase::addDatabase("QPSQL");
-    db_grup.setDatabaseName("mhss_data");
-    db_grup.setHostName("localhost");
-    db_grup.setUserName("admin");
-    db_grup.setPassword("admin");
-    if(!db_grup.isOpen()){
-        db_grup.open();
-        stokGruplariGetir();
-    }
+    stokGruplariGetir();
     ui->YenilineEdit->setFocus();
 }
 
@@ -50,10 +38,6 @@ void StokGrupForm::on_EkleBtn_clicked()
         }
         else
         {
-            sorgu_grup = QSqlQuery(db_grup);
-            sorgu_grup.prepare("INSERT INTO stokgruplari (id,grup) VALUES (nextval('stokgruplari_id'), ?)");
-            sorgu_grup.bindValue(0, aranacak);
-            sorgu_grup.exec();
             QMessageBox::information(this,"Bilgi","Stok gurubu eklendi",QMessageBox::Ok);
             ui->YenilineEdit->clear();
             stokGruplariGetir();
@@ -68,11 +52,6 @@ void StokGrupForm::on_SilBtn_clicked()
     if(ui->gruplarlistWidget->selectedItems().size() != 0 )
     {
         QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
-        sorgu_grup = QSqlQuery(db_grup);
-        sorgu_grup.prepare("DELETE FROM stokgruplari WHERE grup = ?");
-        sorgu_grup.bindValue(0, silinecek_item->text());
-        sorgu_grup.exec();
-
         delete silinecek_item;
         QMessageBox::information(this,"Uyarı","Stok grubu silindi.",QMessageBox::Ok);
         stokGruplariGetir();
@@ -90,19 +69,12 @@ void StokGrupForm::on_KaydetBtn_clicked()
 
 void StokGrupForm::stokGruplariGetir()
 {
-    sorgu_grup = QSqlQuery(db_grup);
-    sorgu_grup.exec("SELECT grup FROM stokgruplari");
-    ui->gruplarlistWidget->clear();
-    while (sorgu_grup.next()) {
-        ui->gruplarlistWidget->addItem(sorgu_grup.value(0).toString());
+    Veritabani *vt_grup = new Veritabani();
+    QStringList liste = vt_grup->stokGruplariGetir();
+    foreach (auto item, liste) {
+        ui->gruplarlistWidget->addItem(item);
     }
-}
-
-void StokGrupForm::closeEvent(QCloseEvent *)
-{
-    if(db_grup.isOpen()){
-        db_grup.close();
-    }
+    delete vt_grup;
 }
 
 void StokGrupForm::keyPressEvent(QKeyEvent *event)

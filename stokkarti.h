@@ -9,32 +9,38 @@ class StokKarti
 public:
     StokKarti();
 
-    void setID(QString p_ID);
-    QString getID();
-    void setBarkod(QString p_Barkod);
-    QString getBarkod();
-    void setAd(QString p_Ad);
-    QString getAd();
-    void setBirim(QString p_Birim);
-    QString getBirim();
-    void setMiktar(float p_Miktar);
-    float getMiktar();
-    void setGrup(QString p_Grup);
-    QString getGrup();
-    void setAFiyat(double p_AFiyat);
-    double getAfiyat() const;
-    void setSFiyat(double p_SFiyat);
+    const QString &getId() const;
+    void setId(const QString &newId);
+
+    const QString &getBarkod() const;
+    void setBarkod(const QString &newBarkod);
+
+    const QString &getAd() const;
+    void setAd(const QString &newAd);
+
+    const QString &getBirim() const;
+    void setBirim(const QString &newBirim);
+
+    float getMiktar() const;
+    void setMiktar(float newMiktar);
+
+    const QString &getGrup() const;
+    void setGrup(const QString &newGrup);
+
+    double getAFiyat() const;
+    void setAFiyat(double newAFiyat);
+
     double getSFiyat() const;
-    void setKDV1(int p_KDV1);
-    int getKDV1();
-    void setKDV2(int p_KDV2);
-    int getKDV2();
-    void setKDV3(int p_KDV3);
-    int getKDV3();
-    void setSonGunTarih(QDateTime p_SonGunTarih);
-    QDateTime getSonGunTarih();
-    void setAciklama(QString p_Aciklama);
-    QString getAciklama();
+    void setSFiyat(double newSFiyat);
+
+    int getKdv() const;
+    void setKdv(int newKdv);
+
+    const QDateTime &getTarih() const;
+    void setTarih(const QDateTime &newTarih);
+
+    const QString &getAciklama() const;
+    void setAciklama(const QString &newAciklama);
 
 private:
     QString id;
@@ -45,8 +51,8 @@ private:
     QString grup;
     double aFiyat;
     double sFiyat;
-    int kdv1, kdv2, kdv3;
-    QDateTime sonGunTarih;
+    int kdv;
+    QDateTime tarih;
     QString aciklama;
 };
 

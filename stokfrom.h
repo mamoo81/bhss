@@ -1,7 +1,9 @@
 #ifndef STOKFROM_H
 #define STOKFROM_H
-
+#include "user.h"
+//************************
 #include <QDialog>
+
 
 
 namespace Ui {
@@ -16,6 +18,10 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
+
+
+public slots:
+    void setUser(User user);
 private slots:
     void on_StokGrupBtn_clicked();
 
@@ -24,8 +30,6 @@ private slots:
     void grupComboboxDoldur();
 
     void stokKartlariniListele();
-
-    void tableViewAyarla();
 
     void on_YeniBtn_clicked();
 
@@ -53,6 +57,8 @@ private slots:
     void on_araBtn_clicked();
 private:
     Ui::StokFrom *ui;
+
+    User kullanici;
 };
 
 #endif // STOKFROM_H

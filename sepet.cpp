@@ -85,7 +85,7 @@ void Sepet::urunArtir(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar + _miktar;
     if(urunler[_Barkod].stokMiktari  >= yeniMiktar){
         urunler[_Barkod].miktar += _miktar;
-        urunler[_Barkod].toplam = paraYuvarla(urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat);
+        urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat;
     }
     else{
         QMessageBox msg(0);
@@ -104,7 +104,7 @@ void Sepet::urunAzalt(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar - _miktar;
     if(yeniMiktar > 0){
         urunler[_Barkod].miktar = yeniMiktar;
-        urunler[_Barkod].toplam = paraYuvarla(yeniMiktar * urunler[_Barkod].birimFiyat);
+        urunler[_Barkod].toplam = yeniMiktar * urunler[_Barkod].birimFiyat;
     }
 }
 

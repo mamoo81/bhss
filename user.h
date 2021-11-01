@@ -7,13 +7,29 @@ class User
 {
 public:
     User();
-    void setUserInfos(QString p_userID, QString p_userName, QString p_adi, QString p_cepNo);
-    QString getUserID();
-    QString getUserName();
-    QString getAdi();
-    QString getCepNo();
+
+
+    const QString &getUserID() const;
+    void setUserID(const QString &newUserID);
+
+    const QString &getUserName() const;
+    void setUserName(const QString &newUserName);
+
+    const QString &getAd() const;
+    void setAd(const QString &newAd);
+
+    const QString &getSoyad() const;
+    void setSoyad(const QString &newSoyad);
+
+    const QString &getCepNo() const;
+    void setCepNo(const QString &newCepNo);
+
 private:
-    QString userID,userName,adi,cepNo;
+    QString userID;
+    QString userName;
+    QString ad;
+    QString soyad;
+    QString cepNo;
 };
 
 #endif // USER_H

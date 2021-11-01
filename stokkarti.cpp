@@ -5,104 +5,74 @@ StokKarti::StokKarti()
 
 }
 
-void StokKarti::setID(QString p_ID)
+const QString &StokKarti::getId() const
 {
-    id = p_ID;
+    return id;
 }
 
-QString StokKarti::getID()
+void StokKarti::setId(const QString &newId)
 {
-    if(!id.isEmpty() || !id.isNull()){
-        return id;
-    }
-    else{
-        return "";
-    }
+    id = newId;
 }
 
-void StokKarti::setBarkod(QString p_Barkod)
+const QString &StokKarti::getBarkod() const
 {
-    barkod = p_Barkod;
+    return barkod;
 }
 
-QString StokKarti::getBarkod()
+void StokKarti::setBarkod(const QString &newBarkod)
 {
-    if(!barkod.isEmpty() || !barkod.isNull()){
-        return barkod;
-    }
-    else{
-        return "";
-    }
+    barkod = newBarkod;
 }
 
-void StokKarti::setAd(QString p_Ad)
+const QString &StokKarti::getAd() const
 {
-    ad = p_Ad;
+    return ad;
 }
 
-QString StokKarti::getAd()
+void StokKarti::setAd(const QString &newAd)
 {
-    if(!ad.isEmpty() || !ad.isNull()){
-        return ad;
-    }
-    else{
-        return "";
-    }
+    ad = newAd;
 }
 
-void StokKarti::setBirim(QString p_Birim)
+const QString &StokKarti::getBirim() const
 {
-    birim = p_Birim;
+    return birim;
 }
 
-QString StokKarti::getBirim()
+void StokKarti::setBirim(const QString &newBirim)
 {
-    if(!birim.isEmpty() || !birim.isNull()){
-        return birim;
-    }
-    else{
-        return "";
-    }
+    birim = newBirim;
 }
 
-void StokKarti::setMiktar(float p_Miktar)
-{
-    miktar = p_Miktar;
-}
-
-float StokKarti::getMiktar()
+float StokKarti::getMiktar() const
 {
     return miktar;
 }
 
-void StokKarti::setGrup(QString p_Grup)
+void StokKarti::setMiktar(float newMiktar)
 {
-    grup = p_Grup;
+    miktar = newMiktar;
 }
 
-QString StokKarti::getGrup()
+const QString &StokKarti::getGrup() const
 {
-    if(!grup.isEmpty() || !grup.isNull()){
-        return grup;
-    }
-    else{
-        return "";
-    }
+    return grup;
 }
 
-void StokKarti::setAFiyat(double p_AFiyat)
+void StokKarti::setGrup(const QString &newGrup)
 {
-    aFiyat = p_AFiyat;
+    grup = newGrup;
 }
 
-double StokKarti::getAfiyat() const
+double StokKarti::getAFiyat() const
 {
     return aFiyat;
 }
 
-void StokKarti::setSFiyat(double p_SFiyat)
+void StokKarti::setAFiyat(double newAFiyat)
 {
-    sFiyat = p_SFiyat;
+    aFiyat = newAFiyat;
 }
 
 double StokKarti::getSFiyat() const
@@ -110,62 +80,37 @@ double StokKarti::getSFiyat() const
     return sFiyat;
 }
 
-void StokKarti::setKDV1(int p_KDV1)
+void StokKarti::setSFiyat(double newSFiyat)
 {
-    kdv1 = p_KDV1;
+    sFiyat = newSFiyat;
 }
 
-int StokKarti::getKDV1()
+int StokKarti::getKdv() const
 {
-    return kdv1;
+    return kdv;
 }
 
-void StokKarti::setKDV2(int p_KDV2)
+void StokKarti::setKdv(int newKdv)
 {
-    kdv2 = p_KDV2;
+    kdv = newKdv;
 }
 
-int StokKarti::getKDV2()
+const QDateTime &StokKarti::getTarih() const
 {
-    return kdv2;
+    return tarih;
 }
 
-void StokKarti::setKDV3(int p_KDV3)
+void StokKarti::setTarih(const QDateTime &newTarih)
 {
-    kdv3 = p_KDV3;
+    tarih = newTarih;
 }
 
-int StokKarti::getKDV3()
+const QString &StokKarti::getAciklama() const
 {
-    return kdv3;
+    return aciklama;
 }
 
-void StokKarti::setSonGunTarih(QDateTime p_SonGunTarih)
+void StokKarti::setAciklama(const QString &newAciklama)
 {
-    sonGunTarih = p_SonGunTarih;
-}
-
-QDateTime StokKarti::getSonGunTarih()
-{
-    if(!sonGunTarih.isNull()){
-        return sonGunTarih;
-    }
-    else{
-        return QDateTime::currentDateTime();
-    }
-}
-
-void StokKarti::setAciklama(QString p_Aciklama)
-{
-    aciklama = p_Aciklama;
-}
-
-QString StokKarti::getAciklama()
-{
-    if(!aciklama.isEmpty() || !aciklama.isNull()){
-        return aciklama;
-    }
-    else{
-        return "";
-    }
+    aciklama = newAciklama;
 }

@@ -2,7 +2,6 @@
 #define STOKGRUPFORM_H
 
 #include <QDialog>
-#include <QCloseEvent>
 #include <QKeyEvent>
 
 namespace Ui {
@@ -27,8 +26,6 @@ private slots:
     void on_KaydetBtn_clicked();
 
     void stokGruplariGetir();
-
-    void closeEvent(QCloseEvent*);
 
     void keyPressEvent(QKeyEvent *event);
 

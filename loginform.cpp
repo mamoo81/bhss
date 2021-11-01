@@ -2,7 +2,6 @@
 #include "ui_loginform.h"
 #include "user.h"
 #include "satisform.h"
-#include "veritabani.h"
 
 #include <QCloseEvent>
 

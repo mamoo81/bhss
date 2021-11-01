@@ -37,15 +37,14 @@ SatisForm::~SatisForm()
 void SatisForm::setUser(User user)
 {
     kullanici = user;
-    this->setWindowTitle("MHSS - " + kullanici.getAdi());
-    QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
-    ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
+    this->setWindowTitle("MHSS - " + kullanici.getAd());
 }
 
 void SatisForm::formLoad()
 {
     initTableWidgets();
-
+    QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
+    ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
     getSonSatislar();
@@ -56,6 +55,7 @@ void SatisForm::formLoad()
 void SatisForm::on_StokKartlariBtn_clicked()
 {
     StokFrom *stokKartiFormu = new StokFrom(this);
+    stokKartiFormu->setUser(kullanici);
     stokKartiFormu->exec();
 }
 
@@ -91,9 +91,9 @@ void SatisForm::initTableWidgets()
 
 void SatisForm::sepeteEkle()
 {
-    Veritabani vt_satis = Veritabani();
-    if(vt_satis.barkodVarmi(ui->barkodLineEdit->text())){
-        StokKarti stokkarti = vt_satis.getStokKarti(ui->barkodLineEdit->text());
+    Veritabani *vt_satis = new Veritabani();
+    if(vt_satis->barkodVarmi(ui->barkodLineEdit->text())){
+        StokKarti stokkarti = vt_satis->getStokKarti(ui->barkodLineEdit->text());
         if(stokkarti.getMiktar() > 0){
             if(stokkarti.getBirim() == "ADET"){
                 tableWidgetEkle(stokkarti, 1);
@@ -262,9 +262,9 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
 
 void SatisForm::getSonSatislar()
 {
-    Veritabani vt_satis = Veritabani();
+    Veritabani *vt_satis = new Veritabani();
     ui->SonSatislarlistWidget->clear();
-    ui->SonSatislarlistWidget->addItems(vt_satis.getSonIslemler());
+    ui->SonSatislarlistWidget->addItems(vt_satis->getSonIslemler());
     ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
 }
 
@@ -410,8 +410,13 @@ int SatisForm::getSeciliSatirIndexi()
 double SatisForm::paraYuvarla(double _toplam)
 {
     int noktaPosizyonu(QString::number(_toplam).indexOf('.'));
-    QString yeni(QString::number(_toplam, 'g', noktaPosizyonu + 2));
-    return yeni.toDouble();
+    if(noktaPosizyonu != -1){
+        QString yeni(QString::number(_toplam, 'g', noktaPosizyonu + 2));
+        return yeni.toDouble();
+    }
+    else{
+        return _toplam;
+    }
 }
 
 void SatisForm::on_artirBtn_clicked()
