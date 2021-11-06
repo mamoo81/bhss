@@ -5,8 +5,6 @@
 
 #include <QCloseEvent>
 
-Veritabani vt;
-
 
 LoginForm::LoginForm(QWidget *parent)
     : QMainWindow(parent)
@@ -65,7 +63,7 @@ void LoginForm::on_KapatBtn_clicked()
 
 void LoginForm::closeEvent(QCloseEvent *)
 {
-    vt.db.removeDatabase("mhss");
+
 }
 
 void LoginForm::getUsers()

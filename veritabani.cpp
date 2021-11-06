@@ -12,9 +12,7 @@
 
 Veritabani::Veritabani()
 {
-    db.setHostName("localhost");
-    db.setUserName("postgres");
-    db.setPassword("postgres");
+
 }
 
 Veritabani::~Veritabani()
@@ -24,13 +22,10 @@ Veritabani::~Veritabani()
 
 bool Veritabani::barkodVarmi(QString _Barkod)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
     if(sorgu.next()){
-        db.close();
         return true;
     }
     else{
@@ -40,24 +35,19 @@ bool Veritabani::barkodVarmi(QString _Barkod)
 
 bool Veritabani::loginControl(QString _UserName, QString _Password)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("SELECT username, password FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _UserName);
     sorgu.exec();
     if(sorgu.next()){
         if(sorgu.value(0) == _Password){
-            db.close();
             return true;
         }
         else{
-            db.close();
             QMessageBox::warning(0, "Uyarı", "Şifre hatalı", QMessageBox::Ok);
             return false;
         }
     }
     else{
-        db.close();
         QMessageBox::warning(0, "Uyarı", "Böyle bir kullanıcı yok", QMessageBox::Ok);
         return false;
     }
@@ -70,9 +60,7 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
  */
 void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID)
 {
-    db.setDatabaseName("mhss_data");
     //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    db.open();
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     sorgu.next();
     QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toInt() + 1);
@@ -105,25 +93,20 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
         sorgu.bindValue(1, urun.barkod);
         sorgu.exec();
     }
-    db.close();
 }
 
 QStringList Veritabani::getSonIslemler()
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     QStringList islemler;
     sorgu.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date ORDER BY fatura_no DESC");
     while(sorgu.next()){
         islemler.append(sorgu.value(0).toString() + " " + sorgu.value(1).toTime().toString("hh:mm:ss"));
     }
-    db.close();
     return islemler;
 }
 
 bool Veritabani::veritabaniVarmi()
 {
-    db.open();
     //mhss_data veritabanı varmı kontrol
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
@@ -145,17 +128,20 @@ bool Veritabani::veritabaniVarmi()
             break;
         }
     }
-    db.close();
+    else{
+        db.setDatabaseName("mhss_data");
+        db.close();
+        db.open();
+    }
     return true;
 }
 
 void Veritabani::veritabaniOlustur()
 {
-    db.open();
     //veritabanını oluşturma
     sorgu.exec("CREATE DATABASE mhss_data OWNER postgres");
-    db.close();
     db.setDatabaseName("mhss_data");
+    db.close();
     db.open();
     //kullanıcılar tablosunu oluşturma
     sorgu.exec("CREATE TABLE kullanicilar("
@@ -262,14 +248,10 @@ void Veritabani::veritabaniOlustur()
         msg.setIcon(QMessageBox::Information);
         msg.exec();
     }
-    db.close();
-
 }
 
 User Veritabani::GetUserInfos(QString _UserName)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     User u;
     sorgu.prepare("SELECT * FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _UserName);
@@ -281,14 +263,11 @@ User Veritabani::GetUserInfos(QString _UserName)
         u.setSoyad(sorgu.value(4).toString());
         u.setCepNo(sorgu.value(5).toString());
     }
-    db.close();
     return u;
 }
 
 QList<Cari> Veritabani::getCariKartlar()
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     QList<Cari> kartlar;
     sorgu.exec("SELECT * FROM carikartlar");
     while (sorgu.next()) {
@@ -307,27 +286,21 @@ QList<Cari> Veritabani::getCariKartlar()
         kart.setTarih(sorgu.value(11).toDateTime());
         kartlar.append(kart);
     }
-    db.close();
     return kartlar;
 }
 
 QList<QString> Veritabani::GetUsers()
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.exec("SELECT username FROM kullanicilar");
     while (sorgu.next()) {
         users << sorgu.value(0).toString();
     }
-    db.close();
     return users;
 }
 
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
     StokKarti kart;
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
@@ -344,14 +317,11 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
         kart.setTarih(sorgu.value(9).toDateTime());
         kart.setAciklama(sorgu.value(10).toString());
     }
-    db.close();
     return kart;
 }
 
 void Veritabani::yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("INSERT INTO stokkartlari (id, barkod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, tarih, aciklama) "
                     "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _StokKarti->getBarkod());
@@ -386,13 +356,10 @@ void Veritabani::yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici)
         msg->setModal(true);
         msg->show();
     }
-    db.close();
 }
 
 void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *_YeniStokKarti, User *_Kullanici)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("UPDATE stokkartlari SET barkod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, tarih = ? , aciklama = ? "
                         "WHERE id = ?");
     sorgu.bindValue(0, _YeniStokKarti->getBarkod());
@@ -430,13 +397,10 @@ void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *
         msg->setModal(true);
         msg->show();
     }
-    db.close();
 }
 
 void Veritabani::stokKartiSil(QString _StokKartiID)
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.prepare("DELETE FROM stokkartlari WHERE id = ?");
     sorgu.bindValue(0, _StokKartiID);
     if(sorgu.exec()){
@@ -461,13 +425,10 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
         msg->setModal(true);
         msg->show();
     }
-    db.close();
 }
 
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setHeaderData(0, Qt::Horizontal, "Stok ID");
     model->setHeaderData(1, Qt::Horizontal, "Barkod");
@@ -480,20 +441,16 @@ QSqlQueryModel *Veritabani::getStokKartlari()
     model->setHeaderData(8, Qt::Horizontal, "Gün. tarihi");
     model->setHeaderData(9, Qt::Horizontal, "Açıklama");
     model->setQuery("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari", db);
-    db.close();
     return model;
 }
 
 QStringList Veritabani::stokGruplariGetir()
 {
-    db.setDatabaseName("mhss_data");
-    db.open();
     sorgu.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
     while (sorgu.next()) {
         liste.append(sorgu.value(0).toString());
     }
-    db.close();
     return liste;
 }
 

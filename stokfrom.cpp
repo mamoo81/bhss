@@ -1,7 +1,6 @@
 #include "stokfrom.h"
 #include "ui_stokfrom.h"
 #include "stokgrupform.h"
-#include "stokgrupformwidget.h"
 #include "veritabani.h"
 #include "user.h"
 //***************************
@@ -34,7 +33,7 @@ void StokFrom::on_StokGrupBtn_clicked()
 {
     StokGrupForm *stkgrupform = new StokGrupForm(this);
     stkgrupform->setModal(true);
-    stkgrupform->exec();
+    stkgrupform->show();
 }
 
 void StokFrom::formLoad()

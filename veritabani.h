@@ -19,7 +19,7 @@ public:
     Veritabani();
     ~Veritabani();
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss");
+    QSqlDatabase db = QSqlDatabase::database("mhss_data");
     QSqlQuery sorgu = QSqlQuery(db);
 
     bool barkodVarmi(QString _Barkod);

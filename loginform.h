@@ -17,7 +17,6 @@ public:
     LoginForm(QWidget *parent = nullptr);
     ~LoginForm();
 
-
     void formLoad();
 private slots:
     void on_GirisBtn_clicked();
@@ -30,5 +29,6 @@ private slots:
 
 private:
     Ui::LoginForm *ui;
+    Veritabani vt;
 };
 #endif // LOGINFORM_H

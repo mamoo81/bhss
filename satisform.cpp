@@ -7,6 +7,7 @@
 #include "veritabani.h"
 #include "kgform.h"
 
+#include <QRegExp>
 #include <QDebug>
 #include <QSqlQuery>
 #include <QKeyEvent>
