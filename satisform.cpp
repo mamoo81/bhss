@@ -6,7 +6,7 @@
 #include "satisyapform.h"
 #include "veritabani.h"
 #include "kgform.h"
-
+//*****************************
 #include <QRegExp>
 #include <QDebug>
 #include <QSqlQuery>
@@ -319,6 +319,9 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Escape){
         this->close();
+    }
+    else if(event->key() == Qt::Key_F9){
+        SatisForm::on_StokKartlariBtn_clicked();
     }
 }
 

@@ -703,13 +703,13 @@ color: rgb(0, 170, 0);</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
      <string>Sayfa 1</string>
     </attribute>
-    <widget class="QToolButton" name="toolButton_6">
+    <widget class="QToolButton" name="hizlitoolButton1">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -735,7 +735,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_7">
+    <widget class="QToolButton" name="hizlitoolButton4">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -761,7 +761,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_8">
+    <widget class="QToolButton" name="hizlitoolButton7">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -787,7 +787,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_9">
+    <widget class="QToolButton" name="hizlitoolButton2">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -813,7 +813,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_10">
+    <widget class="QToolButton" name="hizlitoolButton3">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -839,7 +839,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_11">
+    <widget class="QToolButton" name="hizlitoolButton10">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -865,7 +865,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_12">
+    <widget class="QToolButton" name="hizlitoolButton13">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -891,7 +891,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_13">
+    <widget class="QToolButton" name="hizlitoolButton16">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -917,7 +917,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_14">
+    <widget class="QToolButton" name="hizlitoolButton19">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -943,7 +943,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_15">
+    <widget class="QToolButton" name="hizlitoolButton22">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -969,7 +969,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_16">
+    <widget class="QToolButton" name="hizlitoolButton25">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -995,7 +995,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_17">
+    <widget class="QToolButton" name="hizlitoolButton28">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1021,7 +1021,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_18">
+    <widget class="QToolButton" name="hizlitoolButton26">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1047,7 +1047,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_19">
+    <widget class="QToolButton" name="hizlitoolButton17">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1073,7 +1073,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_20">
+    <widget class="QToolButton" name="hizlitoolButton29">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1099,7 +1099,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_21">
+    <widget class="QToolButton" name="hizlitoolButton8">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1125,7 +1125,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_22">
+    <widget class="QToolButton" name="hizlitoolButton23">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1151,7 +1151,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_23">
+    <widget class="QToolButton" name="hizlitoolButton14">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1177,7 +1177,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_24">
+    <widget class="QToolButton" name="hizlitoolButton20">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1203,7 +1203,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_25">
+    <widget class="QToolButton" name="hizlitoolButton5">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1229,7 +1229,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_26">
+    <widget class="QToolButton" name="hizlitoolButton11">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1255,7 +1255,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_27">
+    <widget class="QToolButton" name="hizlitoolButton27">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1281,7 +1281,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_28">
+    <widget class="QToolButton" name="hizlitoolButton18">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1307,7 +1307,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_29">
+    <widget class="QToolButton" name="hizlitoolButton30">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1333,7 +1333,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_30">
+    <widget class="QToolButton" name="hizlitoolButton9">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1359,7 +1359,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_31">
+    <widget class="QToolButton" name="hizlitoolButton24">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1385,7 +1385,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_32">
+    <widget class="QToolButton" name="hizlitoolButton15">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1411,7 +1411,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_33">
+    <widget class="QToolButton" name="hizlitoolButton21">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1437,7 +1437,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_34">
+    <widget class="QToolButton" name="hizlitoolButton6">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1463,7 +1463,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_35">
+    <widget class="QToolButton" name="hizlitoolButton12">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1494,7 +1494,7 @@ color: rgb(0, 170, 0);</string>
     <attribute name="title">
      <string>Sayfa 2</string>
     </attribute>
-    <widget class="QToolButton" name="toolButton_36">
+    <widget class="QToolButton" name="hizlitoolButton55">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1520,7 +1520,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_37">
+    <widget class="QToolButton" name="hizlitoolButton59">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1546,7 +1546,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_38">
+    <widget class="QToolButton" name="hizlitoolButton33">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1572,7 +1572,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_39">
+    <widget class="QToolButton" name="hizlitoolButton47">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1598,7 +1598,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_40">
+    <widget class="QToolButton" name="hizlitoolButton50">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1624,7 +1624,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_41">
+    <widget class="QToolButton" name="hizlitoolButton32">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1650,7 +1650,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_42">
+    <widget class="QToolButton" name="hizlitoolButton51">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1676,7 +1676,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_43">
+    <widget class="QToolButton" name="hizlitoolButton40">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1702,7 +1702,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_44">
+    <widget class="QToolButton" name="hizlitoolButton60">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1728,7 +1728,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_45">
+    <widget class="QToolButton" name="hizlitoolButton38">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1754,7 +1754,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_46">
+    <widget class="QToolButton" name="hizlitoolButton37">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1780,7 +1780,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_47">
+    <widget class="QToolButton" name="hizlitoolButton49">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1806,7 +1806,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_48">
+    <widget class="QToolButton" name="hizlitoolButton36">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1832,7 +1832,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_49">
+    <widget class="QToolButton" name="hizlitoolButton46">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1858,7 +1858,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_50">
+    <widget class="QToolButton" name="hizlitoolButton44">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1884,7 +1884,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_51">
+    <widget class="QToolButton" name="hizlitoolButton45">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -1910,7 +1910,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_52">
+    <widget class="QToolButton" name="hizlitoolButton34">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1936,7 +1936,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_53">
+    <widget class="QToolButton" name="hizlitoolButton58">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1962,7 +1962,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_54">
+    <widget class="QToolButton" name="hizlitoolButton41">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -1988,7 +1988,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_55">
+    <widget class="QToolButton" name="hizlitoolButton52">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2014,7 +2014,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_56">
+    <widget class="QToolButton" name="hizlitoolButton43">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2040,7 +2040,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_57">
+    <widget class="QToolButton" name="hizlitoolButton57">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2066,7 +2066,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_58">
+    <widget class="QToolButton" name="hizlitoolButton56">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2092,7 +2092,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_59">
+    <widget class="QToolButton" name="hizlitoolButton48">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2118,7 +2118,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_60">
+    <widget class="QToolButton" name="hizlitoolButton35">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2144,7 +2144,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_61">
+    <widget class="QToolButton" name="hizlitoolButton31">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2170,7 +2170,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_62">
+    <widget class="QToolButton" name="hizlitoolButton54">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2196,7 +2196,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_63">
+    <widget class="QToolButton" name="hizlitoolButton42">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2222,7 +2222,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_64">
+    <widget class="QToolButton" name="hizlitoolButton53">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2248,7 +2248,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_65">
+    <widget class="QToolButton" name="hizlitoolButton39">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2279,7 +2279,7 @@ color: rgb(0, 170, 0);</string>
     <attribute name="title">
      <string>Sayfa 3</string>
     </attribute>
-    <widget class="QToolButton" name="toolButton_66">
+    <widget class="QToolButton" name="hizlitoolButton74">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2305,7 +2305,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_67">
+    <widget class="QToolButton" name="hizlitoolButton64">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2331,7 +2331,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_68">
+    <widget class="QToolButton" name="hizlitoolButton90">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2357,7 +2357,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_69">
+    <widget class="QToolButton" name="hizlitoolButton78">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2383,7 +2383,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_70">
+    <widget class="QToolButton" name="hizlitoolButton72">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2409,7 +2409,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_71">
+    <widget class="QToolButton" name="hizlitoolButton86">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2435,7 +2435,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_72">
+    <widget class="QToolButton" name="hizlitoolButton85">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2461,7 +2461,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_73">
+    <widget class="QToolButton" name="hizlitoolButton79">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2487,7 +2487,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_74">
+    <widget class="QToolButton" name="hizlitoolButton69">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2513,7 +2513,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_75">
+    <widget class="QToolButton" name="hizlitoolButton63">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2539,7 +2539,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_76">
+    <widget class="QToolButton" name="hizlitoolButton66">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2565,7 +2565,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_77">
+    <widget class="QToolButton" name="hizlitoolButton62">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2591,7 +2591,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_78">
+    <widget class="QToolButton" name="hizlitoolButton71">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2617,7 +2617,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_79">
+    <widget class="QToolButton" name="hizlitoolButton67">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2643,7 +2643,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_80">
+    <widget class="QToolButton" name="hizlitoolButton84">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2669,7 +2669,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_81">
+    <widget class="QToolButton" name="hizlitoolButton88">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2695,7 +2695,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_82">
+    <widget class="QToolButton" name="hizlitoolButton75">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2721,7 +2721,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_83">
+    <widget class="QToolButton" name="hizlitoolButton73">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2747,7 +2747,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_84">
+    <widget class="QToolButton" name="hizlitoolButton87">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -2773,7 +2773,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_85">
+    <widget class="QToolButton" name="hizlitoolButton65">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2799,7 +2799,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_86">
+    <widget class="QToolButton" name="hizlitoolButton82">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2825,7 +2825,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_87">
+    <widget class="QToolButton" name="hizlitoolButton61">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2851,7 +2851,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_88">
+    <widget class="QToolButton" name="hizlitoolButton89">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2877,7 +2877,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_89">
+    <widget class="QToolButton" name="hizlitoolButton76">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2903,7 +2903,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_90">
+    <widget class="QToolButton" name="hizlitoolButton70">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -2929,7 +2929,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_91">
+    <widget class="QToolButton" name="hizlitoolButton83">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2955,7 +2955,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_92">
+    <widget class="QToolButton" name="hizlitoolButton68">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2981,7 +2981,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_93">
+    <widget class="QToolButton" name="hizlitoolButton80">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3007,7 +3007,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_94">
+    <widget class="QToolButton" name="hizlitoolButton81">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3033,7 +3033,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_95">
+    <widget class="QToolButton" name="hizlitoolButton77">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3064,7 +3064,7 @@ color: rgb(0, 170, 0);</string>
     <attribute name="title">
      <string>Sayfa 4</string>
     </attribute>
-    <widget class="QToolButton" name="toolButton_96">
+    <widget class="QToolButton" name="hizlitoolButton104">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3090,7 +3090,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_97">
+    <widget class="QToolButton" name="hizlitoolButton94">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3116,7 +3116,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_98">
+    <widget class="QToolButton" name="hizlitoolButton120">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3142,7 +3142,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_99">
+    <widget class="QToolButton" name="hizlitoolButton108">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3168,7 +3168,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_100">
+    <widget class="QToolButton" name="hizlitoolButton102">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3194,7 +3194,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_101">
+    <widget class="QToolButton" name="hizlitoolButton116">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3220,7 +3220,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_102">
+    <widget class="QToolButton" name="hizlitoolButton115">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3246,7 +3246,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_103">
+    <widget class="QToolButton" name="hizlitoolButton109">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3272,7 +3272,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_104">
+    <widget class="QToolButton" name="hizlitoolButton99">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3298,7 +3298,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_105">
+    <widget class="QToolButton" name="hizlitoolButton93">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3324,7 +3324,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_106">
+    <widget class="QToolButton" name="hizlitoolButton96">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3350,7 +3350,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_107">
+    <widget class="QToolButton" name="hizlitoolButton92">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3376,7 +3376,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_108">
+    <widget class="QToolButton" name="hizlitoolButton101">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3402,7 +3402,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_109">
+    <widget class="QToolButton" name="hizlitoolButton97">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3428,7 +3428,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_110">
+    <widget class="QToolButton" name="hizlitoolButton114">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3454,7 +3454,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_111">
+    <widget class="QToolButton" name="hizlitoolButton118">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3480,7 +3480,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_112">
+    <widget class="QToolButton" name="hizlitoolButton105">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3506,7 +3506,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_113">
+    <widget class="QToolButton" name="hizlitoolButton103">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3532,7 +3532,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_114">
+    <widget class="QToolButton" name="hizlitoolButton117">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3558,7 +3558,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_115">
+    <widget class="QToolButton" name="hizlitoolButton95">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3584,7 +3584,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_116">
+    <widget class="QToolButton" name="hizlitoolButton112">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3610,7 +3610,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_117">
+    <widget class="QToolButton" name="hizlitoolButton91">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3636,7 +3636,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_118">
+    <widget class="QToolButton" name="hizlitoolButton119">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3662,7 +3662,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_119">
+    <widget class="QToolButton" name="hizlitoolButton106">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3688,7 +3688,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_120">
+    <widget class="QToolButton" name="hizlitoolButton100">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3714,7 +3714,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_121">
+    <widget class="QToolButton" name="hizlitoolButton113">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3740,7 +3740,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_122">
+    <widget class="QToolButton" name="hizlitoolButton98">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3766,7 +3766,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_123">
+    <widget class="QToolButton" name="hizlitoolButton110">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3792,7 +3792,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_124">
+    <widget class="QToolButton" name="hizlitoolButton111">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3818,7 +3818,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_125">
+    <widget class="QToolButton" name="hizlitoolButton107">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3849,7 +3849,7 @@ color: rgb(0, 170, 0);</string>
     <attribute name="title">
      <string>Sayfa 5</string>
     </attribute>
-    <widget class="QToolButton" name="toolButton_126">
+    <widget class="QToolButton" name="hizlitoolButton134">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -3875,7 +3875,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_127">
+    <widget class="QToolButton" name="hizlitoolButton124">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -3901,7 +3901,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_128">
+    <widget class="QToolButton" name="hizlitoolButton150">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3927,7 +3927,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_129">
+    <widget class="QToolButton" name="hizlitoolButton138">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3953,7 +3953,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_130">
+    <widget class="QToolButton" name="hizlitoolButton132">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -3979,7 +3979,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_131">
+    <widget class="QToolButton" name="hizlitoolButton146">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4005,7 +4005,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_132">
+    <widget class="QToolButton" name="hizlitoolButton145">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4031,7 +4031,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_133">
+    <widget class="QToolButton" name="hizlitoolButton139">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4057,7 +4057,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_134">
+    <widget class="QToolButton" name="hizlitoolButton129">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4083,7 +4083,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_135">
+    <widget class="QToolButton" name="hizlitoolButton123">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4109,7 +4109,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_136">
+    <widget class="QToolButton" name="hizlitoolButton126">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4135,7 +4135,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_137">
+    <widget class="QToolButton" name="hizlitoolButton122">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4161,7 +4161,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_138">
+    <widget class="QToolButton" name="hizlitoolButton131">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4187,7 +4187,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_139">
+    <widget class="QToolButton" name="hizlitoolButton127">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4213,7 +4213,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_140">
+    <widget class="QToolButton" name="hizlitoolButton144">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4239,7 +4239,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_141">
+    <widget class="QToolButton" name="hizlitoolButton148">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4265,7 +4265,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_142">
+    <widget class="QToolButton" name="hizlitoolButton135">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4291,7 +4291,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_143">
+    <widget class="QToolButton" name="hizlitoolButton133">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4317,7 +4317,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_144">
+    <widget class="QToolButton" name="hizlitoolButton147">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4343,7 +4343,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_145">
+    <widget class="QToolButton" name="hizlitoolButton125">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4369,7 +4369,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_146">
+    <widget class="QToolButton" name="hizlitoolButton142">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4395,7 +4395,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_147">
+    <widget class="QToolButton" name="hizlitoolButton121">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4421,7 +4421,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_148">
+    <widget class="QToolButton" name="hizlitoolButton149">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4447,7 +4447,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_149">
+    <widget class="QToolButton" name="hizlitoolButton136">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4473,7 +4473,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_150">
+    <widget class="QToolButton" name="hizlitoolButton130">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -4499,7 +4499,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_151">
+    <widget class="QToolButton" name="hizlitoolButton143">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4525,7 +4525,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_152">
+    <widget class="QToolButton" name="hizlitoolButton128">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4551,7 +4551,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_153">
+    <widget class="QToolButton" name="hizlitoolButton140">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4577,7 +4577,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_154">
+    <widget class="QToolButton" name="hizlitoolButton141">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -4603,7 +4603,7 @@ color: rgb(0, 170, 0);</string>
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_155">
+    <widget class="QToolButton" name="hizlitoolButton137">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -4770,7 +4770,7 @@ color: rgb(0, 170, 0);</string>
      <string notr="true">color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
-     <string>₺99999.99</string>
+     <string>₺0</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
