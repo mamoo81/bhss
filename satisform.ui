@@ -703,7 +703,7 @@ color: rgb(0, 170, 0);</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -717,6 +717,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -747,6 +753,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -775,6 +787,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -805,6 +823,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -833,6 +857,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -863,6 +893,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -891,6 +927,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -921,6 +963,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -949,6 +997,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -979,6 +1033,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1007,6 +1067,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1037,6 +1103,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1065,6 +1137,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1095,6 +1173,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1123,6 +1207,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1153,6 +1243,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1181,6 +1277,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1211,6 +1313,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1239,6 +1347,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1269,6 +1383,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1297,6 +1417,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1327,6 +1453,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1355,6 +1487,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1385,6 +1523,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1413,6 +1557,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1443,6 +1593,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1471,6 +1627,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1501,6 +1663,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1530,6 +1698,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1558,6 +1732,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1593,6 +1773,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1621,6 +1807,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1651,6 +1843,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1679,6 +1877,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1709,6 +1913,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1737,6 +1947,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1767,6 +1983,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1795,6 +2017,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1825,6 +2053,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1853,6 +2087,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1883,6 +2123,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1911,6 +2157,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1941,6 +2193,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -1969,6 +2227,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -1999,6 +2263,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2027,6 +2297,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2057,6 +2333,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2085,6 +2367,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2115,6 +2403,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2143,6 +2437,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2173,6 +2473,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2201,6 +2507,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2231,6 +2543,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2259,6 +2577,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2289,6 +2613,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2317,6 +2647,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2347,6 +2683,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2375,6 +2717,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2405,6 +2753,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2433,6 +2787,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2468,6 +2828,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2496,6 +2862,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2526,6 +2898,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2554,6 +2932,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2584,6 +2968,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2612,6 +3002,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2642,6 +3038,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2670,6 +3072,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2700,6 +3108,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2728,6 +3142,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2758,6 +3178,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2786,6 +3212,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2816,6 +3248,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2844,6 +3282,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2874,6 +3318,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2902,6 +3352,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2932,6 +3388,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -2960,6 +3422,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -2990,6 +3458,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3018,6 +3492,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3048,6 +3528,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3076,6 +3562,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3106,6 +3598,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3134,6 +3632,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3164,6 +3668,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3192,6 +3702,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3222,6 +3738,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3250,6 +3772,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3280,6 +3808,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3308,6 +3842,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3343,6 +3883,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3371,6 +3917,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3401,6 +3953,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3429,6 +3987,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3459,6 +4023,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3487,6 +4057,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3517,6 +4093,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3545,6 +4127,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3575,6 +4163,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3603,6 +4197,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3633,6 +4233,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3661,6 +4267,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3691,6 +4303,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3719,6 +4337,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3749,6 +4373,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3777,6 +4407,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3807,6 +4443,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3835,6 +4477,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3865,6 +4513,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3893,6 +4547,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3923,6 +4583,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -3951,6 +4617,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -3981,6 +4653,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4009,6 +4687,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4039,6 +4723,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4067,6 +4757,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4097,6 +4793,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4125,6 +4827,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4155,6 +4863,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4183,6 +4897,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4218,6 +4938,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4246,6 +4972,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4276,6 +5008,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4304,6 +5042,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4334,6 +5078,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4362,6 +5112,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4392,6 +5148,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4420,6 +5182,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4450,6 +5218,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4478,6 +5252,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4508,6 +5288,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4536,6 +5322,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4566,6 +5358,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4594,6 +5392,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4624,6 +5428,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4652,6 +5462,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4682,6 +5498,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4710,6 +5532,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4740,6 +5568,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4768,6 +5602,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4798,6 +5638,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4826,6 +5672,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4856,6 +5708,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4884,6 +5742,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4914,6 +5778,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -4942,6 +5812,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -4972,6 +5848,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -5000,6 +5882,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
@@ -5030,6 +5918,12 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -5058,6 +5952,12 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>

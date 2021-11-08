@@ -1,7 +1,7 @@
 #include "hizliurunekleformdialog.h"
 #include "ui_hizliurunekleformdialog.h"
 #include "veritabani.h"
-
+//******************************
 #include <QSqlQuery>
 #include <QDebug>
 
@@ -35,9 +35,7 @@ void HizliUrunEkleFormDialog::stokKartlariniListele()
 void HizliUrunEkleFormDialog::on_KaydetpushButton_clicked()
 {
     hizliUrunBarkod = ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString();
-    qDebug() << hizliUrunBarkod;
     hizliUrunAd = ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString();
-    qDebug() << hizliUrunAd;
     ok = true;
     this->close();
 }

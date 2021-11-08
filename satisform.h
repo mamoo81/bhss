@@ -183,6 +183,186 @@ private slots:
 
     void on_hizlitoolButton60_clicked();
 
+    void on_hizlitoolButton61_clicked();
+
+    void on_hizlitoolButton62_clicked();
+
+    void on_hizlitoolButton63_clicked();
+
+    void on_hizlitoolButton64_clicked();
+
+    void on_hizlitoolButton65_clicked();
+
+    void on_hizlitoolButton66_clicked();
+
+    void on_hizlitoolButton67_clicked();
+
+    void on_hizlitoolButton68_clicked();
+
+    void on_hizlitoolButton69_clicked();
+
+    void on_hizlitoolButton70_clicked();
+
+    void on_hizlitoolButton71_clicked();
+
+    void on_hizlitoolButton72_clicked();
+
+    void on_hizlitoolButton73_clicked();
+
+    void on_hizlitoolButton74_clicked();
+
+    void on_hizlitoolButton75_clicked();
+
+    void on_hizlitoolButton76_clicked();
+
+    void on_hizlitoolButton77_clicked();
+
+    void on_hizlitoolButton78_clicked();
+
+    void on_hizlitoolButton79_clicked();
+
+    void on_hizlitoolButton80_clicked();
+
+    void on_hizlitoolButton81_clicked();
+
+    void on_hizlitoolButton82_clicked();
+
+    void on_hizlitoolButton83_clicked();
+
+    void on_hizlitoolButton84_clicked();
+
+    void on_hizlitoolButton85_clicked();
+
+    void on_hizlitoolButton86_clicked();
+
+    void on_hizlitoolButton87_clicked();
+
+    void on_hizlitoolButton88_clicked();
+
+    void on_hizlitoolButton89_clicked();
+
+    void on_hizlitoolButton90_clicked();
+
+    void on_hizlitoolButton91_clicked();
+
+    void on_hizlitoolButton92_clicked();
+
+    void on_hizlitoolButton93_clicked();
+
+    void on_hizlitoolButton94_clicked();
+
+    void on_hizlitoolButton95_clicked();
+
+    void on_hizlitoolButton96_clicked();
+
+    void on_hizlitoolButton97_clicked();
+
+    void on_hizlitoolButton98_clicked();
+
+    void on_hizlitoolButton99_clicked();
+
+    void on_hizlitoolButton100_clicked();
+
+    void on_hizlitoolButton101_clicked();
+
+    void on_hizlitoolButton102_clicked();
+
+    void on_hizlitoolButton103_clicked();
+
+    void on_hizlitoolButton104_clicked();
+
+    void on_hizlitoolButton105_clicked();
+
+    void on_hizlitoolButton106_clicked();
+
+    void on_hizlitoolButton107_clicked();
+
+    void on_hizlitoolButton108_clicked();
+
+    void on_hizlitoolButton109_clicked();
+
+    void on_hizlitoolButton110_clicked();
+
+    void on_hizlitoolButton111_clicked();
+
+    void on_hizlitoolButton112_clicked();
+
+    void on_hizlitoolButton113_clicked();
+
+    void on_hizlitoolButton114_clicked();
+
+    void on_hizlitoolButton115_clicked();
+
+    void on_hizlitoolButton116_clicked();
+
+    void on_hizlitoolButton117_clicked();
+
+    void on_hizlitoolButton118_clicked();
+
+    void on_hizlitoolButton119_clicked();
+
+    void on_hizlitoolButton120_clicked();
+
+    void on_hizlitoolButton121_clicked();
+
+    void on_hizlitoolButton122_clicked();
+
+    void on_hizlitoolButton123_clicked();
+
+    void on_hizlitoolButton124_clicked();
+
+    void on_hizlitoolButton125_clicked();
+
+    void on_hizlitoolButton126_clicked();
+
+    void on_hizlitoolButton127_clicked();
+
+    void on_hizlitoolButton128_clicked();
+
+    void on_hizlitoolButton129_clicked();
+
+    void on_hizlitoolButton130_clicked();
+
+    void on_hizlitoolButton131_clicked();
+
+    void on_hizlitoolButton132_clicked();
+
+    void on_hizlitoolButton133_clicked();
+
+    void on_hizlitoolButton134_clicked();
+
+    void on_hizlitoolButton135_clicked();
+
+    void on_hizlitoolButton136_clicked();
+
+    void on_hizlitoolButton137_clicked();
+
+    void on_hizlitoolButton138_clicked();
+
+    void on_hizlitoolButton139_clicked();
+
+    void on_hizlitoolButton140_clicked();
+
+    void on_hizlitoolButton141_clicked();
+
+    void on_hizlitoolButton142_clicked();
+
+    void on_hizlitoolButton143_clicked();
+
+    void on_hizlitoolButton144_clicked();
+
+    void on_hizlitoolButton145_clicked();
+
+    void on_hizlitoolButton146_clicked();
+
+    void on_hizlitoolButton147_clicked();
+
+    void on_hizlitoolButton148_clicked();
+
+    void on_hizlitoolButton149_clicked();
+
+    void on_hizlitoolButton150_clicked();
+
 private:
     Ui::SatisForm *ui;
 };
