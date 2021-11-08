@@ -1937,7 +1937,7 @@ void SatisForm::slotCustomContextMenuRequested(QPoint position)
 {
     position = QCursor::pos();
     QMenu * hizliButonMenu = new QMenu(this);
-    QAction *ekle = new QAction("EKLE", this);
+    QAction *ekle = new QAction("ÜRÜN EKLE", this);
     ekle->setIcon(QIcon(":/images/ui/plus.png"));
     hizliButonMenu->addAction(ekle);
     connect(ekle, SIGNAL(triggered()), this, SLOT(ekleAction()));
