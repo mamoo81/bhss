@@ -444,6 +444,15 @@ QSqlQueryModel *Veritabani::getStokKartlari()
     return model;
 }
 
+QSqlQueryModel *Veritabani::getStokKartlari(QString query)
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setHeaderData(0, Qt::Horizontal, "Barkod");
+    model->setHeaderData(1, Qt::Horizontal, "Ürün Adı");
+    model->setQuery(query, db);
+    return model;
+}
+
 QStringList Veritabani::stokGruplariGetir()
 {
     sorgu.exec("SELECT grup FROM stokgruplari");

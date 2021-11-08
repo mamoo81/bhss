@@ -6,6 +6,7 @@
 #include "satisyapform.h"
 #include "veritabani.h"
 #include "kgform.h"
+#include "hizliurunekleformdialog.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -13,6 +14,10 @@
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QMenu>
+#include <QAction>
+#include <QSettings>
+#include <QStandardPaths>
 
 User kullanici;
 Sepet sepet[4];
@@ -26,7 +31,6 @@ SatisForm::SatisForm(QWidget *parent) :
     ui(new Ui::SatisForm)
 {
     ui->setupUi(this);
-
     formLoad();
 }
 
@@ -44,11 +48,13 @@ void SatisForm::setUser(User user)
 void SatisForm::formLoad()
 {
     initTableWidgets();
+    hizliButonConnects();
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
     getSonSatislar();
+    hizliUrunButonlariAyarla();
     ui->barkodLineEdit->setFocus();
 
 }
@@ -88,6 +94,164 @@ void SatisForm::initTableWidgets()
     ui->sepet4TableWidget->setColumnWidth(3,88);
     ui->sepet4TableWidget->setColumnWidth(4,60);
     ui->sepet4TableWidget->setColumnWidth(5,100);
+}
+
+void SatisForm::hizliButonConnects()
+{
+    for (int i = 1; i < 151; ++i) {
+        QToolButton *btn = this->findChild<QToolButton*>("hizlitoolButton" + QString::number(i));
+        connect(btn, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotCustomContextMenuRequested(QPoint)));
+    }
+    ui->hizlitoolButton1->installEventFilter(this);
+    ui->hizlitoolButton2->installEventFilter(this);
+    ui->hizlitoolButton3->installEventFilter(this);
+    ui->hizlitoolButton4->installEventFilter(this);
+    ui->hizlitoolButton5->installEventFilter(this);
+    ui->hizlitoolButton6->installEventFilter(this);
+    ui->hizlitoolButton7->installEventFilter(this);
+    ui->hizlitoolButton8->installEventFilter(this);
+    ui->hizlitoolButton9->installEventFilter(this);
+    ui->hizlitoolButton10->installEventFilter(this);
+    ui->hizlitoolButton11->installEventFilter(this);
+    ui->hizlitoolButton12->installEventFilter(this);
+    ui->hizlitoolButton13->installEventFilter(this);
+    ui->hizlitoolButton14->installEventFilter(this);
+    ui->hizlitoolButton15->installEventFilter(this);
+    ui->hizlitoolButton16->installEventFilter(this);
+    ui->hizlitoolButton17->installEventFilter(this);
+    ui->hizlitoolButton18->installEventFilter(this);
+    ui->hizlitoolButton19->installEventFilter(this);
+    ui->hizlitoolButton20->installEventFilter(this);
+    ui->hizlitoolButton21->installEventFilter(this);
+    ui->hizlitoolButton22->installEventFilter(this);
+    ui->hizlitoolButton23->installEventFilter(this);
+    ui->hizlitoolButton24->installEventFilter(this);
+    ui->hizlitoolButton25->installEventFilter(this);
+    ui->hizlitoolButton26->installEventFilter(this);
+    ui->hizlitoolButton27->installEventFilter(this);
+    ui->hizlitoolButton28->installEventFilter(this);
+    ui->hizlitoolButton29->installEventFilter(this);
+    ui->hizlitoolButton30->installEventFilter(this);
+    ui->hizlitoolButton31->installEventFilter(this);
+    ui->hizlitoolButton32->installEventFilter(this);
+    ui->hizlitoolButton33->installEventFilter(this);
+    ui->hizlitoolButton34->installEventFilter(this);
+    ui->hizlitoolButton35->installEventFilter(this);
+    ui->hizlitoolButton36->installEventFilter(this);
+    ui->hizlitoolButton37->installEventFilter(this);
+    ui->hizlitoolButton38->installEventFilter(this);
+    ui->hizlitoolButton39->installEventFilter(this);
+    ui->hizlitoolButton40->installEventFilter(this);
+    ui->hizlitoolButton41->installEventFilter(this);
+    ui->hizlitoolButton42->installEventFilter(this);
+    ui->hizlitoolButton43->installEventFilter(this);
+    ui->hizlitoolButton44->installEventFilter(this);
+    ui->hizlitoolButton45->installEventFilter(this);
+    ui->hizlitoolButton46->installEventFilter(this);
+    ui->hizlitoolButton47->installEventFilter(this);
+    ui->hizlitoolButton48->installEventFilter(this);
+    ui->hizlitoolButton49->installEventFilter(this);
+    ui->hizlitoolButton50->installEventFilter(this);
+    ui->hizlitoolButton51->installEventFilter(this);
+    ui->hizlitoolButton52->installEventFilter(this);
+    ui->hizlitoolButton53->installEventFilter(this);
+    ui->hizlitoolButton54->installEventFilter(this);
+    ui->hizlitoolButton55->installEventFilter(this);
+    ui->hizlitoolButton56->installEventFilter(this);
+    ui->hizlitoolButton57->installEventFilter(this);
+    ui->hizlitoolButton58->installEventFilter(this);
+    ui->hizlitoolButton59->installEventFilter(this);
+    ui->hizlitoolButton60->installEventFilter(this);
+    ui->hizlitoolButton61->installEventFilter(this);
+    ui->hizlitoolButton62->installEventFilter(this);
+    ui->hizlitoolButton63->installEventFilter(this);
+    ui->hizlitoolButton64->installEventFilter(this);
+    ui->hizlitoolButton65->installEventFilter(this);
+    ui->hizlitoolButton66->installEventFilter(this);
+    ui->hizlitoolButton67->installEventFilter(this);
+    ui->hizlitoolButton68->installEventFilter(this);
+    ui->hizlitoolButton69->installEventFilter(this);
+    ui->hizlitoolButton70->installEventFilter(this);
+    ui->hizlitoolButton71->installEventFilter(this);
+    ui->hizlitoolButton72->installEventFilter(this);
+    ui->hizlitoolButton73->installEventFilter(this);
+    ui->hizlitoolButton74->installEventFilter(this);
+    ui->hizlitoolButton75->installEventFilter(this);
+    ui->hizlitoolButton76->installEventFilter(this);
+    ui->hizlitoolButton77->installEventFilter(this);
+    ui->hizlitoolButton78->installEventFilter(this);
+    ui->hizlitoolButton79->installEventFilter(this);
+    ui->hizlitoolButton80->installEventFilter(this);
+    ui->hizlitoolButton81->installEventFilter(this);
+    ui->hizlitoolButton82->installEventFilter(this);
+    ui->hizlitoolButton83->installEventFilter(this);
+    ui->hizlitoolButton84->installEventFilter(this);
+    ui->hizlitoolButton85->installEventFilter(this);
+    ui->hizlitoolButton86->installEventFilter(this);
+    ui->hizlitoolButton87->installEventFilter(this);
+    ui->hizlitoolButton88->installEventFilter(this);
+    ui->hizlitoolButton89->installEventFilter(this);
+    ui->hizlitoolButton90->installEventFilter(this);
+    ui->hizlitoolButton91->installEventFilter(this);
+    ui->hizlitoolButton92->installEventFilter(this);
+    ui->hizlitoolButton93->installEventFilter(this);
+    ui->hizlitoolButton94->installEventFilter(this);
+    ui->hizlitoolButton95->installEventFilter(this);
+    ui->hizlitoolButton96->installEventFilter(this);
+    ui->hizlitoolButton97->installEventFilter(this);
+    ui->hizlitoolButton98->installEventFilter(this);
+    ui->hizlitoolButton99->installEventFilter(this);
+    ui->hizlitoolButton100->installEventFilter(this);
+    ui->hizlitoolButton101->installEventFilter(this);
+    ui->hizlitoolButton102->installEventFilter(this);
+    ui->hizlitoolButton103->installEventFilter(this);
+    ui->hizlitoolButton104->installEventFilter(this);
+    ui->hizlitoolButton105->installEventFilter(this);
+    ui->hizlitoolButton106->installEventFilter(this);
+    ui->hizlitoolButton107->installEventFilter(this);
+    ui->hizlitoolButton108->installEventFilter(this);
+    ui->hizlitoolButton109->installEventFilter(this);
+    ui->hizlitoolButton110->installEventFilter(this);
+    ui->hizlitoolButton111->installEventFilter(this);
+    ui->hizlitoolButton112->installEventFilter(this);
+    ui->hizlitoolButton113->installEventFilter(this);
+    ui->hizlitoolButton114->installEventFilter(this);
+    ui->hizlitoolButton115->installEventFilter(this);
+    ui->hizlitoolButton116->installEventFilter(this);
+    ui->hizlitoolButton117->installEventFilter(this);
+    ui->hizlitoolButton118->installEventFilter(this);
+    ui->hizlitoolButton119->installEventFilter(this);
+    ui->hizlitoolButton120->installEventFilter(this);
+    ui->hizlitoolButton121->installEventFilter(this);
+    ui->hizlitoolButton122->installEventFilter(this);
+    ui->hizlitoolButton123->installEventFilter(this);
+    ui->hizlitoolButton124->installEventFilter(this);
+    ui->hizlitoolButton125->installEventFilter(this);
+    ui->hizlitoolButton126->installEventFilter(this);
+    ui->hizlitoolButton127->installEventFilter(this);
+    ui->hizlitoolButton128->installEventFilter(this);
+    ui->hizlitoolButton129->installEventFilter(this);
+    ui->hizlitoolButton130->installEventFilter(this);
+    ui->hizlitoolButton131->installEventFilter(this);
+    ui->hizlitoolButton132->installEventFilter(this);
+    ui->hizlitoolButton133->installEventFilter(this);
+    ui->hizlitoolButton134->installEventFilter(this);
+    ui->hizlitoolButton135->installEventFilter(this);
+    ui->hizlitoolButton136->installEventFilter(this);
+    ui->hizlitoolButton137->installEventFilter(this);
+    ui->hizlitoolButton138->installEventFilter(this);
+    ui->hizlitoolButton139->installEventFilter(this);
+    ui->hizlitoolButton140->installEventFilter(this);
+    ui->hizlitoolButton141->installEventFilter(this);
+    ui->hizlitoolButton142->installEventFilter(this);
+    ui->hizlitoolButton143->installEventFilter(this);
+    ui->hizlitoolButton144->installEventFilter(this);
+    ui->hizlitoolButton145->installEventFilter(this);
+    ui->hizlitoolButton146->installEventFilter(this);
+    ui->hizlitoolButton147->installEventFilter(this);
+    ui->hizlitoolButton148->installEventFilter(this);
+    ui->hizlitoolButton149->installEventFilter(this);
+    ui->hizlitoolButton150->installEventFilter(this);
 }
 
 void SatisForm::sepeteEkle()
@@ -258,6 +422,1506 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
         }
         return false;
     }
+    else if(ui->hizlitoolButton1 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton2 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton3 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton4 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton5 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton6 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton7 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton8 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton9 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton10 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton11 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton12 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton13 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton14 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton15 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton16 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton17 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton18 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton19 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton20 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton21 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton22 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton23 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton24 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton25 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton26 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton27 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton28 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton29 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton30 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton31 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton32 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton33 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton34 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton35 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton36 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton37 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton38 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton39 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton40 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton41 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton42 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton43 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton44 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton45 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton46 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton47 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton48 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton49 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton50 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton51 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton52 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton53 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton54 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton55 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton56 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton57 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton58 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton59 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton60 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton61 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton62 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton63 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton64 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton65 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton66 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton67 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton68 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton69 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton70 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton71 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton72 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton73 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton74 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton75 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton76 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton77 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton78 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton79 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton80 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton81 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton82 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton83 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton84 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton85 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton86 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton87 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton88 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton89 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton90 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton91 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton92 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton93 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton94 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton95 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton96 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton97 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton98 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton99 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton100 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton101 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton102 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton103 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton104 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton105 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton106 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton107 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton108 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton109 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton110 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton111 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton112 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton113 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton114 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton115 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton116 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton117 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton118 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton119 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton120 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton121 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton122 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton123 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton124 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton125 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton126 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton127 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton128 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton129 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton130 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton131 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton132 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton133 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton134 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton135 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton136 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton137 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton138 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton139 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton140 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton141 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton142 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton143 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton144 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton145 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton146 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton147 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton148 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton149 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    else if(ui->hizlitoolButton150 == filtrelenecekObject){
+        if(event->type() == QEvent::MouseButtonPress){
+            QMouseEvent *mEvent = static_cast<QMouseEvent*>(event);
+            if(mEvent->button() == Qt::RightButton){
+                hizliEklenecekButon = static_cast<QToolButton*>(filtrelenecekObject);
+                return true;
+            }
+        }
+        return false;
+    }
     return SatisForm::eventFilter(filtrelenecekObject, event);
 }
 
@@ -267,6 +1931,61 @@ void SatisForm::getSonSatislar()
     ui->SonSatislarlistWidget->clear();
     ui->SonSatislarlistWidget->addItems(vt_satis->getSonIslemler());
     ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
+}
+
+void SatisForm::slotCustomContextMenuRequested(QPoint position)
+{
+    position = QCursor::pos();
+    QMenu * hizliButonMenu = new QMenu(this);
+    QAction *ekle = new QAction("EKLE", this);
+    hizliButonMenu->addAction(ekle);
+    connect(ekle, SIGNAL(triggered()), this, SLOT(ekleAction()));
+    QAction *sil = new QAction("SİL", this);
+    hizliButonMenu->addSeparator();
+    hizliButonMenu->addAction(sil);
+    connect(sil, SIGNAL(triggered()), this, SLOT(silAction()));
+    hizliButonMenu->popup(position);
+}
+
+void SatisForm::hizliUrunButonlariAyarla()
+{
+    QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
+    foreach (QString butonName, hizliButonBarkodlar.childGroups()) {
+        QToolButton *btn = this->findChild<QToolButton*>(butonName);
+        hizliButonBarkodlar.beginGroup(butonName);
+        btn->setText(hizliButonBarkodlar.value("ad").toString());
+        btn->setWhatsThis(hizliButonBarkodlar.value("barkod").toString());
+        hizliButonBarkodlar.endGroup();
+    }
+}
+
+void SatisForm::ekleAction()
+{
+    HizliUrunEkleFormDialog *hizliDialog = new HizliUrunEkleFormDialog(this);
+    hizliDialog->exec();
+    if(hizliDialog->ok){
+        // hizlibutonlar.ini dosyasına kayıt etme başlangıcı
+        QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
+        hizliButonBarkodlar.beginGroup(hizliEklenecekButon->objectName());
+        hizliButonBarkodlar.setValue("ad", hizliDialog->hizliUrunAd);
+        hizliButonBarkodlar.setValue("barkod", hizliDialog->hizliUrunBarkod);
+        hizliButonBarkodlar.endGroup();
+        // hizlibutonlar.ini dosyasına kayıt etme bitiş.
+
+        // static_cast edilmiş butonun textini ve whatthis değiştirme başlangıcı.
+        hizliEklenecekButon->setText(hizliDialog->hizliUrunAd);
+        hizliEklenecekButon->setWhatsThis(hizliDialog->hizliUrunBarkod);
+    }
+}
+
+void SatisForm::silAction()
+{
+    QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
+    hizliButonBarkodlar.remove(hizliEklenecekButon->objectName());
+    hizliEklenecekButon->setText("Ürün Adı");
+    hizliEklenecekButon->setWhatsThis("");
+    QIcon icon(":/images/ui/box.png");
+    hizliEklenecekButon->setIcon(icon);
 }
 
 void SatisForm::keyPressEvent(QKeyEvent *event)
@@ -773,5 +2492,605 @@ void SatisForm::on_satisYapBtn_clicked()
 void SatisForm::on_SatisiGosterpushButton_clicked()
 {
     ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_hizlitoolButton1_clicked()
+{
+    if(!ui->hizlitoolButton1->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton1->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton2_clicked()
+{
+    if(!ui->hizlitoolButton2->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton2->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton3_clicked()
+{
+    if(!ui->hizlitoolButton3->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton3->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton4_clicked()
+{
+    if(!ui->hizlitoolButton4->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton4->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton5_clicked()
+{
+    if(!ui->hizlitoolButton5->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton5->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton6_clicked()
+{
+    if(!ui->hizlitoolButton6->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton6->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton7_clicked()
+{
+    if(!ui->hizlitoolButton7->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton7->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton8_clicked()
+{
+    if(!ui->hizlitoolButton8->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton8->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton9_clicked()
+{
+    if(!ui->hizlitoolButton9->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton9->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton10_clicked()
+{
+    if(!ui->hizlitoolButton10->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton10->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton11_clicked()
+{
+    if(!ui->hizlitoolButton11->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton11->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton12_clicked()
+{
+    if(!ui->hizlitoolButton12->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton12->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton13_clicked()
+{
+    if(!ui->hizlitoolButton13->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton13->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton14_clicked()
+{
+    if(!ui->hizlitoolButton14->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton14->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton15_clicked()
+{
+    if(!ui->hizlitoolButton15->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton15->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton16_clicked()
+{
+    if(!ui->hizlitoolButton16->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton16->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton17_clicked()
+{
+    if(!ui->hizlitoolButton17->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton17->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton18_clicked()
+{
+    if(!ui->hizlitoolButton18->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton18->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton19_clicked()
+{
+    if(!ui->hizlitoolButton19->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton19->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton20_clicked()
+{
+    if(!ui->hizlitoolButton20->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton20->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton21_clicked()
+{
+    if(!ui->hizlitoolButton21->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton21->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton22_clicked()
+{
+    if(!ui->hizlitoolButton22->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton22->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton23_clicked()
+{
+    if(!ui->hizlitoolButton23->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton23->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton24_clicked()
+{
+    if(!ui->hizlitoolButton24->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton24->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton25_clicked()
+{
+    if(!ui->hizlitoolButton25->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton25->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton26_clicked()
+{
+    if(!ui->hizlitoolButton26->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton26->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton27_clicked()
+{
+    if(!ui->hizlitoolButton27->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton27->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton28_clicked()
+{
+    if(!ui->hizlitoolButton28->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton28->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton29_clicked()
+{
+    if(!ui->hizlitoolButton29->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton29->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton30_clicked()
+{
+    if(!ui->hizlitoolButton30->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton30->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton31_clicked()
+{
+    if(!ui->hizlitoolButton31->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton31->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton32_clicked()
+{
+    if(!ui->hizlitoolButton32->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton32->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton33_clicked()
+{
+    if(!ui->hizlitoolButton33->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton33->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton34_clicked()
+{
+    if(!ui->hizlitoolButton34->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton34->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton35_clicked()
+{
+    if(!ui->hizlitoolButton35->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton35->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton36_clicked()
+{
+    if(!ui->hizlitoolButton36->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton36->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton37_clicked()
+{
+    if(!ui->hizlitoolButton37->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton37->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton38_clicked()
+{
+    if(!ui->hizlitoolButton38->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton38->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton39_clicked()
+{
+    if(!ui->hizlitoolButton39->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton39->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton40_clicked()
+{
+    if(!ui->hizlitoolButton40->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton40->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton41_clicked()
+{
+    if(!ui->hizlitoolButton41->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton41->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton42_clicked()
+{
+    if(!ui->hizlitoolButton42->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton42->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton43_clicked()
+{
+    if(!ui->hizlitoolButton43->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton43->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton44_clicked()
+{
+    if(!ui->hizlitoolButton44->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton44->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton45_clicked()
+{
+    if(!ui->hizlitoolButton45->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton45->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton46_clicked()
+{
+    if(!ui->hizlitoolButton46->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton46->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton47_clicked()
+{
+    if(!ui->hizlitoolButton47->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton47->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton48_clicked()
+{
+    if(!ui->hizlitoolButton48->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton48->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton49_clicked()
+{
+    if(!ui->hizlitoolButton49->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton49->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton50_clicked()
+{
+    if(!ui->hizlitoolButton50->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton50->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton51_clicked()
+{
+    if(!ui->hizlitoolButton51->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton51->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton52_clicked()
+{
+    if(!ui->hizlitoolButton52->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton52->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton53_clicked()
+{
+    if(!ui->hizlitoolButton53->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton53->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton54_clicked()
+{
+    if(!ui->hizlitoolButton54->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton54->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton55_clicked()
+{
+    if(!ui->hizlitoolButton55->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton55->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton56_clicked()
+{
+    if(!ui->hizlitoolButton56->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton56->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton57_clicked()
+{
+    if(!ui->hizlitoolButton57->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton57->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton58_clicked()
+{
+    if(!ui->hizlitoolButton58->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton58->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton59_clicked()
+{
+    if(!ui->hizlitoolButton59->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton59->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
+}
+
+
+void SatisForm::on_hizlitoolButton60_clicked()
+{
+    if(!ui->hizlitoolButton60->whatsThis().isEmpty()){
+        ui->barkodLineEdit->setText(ui->hizlitoolButton60->whatsThis());
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+    }
 }
 

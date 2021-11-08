@@ -2,7 +2,7 @@
 #include "ui_satisyapform.h"
 #include "satisform.h"
 #include "sepet.h"
-
+//***************************
 #include <QString>
 #include <QCompleter>
 #include <QDebug>

@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
     a.setOrganizationName("milis");
     a.setApplicationName("mhss");
     // program birden fazla çalışmaması için kontrol
-    QSharedMemory shared(QApplication::applicationName());
+//    QSharedMemory shared(QApplication::applicationName());
+    QSharedMemory shared("dfjvs32232g-as5fa23sd23a-asd22ef");
     if(!shared.create(512, QSharedMemory::ReadWrite)){
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");

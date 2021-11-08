@@ -703,7 +703,7 @@ color: rgb(0, 170, 0);</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -717,6 +717,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -744,6 +747,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -769,6 +775,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -796,6 +805,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -821,6 +833,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -848,6 +863,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -873,6 +891,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -900,6 +921,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -925,6 +949,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -952,6 +979,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -977,6 +1007,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1004,6 +1037,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1029,6 +1065,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1056,6 +1095,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1081,6 +1123,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1108,6 +1153,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1133,6 +1181,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1160,6 +1211,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1185,6 +1239,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1212,6 +1269,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1237,6 +1297,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1264,6 +1327,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1289,6 +1355,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1316,6 +1385,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1341,6 +1413,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1368,6 +1443,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1393,6 +1471,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1420,6 +1501,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1446,6 +1530,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün adı</string>
      </property>
@@ -1471,6 +1558,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün adı</string>
@@ -1503,6 +1593,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1528,6 +1621,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1555,6 +1651,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1580,6 +1679,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1607,6 +1709,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1632,6 +1737,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1659,6 +1767,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1684,6 +1795,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1711,6 +1825,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1736,6 +1853,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1763,6 +1883,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1788,6 +1911,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1815,6 +1941,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1840,6 +1969,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1867,6 +1999,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1892,6 +2027,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1919,6 +2057,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1944,6 +2085,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -1971,6 +2115,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -1996,6 +2143,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2023,6 +2173,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2048,6 +2201,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2075,6 +2231,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2100,6 +2259,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2127,6 +2289,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2152,6 +2317,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2179,6 +2347,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2204,6 +2375,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2231,6 +2405,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2256,6 +2433,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2288,6 +2468,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2313,6 +2496,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2340,6 +2526,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2365,6 +2554,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2392,6 +2584,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2417,6 +2612,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2444,6 +2642,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2469,6 +2670,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2496,6 +2700,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2521,6 +2728,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2548,6 +2758,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2573,6 +2786,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2600,6 +2816,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2625,6 +2844,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2652,6 +2874,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2677,6 +2902,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2704,6 +2932,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2729,6 +2960,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2756,6 +2990,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2781,6 +3018,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2808,6 +3048,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2833,6 +3076,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2860,6 +3106,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2885,6 +3134,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2912,6 +3164,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2937,6 +3192,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -2964,6 +3222,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -2989,6 +3250,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3016,6 +3280,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3041,6 +3308,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3073,6 +3343,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3098,6 +3371,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3125,6 +3401,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3150,6 +3429,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3177,6 +3459,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3202,6 +3487,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3229,6 +3517,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3254,6 +3545,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3281,6 +3575,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3306,6 +3603,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3333,6 +3633,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3358,6 +3661,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3385,6 +3691,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3410,6 +3719,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3437,6 +3749,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3462,6 +3777,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3489,6 +3807,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3514,6 +3835,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3541,6 +3865,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3566,6 +3893,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3593,6 +3923,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3618,6 +3951,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3645,6 +3981,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3670,6 +4009,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3697,6 +4039,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3722,6 +4067,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3749,6 +4097,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3774,6 +4125,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3801,6 +4155,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3826,6 +4183,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3858,6 +4218,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3883,6 +4246,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3910,6 +4276,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3935,6 +4304,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -3962,6 +4334,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -3987,6 +4362,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4014,6 +4392,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4039,6 +4420,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4066,6 +4450,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4091,6 +4478,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4118,6 +4508,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4143,6 +4536,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4170,6 +4566,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4195,6 +4594,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4222,6 +4624,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4247,6 +4652,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4274,6 +4682,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4299,6 +4710,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4326,6 +4740,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4351,6 +4768,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4378,6 +4798,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4403,6 +4826,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4430,6 +4856,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4455,6 +4884,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4482,6 +4914,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4507,6 +4942,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4534,6 +4972,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4559,6 +5000,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4586,6 +5030,9 @@ color: rgb(0, 170, 0);</string>
        <height>61</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="text">
       <string>Ürün Adı</string>
      </property>
@@ -4611,6 +5058,9 @@ color: rgb(0, 170, 0);</string>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
      </property>
      <property name="text">
       <string>Ürün Adı</string>
@@ -4742,7 +5192,7 @@ color: rgb(0, 170, 0);</string>
      <string notr="true">color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
-     <string>9999</string>
+     <string>0</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
