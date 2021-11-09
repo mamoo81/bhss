@@ -7,6 +7,7 @@
 #include "veritabani.h"
 #include "kgform.h"
 #include "hizliurunekleformdialog.h"
+#include "fiyatgorform.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -64,6 +65,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
     StokFrom *stokKartiFormu = new StokFrom(this);
     stokKartiFormu->setUser(kullanici);
     stokKartiFormu->exec();
+    ui->barkodLineEdit->setFocus();
 }
 
 void SatisForm::initTableWidgets()
@@ -417,6 +419,12 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                     int currentIndex = ui->SepetlertabWidget->currentIndex();
                     ui->SepetlertabWidget->setCurrentIndex(currentIndex + 1);
                 }
+                return true;
+            }
+            if(keyEvent->key() == Qt::Key_F){
+                FiyatGorForm *fiyatForm = new FiyatGorForm(this);
+                fiyatForm->exec();
+                delete fiyatForm;
                 return true;
             }
         }
@@ -1941,11 +1949,23 @@ void SatisForm::slotCustomContextMenuRequested(QPoint position)
     ekle->setIcon(QIcon(":/images/ui/plus.png"));
     hizliButonMenu->addAction(ekle);
     connect(ekle, SIGNAL(triggered()), this, SLOT(ekleAction()));
+    if(hizliEklenecekButon->whatsThis().isEmpty()){
+        ekle->setEnabled(true);
+    }
+    else{
+        ekle->setEnabled(false);
+    }
     QAction *sil = new QAction("SİL", this);
     sil->setIcon(QIcon(":/images/ui/negative.png"));
     hizliButonMenu->addSeparator();
     hizliButonMenu->addAction(sil);
     connect(sil, SIGNAL(triggered()), this, SLOT(silAction()));
+    if(!hizliEklenecekButon->whatsThis().isEmpty()){
+        sil->setEnabled(true);
+    }
+    else{
+        sil->setEnabled(false);
+    }
     hizliButonMenu->popup(position);
 }
 
@@ -2043,6 +2063,13 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
     }
     else if(event->key() == Qt::Key_F9){
         SatisForm::on_StokKartlariBtn_clicked();
+    }
+    else if(event->key() == Qt::Key_F)
+    {
+        FiyatGorForm *fiyatForm = new FiyatGorForm(this);
+        fiyatForm->exec();
+        ui->barkodLineEdit->setFocus();;
+        delete fiyatForm;
     }
 }
 

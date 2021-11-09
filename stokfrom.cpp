@@ -207,7 +207,7 @@ void StokFrom::on_KaydetBtn_clicked()
 
         StokKarti *yeniStokKarti = new StokKarti();
         yeniStokKarti->setBarkod(ui->BarkodLnEdit->text());
-        yeniStokKarti->setAd(ui->StokAdiLnEdit->text());
+        yeniStokKarti->setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
         yeniStokKarti->setBirim(ui->BirimiComboBox->currentText());
         yeniStokKarti->setMiktar(ui->MiktarLnEdit->text().toFloat());
         yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());
@@ -215,7 +215,7 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti->setSFiyat(ui->SFiyatdoubleSpinBox->value());
         yeniStokKarti->setKdv(0);
         yeniStokKarti->setTarih(QDateTime::currentDateTime());
-        yeniStokKarti->setAciklama("stok kartı oluşturuldu");
+        yeniStokKarti->setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
         vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
     }
     else if(ui->DuzenleBtn->isEnabled()){// duzenlebtn aktifse mevcut stok kartını günceller.
@@ -225,7 +225,7 @@ void StokFrom::on_KaydetBtn_clicked()
         QString duzenlenecekStokKartiID(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
         StokKarti *yeniStokKarti = new StokKarti();
         yeniStokKarti->setBarkod(ui->BarkodLnEdit->text());
-        yeniStokKarti->setAd(ui->StokAdiLnEdit->text());
+        yeniStokKarti->setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
         yeniStokKarti->setBirim(ui->BirimiComboBox->currentText());
         yeniStokKarti->setMiktar(ui->MiktarLnEdit->text().toFloat());
         yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());

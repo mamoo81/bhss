@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     cari.cpp \
+    cariform.cpp \
+    fiyatgorform.cpp \
     hizliurunekleformdialog.cpp \
     kgform.cpp \
     main.cpp \
@@ -26,6 +28,8 @@ SOURCES += \
 
 HEADERS += \
     cari.h \
+    cariform.h \
+    fiyatgorform.h \
     hizliurunekleformdialog.h \
     kgform.h \
     loginform.h \
@@ -40,6 +44,8 @@ HEADERS += \
     veritabani.h
 
 FORMS += \
+    cariform.ui \
+    fiyatgorform.ui \
     hizliurunekleformdialog.ui \
     kgform.ui \
     loginform.ui \
