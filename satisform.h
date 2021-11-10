@@ -38,6 +38,7 @@ public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
 
     void hizliUrunButonlariAyarla();
+    void getKasaPara();
 private slots:
     void on_StokKartlariBtn_clicked();
     void initTableWidgets();

@@ -91,15 +91,15 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>110</y>
      <width>201</width>
-     <height>31</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>18</pointsize>
+     <pointsize>24</pointsize>
     </font>
    </property>
    <property name="text">

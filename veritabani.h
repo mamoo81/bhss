@@ -45,6 +45,7 @@ public slots:
     QSqlQueryModel* getStokKartlari();
     QSqlQueryModel* getStokKartlari(QString query);
     QStringList stokGruplariGetir();
+    double getKasadakiPara();
 };
 
 #endif // VERITABANI_H

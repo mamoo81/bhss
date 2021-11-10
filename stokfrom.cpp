@@ -71,6 +71,8 @@ void StokFrom::stokKartlariniListele()
     Veritabani *vt = new Veritabani();
     ui->StokKartlaritableView->setModel(vt->getStokKartlari());
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
+    ui->StokKartlaritableView->setSortingEnabled(true);
+    ui->StokKartlaritableView->resizeColumnsToContents();
     QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
@@ -168,7 +170,8 @@ void StokFrom::alanlariDoldur()
     }
     ui->AFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 6).data().toDouble());
     ui->SFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 7).data().toDouble());
-    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toString());
+    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 8).data().toInt());
+    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toString());
 }
 
 void StokFrom::closeEvent(QCloseEvent *)
@@ -213,7 +216,7 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());
         yeniStokKarti->setAFiyat(ui->AFiyatdoubleSpinBox->value());
         yeniStokKarti->setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        yeniStokKarti->setKdv(0);
+        yeniStokKarti->setKdv(ui->KDVspinBox->value());
         yeniStokKarti->setTarih(QDateTime::currentDateTime());
         yeniStokKarti->setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
         vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
@@ -231,7 +234,7 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());
         yeniStokKarti->setAFiyat(ui->AFiyatdoubleSpinBox->value());
         yeniStokKarti->setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        yeniStokKarti->setKdv(0);
+        yeniStokKarti->setKdv(ui->KDVspinBox->value());
         yeniStokKarti->setTarih(QDateTime::currentDateTime());
         yeniStokKarti->setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);

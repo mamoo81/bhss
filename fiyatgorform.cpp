@@ -31,6 +31,9 @@ void FiyatGorForm::keyPressEvent(QKeyEvent *event)
             delete vt;
         }
     }
+    if(event->key() == Qt::Key_Escape){
+        this->close();
+    }
 }
 
 void FiyatGorForm::slotTimer()
