@@ -364,6 +364,8 @@ private slots:
 
     void on_hizlitoolButton150_clicked();
 
+    void on_HizliUrunlertabWidget_currentChanged(int index);
+
 private:
     Ui::SatisForm *ui;
 };

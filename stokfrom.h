@@ -55,6 +55,8 @@ private slots:
     void stokKartiAra(QString aranacakMetin);
 
     void on_araBtn_clicked();
+    void on_dosyadanToolButton_clicked();
+
 private:
     Ui::StokFrom *ui;
 

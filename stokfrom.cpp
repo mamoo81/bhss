@@ -317,3 +317,9 @@ void StokFrom::on_araBtn_clicked()
 
 
 
+
+void StokFrom::on_dosyadanToolButton_clicked()
+{
+
+}
+

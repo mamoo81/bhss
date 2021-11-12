@@ -26,7 +26,7 @@
    <string>STOK KARTLARI</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="images.qrc">
+   <iconset>
     <normaloff>:/images/ui/mhss.png</normaloff>:/images/ui/mhss.png</iconset>
   </property>
   <widget class="QLineEdit" name="AraLineEdit">
@@ -55,7 +55,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/back-100.png</normaloff>:/images/ui/back-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -78,7 +78,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/forward-100.png</normaloff>:/images/ui/forward-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -107,7 +107,7 @@
     <string>Satış Grafiği</string>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/chart-100.png</normaloff>:/images/ui/chart-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -133,7 +133,7 @@
     <string>Düzenle</string>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/edit-property-100.png</normaloff>:/images/ui/edit-property-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -159,7 +159,7 @@
     <string>Yeni</string>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/add-property-100.png</normaloff>:/images/ui/add-property-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -185,7 +185,7 @@
     <string>Sil</string>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/delete-document-100.png</normaloff>:/images/ui/delete-document-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -313,7 +313,7 @@
         <string>İptal</string>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
        </property>
        <property name="iconSize">
@@ -336,7 +336,7 @@
         <string>Kaydet</string>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
        </property>
        <property name="iconSize">
@@ -572,7 +572,7 @@
     <string>ARA</string>
    </property>
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset>
      <normaloff>:/images/ui/search-100.png</normaloff>:/images/ui/search-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -584,6 +584,84 @@
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>0</y>
+     <width>151</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>Stok kartı yükle</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <widget class="QToolButton" name="dosyadanToolButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Dosyadan yükle</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>64</width>
+      <height>64</height>
+     </size>
+    </property>
+    <property name="toolButtonStyle">
+     <enum>Qt::ToolButtonTextBesideIcon</enum>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="onlineToolButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Sunucudan yükle</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>64</width>
+      <height>64</height>
+     </size>
+    </property>
+    <property name="toolButtonStyle">
+     <enum>Qt::ToolButtonTextBesideIcon</enum>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>
@@ -611,8 +689,6 @@
   <tabstop>StokKartlaritableView</tabstop>
   <tabstop>araBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

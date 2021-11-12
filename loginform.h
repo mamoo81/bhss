@@ -1,6 +1,6 @@
 #ifndef LOGINFORM_H
 #define LOGINFORM_H
-#include "veritabani.h"
+
 //**********************
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -29,6 +29,5 @@ private slots:
 
 private:
     Ui::LoginForm *ui;
-    Veritabani vt;
 };
 #endif // LOGINFORM_H

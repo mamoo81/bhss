@@ -8,6 +8,7 @@
 #include "kgform.h"
 #include "hizliurunekleformdialog.h"
 #include "fiyatgorform.h"
+#include "satisgosterdialog.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -300,6 +301,7 @@ void SatisForm::on_SepetlertabWidget_currentChanged(int index)
 {
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
+    ui->barkodLineEdit->setFocus();
 }
 
 void SatisForm::sepetToplaminiYaz()
@@ -2534,6 +2536,11 @@ void SatisForm::getKasaPara()
 
 void SatisForm::on_SatisiGosterpushButton_clicked()
 {
+    QString gosterilecekSatis = ui->SonSatislarlistWidget->currentItem()->text();
+    SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
+    satisGosterForm->setSatisFaturaNo(gosterilecekSatis);
+    satisGosterForm->sepetiCek();
+    satisGosterForm->exec();
     ui->barkodLineEdit->setFocus();
 }
 #pragma region hizliurunbutonları click metodları {
@@ -3590,3 +3597,9 @@ void SatisForm::on_hizlitoolButton150_clicked()
     }
 }
 #pragma endregion}
+
+void SatisForm::on_HizliUrunlertabWidget_currentChanged(int index)
+{
+    ui->barkodLineEdit->setFocus();
+}
+

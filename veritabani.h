@@ -46,6 +46,7 @@ public slots:
     QSqlQueryModel* getStokKartlari(QString query);
     QStringList stokGruplariGetir();
     double getKasadakiPara();
+    Sepet getSatis(QString _faturaNo);
 };
 
 #endif // VERITABANI_H

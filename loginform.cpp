@@ -2,7 +2,8 @@
 #include "ui_loginform.h"
 #include "user.h"
 #include "satisform.h"
-
+#include "veritabani.h"
+//*******************************
 #include <QCloseEvent>
 
 
@@ -22,26 +23,12 @@ LoginForm::~LoginForm()
 
 void LoginForm::formLoad()
 {
-    if(vt.db.isDriverAvailable("QPSQL")){
-        if(vt.veritabaniVarmi()){
-            getUsers();
-        }
-    }
-    else{
-        QMessageBox msg(this);
-        msg.setText("Uyarı");
-        msg.setInformativeText("Postgresql servisini kontrol ediniz.");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setDefaultButton(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.setModal(true);
-        msg.exec();
-    }
+    getUsers();
 }
 
 void LoginForm::on_GirisBtn_clicked()
 {
+    Veritabani vt;
     if(vt.loginControl(ui->CmBoxUserName->currentText(), ui->LeditPass->text())){
         User u = vt.GetUserInfos(ui->CmBoxUserName->currentText());
         SatisForm *satis = new SatisForm();
@@ -68,6 +55,7 @@ void LoginForm::closeEvent(QCloseEvent *)
 
 void LoginForm::getUsers()
 {
+    Veritabani vt;
     QList<QString> kullanicilar = vt.GetUsers();
     foreach (QString item, kullanicilar) {
         ui->CmBoxUserName->addItem(item);

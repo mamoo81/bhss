@@ -150,23 +150,7 @@ bool Veritabani::veritabaniVarmi()
     //mhss_data veritabanı varmı kontrol
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
-        QMessageBox msg(0);
-        msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
-        msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Question);
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setDefaultButton(QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
-        int cevap = msg.exec();
-        switch (cevap) {
-        case QMessageBox::Yes:
-            veritabaniOlustur();
-            break;
-        case QMessageBox::No:
-            return false;
-            break;
-        }
+        return false;
     }
     else{
         db.setDatabaseName("mhss_data");
@@ -560,5 +544,19 @@ QStringList Veritabani::stokGruplariGetir()
         liste.append(sorgu.value(0).toString());
     }
     return liste;
+}
+
+Sepet Veritabani::getSatis(QString _faturaNo)
+{
+    Sepet satis;
+    QSqlQuery satisSorgu = QSqlQuery(db);
+    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama FROM stokhareketleri WHERE islem_no = ?");
+    satisSorgu.bindValue(0, _faturaNo);
+    satisSorgu.exec();
+    while (satisSorgu.next()) {
+        StokKarti sk = getStokKarti(satisSorgu.value(0).toString());
+        satis.urunEkle(sk, satisSorgu.value(3).toFloat());
+    }
+    return satis;
 }
 

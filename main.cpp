@@ -1,4 +1,5 @@
 #include "loginform.h"
+#include "veritabani.h"
 //***********************
 #include <QApplication>
 #include <QSqlDatabase>
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("mhss");
     // program birden fazla çalışmaması için kontrol
     // QSharedMemory shared(QApplication::applicationName());
-    QSharedMemory shared("dfjvs32232g-as5fa23sd23a-asd22ef");
+    QSharedMemory shared("dfjvs32232g-as5fa3sd23a-asd22ef");
     if(!shared.create(512, QSharedMemory::ReadWrite)){
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
@@ -58,6 +59,24 @@ int main(int argc, char *argv[])
         if(!db.open())
             qFatal("veritabanı bağlantı hatası: %s",
                 qPrintable(db.lastError().text()));
+        Veritabani vt;
+        if(!vt.veritabaniVarmi())
+        {
+            QMessageBox msg(0);
+            msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Question);
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::No);
+            msg.setButtonText(QMessageBox::Yes, "Evet");
+            msg.setButtonText(QMessageBox::No, "Hayır");
+            int cevap = msg.exec();
+            switch (cevap) {
+            case QMessageBox::Yes:
+                vt.veritabaniOlustur();
+                break;
+            }
+        }
         QTranslator translator;
         const QStringList uiLanguages = QLocale::system().uiLanguages();
         for (const QString &locale : uiLanguages) {
