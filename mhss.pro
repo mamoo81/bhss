@@ -16,6 +16,7 @@ SOURCES += \
     kgform.cpp \
     main.cpp \
     loginform.cpp \
+    paracekdialogform.cpp \
     satisform.cpp \
     satisgosterdialog.cpp \
     satisyapform.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     hizliurunekleformdialog.h \
     kgform.h \
     loginform.h \
+    paracekdialogform.h \
     satisform.h \
     satisgosterdialog.h \
     satisyapform.h \
@@ -51,6 +53,7 @@ FORMS += \
     hizliurunekleformdialog.ui \
     kgform.ui \
     loginform.ui \
+    paracekdialogform.ui \
     satisform.ui \
     satisgosterdialog.ui \
     satisyapform.ui \

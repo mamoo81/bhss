@@ -95,7 +95,7 @@
     <rect>
      <x>290</x>
      <y>10</y>
-     <width>131</width>
+     <width>91</width>
      <height>61</height>
     </rect>
    </property>
@@ -119,9 +119,9 @@
   <widget class="QToolButton" name="AyarlarBtn">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>390</x>
      <y>10</y>
-     <width>131</width>
+     <width>81</width>
      <height>61</height>
     </rect>
    </property>
@@ -6011,9 +6011,9 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>220</y>
+     <y>260</y>
      <width>171</width>
-     <height>331</height>
+     <height>291</height>
     </rect>
    </property>
    <property name="title">
@@ -6022,19 +6022,6 @@ color: rgb(0, 170, 0);</string>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QPushButton" name="SatisiGosterpushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>300</y>
-      <width>151</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Satışı göster</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
@@ -6164,6 +6151,32 @@ color: rgb(0, 170, 0);</string>
      </font>
     </property>
    </widget>
+  </widget>
+  <widget class="QToolButton" name="CikisToolBtn">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>81</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Çıkış</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/logout.png</normaloff>:/images/ui/logout.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
   </widget>
  </widget>
  <resources>

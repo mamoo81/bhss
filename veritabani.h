@@ -47,6 +47,7 @@ public slots:
     QStringList stokGruplariGetir();
     double getKasadakiPara();
     Sepet getSatis(QString _faturaNo);
+    void kasadanParaCek(double _cekilecekTutar, User _kullanici);
 };
 
 #endif // VERITABANI_H

@@ -9,6 +9,8 @@
 #include "hizliurunekleformdialog.h"
 #include "fiyatgorform.h"
 #include "satisgosterdialog.h"
+#include "loginform.h"
+#include "paracekdialogform.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -2534,15 +2536,6 @@ void SatisForm::getKasaPara()
     delete vt;
 }
 
-void SatisForm::on_SatisiGosterpushButton_clicked()
-{
-    QString gosterilecekSatis = ui->SonSatislarlistWidget->currentItem()->text();
-    SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
-    satisGosterForm->setSatisFaturaNo(gosterilecekSatis);
-    satisGosterForm->sepetiCek();
-    satisGosterForm->exec();
-    ui->barkodLineEdit->setFocus();
-}
 #pragma region hizliurunbutonları click metodları {
 
 
@@ -3601,5 +3594,43 @@ void SatisForm::on_hizlitoolButton150_clicked()
 void SatisForm::on_HizliUrunlertabWidget_currentChanged(int index)
 {
     ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    QString gosterilecekSatis = item->text();
+    SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
+    satisGosterForm->setSatisFaturaNo(gosterilecekSatis);
+    satisGosterForm->sepetiCek();
+    satisGosterForm->exec();
+    ui->barkodLineEdit->setFocus();
+    delete satisGosterForm;
+}
+
+
+void SatisForm::on_CikisToolBtn_clicked()
+{
+    QMessageBox msg;
+    msg.setWindowTitle("Kasa uyarısı");
+    msg.setIcon(QMessageBox::Question);
+    msg.setText("Kasadan para çekimi yapılsın mı?");
+    msg.setDefaultButton(QMessageBox::No);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setButtonText(QMessageBox::Yes, "Evet");
+    msg.setButtonText(QMessageBox::No, "Hayır");
+    int cevap = msg.exec();
+    if(QMessageBox::Yes == cevap){
+        Veritabani *vt = new Veritabani();
+        ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
+        paraCekForm->setKasadakiPara(vt->getKasadakiPara());
+        paraCekForm->setKull(kullanici);
+        paraCekForm->exec();
+        delete vt;
+    }
+
+    this->close();
+    LoginForm *lg = new LoginForm();
+    lg->show();
 }
 

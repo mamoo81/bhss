@@ -62,7 +62,6 @@ private slots:
     void on_satisYapBtn_clicked();
 
     double paraYuvarla(double _toplam);
-    void on_SatisiGosterpushButton_clicked();
 
     void on_hizlitoolButton1_clicked();
 
@@ -365,6 +364,10 @@ private slots:
     void on_hizlitoolButton150_clicked();
 
     void on_HizliUrunlertabWidget_currentChanged(int index);
+
+    void on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_CikisToolBtn_clicked();
 
 private:
     Ui::SatisForm *ui;
