@@ -7,3 +7,20 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 <p align="center">
   <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
 </p>
+
+### Stok kartları ekranı
+
+<p align="center">
+  <img alt="Stok kartları ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/src/branch/master/screenshots/stok-kartlari.png">
+</p>
+
+#### Klavye kısayolları
+
+* [F9]    -> Stok kartları sayfasını açar
+* [ENTER] -> Sepetin satış ekranını açar
+* [F]     -> Ürünün fiyatını görme
+* [+]     -> Sepette ki ürünün adetini artırır
+* [-]     -> Sepette ki ürünün adetini azaltır
+* [*]     -> Sepette ki ürünün adetini girilen değer kadar artırır.
+* [sol ve sağ yön tuşu] -> Sepetler arası geçiş yapar
+* [yukarı ve aşağı yön tuşu] -> Sepette seçili ürünü değiştirir.
