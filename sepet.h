@@ -24,6 +24,7 @@ public:
     void urunArtir(QString _Barkod, float _miktar);
     void urunAzalt(QString _Barkod, float _miktar);
     void urunSil(QString _Barkod);
+    void urunAdetCarp(QString _Barkod, float _miktar);
     void sepetiSil();
     bool urunSepetteVarmi(QString _Barkod);
     QHash<QString, Urun> sepetiGetir();

@@ -11,9 +11,11 @@
 #include <QKeyEvent>
 #include <QDateTime>
 #include <QModelIndex>
+#include <QSound>
 
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
+QSound uyariSes(":/sounds/sounds/warning-sound.wav");
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -79,7 +81,6 @@ void StokFrom::stokKartlariniListele()
     delete vt;
 }
 
-
 void StokFrom::on_YeniBtn_clicked()
 {
     if(!ui->stokKartBilGroupBox->isEnabled())
@@ -91,7 +92,6 @@ void StokFrom::on_YeniBtn_clicked()
         ui->BarkodLnEdit->setFocus();
     }
 }
-
 
 void StokFrom::on_DuzenleBtn_clicked()
 {
@@ -109,7 +109,14 @@ void StokFrom::on_DuzenleBtn_clicked()
         }
         else
         {
-            QMessageBox::information(this, "Uyarı", "Bir stok kartı seçiniz.",QMessageBox::Ok);
+            uyariSes.play();
+            QMessageBox msg;
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Bir stok kartı seçiniz.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
         }
         //QItemSelectionModel *select = ui->StokKartlaritableView->selectionModel();
         //if(select.hasSelection()){
@@ -183,7 +190,16 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape){
         if(ui->stokKartBilGroupBox->isEnabled()){
-            QMessageBox::StandardButton cevap = QMessageBox::question(this, "Uyarı", "Stok kartını düzenlemeyi bitirmediniz. Yinede çıkmak istiyormusunuz?", QMessageBox::Yes | QMessageBox::No);
+            uyariSes.play();
+            QMessageBox msg;
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Question);
+            msg.setText("Stok kartını düzenlemeyi bitirmediniz.\nYinede çıkmak istiyor musunuz?");
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::Yes);
+            msg.setButtonText(QMessageBox::Yes, "Evet");
+            msg.setButtonText(QMessageBox::No, "Hayır");
+            int cevap = msg.exec();
             if(QMessageBox::Yes == cevap){
                 this->close();
             }
@@ -252,8 +268,16 @@ void StokFrom::on_SilBtn_clicked()
     if(ui->StokKartlaritableView->currentIndex().row() != -1){
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
-        QString mesajMetni = seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString() + " nolu\n" + seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString() + " isimli stok kartını silmek istediğinize emin misiniz?";
-        QMessageBox::StandardButton cevap = QMessageBox::question(this, "Dikkat", mesajMetni, QMessageBox::Yes | QMessageBox::No);
+        uyariSes.play();
+        QMessageBox msg;
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setText(QString("%1 barkod numaralı \n%2 isimli stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).arg(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString()));
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::Yes);
+        int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
             Veritabani *vt = new Veritabani();
             vt->stokKartiSil(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
@@ -263,7 +287,15 @@ void StokFrom::on_SilBtn_clicked()
         }
     }
     else{
-        QMessageBox::information(this, "Uyarı", "Bir stok kartı seçiniz.", QMessageBox::Ok);
+        uyariSes.play();
+        QMessageBox msg;
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Bir stok kartı seçiniz");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
     }
 }
 
@@ -303,7 +335,15 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
         }
     }
     if(!bulundumu){
-        QMessageBox::warning(this, "Uyarı", "Stok kartı bulunamadı.", QMessageBox::Ok);
+        uyariSes.play();
+        QMessageBox msg;
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Stok kartı bulunamadı");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
         ui->StokKartlaritableView->clearSelection();
         StokFrom::alanlariTemizle();
     }

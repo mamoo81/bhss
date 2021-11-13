@@ -549,7 +549,7 @@ QStringList Veritabani::stokGruplariGetir()
 Sepet Veritabani::getSatis(QString _faturaNo)
 {
     Sepet satis;
-    QSqlQuery satisSorgu = QSqlQuery(db);
+    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
     satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama FROM stokhareketleri WHERE islem_no = ?");
     satisSorgu.bindValue(0, _faturaNo);
     satisSorgu.exec();
@@ -563,7 +563,7 @@ Sepet Veritabani::getSatis(QString _faturaNo)
 void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 {
     // kasada ki parayı güncelleme
-    double kasadaKalanPara = _cekilecekTutar - getKasadakiPara();
+    double kasadaKalanPara = getKasadakiPara() - _cekilecekTutar;
     sorgu.prepare("UPDATE kasa SET para = ?");
     sorgu.bindValue(0, kasadaKalanPara);
     sorgu.exec();
@@ -573,12 +573,36 @@ void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
     //kasa hareketlerini girme
     sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
     sorgu.bindValue(0, _cekilecekTutar);
-    sorgu.bindValue(1, _kullanici.getUserName());
+    sorgu.bindValue(1, _kullanici.getUserID());
     sorgu.bindValue(2, "çıkış");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << "kasadanParaCek kasa hareketleri hatası: " << sorgu.lastError().text();
     }
+}
+
+double Veritabani::getGunlukCiro()
+{
+    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem = ?");
+    sorgu.bindValue(0, QDateTime::currentDateTime().date());
+    sorgu.bindValue(1, "giriş");
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    double girenPara = sorgu.value(0).toDouble();
+    return girenPara;
+//    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem = ?");
+//    sorgu.bindValue(0, QDateTime::currentDateTime().date());
+//    sorgu.bindValue(1, "çıkış");
+//    sorgu.exec();
+//    if(sorgu.lastError().isValid()){
+//        qWarning() << sorgu.lastError().text();
+//    }
+//    sorgu.next();
+//    double cikanPara = sorgu.value(0).toDouble();
+//    return girenPara - cikanPara;
 }
 

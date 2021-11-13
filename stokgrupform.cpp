@@ -34,11 +34,23 @@ void StokGrupForm::on_EkleBtn_clicked()
         QList<QListWidgetItem *> eslesme = ui->gruplarlistWidget->findItems(aranacak,Qt::MatchExactly);
         if(eslesme.size() > 0)
         {
-            QMessageBox::critical(this,"Hata","Bu stok gurubu zaten mevcut.",QMessageBox::Ok);
+            QMessageBox msg;
+            msg.setWindowTitle("Hata");
+            msg.setIcon(QMessageBox::Critical);
+            msg.setText("Bu stok gurubu zaten mevcut.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
         }
         else
         {
-            QMessageBox::information(this,"Bilgi","Stok gurubu eklendi",QMessageBox::Ok);
+            QMessageBox msg;
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Stok gurubu başarıyla eklendi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
             ui->YenilineEdit->clear();
             stokGruplariGetir();
             ui->YenilineEdit->setFocus();
@@ -53,12 +65,24 @@ void StokGrupForm::on_SilBtn_clicked()
     {
         QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
         delete silinecek_item;
-        QMessageBox::information(this,"Uyarı","Stok grubu silindi.",QMessageBox::Ok);
+        QMessageBox msg;
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Stok gurubu silindi.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
         stokGruplariGetir();
     }
     else
     {
-        QMessageBox::critical(this,"Uyarı","Listeden silinecek grubu seçin",QMessageBox::Ok);
+        QMessageBox msg;
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Listeden silinecek gurubu seçin.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
     }
 }
 

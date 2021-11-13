@@ -24,4 +24,7 @@
         <file>images/ui/search-100.png</file>
         <file>images/ui/logout.png</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/warning-sound.wav</file>
+    </qresource>
 </RCC>

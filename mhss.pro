@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT       += core gui sql multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adetdialogform.cpp \
     cari.cpp \
     cariform.cpp \
     fiyatgorform.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     veritabani.cpp
 
 HEADERS += \
+    adetdialogform.h \
     cari.h \
     cariform.h \
     fiyatgorform.h \
@@ -48,6 +50,7 @@ HEADERS += \
     veritabani.h
 
 FORMS += \
+    adetdialogform.ui \
     cariform.ui \
     fiyatgorform.ui \
     hizliurunekleformdialog.ui \

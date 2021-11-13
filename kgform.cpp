@@ -29,14 +29,13 @@ void KgForm::on_pushButton_clicked()
         this->close();
     }
     else{
-        QMessageBox msg(0);
+        QMessageBox msg;
+        msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
-        msg.setText("Uyarı");
-        msg.setInformativeText("Lütfen 0 'dan büyük bir değer giriniz.");
-        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setText("Lütfen 0 'dan büyük bir değer giriniz.");
+        msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
-
     }
 }
 

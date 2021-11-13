@@ -11,6 +11,7 @@
 #include "satisgosterdialog.h"
 #include "loginform.h"
 #include "paracekdialogform.h"
+#include "adetdialogform.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -22,12 +23,13 @@
 #include <QAction>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QSound>
 
 User kullanici;
 Sepet sepet[4];
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
-
+QSound uyariSesi(":/sounds/sounds/warning-sound.wav");
 
 
 SatisForm::SatisForm(QWidget *parent) :
@@ -58,7 +60,7 @@ void SatisForm::formLoad()
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
     getSonSatislar();
-    getKasaPara();
+    getCiro();
     hizliUrunButonlariAyarla();
     ui->barkodLineEdit->setFocus();
 }
@@ -283,6 +285,7 @@ void SatisForm::sepeteEkle()
             butonDurumlariniAyarla();
         }
         else{
+            uyariSesi.play();
             QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
             MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
             MsgBox.exec();
@@ -290,6 +293,7 @@ void SatisForm::sepeteEkle()
         }
     }
     else{
+        uyariSesi.play();
         QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün bulunamadı!"), QMessageBox::Ok, this);
         MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
         MsgBox.exec();
@@ -393,6 +397,7 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
 void SatisForm::closeEvent(QCloseEvent *event)
 {
     if(ui->sepet1TableWidget->rowCount() > 0 || ui->sepet2TableWidget->rowCount() > 0 || ui->sepet3TableWidget->rowCount() > 0 || ui->sepet4TableWidget->rowCount() > 0){
+        uyariSesi.play();
         QMessageBox closingMsgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYine de çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
         closingMsgBox.setButtonText(QMessageBox::Yes, "Evet");
         closingMsgBox.setButtonText(QMessageBox::No, "Hayır");
@@ -434,6 +439,88 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                 fiyatForm->exec();
                 delete fiyatForm;
                 return true;
+            }
+            if(keyEvent->key() == Qt::Key_Plus){// sepette ki seçili ürün adetini artirma
+                SatisForm::on_artirBtn_clicked();
+            }
+            if(keyEvent->key() == Qt::Key_Minus){// sepette ki seçili ürün adetini azaltma
+                SatisForm::on_azaltBtn_clicked();
+            }
+            if(keyEvent->key() == Qt::Key_Asterisk){// klavyeden '*' tuşuna bastığında sepetteki seçili ürün adetini çarpma.
+                QMessageBox msg;
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Warning);
+                msg.setText("Adet stok miktarından fazla olamaz.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                switch (ui->SepetlertabWidget->currentIndex()) {
+                case 0:
+                    if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+                        AdetDialogForm *adetForm = new AdetDialogForm(this);
+                        Veritabani *vt = new Veritabani();
+                        adetForm->exec();
+                        // çarpılacak adet stok miktarına eşitse veya düşükse
+                        if(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                            sepet[0].urunAdetCarp(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+                        }
+                        else{
+                            msg.exec();
+                        }
+                        delete vt; delete adetForm;
+                    }
+                    break;
+                case 1:
+                    if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+                        AdetDialogForm *adetForm = new AdetDialogForm(this);
+                        Veritabani *vt = new Veritabani();
+                        adetForm->exec();
+                        if(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                            sepet[1].urunAdetCarp(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+                        }
+                        else{
+                            msg.exec();
+                        }
+                        delete vt; delete adetForm;
+                    }
+                    break;
+                case 2:
+                    if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+                        AdetDialogForm *adetForm = new AdetDialogForm(this);
+                        Veritabani *vt = new Veritabani();
+                        adetForm->exec();
+                        if(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                            sepet[2].urunAdetCarp(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+                        }
+                        else{
+                            msg.exec();
+                        }
+                        delete vt; delete adetForm;
+                    }
+                    break;
+                case 3:
+                    if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+                        AdetDialogForm *adetForm = new AdetDialogForm(this);
+                        Veritabani *vt = new Veritabani();
+                        adetForm->exec();
+                        if(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                            sepet[3].urunAdetCarp(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+                        }
+                        else{
+                            msg.exec();
+                        }
+                        delete vt; delete adetForm;
+                    }
+                    break;
+                }
+                sepetToplaminiYaz();
             }
         }
         return false;
@@ -2308,6 +2395,7 @@ void SatisForm::on_azaltBtn_clicked()
 
 void SatisForm::on_satirSilBtn_clicked()
 {
+    uyariSesi.play();
     QMessageBox msgBox(this);
     msgBox.setText("Dikkat");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -2378,6 +2466,7 @@ void SatisForm::on_satirSilBtn_clicked()
 
 void SatisForm::on_sepetSilBtn_clicked()
 {
+    uyariSesi.play();
     QMessageBox sepetSilMsgBox(this);
     sepetSilMsgBox.setText("Dikkat");
     sepetSilMsgBox.setInformativeText("Aktif Sepeti silmek istediğinize emin misiniz?");
@@ -2524,15 +2613,15 @@ void SatisForm::on_satisYapBtn_clicked()
         butonDurumlariniAyarla();
         sepetToplaminiYaz();
         getSonSatislar();
-        getKasaPara();
+        getCiro();
         ui->barkodLineEdit->setFocus();
     }
 }
 
-void SatisForm::getKasaPara()
+void SatisForm::getCiro()
 {
     Veritabani *vt = new Veritabani();
-    ui->ciroLabel->setText("₺" + QString::number(vt->getKasadakiPara()));
+    ui->ciroLabel->setText("₺" + QString::number(vt->getGunlukCiro()));
     delete vt;
 }
 
@@ -2545,12 +2634,18 @@ void SatisForm::on_hizlitoolButton1_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton1->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton2_clicked()
 {
     if(!ui->hizlitoolButton2->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton2->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton3_clicked()
@@ -2559,12 +2654,18 @@ void SatisForm::on_hizlitoolButton3_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton3->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton4_clicked()
 {
     if(!ui->hizlitoolButton4->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton4->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton5_clicked()
@@ -2573,12 +2674,18 @@ void SatisForm::on_hizlitoolButton5_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton5->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton6_clicked()
 {
     if(!ui->hizlitoolButton6->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton6->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton7_clicked()
@@ -2587,12 +2694,18 @@ void SatisForm::on_hizlitoolButton7_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton7->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton8_clicked()
 {
     if(!ui->hizlitoolButton8->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton8->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton9_clicked()
@@ -2601,12 +2714,18 @@ void SatisForm::on_hizlitoolButton9_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton9->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton10_clicked()
 {
     if(!ui->hizlitoolButton10->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton10->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton11_clicked()
@@ -2615,12 +2734,18 @@ void SatisForm::on_hizlitoolButton11_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton11->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton12_clicked()
 {
     if(!ui->hizlitoolButton12->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton12->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton13_clicked()
@@ -2629,12 +2754,18 @@ void SatisForm::on_hizlitoolButton13_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton13->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton14_clicked()
 {
     if(!ui->hizlitoolButton14->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton14->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton15_clicked()
@@ -2643,12 +2774,18 @@ void SatisForm::on_hizlitoolButton15_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton15->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton16_clicked()
 {
     if(!ui->hizlitoolButton16->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton16->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton17_clicked()
@@ -2657,12 +2794,18 @@ void SatisForm::on_hizlitoolButton17_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton17->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton18_clicked()
 {
     if(!ui->hizlitoolButton18->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton18->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton19_clicked()
@@ -2671,12 +2814,18 @@ void SatisForm::on_hizlitoolButton19_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton19->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton20_clicked()
 {
     if(!ui->hizlitoolButton20->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton20->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton21_clicked()
@@ -2692,12 +2841,18 @@ void SatisForm::on_hizlitoolButton22_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton22->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton23_clicked()
 {
     if(!ui->hizlitoolButton23->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton23->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton24_clicked()
@@ -2706,12 +2861,18 @@ void SatisForm::on_hizlitoolButton24_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton24->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton25_clicked()
 {
     if(!ui->hizlitoolButton25->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton25->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton26_clicked()
@@ -2720,12 +2881,18 @@ void SatisForm::on_hizlitoolButton26_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton26->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton27_clicked()
 {
     if(!ui->hizlitoolButton27->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton27->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton28_clicked()
@@ -2734,12 +2901,18 @@ void SatisForm::on_hizlitoolButton28_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton28->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton29_clicked()
 {
     if(!ui->hizlitoolButton29->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton29->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton30_clicked()
@@ -2748,12 +2921,18 @@ void SatisForm::on_hizlitoolButton30_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton30->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton31_clicked()
 {
     if(!ui->hizlitoolButton31->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton31->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton32_clicked()
@@ -2762,12 +2941,18 @@ void SatisForm::on_hizlitoolButton32_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton32->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton33_clicked()
 {
     if(!ui->hizlitoolButton33->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton33->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton34_clicked()
@@ -2776,12 +2961,18 @@ void SatisForm::on_hizlitoolButton34_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton34->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton35_clicked()
 {
     if(!ui->hizlitoolButton35->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton35->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton36_clicked()
@@ -2790,12 +2981,18 @@ void SatisForm::on_hizlitoolButton36_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton36->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton37_clicked()
 {
     if(!ui->hizlitoolButton37->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton37->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton38_clicked()
@@ -2804,12 +3001,18 @@ void SatisForm::on_hizlitoolButton38_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton38->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton39_clicked()
 {
     if(!ui->hizlitoolButton39->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton39->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton40_clicked()
@@ -2818,12 +3021,18 @@ void SatisForm::on_hizlitoolButton40_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton40->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton41_clicked()
 {
     if(!ui->hizlitoolButton41->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton41->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton42_clicked()
@@ -2832,12 +3041,18 @@ void SatisForm::on_hizlitoolButton42_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton42->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton43_clicked()
 {
     if(!ui->hizlitoolButton43->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton43->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton44_clicked()
@@ -2846,12 +3061,18 @@ void SatisForm::on_hizlitoolButton44_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton44->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton45_clicked()
 {
     if(!ui->hizlitoolButton45->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton45->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton46_clicked()
@@ -2860,12 +3081,18 @@ void SatisForm::on_hizlitoolButton46_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton46->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton47_clicked()
 {
     if(!ui->hizlitoolButton47->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton47->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton48_clicked()
@@ -2874,12 +3101,18 @@ void SatisForm::on_hizlitoolButton48_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton48->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton49_clicked()
 {
     if(!ui->hizlitoolButton49->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton49->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton50_clicked()
@@ -2888,12 +3121,18 @@ void SatisForm::on_hizlitoolButton50_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton50->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton51_clicked()
 {
     if(!ui->hizlitoolButton51->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton51->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton52_clicked()
@@ -2902,12 +3141,18 @@ void SatisForm::on_hizlitoolButton52_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton52->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton53_clicked()
 {
     if(!ui->hizlitoolButton53->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton53->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton54_clicked()
@@ -2916,12 +3161,18 @@ void SatisForm::on_hizlitoolButton54_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton54->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton55_clicked()
 {
     if(!ui->hizlitoolButton55->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton55->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton56_clicked()
@@ -2930,12 +3181,18 @@ void SatisForm::on_hizlitoolButton56_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton56->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton57_clicked()
 {
     if(!ui->hizlitoolButton57->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton57->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton58_clicked()
@@ -2944,12 +3201,18 @@ void SatisForm::on_hizlitoolButton58_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton58->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton59_clicked()
 {
     if(!ui->hizlitoolButton59->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton59->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton60_clicked()
@@ -2958,12 +3221,18 @@ void SatisForm::on_hizlitoolButton60_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton60->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton61_clicked()
 {
     if(!ui->hizlitoolButton61->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton61->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton62_clicked()
@@ -2972,12 +3241,18 @@ void SatisForm::on_hizlitoolButton62_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton62->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton63_clicked()
 {
     if(!ui->hizlitoolButton63->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton63->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton64_clicked()
@@ -2986,12 +3261,18 @@ void SatisForm::on_hizlitoolButton64_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton64->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton65_clicked()
 {
     if(!ui->hizlitoolButton65->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton65->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton66_clicked()
@@ -3000,12 +3281,18 @@ void SatisForm::on_hizlitoolButton66_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton66->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton67_clicked()
 {
     if(!ui->hizlitoolButton67->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton67->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton68_clicked()
@@ -3014,12 +3301,18 @@ void SatisForm::on_hizlitoolButton68_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton68->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton69_clicked()
 {
     if(!ui->hizlitoolButton69->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton69->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton70_clicked()
@@ -3028,12 +3321,18 @@ void SatisForm::on_hizlitoolButton70_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton70->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton71_clicked()
 {
     if(!ui->hizlitoolButton71->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton71->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton72_clicked()
@@ -3042,12 +3341,18 @@ void SatisForm::on_hizlitoolButton72_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton72->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton73_clicked()
 {
     if(!ui->hizlitoolButton73->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton73->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton74_clicked()
@@ -3056,12 +3361,18 @@ void SatisForm::on_hizlitoolButton74_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton74->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton75_clicked()
 {
     if(!ui->hizlitoolButton75->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton75->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton76_clicked()
@@ -3070,12 +3381,18 @@ void SatisForm::on_hizlitoolButton76_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton76->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton77_clicked()
 {
     if(!ui->hizlitoolButton77->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton77->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton78_clicked()
@@ -3084,12 +3401,18 @@ void SatisForm::on_hizlitoolButton78_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton78->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton79_clicked()
 {
     if(!ui->hizlitoolButton79->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton79->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton80_clicked()
@@ -3098,12 +3421,18 @@ void SatisForm::on_hizlitoolButton80_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton80->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton81_clicked()
 {
     if(!ui->hizlitoolButton81->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton81->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton82_clicked()
@@ -3112,12 +3441,18 @@ void SatisForm::on_hizlitoolButton82_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton82->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton83_clicked()
 {
     if(!ui->hizlitoolButton83->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton83->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton84_clicked()
@@ -3126,12 +3461,18 @@ void SatisForm::on_hizlitoolButton84_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton84->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton85_clicked()
 {
     if(!ui->hizlitoolButton85->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton85->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton86_clicked()
@@ -3140,12 +3481,18 @@ void SatisForm::on_hizlitoolButton86_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton86->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton87_clicked()
 {
     if(!ui->hizlitoolButton87->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton87->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton88_clicked()
@@ -3154,12 +3501,18 @@ void SatisForm::on_hizlitoolButton88_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton88->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton89_clicked()
 {
     if(!ui->hizlitoolButton89->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton89->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton90_clicked()
@@ -3168,12 +3521,18 @@ void SatisForm::on_hizlitoolButton90_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton90->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton91_clicked()
 {
     if(!ui->hizlitoolButton91->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton91->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton92_clicked()
@@ -3182,12 +3541,18 @@ void SatisForm::on_hizlitoolButton92_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton92->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton93_clicked()
 {
     if(!ui->hizlitoolButton93->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton93->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton94_clicked()
@@ -3203,12 +3568,18 @@ void SatisForm::on_hizlitoolButton95_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton95->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton96_clicked()
 {
     if(!ui->hizlitoolButton96->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton96->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton97_clicked()
@@ -3217,12 +3588,18 @@ void SatisForm::on_hizlitoolButton97_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton97->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton98_clicked()
 {
     if(!ui->hizlitoolButton98->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton98->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton99_clicked()
@@ -3231,6 +3608,9 @@ void SatisForm::on_hizlitoolButton99_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton99->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton100_clicked()
 {
@@ -3238,12 +3618,18 @@ void SatisForm::on_hizlitoolButton100_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton100->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton101_clicked()
 {
     if(!ui->hizlitoolButton101->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton101->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton102_clicked()
@@ -3259,12 +3645,18 @@ void SatisForm::on_hizlitoolButton103_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton103->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton104_clicked()
 {
     if(!ui->hizlitoolButton104->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton104->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton105_clicked()
@@ -3280,12 +3672,18 @@ void SatisForm::on_hizlitoolButton106_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton106->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton107_clicked()
 {
     if(!ui->hizlitoolButton107->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton107->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton108_clicked()
@@ -3294,12 +3692,18 @@ void SatisForm::on_hizlitoolButton108_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton108->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton109_clicked()
 {
     if(!ui->hizlitoolButton109->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton109->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton110_clicked()
@@ -3308,12 +3712,18 @@ void SatisForm::on_hizlitoolButton110_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton110->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton111_clicked()
 {
     if(!ui->hizlitoolButton111->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton111->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton112_clicked()
@@ -3322,12 +3732,18 @@ void SatisForm::on_hizlitoolButton112_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton112->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton113_clicked()
 {
     if(!ui->hizlitoolButton113->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton113->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton114_clicked()
@@ -3336,12 +3752,18 @@ void SatisForm::on_hizlitoolButton114_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton114->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton115_clicked()
 {
     if(!ui->hizlitoolButton115->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton115->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton116_clicked()
@@ -3350,12 +3772,18 @@ void SatisForm::on_hizlitoolButton116_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton116->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton117_clicked()
 {
     if(!ui->hizlitoolButton117->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton117->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton118_clicked()
@@ -3364,12 +3792,18 @@ void SatisForm::on_hizlitoolButton118_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton118->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton119_clicked()
 {
     if(!ui->hizlitoolButton119->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton119->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton120_clicked()
@@ -3378,12 +3812,18 @@ void SatisForm::on_hizlitoolButton120_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton120->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton121_clicked()
 {
     if(!ui->hizlitoolButton121->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton121->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton122_clicked()
@@ -3392,12 +3832,18 @@ void SatisForm::on_hizlitoolButton122_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton122->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton123_clicked()
 {
     if(!ui->hizlitoolButton123->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton123->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton124_clicked()
@@ -3406,12 +3852,18 @@ void SatisForm::on_hizlitoolButton124_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton124->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton125_clicked()
 {
     if(!ui->hizlitoolButton125->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton125->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton126_clicked()
@@ -3420,12 +3872,18 @@ void SatisForm::on_hizlitoolButton126_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton126->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton127_clicked()
 {
     if(!ui->hizlitoolButton127->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton127->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton128_clicked()
@@ -3434,12 +3892,18 @@ void SatisForm::on_hizlitoolButton128_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton128->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton129_clicked()
 {
     if(!ui->hizlitoolButton129->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton129->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton130_clicked()
@@ -3448,12 +3912,18 @@ void SatisForm::on_hizlitoolButton130_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton130->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton131_clicked()
 {
     if(!ui->hizlitoolButton131->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton131->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton132_clicked()
@@ -3462,12 +3932,18 @@ void SatisForm::on_hizlitoolButton132_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton132->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton133_clicked()
 {
     if(!ui->hizlitoolButton133->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton133->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton134_clicked()
@@ -3476,12 +3952,18 @@ void SatisForm::on_hizlitoolButton134_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton134->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton135_clicked()
 {
     if(!ui->hizlitoolButton135->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton135->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton136_clicked()
@@ -3490,12 +3972,18 @@ void SatisForm::on_hizlitoolButton136_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton136->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton137_clicked()
 {
     if(!ui->hizlitoolButton137->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton137->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton138_clicked()
@@ -3511,12 +3999,18 @@ void SatisForm::on_hizlitoolButton139_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton139->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton140_clicked()
 {
     if(!ui->hizlitoolButton140->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton140->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton141_clicked()
@@ -3525,12 +4019,18 @@ void SatisForm::on_hizlitoolButton141_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton141->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton142_clicked()
 {
     if(!ui->hizlitoolButton142->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton142->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton143_clicked()
@@ -3539,12 +4039,18 @@ void SatisForm::on_hizlitoolButton143_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton143->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton144_clicked()
 {
     if(!ui->hizlitoolButton144->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton144->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton145_clicked()
@@ -3553,12 +4059,18 @@ void SatisForm::on_hizlitoolButton145_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton145->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton146_clicked()
 {
     if(!ui->hizlitoolButton146->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton146->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton147_clicked()
@@ -3567,12 +4079,18 @@ void SatisForm::on_hizlitoolButton147_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton147->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton148_clicked()
 {
     if(!ui->hizlitoolButton148->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton148->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 void SatisForm::on_hizlitoolButton149_clicked()
@@ -3581,12 +4099,18 @@ void SatisForm::on_hizlitoolButton149_clicked()
         ui->barkodLineEdit->setText(ui->hizlitoolButton149->whatsThis());
         sepeteEkle();
     }
+    else{
+        ui->barkodLineEdit->setFocus();
+    }
 }
 void SatisForm::on_hizlitoolButton150_clicked()
 {
     if(!ui->hizlitoolButton150->whatsThis().isEmpty()){
         ui->barkodLineEdit->setText(ui->hizlitoolButton150->whatsThis());
         sepeteEkle();
+    }
+    else{
+        ui->barkodLineEdit->setFocus();
     }
 }
 #pragma endregion}
@@ -3628,9 +4152,14 @@ void SatisForm::on_CikisToolBtn_clicked()
         paraCekForm->exec();
         delete vt;
     }
-
     this->close();
     LoginForm *lg = new LoginForm();
     lg->show();
+}
+
+
+void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
+{
+    ui->barkodLineEdit->setFocus();
 }
 

@@ -38,7 +38,7 @@ public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
 
     void hizliUrunButonlariAyarla();
-    void getKasaPara();
+    void getCiro();
 private slots:
     void on_StokKartlariBtn_clicked();
     void initTableWidgets();
@@ -368,6 +368,8 @@ private slots:
     void on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void on_CikisToolBtn_clicked();
+
+    void on_sepet1TableWidget_clicked(const QModelIndex &index);
 
 private:
     Ui::SatisForm *ui;

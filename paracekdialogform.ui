@@ -155,6 +155,11 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>doubleSpinBox</tabstop>
+  <tabstop>CekpushButton</tabstop>
+  <tabstop>IptalpushButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

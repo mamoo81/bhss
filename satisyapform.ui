@@ -264,6 +264,9 @@
    <property name="prefix">
     <string>₺</string>
    </property>
+   <property name="maximum">
+    <double>999999.989999999990687</double>
+   </property>
   </widget>
  </widget>
  <tabstops>

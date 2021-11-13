@@ -113,6 +113,12 @@ void Sepet::urunSil(QString _Barkod)
     urunler.remove(_Barkod);
 }
 
+void Sepet::urunAdetCarp(QString _Barkod, float _miktar)
+{
+    urunler[_Barkod].miktar = _miktar;
+    urunler[_Barkod].toplam = _miktar * urunler[_Barkod].birimFiyat;
+}
+
 void Sepet::sepetiSil()
 {
     urunler.clear();

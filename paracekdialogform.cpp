@@ -38,16 +38,29 @@ void ParaCekDialogForm::on_IptalpushButton_clicked()
 
 void ParaCekDialogForm::on_CekpushButton_clicked()
 {
-    Veritabani vt = Veritabani();
-    vt.kasadanParaCek(ui->doubleSpinBox->value(), kull);
-    QMessageBox msg;
-    msg.setIcon(QMessageBox::Information);
-    msg.setWindowTitle("Bilgi");
-    msg.setText(QString("Kasadan %s lira çekildi.").arg(ui->doubleSpinBox->value()));
-    msg.setStandardButtons(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
-    msg.setDefaultButton(QMessageBox::Ok);
-    msg.exec();
+    if(kasadakiPara > ui->doubleSpinBox->value()){
+        Veritabani vt = Veritabani();
+        vt.kasadanParaCek(ui->doubleSpinBox->value(), kull);
+        QMessageBox msg;
+        msg.setIcon(QMessageBox::Information);
+        msg.setWindowTitle("Bilgi");
+        msg.setText(QString("Kasadan ₺%1 lira çekildi.").arg(QString::number(ui->doubleSpinBox->value())));
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
+        this->close();
+    }
+    else{
+        QMessageBox msg;
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle("Bilgi");
+        msg.setText(QString("Kasada ki miktardan yüksek olamaz.").arg(QString::number(ui->doubleSpinBox->value())));
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
+    }
 }
 
 void ParaCekDialogForm::setKull(const User &newKull)

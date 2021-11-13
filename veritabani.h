@@ -48,6 +48,7 @@ public slots:
     double getKasadakiPara();
     Sepet getSatis(QString _faturaNo);
     void kasadanParaCek(double _cekilecekTutar, User _kullanici);
+    double getGunlukCiro();
 };
 
 #endif // VERITABANI_H
