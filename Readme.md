@@ -2,5 +2,8 @@
 
 Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış yapabileceğiniz bir uygulama.
 
-### Ana ekran
-![ana ekran](https://mls.akdeniz.edu.tr/git/mamoo/mhss/src/branch/master/screenshots/mhss-ana-ekran.png?raw=true)
+### Satış ekranı
+
+<p align="center">
+  <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
+</p>
