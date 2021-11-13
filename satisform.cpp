@@ -466,6 +466,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
                         }
                         else{
+                            uyariSesi.play();
                             msg.exec();
                         }
                         delete vt; delete adetForm;
@@ -482,6 +483,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
                         }
                         else{
+                            uyariSesi.play();
                             msg.exec();
                         }
                         delete vt; delete adetForm;
@@ -498,6 +500,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
                         }
                         else{
+                            uyariSesi.play();
                             msg.exec();
                         }
                         delete vt; delete adetForm;
@@ -514,6 +517,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
                         }
                         else{
+                            uyariSesi.play();
                             msg.exec();
                         }
                         delete vt; delete adetForm;

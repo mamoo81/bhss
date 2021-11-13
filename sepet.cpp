@@ -1,6 +1,6 @@
 #include "sepet.h"
 #include "urun.h"
-
+//**************************
 #include <QHash>
 #include <QDebug>
 #include <QMessageBox>
