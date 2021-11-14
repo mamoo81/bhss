@@ -53,6 +53,7 @@ void SatisForm::setUser(User user)
 
 void SatisForm::formLoad()
 {
+    QWidget::showMaximized();
     initTableWidgets();
     hizliButonConnects();
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.

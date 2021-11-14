@@ -148,11 +148,11 @@
      <x>10</x>
      <y>120</y>
      <width>681</width>
-     <height>641</height>
+     <height>611</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <property name="iconSize">
     <size>
@@ -174,7 +174,7 @@
        <x>0</x>
        <y>0</y>
        <width>681</width>
-       <height>591</height>
+       <height>561</height>
       </rect>
      </property>
      <property name="minimumSize">
@@ -262,7 +262,7 @@
        <x>0</x>
        <y>0</y>
        <width>681</width>
-       <height>591</height>
+       <height>561</height>
       </rect>
      </property>
      <property name="minimumSize">
@@ -350,7 +350,7 @@
        <x>0</x>
        <y>0</y>
        <width>681</width>
-       <height>591</height>
+       <height>561</height>
       </rect>
      </property>
      <property name="minimumSize">
@@ -438,7 +438,7 @@
        <x>0</x>
        <y>0</y>
        <width>681</width>
-       <height>591</height>
+       <height>561</height>
       </rect>
      </property>
      <property name="minimumSize">
@@ -622,7 +622,7 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>560</y>
+     <y>520</y>
      <width>171</width>
      <height>61</height>
     </rect>
@@ -648,7 +648,7 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>630</y>
+     <y>590</y>
      <width>171</width>
      <height>61</height>
     </rect>
@@ -674,7 +674,7 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>700</y>
+     <y>660</y>
      <width>171</width>
      <height>61</height>
     </rect>
@@ -702,7 +702,7 @@ color: rgb(0, 170, 0);</string>
      <x>880</x>
      <y>10</y>
      <width>471</width>
-     <height>751</height>
+     <height>721</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -716,9 +716,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -751,9 +751,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -786,9 +786,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -821,9 +821,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -856,9 +856,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -891,9 +891,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -926,9 +926,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -961,9 +961,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -996,9 +996,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1031,9 +1031,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1066,9 +1066,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1101,9 +1101,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1136,9 +1136,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1171,9 +1171,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1206,9 +1206,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1241,9 +1241,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1276,9 +1276,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1311,9 +1311,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1346,9 +1346,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1381,9 +1381,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1416,9 +1416,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1451,9 +1451,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1486,9 +1486,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1521,9 +1521,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1556,9 +1556,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1591,9 +1591,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1626,9 +1626,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1661,9 +1661,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1696,9 +1696,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1731,9 +1731,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1771,9 +1771,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1806,9 +1806,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1841,9 +1841,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1876,9 +1876,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1911,9 +1911,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1946,9 +1946,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -1981,9 +1981,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2016,9 +2016,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2051,9 +2051,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2086,9 +2086,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2121,9 +2121,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2156,9 +2156,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2191,9 +2191,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2226,9 +2226,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2261,9 +2261,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2296,9 +2296,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2331,9 +2331,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2366,9 +2366,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2401,9 +2401,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2436,9 +2436,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2471,9 +2471,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2506,9 +2506,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2541,9 +2541,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2576,9 +2576,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2611,9 +2611,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2646,9 +2646,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2681,9 +2681,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2716,9 +2716,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2751,9 +2751,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2786,9 +2786,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2826,9 +2826,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2861,9 +2861,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2896,9 +2896,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2931,9 +2931,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -2966,9 +2966,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3001,9 +3001,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3036,9 +3036,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3071,9 +3071,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3106,9 +3106,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3141,9 +3141,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3176,9 +3176,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3211,9 +3211,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3246,9 +3246,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3281,9 +3281,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3316,9 +3316,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3351,9 +3351,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3386,9 +3386,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3421,9 +3421,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3456,9 +3456,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3491,9 +3491,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3526,9 +3526,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3561,9 +3561,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3596,9 +3596,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3631,9 +3631,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3666,9 +3666,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3701,9 +3701,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3736,9 +3736,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3771,9 +3771,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3806,9 +3806,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3841,9 +3841,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3881,9 +3881,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3916,9 +3916,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3951,9 +3951,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -3986,9 +3986,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4021,9 +4021,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4056,9 +4056,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4091,9 +4091,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4126,9 +4126,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4161,9 +4161,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4196,9 +4196,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4231,9 +4231,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4266,9 +4266,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4301,9 +4301,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4336,9 +4336,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4371,9 +4371,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4406,9 +4406,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4441,9 +4441,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4476,9 +4476,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4511,9 +4511,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4546,9 +4546,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4581,9 +4581,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4616,9 +4616,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4651,9 +4651,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4686,9 +4686,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4721,9 +4721,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4756,9 +4756,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4791,9 +4791,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4826,9 +4826,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4861,9 +4861,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4896,9 +4896,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4936,9 +4936,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -4971,9 +4971,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5006,9 +5006,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5041,9 +5041,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5076,9 +5076,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5111,9 +5111,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5146,9 +5146,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5181,9 +5181,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5216,9 +5216,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5251,9 +5251,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5286,9 +5286,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5321,9 +5321,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5356,9 +5356,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5391,9 +5391,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5426,9 +5426,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5461,9 +5461,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5496,9 +5496,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5531,9 +5531,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>278</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5566,9 +5566,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>580</y>
+       <y>546</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5601,9 +5601,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>90</y>
+       <y>77</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5636,9 +5636,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5671,9 +5671,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5706,9 +5706,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>650</y>
+       <y>613</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5741,9 +5741,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5776,9 +5776,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>211</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5811,9 +5811,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>510</y>
+       <y>479</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5846,9 +5846,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>160</y>
+       <y>144</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5881,9 +5881,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5916,9 +5916,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>440</y>
+       <y>412</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -5951,9 +5951,9 @@ color: rgb(0, 170, 0);</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>370</y>
+       <y>345</y>
        <width>141</width>
-       <height>61</height>
+       <height>60</height>
       </rect>
      </property>
      <property name="font">
@@ -6011,7 +6011,7 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>260</y>
+     <y>220</y>
      <width>171</width>
      <height>291</height>
     </rect>
