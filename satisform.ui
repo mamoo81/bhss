@@ -90,7 +90,7 @@
     <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="GunlukBtn">
+  <widget class="QToolButton" name="KasaBtn">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -100,11 +100,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>Günlük</string>
+    <string>Kasa</string>
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
-     <normaloff>:/images/ui/document.png</normaloff>:/images/ui/document.png</iconset>
+     <normaloff>:/images/ui/safe-box.png</normaloff>:/images/ui/safe-box.png</iconset>
    </property>
    <property name="iconSize">
     <size>

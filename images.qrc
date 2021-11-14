@@ -9,20 +9,22 @@
         <file>images/ui/cash-back.png</file>
         <file>images/ui/plus.png</file>
         <file>images/ui/negative.png</file>
-        <file>images/ui/shopping-cart-delete.png</file>
         <file>images/ui/money.png</file>
         <file>images/ui/credit-card.png</file>
         <file>images/ui/remove.png</file>
         <file>images/ui/check.png</file>
         <file>images/ui/mhss.png</file>
         <file>images/ui/user.png</file>
-        <file>images/ui/shopping-cart.png</file>
         <file>images/ui/settings.png</file>
         <file>images/ui/identity-card.png</file>
         <file>images/ui/document.png</file>
         <file>images/ui/box.png</file>
         <file>images/ui/search-100.png</file>
         <file>images/ui/logout.png</file>
+        <file>images/ui/safe-box.png</file>
+        <file>images/ui/shopping-cart.png</file>
+        <file>images/ui/shopping-cart-buying.png</file>
+        <file>images/ui/shopping-cart-delete.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

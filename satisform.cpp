@@ -283,6 +283,7 @@ void SatisForm::sepeteEkle()
             ui->barkodLineEdit->clear();
             sepetToplaminiYaz();
             butonDurumlariniAyarla();
+            sepetTabIconlariAyarla();
         }
         else{
             uyariSesi.play();
@@ -411,6 +412,28 @@ void SatisForm::closeEvent(QCloseEvent *event)
             event->ignore();
             this->show();
             break;
+        }
+    }
+    else{
+        uyariSesi.play();
+        QMessageBox msg;
+        msg.setWindowTitle("Kasa uyarısı");
+        msg.setIcon(QMessageBox::Question);
+        msg.setText("Kasadan para çekimi yapılsın mı?");
+        msg.setDefaultButton(QMessageBox::No);
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        int cevap = msg.exec();
+        if(QMessageBox::Yes == cevap){
+            // kasa formu açılacak *************************************************
+            SatisForm::on_KasaBtn_clicked();
+            this->close();
+            LoginForm *lg = new LoginForm();
+            lg->show();
+        }
+        else{
+            this->close();
         }
     }
 }
@@ -2173,6 +2196,19 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
         ui->barkodLineEdit->setFocus();;
         delete fiyatForm;
     }
+    else if(event->key() == Qt::Key_F3){
+        if(ui->satirSilBtn->isEnabled()){
+            SatisForm::on_satirSilBtn_clicked();
+        }
+    }
+    else if(event->key() == Qt::Key_F5){
+        if(ui->sepetSilBtn->isEnabled()){
+            SatisForm::on_sepetSilBtn_clicked();
+        }
+    }
+    else if(event->key() == Qt::Key_F11){
+        // kasa formu açılacak
+    }
 }
 
 bool SatisForm::urunSepetteVarmi(QString _Barkod)
@@ -2464,6 +2500,7 @@ void SatisForm::on_satirSilBtn_clicked()
     }
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
+    sepetTabIconlariAyarla();
     ui->barkodLineEdit->setFocus();
 }
 
@@ -2506,6 +2543,7 @@ void SatisForm::on_sepetSilBtn_clicked()
     }
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
+    sepetTabIconlariAyarla();
     ui->barkodLineEdit->setFocus();
 }
 
@@ -2618,6 +2656,7 @@ void SatisForm::on_satisYapBtn_clicked()
         sepetToplaminiYaz();
         getSonSatislar();
         getCiro();
+        sepetTabIconlariAyarla();
         ui->barkodLineEdit->setFocus();
     }
 }
@@ -4138,32 +4177,34 @@ void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item
 
 
 void SatisForm::on_CikisToolBtn_clicked()
-{
-    QMessageBox msg;
-    msg.setWindowTitle("Kasa uyarısı");
-    msg.setIcon(QMessageBox::Question);
-    msg.setText("Kasadan para çekimi yapılsın mı?");
-    msg.setDefaultButton(QMessageBox::No);
-    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
-    int cevap = msg.exec();
-    if(QMessageBox::Yes == cevap){
-        Veritabani *vt = new Veritabani();
-        ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
-        paraCekForm->setKasadakiPara(vt->getKasadakiPara());
-        paraCekForm->setKull(kullanici);
-        paraCekForm->exec();
-        delete vt;
-    }
+{   
     this->close();
-    LoginForm *lg = new LoginForm();
-    lg->show();
 }
 
 
 void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
 {
     ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_KasaBtn_clicked()
+{
+    Veritabani *vt = new Veritabani();
+    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
+    paraCekForm->setKasadakiPara(vt->getKasadakiPara());
+    paraCekForm->setKull(kullanici);
+    paraCekForm->exec();
+    delete vt;
+}
+
+void SatisForm::sepetTabIconlariAyarla()
+{
+    if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
+        ui->SepetlertabWidget->setTabIcon(ui->SepetlertabWidget->currentIndex(), QIcon(":/images/ui/shopping-cart-buying.png"));
+    }
+    else{
+        ui->SepetlertabWidget->setTabIcon(ui->SepetlertabWidget->currentIndex(), QIcon(":/images/ui/shopping-cart.png"));
+    }
 }
 

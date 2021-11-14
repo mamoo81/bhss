@@ -36,7 +36,7 @@ public slots:
     void silAction();
 public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
-
+    void sepetTabIconlariAyarla();
     void hizliUrunButonlariAyarla();
     void getCiro();
 private slots:
@@ -370,6 +370,8 @@ private slots:
     void on_CikisToolBtn_clicked();
 
     void on_sepet1TableWidget_clicked(const QModelIndex &index);
+
+    void on_KasaBtn_clicked();
 
 private:
     Ui::SatisForm *ui;
