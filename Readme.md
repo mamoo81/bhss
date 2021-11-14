@@ -17,6 +17,9 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 #### Klavye kısayolları
 
 * [F9]    -> Stok kartları sayfasını açar
+* [F3]    -> Sepetten kalem siler
+* [F5]    -> Sepeti siler
+* [F11]   -> Kasa ekranını açar
 * [ENTER] -> Sepetin satış ekranını açar
 * [F]     -> Ürünün fiyatını görme
 * [+]     -> Sepette ki ürünün adetini artırır
