@@ -39,4 +39,7 @@ void AdetDialogForm::keyPressEvent(QKeyEvent *keyEvent)
     if(keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return){
         AdetDialogForm::on_pushButton_clicked();
     }
+    else if(keyEvent->key() == Qt::Key_Escape){
+        this->close();
+    }
 }

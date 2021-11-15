@@ -485,6 +485,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                     if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
                         AdetDialogForm *adetForm = new AdetDialogForm(this);
                         Veritabani *vt = new Veritabani();
+                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].miktar;
                         adetForm->exec();
                         // çarpılacak adet stok miktarına eşitse veya düşükse
                         if(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
@@ -503,6 +504,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                     if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
                         AdetDialogForm *adetForm = new AdetDialogForm(this);
                         Veritabani *vt = new Veritabani();
+                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].miktar;
                         adetForm->exec();
                         if(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
                             sepet[1].urunAdetCarp(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
@@ -520,6 +522,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                     if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
                         AdetDialogForm *adetForm = new AdetDialogForm(this);
                         Veritabani *vt = new Veritabani();
+                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].miktar;
                         adetForm->exec();
                         if(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
                             sepet[2].urunAdetCarp(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
@@ -537,6 +540,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                     if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
                         AdetDialogForm *adetForm = new AdetDialogForm(this);
                         Veritabani *vt = new Veritabani();
+                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].miktar;
                         adetForm->exec();
                         if(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
                             sepet[3].urunAdetCarp(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);

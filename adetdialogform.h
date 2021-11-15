@@ -16,6 +16,7 @@ public:
     ~AdetDialogForm();
 
     int carpilacakAdet = 1;
+    int mevcutAdet;
 
 public slots:
     void keyPressEvent(QKeyEvent *keyEvent);
