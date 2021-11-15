@@ -38,7 +38,7 @@ void ParaCekDialogForm::on_IptalpushButton_clicked()
 
 void ParaCekDialogForm::on_CekpushButton_clicked()
 {
-    if(kasadakiPara > ui->doubleSpinBox->value()){
+    if(kasadakiPara >= ui->doubleSpinBox->value()){
         Veritabani vt = Veritabani();
         vt.kasadanParaCek(ui->doubleSpinBox->value(), kull);
         QMessageBox msg;

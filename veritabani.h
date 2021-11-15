@@ -34,6 +34,7 @@ public slots:
     StokKarti getStokKarti(QString _Barkod);
     User GetUserInfos(QString _UserName);
     QList<Cari> getCariKartlar();
+    Cari getCariKart(QString _cariID);
     bool loginControl(QString _UserName, QString _Password);
     void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
     QStringList getSonIslemler();
@@ -49,6 +50,8 @@ public slots:
     Sepet getSatis(QString _faturaNo);
     void kasadanParaCek(double _cekilecekTutar, User _kullanici);
     double getGunlukCiro();
+    void iadeAl(Sepet _iadeSepet, User _kullanici);
+    void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
 };
 
 #endif // VERITABANI_H

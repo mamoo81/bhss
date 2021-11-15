@@ -422,8 +422,8 @@ void SatisForm::closeEvent(QCloseEvent *event)
         msg.setWindowTitle("Kasa uyarısı");
         msg.setIcon(QMessageBox::Question);
         msg.setText("Kasadan para çekimi yapılsın mı?");
-        msg.setDefaultButton(QMessageBox::No);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setDefaultButton(QMessageBox::No);
         msg.setButtonText(QMessageBox::Yes, "Evet");
         msg.setButtonText(QMessageBox::No, "Hayır");
         int cevap = msg.exec();
@@ -2530,24 +2530,21 @@ void SatisForm::on_sepetSilBtn_clicked()
         case 0:
             sepet[0].sepetiSil();
             ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
-            ui->ToplamTutarlcdNumber->display(0);
             break;
         case 1:
             sepet[1].sepetiSil();
             ui->sepet2TableWidget->model()->removeRows(0, ui->sepet2TableWidget->rowCount());
-            ui->ToplamTutarlcdNumber->display(0);
             break;
         case 2:
             sepet[2].sepetiSil();
             ui->sepet3TableWidget->model()->removeRows(0, ui->sepet3TableWidget->rowCount());
-            ui->ToplamTutarlcdNumber->display(0);
             break;
         case 3:
             sepet[3].sepetiSil();
             ui->sepet4TableWidget->model()->removeRows(0, ui->sepet4TableWidget->rowCount());
-            ui->ToplamTutarlcdNumber->display(0);
             break;
         }
+        ui->ToplamTutarlcdNumber->display(0);
     }
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
@@ -4224,7 +4221,7 @@ void SatisForm::on_iadeAlBtn_clicked()
         QMessageBox msg;
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
-        msg.setText(QString("Sepetteki %1 kalem ürün iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
+        msg.setText(QString("Sepetteki %1 kalem ürün DİREKT carisine iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
         msg.setInformativeText(QString("İade edilecek tutar: ₺%1").arg(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari()));
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setDefaultButton(QMessageBox::Yes);
@@ -4232,7 +4229,42 @@ void SatisForm::on_iadeAlBtn_clicked()
         msg.setButtonText(QMessageBox::No, "Hayır");
         int cvp = msg.exec();
         if(cvp == QMessageBox::Yes){
-            // iade işlemleri başlat.
+            // iade işlemleri başlangıcı.
+            Veritabani *vt = new Veritabani();
+            vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
+            // sepet silme başlangıcı
+            sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
+            switch (ui->SepetlertabWidget->currentIndex()) {
+            case 0:
+                ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                break;
+            case 1:
+                ui->sepet2TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                break;
+            case 2:
+                ui->sepet3TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                break;
+            case 3:
+                ui->sepet4TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                break;
+            }
+//            ui->ToplamTutarlcdNumber->display(0);
+            butonDurumlariniAyarla();
+            sepetToplaminiYaz();
+            getSonSatislar();
+            getCiro();
+            sepetTabIconlariAyarla();
+            ui->barkodLineEdit->setFocus();
+
+            uyariSesi.play();
+            QMessageBox msg;
+            msg.setWindowTitle("Uyaraı");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("İade yapılmıştır.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            delete vt;
         }
     }
 }

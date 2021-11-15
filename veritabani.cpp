@@ -93,7 +93,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     //kasa hareketlerini girme
     sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
     sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
-    sorgu.bindValue(1, _satisYapilanCariID);
+    sorgu.bindValue(1, _satisYapanKullanici.getUserID());
     sorgu.bindValue(2, "giriş");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
@@ -372,6 +372,32 @@ QList<Cari> Veritabani::getCariKartlar()
     return kartlar;
 }
 
+Cari Veritabani::getCariKart(QString _cariID)
+{
+    Cari kart;
+    sorgu.prepare("SELECT * FROM carikartlar WHERE id = ?");
+    sorgu.bindValue(0, _cariID);
+    sorgu.exec();
+    if(sorgu.next()){
+        kart.setId(sorgu.value(0).toInt());
+        kart.setAd(sorgu.value(1).toString());
+        kart.setVerigino(sorgu.value(2).toString());
+        kart.setVergiDaire(sorgu.value(3).toString());
+        kart.setTcNo(sorgu.value(4).toString());
+        kart.setAdresNo(sorgu.value(5).toString());
+        kart.setAdres(sorgu.value(6).toString());
+        kart.setIl(sorgu.value(7).toString());
+        kart.setIlce(sorgu.value(8).toString());
+        kart.setMail(sorgu.value(9).toString());
+        kart.setCep(sorgu.value(10).toString());
+        kart.setTarih(sorgu.value(11).toDateTime());
+        return kart;
+    }
+    else{
+        return kart;
+    }
+}
+
 QList<QString> Veritabani::GetUsers()
 {
     sorgu.exec("SELECT username FROM kullanicilar");
@@ -584,25 +610,155 @@ void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 
 double Veritabani::getGunlukCiro()
 {
-    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem = ?");
+    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem IN(?,?)");
     sorgu.bindValue(0, QDateTime::currentDateTime().date());
     sorgu.bindValue(1, "giriş");
+    sorgu.bindValue(2, "iade");
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qWarning() << sorgu.lastError().text();
     }
     sorgu.next();
-    double girenPara = sorgu.value(0).toDouble();
-    return girenPara;
-//    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem = ?");
-//    sorgu.bindValue(0, QDateTime::currentDateTime().date());
-//    sorgu.bindValue(1, "çıkış");
-//    sorgu.exec();
-//    if(sorgu.lastError().isValid()){
-//        qWarning() << sorgu.lastError().text();
-//    }
-//    sorgu.next();
-//    double cikanPara = sorgu.value(0).toDouble();
-//    return girenPara - cikanPara;
+    return sorgu.value(0).toDouble();
+}
+
+void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
+{
+    // iade faturano alımı ve yeni oluşturma.
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
+    // iade fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, iadeFaturaNo);
+    sorgu.bindValue(1, 1000);// DİREKT cari id
+    sorgu.bindValue(2, "İADE");
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(4, _kullanici.getUserID());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    // kasaya eksi para girme
+    sorgu.exec("SELECT * FROM kasa");
+    sorgu.next();
+    double suankiPara = sorgu.value(1).toDouble();
+    double guncelKasaPara = suankiPara - _iadeSepet.sepetToplamTutari();
+    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+    sorgu.bindValue(0, guncelKasaPara);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    //kasa hareketlerini girme
+    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
+    sorgu.bindValue(0, -_iadeSepet.sepetToplamTutari());// eksi değer kaydediyorum
+    sorgu.bindValue(1, 1000);// DİREKT cari id
+    sorgu.bindValue(2, "iade");
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    //sepetteki iade ürünlerin stok hareketlerine girişi
+    foreach (auto urun, _iadeSepet.urunler) {
+        sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
+        sorgu.bindValue(0, urun.barkod);
+        sorgu.bindValue(1, iadeFaturaNo);
+        sorgu.bindValue(2, "İADE");
+        sorgu.bindValue(3, urun.miktar);
+        sorgu.bindValue(4, QDateTime::currentDateTime());
+        sorgu.bindValue(5, _kullanici.getUserID());
+        sorgu.bindValue(6, "İADE");
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qDebug() << sorgu.lastError().text();
+        }
+    }
+    // sepetteki iade ürünlerin stoğa eklenmesi
+    foreach (Urun urun, _iadeSepet.urunler) {
+        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
+        sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
+        sorgu.bindValue(1, urun.barkod);
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qWarning() << "iade ürün stoğa geri ekleme hatası: " << sorgu.lastError().text();
+        }
+    }
+}
+
+void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
+{
+    // iade faturano alımı ve yeni oluşturma.
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
+    // iade fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, iadeFaturaNo);
+    sorgu.bindValue(1, _iadeCari.getId());
+    sorgu.bindValue(2, "İADE");
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(4, _kullanici.getUserID());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    // kasaya eksi para girme
+    sorgu.exec("SELECT * FROM kasa");
+    sorgu.next();
+    double suankiPara = sorgu.value(1).toDouble();
+    double guncelKasaPara = suankiPara - _iadeSepet.sepetToplamTutari();
+    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+    sorgu.bindValue(0, guncelKasaPara);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    //kasa hareketlerini girme
+    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
+    sorgu.bindValue(0, _iadeSepet.sepetToplamTutari());
+    sorgu.bindValue(1, _iadeCari.getId());
+    sorgu.bindValue(2, "iade");
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    //sepetteki iade ürünlerin stok hareketlerine girişi
+    foreach (auto urun, _iadeSepet.urunler) {
+        sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
+        sorgu.bindValue(0, urun.barkod);
+        sorgu.bindValue(1, iadeFaturaNo);
+        sorgu.bindValue(2, "İADE");
+        sorgu.bindValue(3, urun.miktar);
+        sorgu.bindValue(4, QDateTime::currentDateTime());
+        sorgu.bindValue(5, _kullanici.getUserID());
+        sorgu.bindValue(6, "İADE");
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qDebug() << sorgu.lastError().text();
+        }
+    }
+    // sepetteki iade ürünlerin stoğa eklenmesi
+    foreach (Urun urun, _iadeSepet.urunler) {
+        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
+        sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
+        sorgu.bindValue(1, urun.barkod);
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qWarning() << "iade ürün stoğa geri ekleme hatası: " << sorgu.lastError().text();
+        }
+    }
 }
 
