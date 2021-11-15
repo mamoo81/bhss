@@ -373,6 +373,8 @@ private slots:
 
     void on_KasaBtn_clicked();
 
+    void on_iadeAlBtn_clicked();
+
 private:
     Ui::SatisForm *ui;
 };

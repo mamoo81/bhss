@@ -64,6 +64,7 @@ void SatisForm::formLoad()
     getCiro();
     hizliUrunButonlariAyarla();
     ui->barkodLineEdit->setFocus();
+    uyariSesi.setLoops(0);
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
@@ -435,6 +436,8 @@ void SatisForm::closeEvent(QCloseEvent *event)
         }
         else{
             this->close();
+            LoginForm *lg = new LoginForm();
+            lg->show();
         }
     }
 }
@@ -4206,6 +4209,27 @@ void SatisForm::sepetTabIconlariAyarla()
     }
     else{
         ui->SepetlertabWidget->setTabIcon(ui->SepetlertabWidget->currentIndex(), QIcon(":/images/ui/shopping-cart.png"));
+    }
+}
+
+
+void SatisForm::on_iadeAlBtn_clicked()
+{
+    if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
+        uyariSesi.play();
+        QMessageBox msg;
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setText(QString("Sepetteki %1 kalem ürün iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
+        msg.setInformativeText(QString("İade edilecek tutar: ₺%1").arg(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari()));
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setDefaultButton(QMessageBox::Yes);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        int cvp = msg.exec();
+        if(cvp == QMessageBox::Yes){
+            // iade işlemleri başlat.
+        }
     }
 }
 
