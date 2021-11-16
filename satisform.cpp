@@ -4213,7 +4213,6 @@ void SatisForm::sepetTabIconlariAyarla()
     }
 }
 
-
 void SatisForm::on_iadeAlBtn_clicked()
 {
     if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
@@ -4248,7 +4247,6 @@ void SatisForm::on_iadeAlBtn_clicked()
                 ui->sepet4TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
                 break;
             }
-//            ui->ToplamTutarlcdNumber->display(0);
             butonDurumlariniAyarla();
             sepetToplaminiYaz();
             getSonSatislar();

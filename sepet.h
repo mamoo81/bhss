@@ -11,7 +11,8 @@ class Sepet
 {
 private:
     QString ad;
-
+    double odenenTutar;
+    double kalanTutar;
 
 public:
     Sepet();
@@ -30,6 +31,10 @@ public:
     QHash<QString, Urun> sepetiGetir();
     Urun urunBilgileriniGetir(QString _Barkod);
     double paraYuvarla(double _toplam);
+    double getOdenenTutar() const;
+    void setOdenenTutar(double newOdenenTutar);
+    double getKalanTutar() const;
+    void setKalanTutar(double newKalanTutar);
 };
 
 #endif // SEPET_H

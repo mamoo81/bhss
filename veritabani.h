@@ -52,6 +52,7 @@ public slots:
     double getGunlukCiro();
     void iadeAl(Sepet _iadeSepet, User _kullanici);
     void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
+    QSqlQuery getIslemInfo(QString _faturaNo);
 };
 
 #endif // VERITABANI_H

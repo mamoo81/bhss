@@ -68,13 +68,16 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     sorgu.next();
     QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, yeniFaturaNo);
     sorgu.bindValue(1, _satisYapilanCariID);
     sorgu.bindValue(2, "SATIŞ");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, _satisYapanKullanici.getUserID());
+    sorgu.bindValue(5, _satilacakSepet.sepetToplamTutari());
+    sorgu.bindValue(6, _satilacakSepet.getOdenenTutar());
+    sorgu.bindValue(7, (_satilacakSepet.getKalanTutar()));
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
@@ -574,16 +577,26 @@ QStringList Veritabani::stokGruplariGetir()
 
 Sepet Veritabani::getSatis(QString _faturaNo)
 {
-    Sepet satis;
+    Sepet satilmisSepet;
     QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
     satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama FROM stokhareketleri WHERE islem_no = ?");
     satisSorgu.bindValue(0, _faturaNo);
     satisSorgu.exec();
     while (satisSorgu.next()) {
         StokKarti sk = getStokKarti(satisSorgu.value(0).toString());
-        satis.urunEkle(sk, satisSorgu.value(3).toFloat());
+        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat());
     }
-    return satis;
+    return satilmisSepet;
+}
+
+QSqlQuery Veritabani::getIslemInfo(QString _faturaNo)
+{
+    QSqlQuery islemSorgu = QSqlQuery(db);
+    islemSorgu.prepare("SELECT * FROM faturalar WHERE fatura_no = ?");
+    islemSorgu.bindValue(0, _faturaNo);
+    islemSorgu.exec();
+    islemSorgu.next();
+    return islemSorgu;
 }
 
 void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)

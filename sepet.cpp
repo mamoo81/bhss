@@ -7,12 +7,37 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-
 Sepet::Sepet()
 {
 
 }
 
+double Sepet::getOdenenTutar() const
+{
+    return odenenTutar;
+}
+
+void Sepet::setOdenenTutar(double newOdenenTutar)
+{
+    double kalan = newOdenenTutar - sepetToplamTutari();
+    if(kalan > 0){
+        setKalanTutar(0);
+    }
+    else{
+        setKalanTutar(kalan);
+    }
+    odenenTutar = newOdenenTutar;
+}
+
+double Sepet::getKalanTutar() const
+{
+    return kalanTutar;
+}
+
+void Sepet::setKalanTutar(double newKalanTutar)
+{
+    kalanTutar = newKalanTutar;
+}
 
 double Sepet::sepetToplamTutari()
 {

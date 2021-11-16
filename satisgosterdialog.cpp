@@ -3,6 +3,9 @@
 #include "veritabani.h"
 #include "sepet.h"
 #include "stokkarti.h"
+#include "cari.h"
+//*********************
+#include <QSqlQuery>
 
 SatisGosterDialog::SatisGosterDialog(QWidget *parent) :
     QDialog(parent),
@@ -30,10 +33,16 @@ void SatisGosterDialog::initTableWidgets()
 
 void SatisGosterDialog::sepetiCek()
 {
-    this->setWindowTitle(satisFaturaNo + " nolu satış");
     satisFaturaNo.truncate(10);
     Veritabani vt = Veritabani();
     Sepet satilmisSepet = vt.getSatis(satisFaturaNo);
+    QSqlQuery qr = vt.getIslemInfo(satisFaturaNo);
+    this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(8).toString() + " işlemi");
+    Cari cari = vt.getCariKart(qr.value(7).toString());
+    ui->islemYapilanCariLabel->setText(cari.getAd());
+    ui->odenenLabel->setText("₺" + qr.value(5).toString());
+    ui->kalanLabel->setText("₺" +qr.value(6).toString());
+    ui->tarihLabel->setText(qr.value(9).toDate().toString("dd.MM.yyyy") + " " + qr.value(9).toTime().toString("hh:mm"));
     ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari()));
     int satirIndex = 0;
     foreach (auto urun, satilmisSepet.urunler) {

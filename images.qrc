@@ -25,6 +25,7 @@
         <file>images/ui/shopping-cart.png</file>
         <file>images/ui/shopping-cart-buying.png</file>
         <file>images/ui/shopping-cart-delete.png</file>
+        <file>images/ui/return-purchase.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

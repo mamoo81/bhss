@@ -42,6 +42,7 @@ void SatisYapForm::on_satBtn_clicked()
     if(cariAdlari.contains(ui->CariLineEdit->text())){
         int index = cariAdlari.indexOf(ui->CariLineEdit->text());
         //veritabani clasına satiş gönderme
+        satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
         vt_satisFormu.satisYap(satilacakSepet, kullanici, cariKartlar.at(index).getId());
 
         ui->OdenendoubleSpinBox->setValue(0);
