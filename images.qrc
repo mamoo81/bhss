@@ -26,6 +26,10 @@
         <file>images/ui/shopping-cart-buying.png</file>
         <file>images/ui/shopping-cart-delete.png</file>
         <file>images/ui/return-purchase.png</file>
+        <file>images/ui/add-user.png</file>
+        <file>images/ui/delete-user.png</file>
+        <file>images/ui/registration-user.png</file>
+        <file>images/ui/search-user.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

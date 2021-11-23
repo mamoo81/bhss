@@ -4201,6 +4201,7 @@ void SatisForm::on_KasaBtn_clicked()
     paraCekForm->setKull(kullanici);
     paraCekForm->exec();
     delete vt;
+    ui->barkodLineEdit->setFocus();
 }
 
 void SatisForm::sepetTabIconlariAyarla()

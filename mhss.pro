@@ -11,7 +11,7 @@ CONFIG += c++11
 SOURCES += \
     adetdialogform.cpp \
     cari.cpp \
-    cariform.cpp \
+    carikartlardialog.cpp \
     fiyatgorform.cpp \
     hizliurunekleformdialog.cpp \
     kgform.cpp \
@@ -32,7 +32,7 @@ SOURCES += \
 HEADERS += \
     adetdialogform.h \
     cari.h \
-    cariform.h \
+    carikartlardialog.h \
     fiyatgorform.h \
     hizliurunekleformdialog.h \
     kgform.h \
@@ -51,7 +51,7 @@ HEADERS += \
 
 FORMS += \
     adetdialogform.ui \
-    cariform.ui \
+    carikartlardialog.ui \
     fiyatgorform.ui \
     hizliurunekleformdialog.ui \
     kgform.ui \
@@ -70,7 +70,7 @@ CONFIG += embed_translations
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+else: unix:!android: target.path = /usr/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \

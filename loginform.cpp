@@ -23,6 +23,24 @@ LoginForm::~LoginForm()
 
 void LoginForm::formLoad()
 {
+    Veritabani vt;
+    if(!vt.veritabaniVarmi())
+    {
+        QMessageBox msg(0);
+        msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setDefaultButton(QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        int cevap = msg.exec();
+        switch (cevap) {
+        case QMessageBox::Yes:
+            vt.veritabaniOlustur();
+            break;
+        }
+    }
     getUsers();
 }
 

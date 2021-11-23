@@ -41,7 +41,7 @@ void SatisGosterDialog::sepetiCek()
     Cari cari = vt.getCariKart(qr.value(7).toString());
     ui->islemYapilanCariLabel->setText(cari.getAd());
     ui->odenenLabel->setText("₺" + qr.value(5).toString());
-    ui->kalanLabel->setText("₺" +qr.value(6).toString());
+    ui->kalanLabel->setText("₺" + qr.value(6).toString());
     ui->tarihLabel->setText(qr.value(9).toDate().toString("dd.MM.yyyy") + " " + qr.value(9).toTime().toString("hh:mm"));
     ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari()));
     int satirIndex = 0;
