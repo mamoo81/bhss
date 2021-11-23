@@ -5,6 +5,7 @@
 #include "veritabani.h"
 //*******************************
 #include <QCloseEvent>
+#include <QSqlDatabase>
 
 
 LoginForm::LoginForm(QWidget *parent)
