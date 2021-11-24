@@ -275,6 +275,7 @@ void Veritabani::veritabaniOlustur()
     sorgu.exec("CREATE TABLE carikartlar("
                 "id BIGSERIAL PRIMARY KEY NOT NULL,"
                 "ad TEXT NOT NULL,"
+                "tip BIGSERIAL NOT NULL,"
                 "tc VARCHAR(11) NOT NULL,"
                 "vergi_no TEXT NOT NULL,"
                 "vergi_daire TEXT NOT NULL,"
@@ -309,6 +310,14 @@ void Veritabani::veritabaniOlustur()
     if(!QString(sorgu.lastError().text()).isEmpty()){
         qDebug() << sorgu.lastError().text();
     }
+    // caritipleri tablosu oluşturma
+    sorgu.exec("CREATE TABLE caritipleri ("
+                    "id BIGSERIAL PRIMARY KEY NOT NULL,"
+                    "tip TEXT NOT NULL)");
+    sorgu.exec("CREATE SEQUENCE caritipleri_sequence START WITH 1 INCREMENT BY 1 OWNED BY caritipleri.id");
+    sorgu.exec("INSERT INTO caritipleri(id, tip) VALUES(nextval('caritipleri_sequence'), 'MÜŞTERİ')");
+    sorgu.exec("INSERT INTO caritipleri(id, tip) VALUES(nextval('caritipleri_sequence'), 'TOPTANCI')");
+    // kasa tablosu oluşturma
     sorgu.exec("CREATE TABLE kasa("
                 "id BIGSERIAL PRIMARY KEY NOT NULL,"
                 "para DECIMAL(18,3) NOT NULL)");
@@ -319,6 +328,7 @@ void Veritabani::veritabaniOlustur()
     if(!QString(sorgu.lastError().text()).isEmpty()){
         qDebug() << sorgu.lastError().text();
     }
+    // kasa hareketleri tablosu oluşturma
     sorgu.exec("CREATE TABLE kasahareketleri("
                   "id BIGSERIAL PRIMARY KEY NOT NULL,"
                   "miktar DECIMAL(18,3) NOT NULL,"
