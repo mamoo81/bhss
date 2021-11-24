@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     else{
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisini kontrol edin.");
+        msg.setText("PostgreSQL servisini kontrol edin. Konsola sırasıyla uygulayın;\n\nsudo servis ekle postgresql\nsudo servis aktif postgresql\nsudo servis kos postgresql");
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Ok);
