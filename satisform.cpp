@@ -2445,7 +2445,8 @@ void SatisForm::on_satirSilBtn_clicked()
 {
     uyariSesi.play();
     QMessageBox msgBox(this);
-    msgBox.setText("Dikkat");
+    msgBox.setWindowTitle("Dikkat");
+    msgBox.setIcon(QMessageBox::Question);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
     msgBox.setButtonText(QMessageBox::Yes, "Evet");
@@ -2455,7 +2456,7 @@ void SatisForm::on_satirSilBtn_clicked()
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
         if(ui->sepet1TableWidget->rowCount() > 0){
-            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            msgBox.setText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
             cevap = msgBox.exec();
             switch (cevap) {
             case QMessageBox::Yes:
@@ -2468,7 +2469,7 @@ void SatisForm::on_satirSilBtn_clicked()
         break;
     case 1:
         if(ui->sepet2TableWidget->rowCount() > 0){
-            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            msgBox.setText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
             cevap = msgBox.exec();
             switch (cevap) {
             case QMessageBox::Yes:
@@ -2481,7 +2482,7 @@ void SatisForm::on_satirSilBtn_clicked()
         break;
     case 2:
         if(ui->sepet3TableWidget->rowCount() > 0){
-            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            msgBox.setText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
             cevap = msgBox.exec();
             switch (cevap) {
             case QMessageBox::Yes:
@@ -2494,7 +2495,7 @@ void SatisForm::on_satirSilBtn_clicked()
         break;
     case 3:
         if(ui->sepet4TableWidget->rowCount() > 0){
-            msgBox.setInformativeText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
+            msgBox.setText(QString("%1 \n\nürününü sepetten silmek istediğinize emin misiniz?").arg(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 1).data().toString()));
             cevap = msgBox.exec();
             switch (cevap) {
             case QMessageBox::Yes:
@@ -2517,8 +2518,9 @@ void SatisForm::on_sepetSilBtn_clicked()
 {
     uyariSesi.play();
     QMessageBox sepetSilMsgBox(this);
-    sepetSilMsgBox.setText("Dikkat");
-    sepetSilMsgBox.setInformativeText("Aktif Sepeti silmek istediğinize emin misiniz?");
+    sepetSilMsgBox.setWindowTitle("Dikkat");
+    sepetSilMsgBox.setIcon(QMessageBox::Question);
+    sepetSilMsgBox.setText("Aktif Sepeti silmek istediğinize emin misiniz?");
     sepetSilMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     sepetSilMsgBox.setDefaultButton(QMessageBox::No);
     sepetSilMsgBox.setButtonText(QMessageBox::Yes, "Evet");

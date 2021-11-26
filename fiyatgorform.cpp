@@ -26,7 +26,7 @@ void FiyatGorForm::keyPressEvent(QKeyEvent *event)
             Veritabani *vt = new Veritabani();
             StokKarti kart = vt->getStokKarti(ui->BarkodlineEdit->text());
             ui->urunAdiLabel->setText(kart.getAd());
-            ui->fiyatLabel->setText(QString::number(kart.getSFiyat()));
+            ui->fiyatLabel->setText("₺" + QString::number(kart.getSFiyat()));
             QTimer::singleShot(1500, this, &FiyatGorForm::slotTimer);
             delete vt;
         }

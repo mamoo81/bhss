@@ -26,7 +26,7 @@
    <string>STOK KARTLARI</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="images.qrc">
     <normaloff>:/images/ui/mhss.png</normaloff>:/images/ui/mhss.png</iconset>
   </property>
   <widget class="QLineEdit" name="AraLineEdit">
@@ -55,7 +55,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/back-100.png</normaloff>:/images/ui/back-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -78,7 +78,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/forward-100.png</normaloff>:/images/ui/forward-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -107,7 +107,7 @@
     <string>Satış Grafiği</string>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/chart-100.png</normaloff>:/images/ui/chart-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -133,7 +133,7 @@
     <string>Düzenle</string>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/edit-property-100.png</normaloff>:/images/ui/edit-property-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -159,7 +159,7 @@
     <string>Yeni</string>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/add-property-100.png</normaloff>:/images/ui/add-property-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -185,7 +185,7 @@
     <string>Sil</string>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/delete-document-100.png</normaloff>:/images/ui/delete-document-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -285,7 +285,7 @@
      <x>1010</x>
      <y>100</y>
      <width>281</width>
-     <height>381</height>
+     <height>461</height>
     </rect>
    </property>
    <property name="title">
@@ -313,7 +313,7 @@
         <string>İptal</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
        </property>
        <property name="iconSize">
@@ -336,7 +336,7 @@
         <string>Kaydet</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
        </property>
        <property name="iconSize">
@@ -352,7 +352,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -572,7 +572,7 @@
     <string>ARA</string>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="images.qrc">
      <normaloff>:/images/ui/search-100.png</normaloff>:/images/ui/search-100.png</iconset>
    </property>
    <property name="iconSize">
@@ -689,6 +689,8 @@
   <tabstop>StokKartlaritableView</tabstop>
   <tabstop>araBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

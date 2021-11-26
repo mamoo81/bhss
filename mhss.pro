@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     adetdialogform.cpp \
+    ayarlardialog.cpp \
     cari.cpp \
     carikartlardialog.cpp \
     fiyatgorform.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     adetdialogform.h \
+    ayarlardialog.h \
     cari.h \
     carikartlardialog.h \
     fiyatgorform.h \
@@ -51,6 +53,7 @@ HEADERS += \
 
 FORMS += \
     adetdialogform.ui \
+    ayarlardialog.ui \
     carikartlardialog.ui \
     fiyatgorform.ui \
     hizliurunekleformdialog.ui \

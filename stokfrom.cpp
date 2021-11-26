@@ -43,7 +43,7 @@ void StokFrom::formLoad()
     grupComboboxDoldur();
     stokKartlariniListele();
 
-    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
+//    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
@@ -78,6 +78,7 @@ void StokFrom::stokKartlariniListele()
     QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
+    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
     delete vt;
 }
 
@@ -91,10 +92,13 @@ void StokFrom::on_YeniBtn_clicked()
         ui->StokKartlaritableView->setEnabled(false);
         ui->BarkodLnEdit->setFocus();
     }
+    alanlariTemizle();
+    ui->BarkodLnEdit->setFocus();
 }
 
 void StokFrom::on_DuzenleBtn_clicked()
 {
+    seciliIndex = ui->StokKartlaritableView->currentIndex().row();
     if(!ui->stokKartBilGroupBox->isEnabled())
     {
         if(ui->StokKartlaritableView->currentIndex().row() > -1)
@@ -136,6 +140,8 @@ void StokFrom::on_IptalBtn_clicked()
     ui->StokKartlaritableView->setEnabled(true);
     ui->Fwbtn->setEnabled(true);
     ui->BckBtn->setEnabled(true);
+    ui->StokKartlaritableView->setFocus();
+    alanlariDoldur();
 }
 
 void StokFrom::alanlariTemizle()
@@ -147,8 +153,10 @@ void StokFrom::alanlariTemizle()
     ui->StokGrubuComboBox->setCurrentIndex(-1);
     ui->AFiyatdoubleSpinBox->setValue(0);
     ui->SFiyatdoubleSpinBox->setValue(0);
+    ui->KDVspinBox->setValue(0);
     ui->AciklamaLnEdit->clear();
 }
+
 
 void StokFrom::alanlariDoldur()
 {
@@ -208,14 +216,14 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
             this->close();
         }
     }
-    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-        if(ui->stokKartBilGroupBox->isEnabled()){
-            emit on_KaydetBtn_clicked();
-        }
-        else{
-            emit on_araBtn_clicked();
-        }
-    }
+//    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
+//        if(ui->stokKartBilGroupBox->isEnabled()){
+//            emit on_KaydetBtn_clicked();
+//        }
+//        else{
+//            emit on_araBtn_clicked();
+//        }
+//    }
 }
 
 
@@ -258,6 +266,9 @@ void StokFrom::on_KaydetBtn_clicked()
     }
     alanlariTemizle();
     stokKartlariniListele();
+    ui->StokKartlaritableView->setFocus();
+    alanlariDoldur();
+    ui->StokKartlaritableView->selectRow(seciliIndex);
     emit on_IptalBtn_clicked();
     delete vt;
 }
@@ -297,6 +308,7 @@ void StokFrom::on_SilBtn_clicked()
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
     }
+    ui->StokKartlaritableView->setFocus();
 }
 
 

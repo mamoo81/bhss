@@ -18,6 +18,7 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
+    int seciliIndex;
 
 
 public slots:

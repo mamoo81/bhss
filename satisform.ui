@@ -543,16 +543,22 @@
   <widget class="QLCDNumber" name="ToplamTutarlcdNumber">
    <property name="geometry">
     <rect>
-     <x>570</x>
+     <x>480</x>
      <y>10</y>
-     <width>301</width>
-     <height>101</height>
+     <width>391</width>
+     <height>121</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>301</width>
+     <height>121</height>
+    </size>
    </property>
    <property name="font">
     <font>
      <family>Sans Serif</family>
-     <pointsize>10</pointsize>
+     <pointsize>20</pointsize>
     </font>
    </property>
    <property name="autoFillBackground">
@@ -561,7 +567,7 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(0, 0, 0);
 border-color: rgb(0, 170, 0);
-color: rgb(0, 170, 0);</string>
+color: rgb(0, 255, 0);</string>
    </property>
    <property name="smallDecimalPoint">
     <bool>false</bool>
@@ -580,9 +586,9 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>790</x>
-     <y>120</y>
+     <y>140</y>
      <width>81</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -603,9 +609,9 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>120</y>
+     <y>140</y>
      <width>81</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -626,9 +632,9 @@ color: rgb(0, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>170</y>
+     <y>180</y>
      <width>171</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -6182,10 +6188,10 @@ color: rgb(0, 170, 0);</string>
   <widget class="QToolButton" name="CikisToolBtn">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>10</y>
-     <width>81</width>
-     <height>61</height>
+     <x>380</x>
+     <y>80</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -6202,7 +6208,7 @@ color: rgb(0, 170, 0);</string>
     </size>
    </property>
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
  </widget>

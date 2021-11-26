@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>215</width>
-    <height>167</height>
+    <width>400</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>215</width>
-    <height>167</height>
+    <width>400</width>
+    <height>200</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>215</width>
-    <height>167</height>
+    <width>400</width>
+    <height>200</height>
    </size>
   </property>
   <property name="font">
@@ -38,7 +38,7 @@
   <widget class="QLineEdit" name="BarkodlineEdit">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>130</x>
      <y>30</y>
      <width>131</width>
      <height>23</height>
@@ -71,7 +71,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>ÜRÜN BİLGİSİ :</string>
+    <string>ÜRÜN BİLGİSİ</string>
    </property>
   </widget>
   <widget class="QLabel" name="urunAdiLabel">
@@ -91,19 +91,19 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
-     <width>201</width>
-     <height>51</height>
+     <y>130</y>
+     <width>381</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>24</pointsize>
+     <pointsize>48</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>₺0</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
