@@ -223,10 +223,10 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
         }
     }
     else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-        if(ui->stokKartBilGroupBox->isEnabled()){
-            emit on_KaydetBtn_clicked();
-        }
-        else if(ui->AraLineEdit->isEnabled()){
+//        if(ui->stokKartBilGroupBox->isEnabled()){
+//            emit on_KaydetBtn_clicked();
+//        }
+        if(ui->AraLineEdit->isEnabled()){
             emit on_araBtn_clicked();
         }
     }
