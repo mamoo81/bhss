@@ -90,6 +90,8 @@ void StokFrom::on_YeniBtn_clicked()
         ui->DuzenleBtn->setEnabled(false);
         ui->SilBtn->setEnabled(false);
         ui->StokKartlaritableView->setEnabled(false);
+        ui->AraLineEdit->setEnabled(false);
+        ui->araBtn->setEnabled(false);
         ui->BarkodLnEdit->setFocus();
     }
     alanlariTemizle();
@@ -109,6 +111,8 @@ void StokFrom::on_DuzenleBtn_clicked()
             ui->StokKartlaritableView->setEnabled(false);
             ui->Fwbtn->setEnabled(false);
             ui->BckBtn->setEnabled(false);
+            ui->AraLineEdit->setEnabled(false);
+            ui->araBtn->setEnabled(false);
             ui->BarkodLnEdit->setFocus();
         }
         else
@@ -140,6 +144,8 @@ void StokFrom::on_IptalBtn_clicked()
     ui->StokKartlaritableView->setEnabled(true);
     ui->Fwbtn->setEnabled(true);
     ui->BckBtn->setEnabled(true);
+    ui->AraLineEdit->setEnabled(true);
+    ui->araBtn->setEnabled(true);
     ui->StokKartlaritableView->setFocus();
     alanlariDoldur();
 }
@@ -216,14 +222,14 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
             this->close();
         }
     }
-//    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-//        if(ui->stokKartBilGroupBox->isEnabled()){
-//            emit on_KaydetBtn_clicked();
-//        }
-//        else{
-//            emit on_araBtn_clicked();
-//        }
-//    }
+    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
+        if(ui->stokKartBilGroupBox->isEnabled()){
+            emit on_KaydetBtn_clicked();
+        }
+        else if(ui->AraLineEdit->isEnabled()){
+            emit on_araBtn_clicked();
+        }
+    }
 }
 
 
@@ -358,6 +364,7 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
         msg.exec();
         ui->StokKartlaritableView->clearSelection();
         StokFrom::alanlariTemizle();
+        ui->AraLineEdit->clear();
     }
 }
 

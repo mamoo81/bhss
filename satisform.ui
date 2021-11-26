@@ -739,7 +739,7 @@ color: rgb(0, 255, 0);</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -756,8 +756,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -791,8 +793,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -826,8 +830,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -861,8 +867,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -896,8 +904,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -931,8 +941,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -966,8 +978,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1001,8 +1015,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1036,8 +1052,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1071,8 +1089,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1106,8 +1126,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1141,8 +1163,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1176,8 +1200,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1211,8 +1237,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1246,8 +1274,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1281,8 +1311,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1316,8 +1348,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1351,8 +1385,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1386,8 +1422,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1421,8 +1459,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1456,8 +1496,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1491,8 +1533,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1526,8 +1570,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1561,8 +1607,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1596,8 +1644,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1631,8 +1681,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1666,8 +1718,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1701,8 +1755,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1736,8 +1792,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1771,8 +1829,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1811,8 +1871,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1846,8 +1908,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1881,8 +1945,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1916,8 +1982,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1951,8 +2019,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -1986,8 +2056,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2021,8 +2093,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2056,8 +2130,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2091,8 +2167,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2126,8 +2204,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2161,8 +2241,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2196,8 +2278,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2231,8 +2315,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2266,8 +2352,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2301,8 +2389,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2336,8 +2426,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2371,8 +2463,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2406,8 +2500,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2441,8 +2537,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2476,8 +2574,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2511,8 +2611,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2546,8 +2648,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2581,8 +2685,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2616,8 +2722,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2651,8 +2759,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2686,8 +2796,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2721,8 +2833,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2756,8 +2870,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2791,8 +2907,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2826,8 +2944,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2866,8 +2986,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2901,8 +3023,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2936,8 +3060,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -2971,8 +3097,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3006,8 +3134,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3041,8 +3171,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3076,8 +3208,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3111,8 +3245,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3146,8 +3282,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3181,8 +3319,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3216,8 +3356,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3251,8 +3393,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3286,8 +3430,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3321,8 +3467,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3356,8 +3504,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3391,8 +3541,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3426,8 +3578,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3461,8 +3615,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3496,8 +3652,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3531,8 +3689,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3566,8 +3726,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3601,8 +3763,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3636,8 +3800,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3671,8 +3837,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3706,8 +3874,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3741,8 +3911,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3776,8 +3948,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3811,8 +3985,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3846,8 +4022,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3881,8 +4059,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3921,8 +4101,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3956,8 +4138,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -3991,8 +4175,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4026,8 +4212,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4061,8 +4249,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4096,8 +4286,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4131,8 +4323,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4166,8 +4360,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4201,8 +4397,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4236,8 +4434,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4271,8 +4471,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4306,8 +4508,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4341,8 +4545,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4376,8 +4582,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4411,8 +4619,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4446,8 +4656,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4481,8 +4693,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4516,8 +4730,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4551,8 +4767,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4586,8 +4804,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4621,8 +4841,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4656,8 +4878,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4691,8 +4915,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4726,8 +4952,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4761,8 +4989,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4796,8 +5026,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4831,8 +5063,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4866,8 +5100,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4901,8 +5137,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4936,8 +5174,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -4976,8 +5216,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5011,8 +5253,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5046,8 +5290,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5081,8 +5327,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5116,8 +5364,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5151,8 +5401,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5186,8 +5438,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5221,8 +5475,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5256,8 +5512,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5291,8 +5549,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5326,8 +5586,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5361,8 +5623,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5396,8 +5660,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5431,8 +5697,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5466,8 +5734,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5501,8 +5771,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5536,8 +5808,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5571,8 +5845,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5606,8 +5882,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5641,8 +5919,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5676,8 +5956,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5711,8 +5993,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5746,8 +6030,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5781,8 +6067,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5816,8 +6104,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5851,8 +6141,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5886,8 +6178,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5921,8 +6215,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5956,8 +6252,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">
@@ -5991,8 +6289,10 @@ color: rgb(0, 255, 0);</string>
      </property>
      <property name="font">
       <font>
-       <family>Monospace</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="contextMenuPolicy">

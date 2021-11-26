@@ -471,24 +471,22 @@ void Veritabani::yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici)
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
-        msg->setText("Başarılı");
-        msg->setInformativeText("Yeni stok kartı oluşturuldu.");
+        msg->setWindowTitle("Başarılı");
+        msg->setText("Yeni stok kartı oluşturuldu.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
     else{
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Critical);
-        msg->setText("Hata");
-        msg->setInformativeText("Yeni stok kartı oluşturulamadı.");
+        msg->setWindowTitle("Hata");
+        msg->setText("Yeni stok kartı oluşturulamadı.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
 }
 
@@ -509,28 +507,26 @@ void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *
     sorgu.bindValue(9, _YeniStokKarti->getAciklama() + " " + _Kullanici->getUserName());
     sorgu.bindValue(10, _EskiStokKartiID);
     if(sorgu.exec()){
-        QMessageBox *msg = new QMessageBox(0);
+        QMessageBox *msg = new QMessageBox();
         msg->setIcon(QMessageBox::Information);
-        msg->setText("Bilgi");
-        msg->setInformativeText("Stok kartı güncellendi.");
+        msg->setWindowTitle("Bilgi");
+        msg->setText("Stok kartı güncellendi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
         msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
     else{
-        QMessageBox *msg = new QMessageBox(0);
-        msg->setText("Hata");
-        msg->setInformativeText("Stok kartı güncellenemedi.");
+        QMessageBox *msg = new QMessageBox();
+        msg->setWindowTitle("Hata");
+        msg->setText("Stok kartı güncellenemedi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setIcon(QMessageBox::Information);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
         msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
 }
 
@@ -542,24 +538,22 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox();
         msg->setIcon(QMessageBox::Information);
-        msg->setText("Bilgi");
-        msg->setInformativeText("Stok kartı silindi.");
+        msg->setWindowTitle("Bilgi");
+        msg->setText("Stok kartı silindi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
     else{
         QMessageBox *msg = new QMessageBox();
         msg->setIcon(QMessageBox::Warning);
-        msg->setText("Bilgi");
-        msg->setInformativeText("Stok kartı silinemedi.");
+        msg->setWindowTitle("Bilgi");
+        msg->setText("Stok kartı silinemedi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->setModal(true);
-        msg->show();
+        msg->exec();
     }
 }
 
