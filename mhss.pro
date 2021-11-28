@@ -16,6 +16,7 @@ SOURCES += \
     fiyatgorform.cpp \
     hizliurunekleformdialog.cpp \
     kgform.cpp \
+    kullanicidialogform.cpp \
     main.cpp \
     loginform.cpp \
     paracekdialogform.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     fiyatgorform.h \
     hizliurunekleformdialog.h \
     kgform.h \
+    kullanicidialogform.h \
     loginform.h \
     paracekdialogform.h \
     satisform.h \
@@ -58,6 +60,7 @@ FORMS += \
     fiyatgorform.ui \
     hizliurunekleformdialog.ui \
     kgform.ui \
+    kullanicidialogform.ui \
     loginform.ui \
     paracekdialogform.ui \
     satisform.ui \

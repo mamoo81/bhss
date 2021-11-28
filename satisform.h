@@ -24,6 +24,8 @@ public:
     ~SatisForm();
 
     QToolButton *hizliEklenecekButon;
+    Veritabani *vt = new Veritabani();
+    StokKarti stokKarti = StokKarti();
 
     void setUser(User user);
     void formLoad();
@@ -38,7 +40,7 @@ public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
     void sepetTabIconlariAyarla();
     void hizliUrunButonlariAyarla();
-    void getCiro();
+//    void getCiro();
 private slots:
     void on_StokKartlariBtn_clicked();
     void initTableWidgets();
@@ -48,7 +50,6 @@ private slots:
     void tableWidgetEkle(StokKarti p_StokKarti, float _miktar);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
-    bool urunSepetteVarmi(QString _Barkod);
     int getSeciliSatirIndexi();
     void on_artirBtn_clicked();
 
@@ -375,8 +376,15 @@ private slots:
 
     void on_iadeAlBtn_clicked();
 
+    void on_CarpBtn_clicked();
+
+    void adetCarp();
+    void on_AyarlarBtn_clicked();
+
 private:
     Ui::SatisForm *ui;
+
+    User kullanici;
 };
 
 #endif // SATISFORM_H

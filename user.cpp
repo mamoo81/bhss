@@ -55,3 +55,53 @@ void User::setCepNo(const QString &newCepNo)
     cepNo = newCepNo;
 }
 
+const QDateTime &User::getTarih() const
+{
+    return tarih;
+}
+
+void User::setTarih(const QDateTime &newTarih)
+{
+    tarih = newTarih;
+}
+
+bool User::getKasaYetki() const
+{
+    return kasaYetki;
+}
+
+void User::setKasaYetki(bool newKasaYetki)
+{
+    kasaYetki = newKasaYetki;
+}
+
+bool User::getIadeYetki() const
+{
+    return iadeYetki;
+}
+
+void User::setIadeYetki(bool newIadeYetki)
+{
+    iadeYetki = newIadeYetki;
+}
+
+bool User::getStokYetki() const
+{
+    return stokYetki;
+}
+
+void User::setStokYetki(bool newStokYetki)
+{
+    stokYetki = newStokYetki;
+}
+
+const QString &User::getPassWord() const
+{
+    return passWord;
+}
+
+void User::setPassWord(const QString &newPassWord)
+{
+    passWord = newPassWord;
+}
+

@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>165</height>
+    <width>340</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>320</width>
-    <height>165</height>
+    <width>340</width>
+    <height>220</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>320</width>
-    <height>165</height>
+    <width>340</width>
+    <height>220</height>
    </size>
   </property>
   <property name="font">
@@ -31,128 +31,179 @@
   <property name="windowTitle">
    <string>Kasadan Para Çek</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QPushButton" name="IptalpushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>101</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>İptal</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CekpushButton">
+   <property name="geometry">
+    <rect>
+     <x>209</x>
+     <y>180</y>
+     <width>111</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Çek</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+   </property>
+  </widget>
+  <widget class="QSplitter" name="splitter">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>301</width>
-     <height>147</height>
+     <y>140</y>
+     <width>291</width>
+     <height>29</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Kasada ki para</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="KasadakiParalabel">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Çekilecek para</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Kalan para</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="kalanParaLabel">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="specialValueText">
-         <string/>
-        </property>
-        <property name="prefix">
-         <string>₺</string>
-        </property>
-        <property name="suffix">
-         <string/>
-        </property>
-        <property name="maximum">
-         <double>999999.989999999990687</double>
-        </property>
-        <property name="value">
-         <double>0.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="IptalpushButton">
-        <property name="text">
-         <string>İptal</string>
-        </property>
-        <property name="icon">
-         <iconset resource="images.qrc">
-          <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="CekpushButton">
-        <property name="text">
-         <string>Çek</string>
-        </property>
-        <property name="icon">
-         <iconset resource="images.qrc">
-          <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QLabel" name="label_5">
+    <property name="text">
+     <string>Günlük ciro</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="CiroLabel">
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QSplitter" name="splitter_2">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>100</y>
+     <width>291</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QLabel" name="label_4">
+    <property name="text">
+     <string>Kalan para</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="kalanParaLabel">
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QSplitter" name="splitter_3">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>50</y>
+     <width>318</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QLabel" name="label_3">
+    <property name="text">
+     <string>Çekilecek para</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="specialValueText">
+     <string/>
+    </property>
+    <property name="prefix">
+     <string>₺</string>
+    </property>
+    <property name="suffix">
+     <string/>
+    </property>
+    <property name="maximum">
+     <double>999999.989999999990687</double>
+    </property>
+    <property name="value">
+     <double>0.000000000000000</double>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QSplitter" name="splitter_4">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>12</y>
+     <width>291</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="text">
+     <string>Kasada ki para</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="KasadakiParalabel">
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>

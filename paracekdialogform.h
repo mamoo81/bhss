@@ -1,7 +1,8 @@
 #ifndef PARACEKDIALOGFORM_H
 #define PARACEKDIALOGFORM_H
 #include "user.h"
-
+#include "veritabani.h"
+//******************************
 #include <QDialog>
 
 namespace Ui {
@@ -15,6 +16,8 @@ class ParaCekDialogForm : public QDialog
 public:
     explicit ParaCekDialogForm(QWidget *parent = nullptr);
     ~ParaCekDialogForm();
+
+    Veritabani vt = Veritabani();
 
 public slots:
 

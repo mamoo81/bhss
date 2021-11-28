@@ -40,8 +40,8 @@ public slots:
     QStringList getSonIslemler();
     void veritabaniOlustur();
     bool veritabaniVarmi();
-    void yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici);
-    void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *_YeniStokKarti, User *_Kullanici);
+    void yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici);
+    void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici);
     void stokKartiSil(QString _StokKartiID);
     QSqlQueryModel* getStokKartlari();
     QSqlQueryModel* getStokKartlari(QString query);
@@ -53,6 +53,9 @@ public slots:
     void iadeAl(Sepet _iadeSepet, User _kullanici);
     void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
     QSqlQuery getIslemInfo(QString _faturaNo);
+    void CreateNewUser(User _NewUser);
+    void updateUser(User _NewUserInfos);
+    void deleteUser(QString _DeletedUserName);
 };
 
 #endif // VERITABANI_H

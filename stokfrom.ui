@@ -681,13 +681,16 @@
   <tabstop>StokGrubuComboBox</tabstop>
   <tabstop>AFiyatdoubleSpinBox</tabstop>
   <tabstop>SFiyatdoubleSpinBox</tabstop>
+  <tabstop>KDVspinBox</tabstop>
   <tabstop>AciklamaLnEdit</tabstop>
   <tabstop>KaydetBtn</tabstop>
   <tabstop>IptalBtn</tabstop>
-  <tabstop>adRadioButton</tabstop>
   <tabstop>barkodRadioButton</tabstop>
-  <tabstop>StokKartlaritableView</tabstop>
+  <tabstop>adRadioButton</tabstop>
   <tabstop>araBtn</tabstop>
+  <tabstop>StokKartlaritableView</tabstop>
+  <tabstop>dosyadanToolButton</tabstop>
+  <tabstop>onlineToolButton</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

@@ -187,20 +187,26 @@ void Veritabani::veritabaniOlustur()
                 "ad TEXT,"
                 "soyad TEXT,"
                 "cepno VARCHAR(10),"
-                "tarih TIMESTAMP NOT NULL)");
+                "tarih TIMESTAMP NOT NULL,"
+                "kasayetki BOOLEAN DEFAULT FALSE,"
+                "iadeyetki BOOLEAN DEFAULT FALSE,"
+                "stokyetki BOOLEAN DEFAULT FALSE)");
     sorgu.exec("CREATE SEQUENCE kullanicilar_sequence START WITH 100 INCREMENT BY 1 OWNED BY kullanicilar.id");
     if(!QString(sorgu.lastError().text()).isEmpty()){
         qDebug() << sorgu.lastError().text();
     }
     //kullanıcılar tablosuna admin kullanıcısını ekleme
-    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih) "
-                    "VALUES (nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki) "
+                    "VALUES (nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, "admin");
     sorgu.bindValue(1, "admin");
     sorgu.bindValue(2, "ADMİN");
     sorgu.bindValue(3, "ADMİN");
     sorgu.bindValue(4, "0000000000");
     sorgu.bindValue(5, QDate::currentDate());
+    sorgu.bindValue(6, true);
+    sorgu.bindValue(7, true);
+    sorgu.bindValue(8, true);
     sorgu.exec();
     if(!QString(sorgu.lastError().text()).isEmpty()){
         qDebug() << sorgu.lastError().text();
@@ -362,11 +368,124 @@ User Veritabani::GetUserInfos(QString _UserName)
     if(sorgu.next()){
         u.setUserID(sorgu.value(0).toString());
         u.setUserName(sorgu.value(1).toString());
+        u.setPassWord(sorgu.value(2).toString());
         u.setAd(sorgu.value(3).toString());
         u.setSoyad(sorgu.value(4).toString());
         u.setCepNo(sorgu.value(5).toString());
+        u.setTarih(sorgu.value(6).toDateTime());
+        u.setKasaYetki(sorgu.value(7).toBool());
+        u.setIadeYetki(sorgu.value(8).toBool());
+        u.setStokYetki(sorgu.value(9).toBool());
     }
     return u;
+}
+
+void Veritabani::updateUser(User _NewUserInfos)
+{
+    QSqlQuery sorgu = QSqlQuery(db);
+    sorgu.prepare("UPDATE kullanicilar SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ? "
+                    "WHERE id = ?");
+    sorgu.bindValue(0, _NewUserInfos.getPassWord());
+    sorgu.bindValue(1, _NewUserInfos.getAd());
+    sorgu.bindValue(2, _NewUserInfos.getSoyad());
+    sorgu.bindValue(3, _NewUserInfos.getCepNo());
+    sorgu.bindValue(4, _NewUserInfos.getTarih());
+    sorgu.bindValue(5, _NewUserInfos.getKasaYetki());
+    sorgu.bindValue(6, _NewUserInfos.getIadeYetki());
+    sorgu.bindValue(7, _NewUserInfos.getStokYetki());
+    sorgu.bindValue(8, _NewUserInfos.getUserID());
+    if(sorgu.exec()){
+        QMessageBox *msg = new QMessageBox(0);
+        msg->setIcon(QMessageBox::Information);
+        msg->setWindowTitle("Başarılı");
+        msg->setText("Kullanıcı güncellendi.");
+        msg->setStandardButtons(QMessageBox::Ok);
+        msg->setDefaultButton(QMessageBox::Ok);
+        msg->setButtonText(QMessageBox::Ok, "Tamam");
+        msg->exec();
+    }
+    else{
+        if(sorgu.lastError().isValid()){
+            QMessageBox *msg = new QMessageBox(0);
+            msg->setIcon(QMessageBox::Information);
+            msg->setWindowTitle("Hata");
+            msg->setText("Güncelleme Başarısız!");
+            msg->setInformativeText(sorgu.lastError().text());
+            msg->setStandardButtons(QMessageBox::Ok);
+            msg->setDefaultButton(QMessageBox::Ok);
+            msg->setButtonText(QMessageBox::Ok, "Tamam");
+            msg->exec();
+        }
+    }
+}
+
+void Veritabani::CreateNewUser(User _NewUser)
+{
+    QSqlQuery sorgu = QSqlQuery(db);
+    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki)"
+                    " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, _NewUser.getUserName());
+    sorgu.bindValue(1, _NewUser.getPassWord());
+    sorgu.bindValue(2, _NewUser.getAd());
+    sorgu.bindValue(3, _NewUser.getSoyad());
+    sorgu.bindValue(4, _NewUser.getCepNo());
+    sorgu.bindValue(5, _NewUser.getTarih());
+    sorgu.bindValue(6, _NewUser.getKasaYetki());
+    sorgu.bindValue(7, _NewUser.getIadeYetki());
+    sorgu.bindValue(8, _NewUser.getStokYetki());
+    if(sorgu.exec()){
+        QMessageBox *msg = new QMessageBox(0);
+        msg->setIcon(QMessageBox::Information);
+        msg->setWindowTitle("Başarılı");
+        msg->setText("Yeni kullanıcı oluşturuldu.");
+        msg->setStandardButtons(QMessageBox::Ok);
+        msg->setDefaultButton(QMessageBox::Ok);
+        msg->setButtonText(QMessageBox::Ok, "Tamam");
+        msg->exec();
+    }
+    else{
+        if(sorgu.lastError().isValid()){
+            QMessageBox *msg = new QMessageBox(0);
+            msg->setIcon(QMessageBox::Information);
+            msg->setWindowTitle("Hata");
+            msg->setText("Yeni kullanıcı oluşturulamadı!");
+            msg->setInformativeText(sorgu.lastError().text());
+            msg->setStandardButtons(QMessageBox::Ok);
+            msg->setDefaultButton(QMessageBox::Ok);
+            msg->setButtonText(QMessageBox::Ok, "Tamam");
+            msg->exec();
+        }
+    }
+}
+
+void Veritabani::deleteUser(QString _DeletedUserName)
+{
+    QSqlQuery sorgu = QSqlQuery(db);
+    sorgu.prepare("DELETE FROM kullanicilar WHERE username = ?");
+    sorgu.bindValue(0, _DeletedUserName);
+    if(sorgu.exec()){
+        QMessageBox *msg = new QMessageBox(0);
+        msg->setIcon(QMessageBox::Information);
+        msg->setWindowTitle("Başarılı");
+        msg->setText(_DeletedUserName + " kullanıcısı silindi.");
+        msg->setStandardButtons(QMessageBox::Ok);
+        msg->setDefaultButton(QMessageBox::Ok);
+        msg->setButtonText(QMessageBox::Ok, "Tamam");
+        msg->exec();
+    }
+    else{
+        if(sorgu.lastError().isValid()){
+            QMessageBox *msg = new QMessageBox(0);
+            msg->setIcon(QMessageBox::Information);
+            msg->setWindowTitle("Hata");
+            msg->setText("Kullanıcı silinemedi!");
+            msg->setInformativeText(sorgu.lastError().text());
+            msg->setStandardButtons(QMessageBox::Ok);
+            msg->setDefaultButton(QMessageBox::Ok);
+            msg->setButtonText(QMessageBox::Ok, "Tamam");
+            msg->exec();
+        }
+    }
 }
 
 QList<Cari> Veritabani::getCariKartlar()
@@ -432,7 +551,7 @@ QList<QString> Veritabani::GetUsers()
 
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
-    StokKarti kart;
+    StokKarti kart = StokKarti();
     QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
@@ -453,21 +572,21 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
     return kart;
 }
 
-void Veritabani::yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici)
+void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 {
     QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("INSERT INTO stokkartlari (id, barkod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, tarih, aciklama) "
                     "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, _StokKarti->getBarkod());
-    sorgu.bindValue(1, _StokKarti->getAd());
-    sorgu.bindValue(2, _StokKarti->getBirim());
-    sorgu.bindValue(3, _StokKarti->getMiktar());
-    sorgu.bindValue(4, _StokKarti->getGrup());
-    sorgu.bindValue(5, _StokKarti->getAFiyat());
-    sorgu.bindValue(6, _StokKarti->getSFiyat());
-    sorgu.bindValue(7, _StokKarti->getKdv());
-    sorgu.bindValue(8, _StokKarti->getTarih());
-    sorgu.bindValue(9, _StokKarti->getAciklama() + " [" + _Kullanici->getUserName() + "]");
+    sorgu.bindValue(0, _StokKarti.getBarkod());
+    sorgu.bindValue(1, _StokKarti.getAd());
+    sorgu.bindValue(2, _StokKarti.getBirim());
+    sorgu.bindValue(3, _StokKarti.getMiktar());
+    sorgu.bindValue(4, _StokKarti.getGrup());
+    sorgu.bindValue(5, _StokKarti.getAFiyat());
+    sorgu.bindValue(6, _StokKarti.getSFiyat());
+    sorgu.bindValue(7, _StokKarti.getKdv());
+    sorgu.bindValue(8, _StokKarti.getTarih());
+    sorgu.bindValue(9, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
@@ -490,21 +609,21 @@ void Veritabani::yeniStokKartiOlustur(StokKarti *_StokKarti, User *_Kullanici)
     }
 }
 
-void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti *_YeniStokKarti, User *_Kullanici)
+void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici)
 {
     QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("UPDATE stokkartlari SET barkod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, tarih = ? , aciklama = ? "
                         "WHERE id = ?");
-    sorgu.bindValue(0, _YeniStokKarti->getBarkod());
-    sorgu.bindValue(1, _YeniStokKarti->getAd());
-    sorgu.bindValue(2, _YeniStokKarti->getBirim());
-    sorgu.bindValue(3, _YeniStokKarti->getMiktar());
-    sorgu.bindValue(4, _YeniStokKarti->getGrup());
-    sorgu.bindValue(5, _YeniStokKarti->getAFiyat());
-    sorgu.bindValue(6, _YeniStokKarti->getSFiyat());
-    sorgu.bindValue(7, _YeniStokKarti->getKdv());
-    sorgu.bindValue(8, _YeniStokKarti->getTarih());
-    sorgu.bindValue(9, _YeniStokKarti->getAciklama() + " " + _Kullanici->getUserName());
+    sorgu.bindValue(0, _YeniStokKarti.getBarkod());
+    sorgu.bindValue(1, _YeniStokKarti.getAd());
+    sorgu.bindValue(2, _YeniStokKarti.getBirim());
+    sorgu.bindValue(3, _YeniStokKarti.getMiktar());
+    sorgu.bindValue(4, _YeniStokKarti.getGrup());
+    sorgu.bindValue(5, _YeniStokKarti.getAFiyat());
+    sorgu.bindValue(6, _YeniStokKarti.getSFiyat());
+    sorgu.bindValue(7, _YeniStokKarti.getKdv());
+    sorgu.bindValue(8, _YeniStokKarti.getTarih());
+    sorgu.bindValue(9, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
     sorgu.bindValue(10, _EskiStokKartiID);
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox();

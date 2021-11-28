@@ -12,6 +12,7 @@
 #include "loginform.h"
 #include "paracekdialogform.h"
 #include "adetdialogform.h"
+#include "ayarlardialog.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -25,7 +26,6 @@
 #include <QStandardPaths>
 #include <QSound>
 
-User kullanici;
 Sepet sepet[4];
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
@@ -61,7 +61,6 @@ void SatisForm::formLoad()
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
     getSonSatislar();
-    getCiro();
     hizliUrunButonlariAyarla();
     ui->barkodLineEdit->setFocus();
     uyariSesi.setLoops(0);
@@ -265,21 +264,20 @@ void SatisForm::hizliButonConnects()
 
 void SatisForm::sepeteEkle()
 {
-    Veritabani *vt_satis = new Veritabani();
-    if(vt_satis->barkodVarmi(ui->barkodLineEdit->text())){
-        StokKarti stokkarti = vt_satis->getStokKarti(ui->barkodLineEdit->text());
-        if(stokkarti.getMiktar() > 0){
-            if(stokkarti.getBirim() == "ADET"){
-                tableWidgetEkle(stokkarti, 1);
-                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, 1);
+    if(vt->barkodVarmi(ui->barkodLineEdit->text())){
+        stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
+        if(stokKarti.getMiktar() > 0){
+            if(stokKarti.getBirim() == "ADET"){
+                tableWidgetEkle(stokKarti, 1);
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
             }
-            else if(stokkarti.getBirim() == "KİLOGRAM"){
+            else if(stokKarti.getBirim() == "KİLOGRAM"){
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setModal(true);
                 kgformu->exec();
                 if(kgformu->getGirilenKg() != 0){
-                    tableWidgetEkle(stokkarti, kgformu->getGirilenKg());
-                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokkarti, kgformu->getGirilenKg());
+                    tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
                 }
             }
             ui->barkodLineEdit->clear();
@@ -322,7 +320,7 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
 {
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
-        if(urunSepetteVarmi(p_StokKarti.getBarkod())){
+        if(sepet[0].urunler.contains(p_StokKarti.getBarkod())){
             float yeniMiktar = _miktar + ui->sepet1TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -340,7 +338,7 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         }
         break;
     case 1:
-        if(urunSepetteVarmi(p_StokKarti.getBarkod())){
+        if(sepet[1].urunler.contains(p_StokKarti.getBarkod())){
             float yeniMiktar = _miktar + ui->sepet2TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -358,7 +356,7 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         }
         break;
     case 2:
-        if(urunSepetteVarmi(p_StokKarti.getBarkod())){
+        if(sepet[2].urunler.contains(p_StokKarti.getBarkod())){
             float yeniMiktar = _miktar + ui->sepet3TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -376,7 +374,7 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         }
         break;
     case 3:
-        if(urunSepetteVarmi(p_StokKarti.getBarkod())){
+        if(sepet[0].urunler.contains(p_StokKarti.getBarkod())){
             float yeniMiktar = _miktar + ui->sepet4TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -442,6 +440,92 @@ void SatisForm::closeEvent(QCloseEvent *event)
     }
 }
 
+void SatisForm::adetCarp()
+{
+    QMessageBox msg;
+    msg.setWindowTitle("Uyarı");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setText("Adet stok miktarından fazla olamaz.");
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+            AdetDialogForm *adetForm = new AdetDialogForm(this);
+            Veritabani *vt = new Veritabani();
+            adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].miktar;
+            adetForm->exec();
+            // çarpılacak adet stok miktarına eşitse veya düşükse
+            if(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                sepet[0].urunAdetCarp(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+            }
+            else{
+                uyariSesi.play();
+                msg.exec();
+            }
+            delete vt; delete adetForm;
+        }
+        break;
+    case 1:
+        if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+            AdetDialogForm *adetForm = new AdetDialogForm(this);
+            Veritabani *vt = new Veritabani();
+            adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].miktar;
+            adetForm->exec();
+            if(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                sepet[1].urunAdetCarp(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+            }
+            else{
+                uyariSesi.play();
+                msg.exec();
+            }
+            delete vt; delete adetForm;
+        }
+        break;
+    case 2:
+        if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+            AdetDialogForm *adetForm = new AdetDialogForm(this);
+            Veritabani *vt = new Veritabani();
+            adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].miktar;
+            adetForm->exec();
+            if(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                sepet[2].urunAdetCarp(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+            }
+            else{
+                uyariSesi.play();
+                msg.exec();
+            }
+            delete vt; delete adetForm;
+        }
+        break;
+    case 3:
+        if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+            AdetDialogForm *adetForm = new AdetDialogForm(this);
+            Veritabani *vt = new Veritabani();
+            adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].miktar;
+            adetForm->exec();
+            if(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
+                sepet[3].urunAdetCarp(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
+            }
+            else{
+                uyariSesi.play();
+                msg.exec();
+            }
+            delete vt; delete adetForm;
+        }
+        break;
+    }
+    sepetToplaminiYaz();
+}
+
 // focus QlineEdit deyken sağ-sol tuş eventlerini yakalamak için. QlineEdit sağ-sol tuşları imlecin yerini değiştirdiği için evente göndermiyor bu şekilde eventi yakalıyorum.
 bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
     if(ui->barkodLineEdit == filtrelenecekObject){      // filtrelenecek obje ui->barkodLineEdit ise
@@ -474,88 +558,7 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
                 SatisForm::on_azaltBtn_clicked();
             }
             if(keyEvent->key() == Qt::Key_Asterisk){// klavyeden '*' tuşuna bastığında sepetteki seçili ürün adetini çarpma.
-                QMessageBox msg;
-                msg.setWindowTitle("Uyarı");
-                msg.setIcon(QMessageBox::Warning);
-                msg.setText("Adet stok miktarından fazla olamaz.");
-                msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
-                switch (ui->SepetlertabWidget->currentIndex()) {
-                case 0:
-                    if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
-                        AdetDialogForm *adetForm = new AdetDialogForm(this);
-                        Veritabani *vt = new Veritabani();
-                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].miktar;
-                        adetForm->exec();
-                        // çarpılacak adet stok miktarına eşitse veya düşükse
-                        if(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
-                            sepet[0].urunAdetCarp(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
-                            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
-                            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
-                        }
-                        else{
-                            uyariSesi.play();
-                            msg.exec();
-                        }
-                        delete vt; delete adetForm;
-                    }
-                    break;
-                case 1:
-                    if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
-                        AdetDialogForm *adetForm = new AdetDialogForm(this);
-                        Veritabani *vt = new Veritabani();
-                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].miktar;
-                        adetForm->exec();
-                        if(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
-                            sepet[1].urunAdetCarp(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
-                            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
-                            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
-                        }
-                        else{
-                            uyariSesi.play();
-                            msg.exec();
-                        }
-                        delete vt; delete adetForm;
-                    }
-                    break;
-                case 2:
-                    if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
-                        AdetDialogForm *adetForm = new AdetDialogForm(this);
-                        Veritabani *vt = new Veritabani();
-                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].miktar;
-                        adetForm->exec();
-                        if(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
-                            sepet[2].urunAdetCarp(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
-                            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
-                            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
-                        }
-                        else{
-                            uyariSesi.play();
-                            msg.exec();
-                        }
-                        delete vt; delete adetForm;
-                    }
-                    break;
-                case 3:
-                    if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
-                        AdetDialogForm *adetForm = new AdetDialogForm(this);
-                        Veritabani *vt = new Veritabani();
-                        adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].miktar;
-                        adetForm->exec();
-                        if(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].stokMiktari >= adetForm->carpilacakAdet){
-                            sepet[3].urunAdetCarp(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString(), adetForm->carpilacakAdet);
-                            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 4, new QTableWidgetItem(QString::number(adetForm->carpilacakAdet)));
-                            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].toplam)));
-                        }
-                        else{
-                            uyariSesi.play();
-                            msg.exec();
-                        }
-                        delete vt; delete adetForm;
-                    }
-                    break;
-                }
-                sepetToplaminiYaz();
+                SatisForm::adetCarp();
             }
         }
         return false;
@@ -2065,9 +2068,9 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
 
 void SatisForm::getSonSatislar()
 {
-    Veritabani *vt_satis = new Veritabani();
+//    Veritabani *vt_satis = new Veritabani();
     ui->SonSatislarlistWidget->clear();
-    ui->SonSatislarlistWidget->addItems(vt_satis->getSonIslemler());
+    ui->SonSatislarlistWidget->addItems(vt->getSonIslemler());
     ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
 }
 
@@ -2216,64 +2219,6 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
     }
     else if(event->key() == Qt::Key_F11){
         // kasa formu açılacak
-    }
-}
-
-bool SatisForm::urunSepetteVarmi(QString _Barkod)
-{
-    switch (ui->SepetlertabWidget->currentIndex()) {
-    case 0:
-        if(ui->sepet1TableWidget->rowCount() >= 1){
-            for (int i = 0; i < ui->sepet1TableWidget->rowCount(); ++i) {
-                if(ui->sepet1TableWidget->item(i,0)->text() == _Barkod){
-                    sepetMevcutUrunIndexi = i;
-                    return true;
-                }
-            }
-        }
-        else{
-            return false;
-        }
-        break;
-    case 1:
-        if(ui->sepet2TableWidget->rowCount() >= 1){
-            for (int i = 0; i < ui->sepet2TableWidget->rowCount(); ++i) {
-                if(ui->sepet2TableWidget->item(i,0)->text() == _Barkod){
-                    sepetMevcutUrunIndexi = i;
-                    return true;
-                }
-            }
-        }
-        else{
-            return false;
-        }
-        break;
-    case 2:
-        if(ui->sepet3TableWidget->rowCount() >= 1){
-            for (int i = 0; i < ui->sepet3TableWidget->rowCount(); ++i) {
-                if(ui->sepet3TableWidget->item(i,0)->text() == _Barkod){
-                    sepetMevcutUrunIndexi = i;
-                    return true;
-                }
-            }
-        }
-        else{
-            return false;
-        }
-        break;
-    case 3:
-        if(ui->sepet4TableWidget->rowCount() >= 1){
-            for (int i = 0; i < ui->sepet4TableWidget->rowCount(); ++i) {
-                if(ui->sepet4TableWidget->item(i,0)->text() == _Barkod){
-                    sepetMevcutUrunIndexi = i;
-                    return true;
-                }
-            }
-        }
-        else{
-            return false;
-        }
-        break;
     }
 }
 
@@ -2565,6 +2510,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(true);
             ui->iadeAlBtn->setEnabled(true);
             ui->satisYapBtn->setEnabled(true);
+            ui->CarpBtn->setEnabled(true);
         }
         else{
             ui->artirBtn->setEnabled(false);
@@ -2573,6 +2519,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(false);
             ui->iadeAlBtn->setEnabled(false);
             ui->satisYapBtn->setEnabled(false);
+            ui->CarpBtn->setEnabled(false);
         }
         break;
     case 1:
@@ -2583,6 +2530,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(true);
             ui->iadeAlBtn->setEnabled(true);
             ui->satisYapBtn->setEnabled(true);
+            ui->CarpBtn->setEnabled(true);
         }
         else{
             ui->artirBtn->setEnabled(false);
@@ -2591,6 +2539,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(false);
             ui->iadeAlBtn->setEnabled(false);
             ui->satisYapBtn->setEnabled(false);
+            ui->CarpBtn->setEnabled(false);
         }
         break;
     case 2:
@@ -2601,6 +2550,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(true);
             ui->iadeAlBtn->setEnabled(true);
             ui->satisYapBtn->setEnabled(true);
+            ui->CarpBtn->setEnabled(true);
         }
         else{
             ui->artirBtn->setEnabled(false);
@@ -2609,6 +2559,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(false);
             ui->iadeAlBtn->setEnabled(false);
             ui->satisYapBtn->setEnabled(false);
+            ui->CarpBtn->setEnabled(false);
         }
         break;
     case 3:
@@ -2619,6 +2570,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(true);
             ui->iadeAlBtn->setEnabled(true);
             ui->satisYapBtn->setEnabled(true);
+            ui->CarpBtn->setEnabled(true);
         }
         else{
             ui->artirBtn->setEnabled(false);
@@ -2627,6 +2579,7 @@ void SatisForm::butonDurumlariniAyarla()
             ui->sepetSilBtn->setEnabled(false);
             ui->iadeAlBtn->setEnabled(false);
             ui->satisYapBtn->setEnabled(false);
+            ui->CarpBtn->setEnabled(false);
         }
         break;
     }
@@ -2662,17 +2615,9 @@ void SatisForm::on_satisYapBtn_clicked()
         butonDurumlariniAyarla();
         sepetToplaminiYaz();
         getSonSatislar();
-        getCiro();
         sepetTabIconlariAyarla();
         ui->barkodLineEdit->setFocus();
     }
-}
-
-void SatisForm::getCiro()
-{
-    Veritabani *vt = new Veritabani();
-    ui->ciroLabel->setText("₺" + QString::number(vt->getGunlukCiro()));
-    delete vt;
 }
 
 #pragma region hizliurunbutonları click metodları {
@@ -4197,12 +4142,10 @@ void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
 
 void SatisForm::on_KasaBtn_clicked()
 {
-    Veritabani *vt = new Veritabani();
     ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
     paraCekForm->setKasadakiPara(vt->getKasadakiPara());
     paraCekForm->setKull(kullanici);
     paraCekForm->exec();
-    delete vt;
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4232,7 +4175,6 @@ void SatisForm::on_iadeAlBtn_clicked()
         int cvp = msg.exec();
         if(cvp == QMessageBox::Yes){
             // iade işlemleri başlangıcı.
-            Veritabani *vt = new Veritabani();
             vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
             // sepet silme başlangıcı
             sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
@@ -4253,7 +4195,6 @@ void SatisForm::on_iadeAlBtn_clicked()
             butonDurumlariniAyarla();
             sepetToplaminiYaz();
             getSonSatislar();
-            getCiro();
             sepetTabIconlariAyarla();
             ui->barkodLineEdit->setFocus();
 
@@ -4265,8 +4206,22 @@ void SatisForm::on_iadeAlBtn_clicked()
             msg.setStandardButtons(QMessageBox::Ok);
             msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
-            delete vt;
         }
     }
+}
+
+
+void SatisForm::on_CarpBtn_clicked()
+{
+    SatisForm::adetCarp();
+    ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_AyarlarBtn_clicked()
+{
+    AyarlarDialog *ayarForm = new AyarlarDialog(this);
+    ayarForm->setCurrentUser(kullanici);
+    ayarForm->show();
 }
 

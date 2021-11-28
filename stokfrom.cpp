@@ -238,17 +238,17 @@ void StokFrom::on_KaydetBtn_clicked()
     Veritabani *vt = new Veritabani();
     if(ui->YeniBtn->isEnabled()){// yenibtn aktifse yeni stok kartı kaydı oluşturur.
 
-        StokKarti *yeniStokKarti = new StokKarti();
-        yeniStokKarti->setBarkod(ui->BarkodLnEdit->text());
-        yeniStokKarti->setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-        yeniStokKarti->setBirim(ui->BirimiComboBox->currentText());
-        yeniStokKarti->setMiktar(ui->MiktarLnEdit->text().toFloat());
-        yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());
-        yeniStokKarti->setAFiyat(ui->AFiyatdoubleSpinBox->value());
-        yeniStokKarti->setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        yeniStokKarti->setKdv(ui->KDVspinBox->value());
-        yeniStokKarti->setTarih(QDateTime::currentDateTime());
-        yeniStokKarti->setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
+        StokKarti yeniStokKarti = StokKarti();
+        yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
+        yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
+        yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
+        yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
+        yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
+        yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
+        yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
+        yeniStokKarti.setKdv(ui->KDVspinBox->value());
+        yeniStokKarti.setTarih(QDateTime::currentDateTime());
+        yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
         vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
     }
     else if(ui->DuzenleBtn->isEnabled()){// duzenlebtn aktifse mevcut stok kartını günceller.
@@ -256,17 +256,17 @@ void StokFrom::on_KaydetBtn_clicked()
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
         QString duzenlenecekStokKartiID(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
-        StokKarti *yeniStokKarti = new StokKarti();
-        yeniStokKarti->setBarkod(ui->BarkodLnEdit->text());
-        yeniStokKarti->setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-        yeniStokKarti->setBirim(ui->BirimiComboBox->currentText());
-        yeniStokKarti->setMiktar(ui->MiktarLnEdit->text().toFloat());
-        yeniStokKarti->setGrup(ui->StokGrubuComboBox->currentText());
-        yeniStokKarti->setAFiyat(ui->AFiyatdoubleSpinBox->value());
-        yeniStokKarti->setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        yeniStokKarti->setKdv(ui->KDVspinBox->value());
-        yeniStokKarti->setTarih(QDateTime::currentDateTime());
-        yeniStokKarti->setAciklama("stok kartı güncelleme");
+        StokKarti yeniStokKarti = StokKarti();
+        yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
+        yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
+        yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
+        yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
+        yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
+        yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
+        yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
+        yeniStokKarti.setKdv(ui->KDVspinBox->value());
+        yeniStokKarti.setTarih(QDateTime::currentDateTime());
+        yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
     }
