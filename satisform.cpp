@@ -2407,7 +2407,9 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[0].urunSil(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet1TableWidget->removeRow(getSeciliSatirIndexi());
-                ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
+                if(ui->sepet1TableWidget->rowCount() != 0){
+                    ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
+                }
                 break;
             }
         }
@@ -2420,7 +2422,9 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[1].urunSil(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet2TableWidget->removeRow(getSeciliSatirIndexi());
-                ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
+                if(ui->sepet2TableWidget->rowCount() != 0){
+                    ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
+                }
                 break;
             }
         }
@@ -2433,7 +2437,9 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[2].urunSil(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet3TableWidget->removeRow(getSeciliSatirIndexi());
-                ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
+                if(ui->sepet3TableWidget->rowCount() != 0){
+                    ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
+                }
                 break;
             }
         }
@@ -2446,7 +2452,9 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[3].urunSil(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet4TableWidget->removeRow(getSeciliSatirIndexi());
-                ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);
+                if(ui->sepet4TableWidget->rowCount() != 0){
+                    ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);
+                }
                 break;
             }
         }
