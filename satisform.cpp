@@ -321,6 +321,12 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
         if(sepet[0].urunler.contains(p_StokKarti.getBarkod())){
+            for (int i = 0; i < ui->sepet1TableWidget->model()->rowCount(); ++i) {
+                if(ui->sepet1TableWidget->model()->index(i, 0).data().toString() == p_StokKarti.getBarkod()){
+                    sepetMevcutUrunIndexi = i;
+                    break;
+                }
+            }
             float yeniMiktar = _miktar + ui->sepet1TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet1TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -339,6 +345,12 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         break;
     case 1:
         if(sepet[1].urunler.contains(p_StokKarti.getBarkod())){
+            for (int i = 0; i < ui->sepet2TableWidget->model()->rowCount(); ++i) {
+                if(ui->sepet2TableWidget->model()->index(i, 0).data().toString() == p_StokKarti.getBarkod()){
+                    sepetMevcutUrunIndexi = i;
+                    break;
+                }
+            }
             float yeniMiktar = _miktar + ui->sepet2TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet2TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -357,6 +369,12 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         break;
     case 2:
         if(sepet[2].urunler.contains(p_StokKarti.getBarkod())){
+            for (int i = 0; i < ui->sepet3TableWidget->model()->rowCount(); ++i) {
+                if(ui->sepet3TableWidget->model()->index(i, 0).data().toString() == p_StokKarti.getBarkod()){
+                    sepetMevcutUrunIndexi = i;
+                    break;
+                }
+            }
             float yeniMiktar = _miktar + ui->sepet3TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet3TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
@@ -375,6 +393,12 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         break;
     case 3:
         if(sepet[0].urunler.contains(p_StokKarti.getBarkod())){
+            for (int i = 0; i < ui->sepet4TableWidget->model()->rowCount(); ++i) {
+                if(ui->sepet4TableWidget->model()->index(i, 0).data().toString() == p_StokKarti.getBarkod()){
+                    sepetMevcutUrunIndexi = i;
+                    break;
+                }
+            }
             float yeniMiktar = _miktar + ui->sepet4TableWidget->model()->index(sepetMevcutUrunIndexi, 4).data().toFloat();
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 4, new QTableWidgetItem(QString::number(yeniMiktar)));
             ui->sepet4TableWidget->setItem(sepetMevcutUrunIndexi, 5, new QTableWidgetItem(QString::number(paraYuvarla(yeniMiktar * p_StokKarti.getSFiyat()))));
