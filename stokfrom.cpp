@@ -272,7 +272,8 @@ void StokFrom::on_KaydetBtn_clicked()
     }
     alanlariTemizle();
     stokKartlariniListele();
-    ui->StokKartlaritableView->setFocus();
+    ui->BarkodLnEdit->setFocus();
+    ui->BarkodLnEdit->selectAll();
     alanlariDoldur();
     ui->StokKartlaritableView->selectRow(seciliIndex);
     emit on_IptalBtn_clicked();

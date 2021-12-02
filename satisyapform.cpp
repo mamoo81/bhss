@@ -8,6 +8,7 @@
 #include <QList>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QKeyEvent>
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -85,7 +86,12 @@ void SatisYapForm::on_iptalBtn_clicked()
     this->close();
 }
 
-
+void SatisYapForm::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return){
+        SatisYapForm::on_satBtn_clicked();
+    }
+}
 
 void SatisYapForm::on_OdenendoubleSpinBox_valueChanged(double arg1)
 {

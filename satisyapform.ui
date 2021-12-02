@@ -7,13 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>382</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>360</width>
-    <height>325</height>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>350</height>
    </size>
   </property>
   <property name="font">
@@ -21,6 +27,9 @@
     <family>Monospace</family>
     <pointsize>12</pointsize>
    </font>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>SATIŞI YAP</string>
@@ -288,9 +297,10 @@
  <tabstops>
   <tabstop>OdenendoubleSpinBox</tabstop>
   <tabstop>CariLineEdit</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>fischeckBox</tabstop>
   <tabstop>satBtn</tabstop>
   <tabstop>iptalBtn</tabstop>
-  <tabstop>pushButton_3</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
