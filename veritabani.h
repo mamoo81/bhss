@@ -56,6 +56,7 @@ public slots:
     void CreateNewUser(User _NewUser);
     void updateUser(User _NewUserInfos);
     void deleteUser(QString _DeletedUserName);
+    QString sonIslemNumarasi();
 };
 
 #endif // VERITABANI_H

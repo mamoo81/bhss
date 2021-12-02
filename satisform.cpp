@@ -306,6 +306,7 @@ void SatisForm::sepeteEkle()
 
 void SatisForm::on_SepetlertabWidget_currentChanged(int index)
 {
+    Q_UNUSED(index);// warning uyarısını kapatmak için
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
     ui->barkodLineEdit->setFocus();
@@ -444,10 +445,11 @@ void SatisForm::closeEvent(QCloseEvent *event)
         msg.setWindowTitle("Kasa uyarısı");
         msg.setIcon(QMessageBox::Question);
         msg.setText("Kasadan para çekimi yapılsın mı?");
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         msg.setDefaultButton(QMessageBox::No);
         msg.setButtonText(QMessageBox::Yes, "Evet");
         msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setButtonText(QMessageBox::Cancel, "İptal");
         int cevap = msg.exec();
         if(QMessageBox::Yes == cevap){
             // kasa formu açılacak *************************************************
@@ -455,6 +457,10 @@ void SatisForm::closeEvent(QCloseEvent *event)
             this->close();
             LoginForm *lg = new LoginForm();
             lg->show();
+        }
+        else if(QMessageBox::Cancel == cevap){
+            this->show();
+            return;
         }
         else{
             this->close();
@@ -2499,7 +2505,7 @@ void SatisForm::on_sepetSilBtn_clicked()
     sepetSilMsgBox.setIcon(QMessageBox::Question);
     sepetSilMsgBox.setText("Aktif Sepeti silmek istediğinize emin misiniz?");
     sepetSilMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    sepetSilMsgBox.setDefaultButton(QMessageBox::No);
+    sepetSilMsgBox.setDefaultButton(QMessageBox::Yes);
     sepetSilMsgBox.setButtonText(QMessageBox::Yes, "Evet");
     sepetSilMsgBox.setButtonText(QMessageBox::No, "Hayır");
     sepetSilMsgBox.setModal(true);
@@ -4144,6 +4150,7 @@ void SatisForm::on_hizlitoolButton150_clicked()
 
 void SatisForm::on_HizliUrunlertabWidget_currentChanged(int index)
 {
+    Q_UNUSED(index);// warning uyarısını kapatmak için.
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4168,6 +4175,7 @@ void SatisForm::on_CikisToolBtn_clicked()
 
 void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);//warning uyarısını kapatmak için
     ui->barkodLineEdit->setFocus();
 }
 

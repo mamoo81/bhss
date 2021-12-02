@@ -3,6 +3,9 @@
 #include "kullanicidialogform.h"
 //**************************************
 #include <QList>
+#include <QSettings>
+#include <QStandardPaths>
+#include <QPrinterInfo>
 
 AyarlarDialog::AyarlarDialog(QWidget *parent) :
     QDialog(parent),
@@ -21,6 +24,21 @@ AyarlarDialog::~AyarlarDialog()
 void AyarlarDialog::formLoad()
 {
     ui->tabWidget->setCurrentIndex(0);
+    // sistemdeki yazıcıların okunması
+    QStringList yazicilar = QPrinterInfo::availablePrinterNames();
+    ui->fisYazicisicomboBox->addItems(yazicilar);
+
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    //yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("fis-yazici");
+    ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
+    int yaziciIndexi = ui->fisYazicisicomboBox->findText(genelAyarlar.value("yazici").toString());
+    ui->fisYazicisicomboBox->setCurrentIndex(yaziciIndexi);
+    genelAyarlar.endGroup();
+    //yazici ayarlari okuma bitiş
+
+    //genel ayarların okunması bitiş
 }
 
 void AyarlarDialog::setCurrentUser(const User &newCurrentUser)
@@ -101,5 +119,24 @@ void AyarlarDialog::on_SilPushButton_clicked()
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
+}
+
+
+void AyarlarDialog::on_pushButton_clicked()
+{
+    // genel.ini dosyasına kayıt etme başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // yazıcı ayarları kayıt başlangıç
+    genelAyarlar.beginGroup("fis-yazici");
+    if(ui->herZamancheckBox->isChecked()){
+        genelAyarlar.setValue("herZaman", true);
+    }
+    else{
+        genelAyarlar.setValue("herZaman", false);
+    }
+    genelAyarlar.setValue("yazici", ui->fisYazicisicomboBox->currentText());
+    genelAyarlar.endGroup();
+    // yazıcı ayarları kayıt bitiş.
+    // genel.ini dosyasına kayıt etme bitiş.
 }
 

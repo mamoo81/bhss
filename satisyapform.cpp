@@ -1,12 +1,13 @@
 #include "satisyapform.h"
 #include "ui_satisyapform.h"
 #include "satisform.h"
-#include "sepet.h"
 //***************************
 #include <QString>
 #include <QCompleter>
 #include <QDebug>
 #include <QList>
+#include <QSettings>
+#include <QStandardPaths>
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -29,6 +30,17 @@ void SatisYapForm::formLoad()
     foreach (auto cari, cariKartlar) {
         cariAdlari.append(cari.getAd());
     }
+
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    //yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("fis-yazici");
+    ui->fischeckBox->setChecked(genelAyarlar.value("herZaman").toBool());
+    genelAyarlar.endGroup();
+    //yazici ayarlari okuma bitiş
+
+    //genel ayarların okunması bitiş
+
     QCompleter *tamamlayici = new QCompleter(cariAdlari, this);
     tamamlayici->setCompletionMode(QCompleter::InlineCompletion);
     tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
@@ -44,7 +56,11 @@ void SatisYapForm::on_satBtn_clicked()
         //veritabani clasına satiş gönderme
         satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
         vt_satisFormu.satisYap(satilacakSepet, kullanici, cariKartlar.at(index).getId());
-
+        // fiş yazdırma
+        if(ui->fischeckBox->isChecked()){
+            QString sonIslemNo = vt_satisFormu.sonIslemNumarasi();
+            fisYazici.fisBas(sonIslemNo, satilacakSepet);
+        }
         ui->OdenendoubleSpinBox->setValue(0);
         ui->toplamLBL->setText(0);
         satisYapildimi = true;

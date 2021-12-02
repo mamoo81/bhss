@@ -4,6 +4,7 @@
 #include "sepet.h"
 #include "user.h"
 #include "cari.h"
+#include "yazici.h"
 //******************
 #include <QDialog>
 
@@ -22,6 +23,7 @@ public:
     Veritabani vt_satisFormu;
     QList<QString> cariAdlari;
     QList<Cari> cariKartlar;
+    Yazici fisYazici;
     bool satisYapildimi;
 
     void setSatilacakSepet(const Sepet &newSatilacakSepet);

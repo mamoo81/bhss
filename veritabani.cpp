@@ -488,6 +488,14 @@ void Veritabani::deleteUser(QString _DeletedUserName)
     }
 }
 
+QString Veritabani::sonIslemNumarasi()
+{
+    QSqlQuery sorgu = QSqlQuery(db);
+    sorgu.exec("SELECT fatura_no, tarih FROM faturalar ORDER BY tarih DESC LIMIT 1");
+    sorgu.next();
+    return sorgu.value(0).toString();
+}
+
 QList<Cari> Veritabani::getCariKartlar()
 {
     QList<Cari> kartlar;

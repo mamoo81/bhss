@@ -1,4 +1,4 @@
-QT       += core gui sql multimedia
+QT       += core gui sql multimedia printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,7 +29,8 @@ SOURCES += \
     stokkarti.cpp \
     urun.cpp \
     user.cpp \
-    veritabani.cpp
+    veritabani.cpp \
+    yazici.cpp
 
 HEADERS += \
     adetdialogform.h \
@@ -51,7 +52,8 @@ HEADERS += \
     stokkarti.h \
     urun.h \
     user.h \
-    veritabani.h
+    veritabani.h \
+    yazici.h
 
 FORMS += \
     adetdialogform.ui \

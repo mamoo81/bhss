@@ -32,6 +32,8 @@ private slots:
     void on_SilPushButton_clicked();
 
     void getUsers();
+    void on_pushButton_clicked();
+
 private:
     Ui::AyarlarDialog *ui;
 

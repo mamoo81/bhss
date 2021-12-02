@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>190</width>
-    <height>192</height>
+    <height>155</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>190</width>
+    <height>155</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>190</width>
+    <height>155</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -17,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Kilogram giriniz</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">

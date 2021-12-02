@@ -35,12 +35,20 @@ int main(int argc, char *argv[])
             if(!QFileInfo::exists(hizlibutonlarini.fileName())){
                 hizlibutonlarini.open(QIODevice::ReadWrite);
             }
+            QFile ayarlarini(dizin + "/genel.ini");
+            if(!QFileInfo::exists(ayarlarini.fileName())){
+                ayarlarini.open(QIODevice::ReadWrite);
+            }
         }
         else{
             // mhss klasörü içinde hizlibutonlar.ini dosyasını oluşturma başlangıcı.
             QFile hizlibutonlarini(dizin + "/hizlibutonlar.ini");
             if(!QFileInfo::exists(hizlibutonlarini.fileName())){
                 hizlibutonlarini.open(QIODevice::ReadWrite);
+            }
+            QFile ayarlarini(dizin + "/genel.ini");
+            if(!QFileInfo::exists(ayarlarini.fileName())){
+                ayarlarini.open(QIODevice::ReadWrite);
             }
         }
         QTranslator translator;

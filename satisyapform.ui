@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>325</height>
+    <height>382</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -201,7 +201,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>260</y>
+     <y>290</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -224,7 +224,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>260</y>
+     <y>290</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -266,6 +266,22 @@
    </property>
    <property name="maximum">
     <double>999999.989999999990687</double>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="fischeckBox">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>260</y>
+     <width>191</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string>Bilgi fişi yazdır</string>
    </property>
   </widget>
  </widget>
