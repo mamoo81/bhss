@@ -53,7 +53,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                         "<tr valign=\"top\">"
                             "<td width=\"69%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
                             "<td width=\"13%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.miktar) + "</strong></font></font></p></td>"
-                            "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam) + "</strong></font></font></p></td>"
+                            "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
                         "</tr>"
                         ));
     };
@@ -63,7 +63,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\"><strong>Toplam<strong></font></font></p>"
                     "</td>"
                     "<td width=\"18%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari()) + "<strong></font></font></p>"
+                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari(), 'f', 2) + "<strong></font></font></p>"
                     "</td>"
                 "</tr>"
             "</table>"

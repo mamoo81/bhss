@@ -62,8 +62,6 @@ private slots:
 
     void on_satisYapBtn_clicked();
 
-    double paraYuvarla(double _toplam);
-
     void on_hizlitoolButton1_clicked();
 
     void on_hizlitoolButton2_clicked();
