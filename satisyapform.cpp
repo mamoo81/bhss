@@ -42,6 +42,7 @@ void SatisYapForm::formLoad()
 
     //genel ayarların okunması bitiş
 
+    ui->OdenendoubleSpinBox->installEventFilter(this);
     QCompleter *tamamlayici = new QCompleter(cariAdlari, this);
     tamamlayici->setCompletionMode(QCompleter::InlineCompletion);
     tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
@@ -91,6 +92,26 @@ void SatisYapForm::keyPressEvent(QKeyEvent *e)
     if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return){
         SatisYapForm::on_satBtn_clicked();
     }
+}
+
+bool SatisYapForm::eventFilter(QObject *filtrelenecekObje, QEvent *event){
+    if(filtrelenecekObje == ui->OdenendoubleSpinBox && event->type() == QEvent::KeyPress){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if(keyEvent->key() == Qt::Key_F){
+            if(ui->fischeckBox->isChecked()){
+                ui->fischeckBox->setChecked(false);
+            }
+            else{
+                ui->fischeckBox->setChecked(true);
+            }
+            return true;
+        }
+        if(keyEvent->key() == Qt::Key_Escape){
+            SatisYapForm::on_iptalBtn_clicked();
+        }
+        return false;
+    }
+    return false;
 }
 
 void SatisYapForm::on_OdenendoubleSpinBox_valueChanged(double arg1)

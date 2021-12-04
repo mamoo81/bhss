@@ -43,6 +43,7 @@ private slots:
     void on_OdenendoubleSpinBox_valueChanged(double arg1);
 
     void keyPressEvent(QKeyEvent *e);
+    bool eventFilter(QObject *filtrelenecekObje, QEvent *event);
 private:
     Ui::SatisYapForm *ui;
 
