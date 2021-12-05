@@ -35,6 +35,8 @@ void AyarlarDialog::formLoad()
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
     int yaziciIndexi = ui->fisYazicisicomboBox->findText(genelAyarlar.value("yazici").toString());
     ui->fisYazicisicomboBox->setCurrentIndex(yaziciIndexi);
+    ui->SirketAdilineEdit->setText(genelAyarlar.value("sirketAdi").toString());
+    ui->SirketAdreslineEdit->setText((genelAyarlar.value("sirketAdres").toString()));
     genelAyarlar.endGroup();
     //yazici ayarlari okuma bitiş
 
@@ -135,8 +137,15 @@ void AyarlarDialog::on_pushButton_clicked()
         genelAyarlar.setValue("herZaman", false);
     }
     genelAyarlar.setValue("yazici", ui->fisYazicisicomboBox->currentText());
+    genelAyarlar.setValue("sirketAdi", ui->SirketAdilineEdit->text());
+    genelAyarlar.setValue("sirketAdres", ui->SirketAdreslineEdit->text());
     genelAyarlar.endGroup();
     // yazıcı ayarları kayıt bitiş.
     // genel.ini dosyasına kayıt etme bitiş.
+
+
+
+
+    this->close();
 }
 

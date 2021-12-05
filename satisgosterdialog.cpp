@@ -4,6 +4,7 @@
 #include "sepet.h"
 #include "stokkarti.h"
 #include "cari.h"
+#include "yazici.h"
 //*********************
 #include <QSqlQuery>
 
@@ -35,7 +36,7 @@ void SatisGosterDialog::sepetiCek()
 {
     satisFaturaNo.truncate(10);
     Veritabani vt = Veritabani();
-    Sepet satilmisSepet = vt.getSatis(satisFaturaNo);
+    satilmisSepet = vt.getSatis(satisFaturaNo);
     QSqlQuery qr = vt.getIslemInfo(satisFaturaNo);
     this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(8).toString() + " işlemi");
     Cari cari = vt.getCariKart(qr.value(7).toString());
@@ -66,5 +67,19 @@ void SatisGosterDialog::setSatisFaturaNo(const QString &newSatisFaturaNo)
 void SatisGosterDialog::on_kapatpushButton_clicked()
 {
     this->close();
+}
+
+
+void SatisGosterDialog::on_FisYazdirpushButton_clicked()
+{
+    fis.fisBas(satisFaturaNo, satilmisSepet);
+    QMessageBox msg(this);
+    msg.setWindowTitle("Bilgi");
+    msg.setIcon(QMessageBox::Information);
+    msg.setText("Bilgi fişi yazdırıldı.");
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.setDefaultButton(QMessageBox::Ok);
+    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    msg.exec();
 }
 

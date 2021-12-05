@@ -14,7 +14,13 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
   <img alt="Stok kartları ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/src/branch/master/screenshots/stok-kartlari.png">
 </p>
 
-#### Klavye kısayolları
+#### Tavsiye edilen sistem gereksinimleri
+* Milis Linux işletim sistemi
+* 1 GB sistem belleği
+* 1366x768px çözünürlüğünde monitör (isteğe göre dokunmatik monitör)
+
+
+#### Ana ekran klavye kısayolları
 
 * [F9]    -> Stok kartları sayfasını açar
 * [F3]    -> Sepetten kalem siler
@@ -27,3 +33,7 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 * [*]     -> Sepette ki ürünün adetini girilen değer kadar artırır.
 * [sol ve sağ yön tuşu] -> Sepetler arası geçiş yapar
 * [yukarı ve aşağı yön tuşu] -> Sepette seçili ürünü değiştirir.
+
+#### Satış ekranı klavye kısayolları
+
+* [F]     -> Bilgi Fişi yazdır/yazdırma

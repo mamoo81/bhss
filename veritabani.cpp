@@ -22,7 +22,7 @@ Veritabani::~Veritabani()
 
 bool Veritabani::barkodVarmi(QString _Barkod)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
@@ -36,7 +36,7 @@ bool Veritabani::barkodVarmi(QString _Barkod)
 
 bool Veritabani::loginControl(QString _UserName, QString _Password)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT username, password FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _UserName);
     sorgu.exec();
@@ -62,7 +62,7 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
  */
 void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     //yeni fatura numarası için faturalar_sequence'den son değeri alma
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){
@@ -137,7 +137,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
 QStringList Veritabani::getSonIslemler()
 {
     QStringList islemler;
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date ORDER BY fatura_no DESC");
     while(sorgu.next()){
         islemler.append(sorgu.value(0).toString() + " " + sorgu.value(1).toTime().toString("hh:mm:ss"));
@@ -154,7 +154,7 @@ double Veritabani::getKasadakiPara()
 
 bool Veritabani::veritabaniVarmi()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     //mhss_data veritabanı varmı kontrol
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
@@ -170,7 +170,7 @@ bool Veritabani::veritabaniVarmi()
 
 void Veritabani::veritabaniOlustur()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     //veritabanını oluşturma
     sorgu.exec("CREATE DATABASE mhss_data OWNER postgres");
     if(!QString(sorgu.lastError().text()).isEmpty()){
@@ -361,7 +361,7 @@ void Veritabani::veritabaniOlustur()
 User Veritabani::GetUserInfos(QString _UserName)
 {
     User u;
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT * FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _UserName);
     sorgu.exec();
@@ -382,7 +382,7 @@ User Veritabani::GetUserInfos(QString _UserName)
 
 void Veritabani::updateUser(User _NewUserInfos)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("UPDATE kullanicilar SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ? "
                     "WHERE id = ?");
     sorgu.bindValue(0, _NewUserInfos.getPassWord());
@@ -421,7 +421,7 @@ void Veritabani::updateUser(User _NewUserInfos)
 
 void Veritabani::CreateNewUser(User _NewUser)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki)"
                     " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _NewUser.getUserName());
@@ -460,7 +460,7 @@ void Veritabani::CreateNewUser(User _NewUser)
 
 void Veritabani::deleteUser(QString _DeletedUserName)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("DELETE FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _DeletedUserName);
     if(sorgu.exec()){
@@ -490,7 +490,7 @@ void Veritabani::deleteUser(QString _DeletedUserName)
 
 QString Veritabani::sonIslemNumarasi()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT fatura_no, tarih FROM faturalar ORDER BY tarih DESC LIMIT 1");
     sorgu.next();
     return sorgu.value(0).toString();
@@ -499,7 +499,7 @@ QString Veritabani::sonIslemNumarasi()
 QList<Cari> Veritabani::getCariKartlar()
 {
     QList<Cari> kartlar;
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT * FROM carikartlar");
     while (sorgu.next()) {
         Cari kart;
@@ -523,7 +523,7 @@ QList<Cari> Veritabani::getCariKartlar()
 Cari Veritabani::getCariKart(QString _cariID)
 {
     Cari kart;
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT * FROM carikartlar WHERE id = ?");
     sorgu.bindValue(0, _cariID);
     sorgu.exec();
@@ -549,7 +549,7 @@ Cari Veritabani::getCariKart(QString _cariID)
 
 QList<QString> Veritabani::GetUsers()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT username FROM kullanicilar");
     while (sorgu.next()) {
         users << sorgu.value(0).toString();
@@ -560,7 +560,7 @@ QList<QString> Veritabani::GetUsers()
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
     StokKarti kart = StokKarti();
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
@@ -582,7 +582,7 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
 
 void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("INSERT INTO stokkartlari (id, barkod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, tarih, aciklama) "
                     "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _StokKarti.getBarkod());
@@ -619,7 +619,7 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 
 void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("UPDATE stokkartlari SET barkod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, tarih = ? , aciklama = ? "
                         "WHERE id = ?");
     sorgu.bindValue(0, _YeniStokKarti.getBarkod());
@@ -659,7 +659,7 @@ void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _
 
 void Veritabani::stokKartiSil(QString _StokKartiID)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("DELETE FROM stokkartlari WHERE id = ?");
     sorgu.bindValue(0, _StokKartiID);
     if(sorgu.exec()){
@@ -712,7 +712,7 @@ QSqlQueryModel *Veritabani::getStokKartlari(QString query)
 
 QStringList Veritabani::stokGruplariGetir()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
     while (sorgu.next()) {
@@ -747,7 +747,7 @@ QSqlQuery Veritabani::getIslemInfo(QString _faturaNo)
 
 void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     // kasada ki parayı güncelleme
     double kasadaKalanPara = getKasadakiPara() - _cekilecekTutar;
     sorgu.prepare("UPDATE kasa SET para = ?");
@@ -770,7 +770,7 @@ void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 
 double Veritabani::getGunlukCiro()
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem IN(?,?)");
     sorgu.bindValue(0, QDateTime::currentDateTime().date());
     sorgu.bindValue(1, "giriş");
@@ -785,7 +785,7 @@ double Veritabani::getGunlukCiro()
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     // iade faturano alımı ve yeni oluşturma.
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){
@@ -857,7 +857,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
 {
-    QSqlQuery sorgu = QSqlQuery(db);
+//    QSqlQuery sorgu = QSqlQuery(db);
     // iade faturano alımı ve yeni oluşturma.
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){

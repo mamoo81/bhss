@@ -11,7 +11,8 @@ public:
     Yazici();
 
     void fisBas(QString _fisNo, Sepet _sepet);
-
+    QString sirketAdi;
+    QString sirketAdresi;
 private:
 
 };

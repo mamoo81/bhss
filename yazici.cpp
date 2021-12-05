@@ -6,6 +6,8 @@
 #include <QTextDocument>
 #include <QProcess>
 #include <QDateTime>
+#include <QSettings>
+#include <QStandardPaths>
 
 Yazici::Yazici()
 {
@@ -14,6 +16,22 @@ Yazici::Yazici()
 
 void Yazici::fisBas(QString _fisNo, Sepet _sepet)
 {
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    //yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("fis-yazici");
+    if(genelAyarlar.value("sirketAdi").isNull()){
+        sirketAdi = "MAĞAZA ADI";
+    }
+    else{
+        sirketAdi = genelAyarlar.value("sirketAdi").toString();
+    }
+    if(genelAyarlar.value("sirketAdres").isNull()){
+        sirketAdresi = "MAĞAZA ADRESİ";
+    }
+    else{
+        sirketAdresi = genelAyarlar.value("sirketAdres").toString();
+    }
     QString tarih = QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy");
     QString html =
             "<html>"
@@ -28,8 +46,8 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
             "</head>"
             "<body lang=\"tr-TR\" link=\"#000080\" vlink=\"#800000\" dir=\"ltr\"><p align=\"right\" style=\"margin-bottom: 0in; line-height: 100%\">"
             "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + tarih + "</font></font></p>"
-            "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\"><b>ERTUĞRUL MARKET</b></font></font></p>"
-            "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Şıralık Mah. 5536.CD No:46/A</font></font></p>"
+            "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\"><b>" + sirketAdi + "</b></font></font></p>"
+            "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + sirketAdresi + "</font></font></p>"
             "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
                 "<col width=\"176*\"/>"
 

@@ -30,6 +30,7 @@
         <file>images/ui/delete-user.png</file>
         <file>images/ui/registration-user.png</file>
         <file>images/ui/search-user.png</file>
+        <file>images/ui/receipt.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

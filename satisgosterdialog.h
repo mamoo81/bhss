@@ -1,6 +1,7 @@
 #ifndef SATISGOSTERDIALOG_H
 #define SATISGOSTERDIALOG_H
-
+#include "yazici.h"
+//*****************************
 #include <QDialog>
 
 namespace Ui {
@@ -15,6 +16,8 @@ public:
     explicit SatisGosterDialog(QWidget *parent = nullptr);
     ~SatisGosterDialog();
 
+    Sepet satilmisSepet;
+    Yazici fis = Yazici();
 
     void setSatisFaturaNo(const QString &newSatisFaturaNo);
 
@@ -23,6 +26,8 @@ public slots:
 private slots:
     void initTableWidgets();
     void on_kapatpushButton_clicked();
+
+    void on_FisYazdirpushButton_clicked();
 
 private:
     Ui::SatisGosterDialog *ui;

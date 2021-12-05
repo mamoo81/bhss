@@ -120,9 +120,9 @@
   <widget class="QPushButton" name="kapatpushButton">
    <property name="geometry">
     <rect>
-     <x>579</x>
+     <x>559</x>
      <y>610</y>
-     <width>111</width>
+     <width>131</width>
      <height>41</height>
     </rect>
    </property>
@@ -143,9 +143,9 @@
   <widget class="QPushButton" name="iadepushButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>610</y>
-     <width>111</width>
+     <x>560</x>
+     <y>560</y>
+     <width>131</width>
      <height>41</height>
     </rect>
    </property>
@@ -166,7 +166,7 @@
   <widget class="QLabel" name="faturaTutarlabel">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>250</x>
      <y>610</y>
      <width>181</width>
      <height>41</height>
@@ -175,8 +175,11 @@
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>24</pointsize>
+     <pointsize>22</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -188,7 +191,7 @@
   <widget class="QLabel" name="faturaTutarlabel_2">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>10</x>
      <y>610</y>
      <width>281</width>
      <height>41</height>
@@ -197,7 +200,7 @@
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>24</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
    <property name="text">
@@ -381,6 +384,29 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="FisYazdirpushButton">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>510</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fiş yazdır</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/receipt.png</normaloff>:/images/ui/receipt.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
    </property>
   </widget>
  </widget>
