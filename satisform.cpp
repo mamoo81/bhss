@@ -13,6 +13,7 @@
 #include "paracekdialogform.h"
 #include "adetdialogform.h"
 #include "ayarlardialog.h"
+#include "carikartlardialog.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -4251,5 +4252,12 @@ void SatisForm::on_AyarlarBtn_clicked()
     AyarlarDialog *ayarForm = new AyarlarDialog(this);
     ayarForm->setCurrentUser(kullanici);
     ayarForm->show();
+}
+
+
+void SatisForm::on_CariKartlarBtn_clicked()
+{
+    CariKartlarDialog *cariForm = new CariKartlarDialog(this);
+    cariForm->show();
 }
 

@@ -379,6 +379,8 @@ private slots:
     void adetCarp();
     void on_AyarlarBtn_clicked();
 
+    void on_CariKartlarBtn_clicked();
+
 private:
     Ui::SatisForm *ui;
 

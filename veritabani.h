@@ -57,6 +57,9 @@ public slots:
     void updateUser(User _NewUserInfos);
     void deleteUser(QString _DeletedUserName);
     QString sonIslemNumarasi();
+    QStringList getCariKartIsimleri();
+    void yeniCariKart(Cari _cariKart);
+    QStringList getCariTipleri();
 };
 
 #endif // VERITABANI_H

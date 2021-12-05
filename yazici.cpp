@@ -20,6 +20,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
+    yaziciModel = genelAyarlar.value("yazici").toString();
     if(genelAyarlar.value("sirketAdi").isNull()){
         sirketAdi = "MAĞAZA ADI";
     }
@@ -71,7 +72,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                         "<tr valign=\"top\">"
                             "<td width=\"69%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
                             "<td width=\"13%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.miktar) + "</strong></font></font></p></td>"
-                            "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
+                            "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"right\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
                         "</tr>"
                         ));
     };
@@ -80,7 +81,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                     "<td colspan=\"2\" width=\"82%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\"><strong>Toplam<strong></font></font></p>"
                     "</td>"
-                    "<td width=\"18%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
+                    "<td width=\"18%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"right\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari(), 'f', 2) + "<strong></font></font></p>"
                     "</td>"
                 "</tr>"
@@ -107,6 +108,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     document.print(&printer);
 
     QProcess *processIslem = new QProcess();
-    processIslem->start("lpr -P XP-Q600 /tmp/mhss-fis.pdf");
+    yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-fis.pdf";
+    processIslem->start(yazdirmaKomut);
 
 }

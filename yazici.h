@@ -13,6 +13,8 @@ public:
     void fisBas(QString _fisNo, Sepet _sepet);
     QString sirketAdi;
     QString sirketAdresi;
+    QString yaziciModel;
+    QString yazdirmaKomut;
 private:
 
 };

@@ -22,8 +22,6 @@ public:
     void setVergiDaire(const QString &newVergiDaire);
     const QString &getTcNo() const;
     void setTcNo(const QString &newTcNo);
-    const QString &getAdresNo() const;
-    void setAdresNo(const QString &newAdresNo);
     const QString &getAdres() const;
     void setAdres(const QString &newAdres);
     const QString &getIl() const;
@@ -32,24 +30,32 @@ public:
     void setIlce(const QString &newIlce);
     const QString &getMail() const;
     void setMail(const QString &newMail);
-    const QString &getCep() const;
-    void setCep(const QString &newCep);
     const QDateTime &getTarih() const;
     void setTarih(const QDateTime &newTarih);
+
+    const QString &getTip() const;
+    void setTip(const QString &newTip);
+
+    const QString &getTelefon() const;
+    void setTelefon(const QString &newTelefon);
+
+    const QString &getAciklama() const;
+    void setAciklama(const QString &newAciklama);
 
 private:
     int id;
     QString ad;
+    QString tip;
     QString verigino;
     QString vergiDaire;
     QString tcNo;
-    QString adresNo;
     QString adres;
     QString il;
     QString ilce;
     QString mail;
-    QString cep;
+    QString telefon;
     QDateTime tarih;
+    QString aciklama;
 
 };
 

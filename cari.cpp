@@ -55,16 +55,6 @@ void Cari::setTcNo(const QString &newTcNo)
     tcNo = newTcNo;
 }
 
-const QString &Cari::getAdresNo() const
-{
-    return adresNo;
-}
-
-void Cari::setAdresNo(const QString &newAdresNo)
-{
-    adresNo = newAdresNo;
-}
-
 const QString &Cari::getAdres() const
 {
     return adres;
@@ -105,16 +95,6 @@ void Cari::setMail(const QString &newMail)
     mail = newMail;
 }
 
-const QString &Cari::getCep() const
-{
-    return cep;
-}
-
-void Cari::setCep(const QString &newCep)
-{
-    cep = newCep;
-}
-
 const QDateTime &Cari::getTarih() const
 {
     return tarih;
@@ -123,4 +103,34 @@ const QDateTime &Cari::getTarih() const
 void Cari::setTarih(const QDateTime &newTarih)
 {
     tarih = newTarih;
+}
+
+const QString &Cari::getTip() const
+{
+    return tip;
+}
+
+void Cari::setTip(const QString &newTip)
+{
+    tip = newTip;
+}
+
+const QString &Cari::getTelefon() const
+{
+    return telefon;
+}
+
+void Cari::setTelefon(const QString &newTelefon)
+{
+    telefon = newTelefon;
+}
+
+const QString &Cari::getAciklama() const
+{
+    return aciklama;
+}
+
+void Cari::setAciklama(const QString &newAciklama)
+{
+    aciklama = newAciklama;
 }

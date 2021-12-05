@@ -7,13 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>820</width>
-    <height>560</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>820</width>
-    <height>560</height>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>820</width>
+    <height>600</height>
    </size>
   </property>
   <property name="font">
@@ -25,10 +31,10 @@
   <property name="windowTitle">
    <string>Cari Kartlar</string>
   </property>
-  <widget class="QToolButton" name="toolButton">
+  <widget class="QToolButton" name="YenitoolButton">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>10</y>
      <width>81</width>
      <height>31</height>
@@ -51,36 +57,10 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_2">
+  <widget class="QToolButton" name="SiltoolButton">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>10</y>
-     <width>111</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Düzenle</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/registration-user.png</normaloff>:/images/ui/registration-user.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="toolButton_3">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
+     <x>520</x>
      <y>10</y>
      <width>81</width>
      <height>31</height>
@@ -103,7 +83,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_4">
+  <widget class="QToolButton" name="GeritoolButton">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -129,10 +109,10 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton_6">
+  <widget class="QToolButton" name="ileritoolButton">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>60</x>
      <y>10</y>
      <width>41</width>
      <height>31</height>
@@ -155,40 +135,14 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="CaricomboBox">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>110</x>
      <y>10</y>
-     <width>301</width>
+     <width>311</width>
      <height>31</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="toolButton_5">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>10</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Kaydet</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
@@ -197,7 +151,7 @@
      <x>10</x>
      <y>50</y>
      <width>411</width>
-     <height>501</height>
+     <height>541</height>
     </rect>
    </property>
    <property name="title">
@@ -216,7 +170,10 @@
      <string>Cari ID</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="CariIDlineEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -239,7 +196,7 @@
      <string>Adı</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="CariAdlineEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -248,8 +205,11 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="VergiNolineEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -257,6 +217,9 @@
       <width>251</width>
       <height>27</height>
      </rect>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -285,7 +248,7 @@
      <string>Cari Tipi</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="CariTipcomboBox">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -308,7 +271,7 @@
      <string>Vergi daire</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="VergiDairelineEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -316,6 +279,9 @@
       <width>251</width>
       <height>27</height>
      </rect>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -331,7 +297,7 @@
      <string>İlçe</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="ilcecomboBox">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -354,7 +320,7 @@
      <string>İl</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_4">
+   <widget class="QComboBox" name="ilcomboBox">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -377,7 +343,7 @@
      <string>Adres</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="AdrestextEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -400,7 +366,7 @@
      <string>Mail</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLineEdit" name="MaillineEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -408,6 +374,9 @@
       <width>251</width>
       <height>27</height>
      </rect>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_10">
@@ -423,7 +392,7 @@
      <string>Telefon</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_6">
+   <widget class="QLineEdit" name="TelefonlineEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -431,6 +400,9 @@
       <width>251</width>
       <height>27</height>
      </rect>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_11">
@@ -446,7 +418,7 @@
      <string>Açıklama</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2">
+   <widget class="QTextEdit" name="AciklamatextEdit">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -454,6 +426,32 @@
       <width>251</width>
       <height>81</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="KaydettoolButton">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>500</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kaydet</string>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+    <property name="toolButtonStyle">
+     <enum>Qt::ToolButtonTextBesideIcon</enum>
     </property>
    </widget>
   </widget>

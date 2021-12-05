@@ -282,7 +282,6 @@ void Veritabani::veritabaniOlustur()
                 "id BIGSERIAL PRIMARY KEY NOT NULL,"
                 "ad TEXT NOT NULL,"
                 "tip BIGSERIAL NOT NULL,"
-                "tc VARCHAR(11) NOT NULL,"
                 "vergi_no TEXT NOT NULL,"
                 "vergi_daire TEXT NOT NULL,"
                 "il TEXT,"
@@ -421,7 +420,6 @@ void Veritabani::updateUser(User _NewUserInfos)
 
 void Veritabani::CreateNewUser(User _NewUser)
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki)"
                     " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _NewUser.getUserName());
@@ -460,7 +458,6 @@ void Veritabani::CreateNewUser(User _NewUser)
 
 void Veritabani::deleteUser(QString _DeletedUserName)
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("DELETE FROM kullanicilar WHERE username = ?");
     sorgu.bindValue(0, _DeletedUserName);
     if(sorgu.exec()){
@@ -490,7 +487,6 @@ void Veritabani::deleteUser(QString _DeletedUserName)
 
 QString Veritabani::sonIslemNumarasi()
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT fatura_no, tarih FROM faturalar ORDER BY tarih DESC LIMIT 1");
     sorgu.next();
     return sorgu.value(0).toString();
@@ -499,51 +495,102 @@ QString Veritabani::sonIslemNumarasi()
 QList<Cari> Veritabani::getCariKartlar()
 {
     QList<Cari> kartlar;
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT * FROM carikartlar");
     while (sorgu.next()) {
         Cari kart;
         kart.setId(sorgu.value(0).toInt());
         kart.setAd(sorgu.value(1).toString());
-        kart.setVerigino(sorgu.value(2).toString());
-        kart.setVergiDaire(sorgu.value(3).toString());
-        kart.setTcNo(sorgu.value(4).toString());
-        kart.setAdresNo(sorgu.value(5).toString());
-        kart.setAdres(sorgu.value(6).toString());
-        kart.setIl(sorgu.value(7).toString());
-        kart.setIlce(sorgu.value(8).toString());
-        kart.setMail(sorgu.value(9).toString());
-        kart.setCep(sorgu.value(10).toString());
-        kart.setTarih(sorgu.value(11).toDateTime());
+        kart.setTip(sorgu.value(2).toString());
+        kart.setVerigino(sorgu.value(3).toString());
+        kart.setVergiDaire(sorgu.value(4).toString());
+        kart.setIl(sorgu.value(5).toString());
+        kart.setIlce(sorgu.value(6).toString());
+        kart.setAdres(sorgu.value(7).toString());
+        kart.setMail(sorgu.value(8).toString());
+        kart.setTelefon(sorgu.value(9).toString());
+        kart.setTarih(sorgu.value(10).toDateTime());
+        kart.setAciklama(sorgu.value(11).toString());
         kartlar.append(kart);
     }
     return kartlar;
 }
 
+QStringList Veritabani::getCariKartIsimleri()
+{
+    QStringList cariList;
+    sorgu.exec("SELECT * FROM carikartlar");
+    while (sorgu.next()) {
+        if(sorgu.value(1) != "DİREKT"){// direkt carisi en başka gözüksün diye hariç tutuyorum. cariform loadında ilk "DİREKT" itemini ekliyorum combobox'a
+            cariList.append(sorgu.value(1).toString());
+        }
+    }
+    return cariList;
+}
+
 Cari Veritabani::getCariKart(QString _cariID)
 {
     Cari kart;
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT * FROM carikartlar WHERE id = ?");
     sorgu.bindValue(0, _cariID);
     sorgu.exec();
     if(sorgu.next()){
         kart.setId(sorgu.value(0).toInt());
         kart.setAd(sorgu.value(1).toString());
-        kart.setVerigino(sorgu.value(2).toString());
-        kart.setVergiDaire(sorgu.value(3).toString());
-        kart.setTcNo(sorgu.value(4).toString());
-        kart.setAdresNo(sorgu.value(5).toString());
-        kart.setAdres(sorgu.value(6).toString());
-        kart.setIl(sorgu.value(7).toString());
-        kart.setIlce(sorgu.value(8).toString());
-        kart.setMail(sorgu.value(9).toString());
-        kart.setCep(sorgu.value(10).toString());
-        kart.setTarih(sorgu.value(11).toDateTime());
+        kart.setTip(sorgu.value(2).toString());
+        kart.setVerigino(sorgu.value(3).toString());
+        kart.setVergiDaire(sorgu.value(4).toString());
+        kart.setIl(sorgu.value(5).toString());
+        kart.setIlce(sorgu.value(6).toString());
+        kart.setAdres(sorgu.value(7).toString());
+        kart.setMail(sorgu.value(8).toString());
+        kart.setTelefon(sorgu.value(9).toString());
+        kart.setTarih(sorgu.value(10).toDateTime());
+        kart.setAciklama(sorgu.value(11).toString());
         return kart;
     }
     else{
         return kart;
+    }
+}
+
+QStringList Veritabani::getCariTipleri()
+{
+    QString cariTipList;
+    sorgu.exec("SELECT * FROM caritipleri");
+    while (sorgu.next()) {
+        cariTipList.append(sorgu.value(1).toString());
+    }
+    return cariTipList;
+}
+
+void Veritabani::yeniCariKart(Cari _cariKart)
+{
+    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama)"
+                    "VALUES (nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, _cariKart.getAd());
+    sorgu.bindValue(1, _cariKart.getTip());
+    sorgu.bindValue(2, _cariKart.getVerigino());
+    sorgu.bindValue(3, _cariKart.getVergiDaire());
+    sorgu.bindValue(4, _cariKart.getIl());
+    sorgu.bindValue(5, _cariKart.getIlce());
+    sorgu.bindValue(6, _cariKart.getAdres());
+    sorgu.bindValue(7, _cariKart.getMail());
+    sorgu.bindValue(8, _cariKart.getTelefon());
+    sorgu.bindValue(9, _cariKart.getTarih());
+    sorgu.bindValue(10, _cariKart.getAciklama());
+    sorgu.exec();
+    if(!QString(sorgu.lastError().text()).isEmpty()){
+        qDebug() << sorgu.lastError().text();
+    }
+    else{
+        QMessageBox msg;
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Yeni cari kart oluşturuldu.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
     }
 }
 
