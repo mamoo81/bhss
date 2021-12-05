@@ -555,7 +555,7 @@ Cari Veritabani::getCariKart(QString _cariID)
 
 QStringList Veritabani::getCariTipleri()
 {
-    QString cariTipList;
+    QStringList cariTipList;
     sorgu.exec("SELECT * FROM caritipleri");
     while (sorgu.next()) {
         cariTipList.append(sorgu.value(1).toString());
