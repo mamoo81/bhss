@@ -146,7 +146,6 @@ void StokFrom::on_IptalBtn_clicked()
     ui->BckBtn->setEnabled(true);
     ui->AraLineEdit->setEnabled(true);
     ui->araBtn->setEnabled(true);
-    ui->StokKartlaritableView->setFocus();
     alanlariDoldur();
 }
 
@@ -268,14 +267,13 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
         yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
-
     }
     alanlariTemizle();
     stokKartlariniListele();
-    ui->BarkodLnEdit->setFocus();
-    ui->BarkodLnEdit->selectAll();
     alanlariDoldur();
     ui->StokKartlaritableView->selectRow(seciliIndex);
+    ui->AraLineEdit->setFocus();
+    ui->AraLineEdit->selectAll();
     emit on_IptalBtn_clicked();
     delete vt;
 }
