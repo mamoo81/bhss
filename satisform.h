@@ -4,7 +4,13 @@
 #include "user.h"
 #include "stokkarti.h"
 #include "veritabani.h"
-
+#include "ayarlardialog.h"
+#include "carikartlardialog.h"
+#include "paracekdialogform.h"
+#include "satisgosterdialog.h"
+#include "satisyapform.h"
+#include "adetdialogform.h"
+//****************************************
 #include <QWidget>
 #include <QKeyEvent>
 #include <QCloseEvent>
@@ -385,6 +391,12 @@ private:
     Ui::SatisForm *ui;
 
     User kullanici;
+
+    AyarlarDialog *ayarForm = new AyarlarDialog(this);
+    CariKartlarDialog *cariForm = new CariKartlarDialog(this);
+    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
+    SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
+    AdetDialogForm *adetForm = new AdetDialogForm(this);
 };
 
 #endif // SATISFORM_H
