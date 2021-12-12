@@ -116,7 +116,7 @@ void StokFrom::on_DuzenleBtn_clicked()
         else
         {
             uyariSes.play();
-            QMessageBox msg;
+            QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Bir stok kartı seçiniz.");
@@ -202,7 +202,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_Escape){
         if(ui->stokKartBilGroupBox->isEnabled()){
             uyariSes.play();
-            QMessageBox msg;
+            QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Question);
             msg.setText("Stok kartını düzenlemeyi bitirmediniz.\nYinede çıkmak istiyor musunuz?");
@@ -304,7 +304,7 @@ void StokFrom::on_SilBtn_clicked()
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
         uyariSes.play();
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
         msg.setText(QString("%1 barkod numaralı \n%2 isimli stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).arg(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString()));
@@ -321,7 +321,7 @@ void StokFrom::on_SilBtn_clicked()
     }
     else{
         uyariSes.play();
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
         msg.setText("Bir stok kartı seçiniz");
@@ -370,7 +370,7 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
     }
     if(!bulundumu){
         uyariSes.play();
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Stok kartı bulunamadı");

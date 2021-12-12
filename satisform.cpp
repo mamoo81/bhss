@@ -442,7 +442,7 @@ void SatisForm::closeEvent(QCloseEvent *event)
     }
     else{
         uyariSesi.play();
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Kasa uyarısı");
         msg.setIcon(QMessageBox::Question);
         msg.setText("Kasadan para çekimi yapılsın mı?");
@@ -460,10 +460,10 @@ void SatisForm::closeEvent(QCloseEvent *event)
             lg->show();
         }
         else if(QMessageBox::Cancel == cevap){
-            this->show();
+            event->ignore();
             return;
         }
-        else{
+        else if(QMessageBox::No == cevap){
             this->close();
             LoginForm *lg = new LoginForm();
             lg->show();

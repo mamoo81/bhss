@@ -1,12 +1,9 @@
 #include "satisgosterdialog.h"
 #include "ui_satisgosterdialog.h"
-#include "veritabani.h"
 #include "sepet.h"
 #include "stokkarti.h"
-#include "cari.h"
 #include "yazici.h"
 //*********************
-#include <QSqlQuery>
 
 SatisGosterDialog::SatisGosterDialog(QWidget *parent) :
     QDialog(parent),
@@ -35,11 +32,10 @@ void SatisGosterDialog::initTableWidgets()
 void SatisGosterDialog::sepetiCek()
 {
     satisFaturaNo.truncate(10);
-    Veritabani vt = Veritabani();
-    satilmisSepet = vt.getSatis(satisFaturaNo);
-    QSqlQuery qr = vt.getIslemInfo(satisFaturaNo);
+    satilmisSepet = vt->getSatis(satisFaturaNo);
+    qr = vt->getIslemInfo(satisFaturaNo);
     this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(8).toString() + " işlemi");
-    Cari cari = vt.getCariKart(qr.value(7).toString());
+    cari = vt->getCariKart(qr.value(7).toString());
     ui->islemYapilanCariLabel->setText(cari.getAd());
     ui->odenenLabel->setText("₺" + qr.value(5).toString());
     ui->kalanLabel->setText("₺" + qr.value(6).toString());
@@ -81,5 +77,11 @@ void SatisGosterDialog::on_FisYazdirpushButton_clicked()
     msg.setDefaultButton(QMessageBox::Ok);
     msg.setButtonText(QMessageBox::Ok, "Tamam");
     msg.exec();
+}
+
+
+void SatisGosterDialog::on_iadepushButton_clicked()
+{
+
 }
 

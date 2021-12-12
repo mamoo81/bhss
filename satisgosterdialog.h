@@ -1,6 +1,8 @@
 #ifndef SATISGOSTERDIALOG_H
 #define SATISGOSTERDIALOG_H
 #include "yazici.h"
+#include "veritabani.h"
+#include "cari.h"
 //*****************************
 #include <QDialog>
 
@@ -29,10 +31,18 @@ private slots:
 
     void on_FisYazdirpushButton_clicked();
 
+    void on_iadepushButton_clicked();
+
 private:
     Ui::SatisGosterDialog *ui;
 
     QString satisFaturaNo;
+
+    Veritabani *vt = new Veritabani();
+
+    QSqlQuery qr;
+
+    Cari cari;
 };
 
 #endif // SATISGOSTERDIALOG_H
