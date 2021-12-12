@@ -515,16 +515,12 @@ QList<Cari> Veritabani::getCariKartlar()
     return kartlar;
 }
 
-QStringList Veritabani::getCariKartIsimleri()
+QSqlQueryModel* Veritabani::getCariKartIsimleri()
 {
-    QStringList cariList;
-    sorgu.exec("SELECT * FROM carikartlar");
-    while (sorgu.next()) {
-        if(sorgu.value(1) != "DİREKT"){// direkt carisi en başka gözüksün diye hariç tutuyorum. cariform loadında ilk "DİREKT" itemini ekliyorum combobox'a
-            cariList.append(sorgu.value(1).toString());
-        }
-    }
-    return cariList;
+    cariKartIsımleriModel->setQuery("SELECT id, ad FROM carikartlar", db);
+    cariKartIsımleriModel->setHeaderData(0, Qt::Horizontal, "ID");
+    cariKartIsımleriModel->setHeaderData(1, Qt::Horizontal, "Cari ismi");
+    return cariKartIsımleriModel;
 }
 
 Cari Veritabani::getCariKart(QString _cariID)
@@ -592,6 +588,30 @@ void Veritabani::yeniCariKart(Cari _cariKart)
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
+}
+
+QStringList Veritabani::getIller()
+{
+    QStringList ilList;
+    ilList.append("İl seçiniz.");
+    sorgu.exec("SELECT il FROM iller");
+    while (sorgu.next()) {
+        ilList.append(sorgu.value(0).toString());
+    }
+    return ilList;
+}
+
+QStringList Veritabani::getIlceler(int _plaka)
+{
+    QStringList ilcelerList;
+    ilcelerList.append("İlçe seçiniz.");
+    sorgu.prepare("SELECT ilce FROM ilceler WHERE ilid = ?");
+    sorgu.bindValue(0, _plaka);
+    sorgu.exec();
+    while (sorgu.next()) {
+        ilcelerList.append(sorgu.value(0).toString());
+    }
+    return ilcelerList;
 }
 
 QList<QString> Veritabani::GetUsers()
@@ -733,33 +753,30 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
 
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
-    QSqlQueryModel *model = new QSqlQueryModel();
-    model->setHeaderData(0, Qt::Horizontal, "Stok ID");
-    model->setHeaderData(1, Qt::Horizontal, "Barkod");
-    model->setHeaderData(2, Qt::Horizontal, "Adı");
-    model->setHeaderData(3, Qt::Horizontal, "Birim");
-    model->setHeaderData(4, Qt::Horizontal, "Miktar");
-    model->setHeaderData(5, Qt::Horizontal, "Stok Grup");
-    model->setHeaderData(6, Qt::Horizontal, "Alış Fiyat");
-    model->setHeaderData(7, Qt::Horizontal, "Satış Fiyat");
-    model->setHeaderData(8, Qt::Horizontal, "Gün. tarihi");
-    model->setHeaderData(9, Qt::Horizontal, "Açıklama");
-    model->setQuery("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
-    return model;
+    stokKartlariModel->setQuery("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Stok ID");
+    stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
+    stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Adı");
+    stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Birim");
+    stokKartlariModel->setHeaderData(4, Qt::Horizontal, "Miktar");
+    stokKartlariModel->setHeaderData(5, Qt::Horizontal, "Stok Grup");
+    stokKartlariModel->setHeaderData(6, Qt::Horizontal, "Alış Fiyat");
+    stokKartlariModel->setHeaderData(7, Qt::Horizontal, "Satış Fiyat");
+    stokKartlariModel->setHeaderData(8, Qt::Horizontal, "Gün. tarihi");
+    stokKartlariModel->setHeaderData(9, Qt::Horizontal, "Açıklama");
+    return stokKartlariModel;
 }
 
 QSqlQueryModel *Veritabani::getStokKartlari(QString query)
 {
-    QSqlQueryModel *model = new QSqlQueryModel();
-    model->setHeaderData(0, Qt::Horizontal, "Barkod");
-    model->setHeaderData(1, Qt::Horizontal, "Ürün Adı");
-    model->setQuery(query, db);
-    return model;
+    stokKartlariModel->setQuery(query, db);
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Barkod");
+    stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Ürün Adı");
+    return stokKartlariModel;
 }
 
 QStringList Veritabani::stokGruplariGetir()
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
     while (sorgu.next()) {
@@ -794,7 +811,6 @@ QSqlQuery Veritabani::getIslemInfo(QString _faturaNo)
 
 void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     // kasada ki parayı güncelleme
     double kasadaKalanPara = getKasadakiPara() - _cekilecekTutar;
     sorgu.prepare("UPDATE kasa SET para = ?");
@@ -817,7 +833,6 @@ void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
 
 double Veritabani::getGunlukCiro()
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem IN(?,?)");
     sorgu.bindValue(0, QDateTime::currentDateTime().date());
     sorgu.bindValue(1, "giriş");
@@ -832,7 +847,6 @@ double Veritabani::getGunlukCiro()
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     // iade faturano alımı ve yeni oluşturma.
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){
@@ -904,7 +918,6 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
 {
-//    QSqlQuery sorgu = QSqlQuery(db);
     // iade faturano alımı ve yeni oluşturma.
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){

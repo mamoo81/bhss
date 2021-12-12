@@ -26,6 +26,12 @@ private slots:
     void alanlariTemizle();
     void on_KaydettoolButton_clicked();
 
+    void on_ilcomboBox_currentIndexChanged(int index);
+
+    void cariBilgileriGetir(QString _cariID);
+    void on_CariKartlartableView_clicked(const QModelIndex &index);
+
+    void alanlariDoldur(QString _cariID);
 private:
     Ui::CariKartlarDialog *ui;
 };

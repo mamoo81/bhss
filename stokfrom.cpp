@@ -12,6 +12,8 @@
 #include <QDateTime>
 #include <QModelIndex>
 #include <QSound>
+#include <QSettings>
+#include <QStandardPaths>
 
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
@@ -59,27 +61,23 @@ void StokFrom::setUser(User user)
 
 void StokFrom::grupComboboxDoldur()
 {
-    Veritabani *vt = new Veritabani();
     QStringList gruplar = vt->stokGruplariGetir();
     foreach (auto grup, gruplar) {
         ui->StokGrubuComboBox->addItem(grup);
     }
-    delete vt;
 }
 
 
 void StokFrom::stokKartlariniListele()
 {
-    Veritabani *vt = new Veritabani();
     ui->StokKartlaritableView->setModel(vt->getStokKartlari());
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
     ui->StokKartlaritableView->setSortingEnabled(true);
     ui->StokKartlaritableView->resizeColumnsToContents();
-    QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
+    selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
-    delete vt;
 }
 
 void StokFrom::on_YeniBtn_clicked()
@@ -234,21 +232,39 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 
 void StokFrom::on_KaydetBtn_clicked()
 {
-    Veritabani *vt = new Veritabani();
     if(ui->YeniBtn->isEnabled()){// yenibtn aktifse yeni stok kartı kaydı oluşturur.
+        if(!vt->barkodVarmi(ui->BarkodLnEdit->text())){
+            StokKarti yeniStokKarti = StokKarti();
+            yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
+            yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
+            yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
+            yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
+            yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
+            yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
+            yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
+            yeniStokKarti.setKdv(ui->KDVspinBox->value());
+            yeniStokKarti.setTarih(QDateTime::currentDateTime());
+            yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
+            vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
 
-        StokKarti yeniStokKarti = StokKarti();
-        yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
-        yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-        yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
-        yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
-        yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
-        yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
-        yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        yeniStokKarti.setKdv(ui->KDVspinBox->value());
-        yeniStokKarti.setTarih(QDateTime::currentDateTime());
-        yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
-        vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
+            alanlariTemizle();
+            stokKartlariniListele();
+            alanlariDoldur();
+            ui->StokKartlaritableView->selectRow(seciliIndex);
+            ui->AraLineEdit->setFocus();
+            ui->AraLineEdit->selectAll();
+            emit on_IptalBtn_clicked();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Bu barkod veritabanında başka bir stok kartına tanımlı!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setDefaultButton(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
     else if(ui->DuzenleBtn->isEnabled()){// duzenlebtn aktifse mevcut stok kartını günceller.
 
@@ -267,15 +283,18 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
         yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
+
+        // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
+        // burayı kodlamadan önce ini dosyasına stok kartı ID sini de kaydet düzenlenen ürünün barkodu da değişebilir. bundan dolayı sağlıklı çalışmaz.
+
+        alanlariTemizle();
+        stokKartlariniListele();
+        alanlariDoldur();
+        ui->StokKartlaritableView->selectRow(seciliIndex);
+        ui->AraLineEdit->setFocus();
+        ui->AraLineEdit->selectAll();
+        emit on_IptalBtn_clicked();
     }
-    alanlariTemizle();
-    stokKartlariniListele();
-    alanlariDoldur();
-    ui->StokKartlaritableView->selectRow(seciliIndex);
-    ui->AraLineEdit->setFocus();
-    ui->AraLineEdit->selectAll();
-    emit on_IptalBtn_clicked();
-    delete vt;
 }
 
 
@@ -295,11 +314,9 @@ void StokFrom::on_SilBtn_clicked()
         msg.setDefaultButton(QMessageBox::Yes);
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
-            Veritabani *vt = new Veritabani();
             vt->stokKartiSil(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
             stokKartlariniListele();
             emit on_IptalBtn_clicked();
-            delete vt;
         }
     }
     else{

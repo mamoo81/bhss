@@ -1,6 +1,7 @@
 #ifndef STOKFROM_H
 #define STOKFROM_H
 #include "user.h"
+#include "veritabani.h"
 //************************
 #include <QDialog>
 
@@ -62,6 +63,8 @@ private:
     Ui::StokFrom *ui;
 
     User kullanici;
+    Veritabani *vt = new Veritabani();
+    QItemSelectionModel *selectionModel = new QItemSelectionModel();
 };
 
 #endif // STOKFROM_H

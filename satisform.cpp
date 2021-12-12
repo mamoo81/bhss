@@ -2182,7 +2182,7 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
         if(ui->barkodLineEdit->text().isEmpty()){// barkod lineedit boş ise ödeme ekranını göster.
             //ödeme ekranı işlemleri.
-            if(!sepet[0].sepetBosmu() || !sepet[1].sepetBosmu() || !sepet[2].sepetBosmu() || !sepet[3].sepetBosmu()){
+            if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
                 SatisForm::on_satisYapBtn_clicked();
             }
         }
@@ -4192,7 +4192,7 @@ void SatisForm::on_iadeAlBtn_clicked()
 {
     if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
         uyariSesi.play();
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
         msg.setText(QString("Sepetteki %1 kalem ürün DİREKT carisine iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
@@ -4209,16 +4209,20 @@ void SatisForm::on_iadeAlBtn_clicked()
             sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
             switch (ui->SepetlertabWidget->currentIndex()) {
             case 0:
+                sepet[0].sepetiSil();
                 ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
                 break;
             case 1:
-                ui->sepet2TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                sepet[1].sepetiSil();
+                ui->sepet2TableWidget->model()->removeRows(0, ui->sepet2TableWidget->rowCount());
                 break;
             case 2:
-                ui->sepet3TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                sepet[2].sepetiSil();
+                ui->sepet3TableWidget->model()->removeRows(0, ui->sepet3TableWidget->rowCount());
                 break;
             case 3:
-                ui->sepet4TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                sepet[3].sepetiSil();
+                ui->sepet4TableWidget->model()->removeRows(0, ui->sepet4TableWidget->rowCount());
                 break;
             }
             butonDurumlariniAyarla();
@@ -4226,15 +4230,6 @@ void SatisForm::on_iadeAlBtn_clicked()
             getSonSatislar();
             sepetTabIconlariAyarla();
             ui->barkodLineEdit->setFocus();
-
-            uyariSesi.play();
-            QMessageBox msg;
-            msg.setWindowTitle("Uyaraı");
-            msg.setIcon(QMessageBox::Information);
-            msg.setText("İade yapılmıştır.");
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
-            msg.exec();
         }
     }
 }

@@ -21,6 +21,8 @@ public:
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
     QSqlQuery sorgu = QSqlQuery(db);
+    QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
+    QSqlQueryModel *cariKartIsımleriModel = new QSqlQueryModel();
 
     bool barkodVarmi(QString _Barkod);
     void baglan();
@@ -57,9 +59,11 @@ public slots:
     void updateUser(User _NewUserInfos);
     void deleteUser(QString _DeletedUserName);
     QString sonIslemNumarasi();
-    QStringList getCariKartIsimleri();
+    QSqlQueryModel *getCariKartIsimleri();
     void yeniCariKart(Cari _cariKart);
     QStringList getCariTipleri();
+    QStringList getIller();
+    QStringList getIlceler(int _plaka);
 };
 
 #endif // VERITABANI_H
