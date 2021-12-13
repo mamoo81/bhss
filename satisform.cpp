@@ -4139,7 +4139,6 @@ void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item
     satisGosterForm->sepetiCek();
     satisGosterForm->exec();
     ui->barkodLineEdit->setFocus();
-    delete satisGosterForm;
 }
 
 
