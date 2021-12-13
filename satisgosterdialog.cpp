@@ -42,6 +42,7 @@ void SatisGosterDialog::sepetiCek()
     ui->tarihLabel->setText(qr.value(9).toDate().toString("dd.MM.yyyy") + " " + qr.value(9).toTime().toString("hh:mm"));
     ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari()));
     int satirIndex = 0;
+    ui->sepetTableWidget->model()->removeRows(0, ui->sepetTableWidget->rowCount());
     foreach (auto urun, satilmisSepet.urunler) {
         ui->sepetTableWidget->insertRow(ui->sepetTableWidget->rowCount());
         ui->sepetTableWidget->setItem(satirIndex, 0, new QTableWidgetItem(urun.barkod));
