@@ -16,14 +16,16 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    //localizasyon default türkçe ayarlama.
+    QLocale loc(QLocale::Turkish, QLocale::Turkey);
+    QLocale::setDefault(loc);
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
     db.setUserName("postgres");
     db.setPassword("postgres");
     if(db.open()){
-        //localizasyon default türkçe ayarlama.
-        QLocale l(QLocale::Turkish, QLocale::Turkey);
-        QLocale::setDefault(l);
+
         a.setOrganizationName("milis");
         a.setApplicationName("mhss");
         // .config altında mhss klasörü varmı kontrol

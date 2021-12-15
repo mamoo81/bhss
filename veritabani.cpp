@@ -785,6 +785,27 @@ QStringList Veritabani::stokGruplariGetir()
     return liste;
 }
 
+void Veritabani::stokGrupEkle(QString _eklenecekGrupAdi)
+{
+    sorgu.prepare("INSERT INTO stokgruplari(id, grup) "
+                    "VALUES (nextval('stokgruplari_sequence'), ?)");
+    sorgu.bindValue(0, _eklenecekGrupAdi);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning() << "stok grup ekleme sorgu INSERT hatası: " << sorgu.lastError().text();
+    }
+}
+
+void Veritabani::stokGrupSil(QString _silinecekGrupAdi)
+{
+    sorgu.prepare("DELETE FROM stokgruplari WHERE grup = ?");
+    sorgu.bindValue(0, _silinecekGrupAdi);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning() << "stok grup silme sorgu DELETE hatası: " << sorgu.lastError().text();
+    }
+}
+
 Sepet Veritabani::getSatis(QString _faturaNo)
 {
     Sepet satilmisSepet;

@@ -1,9 +1,9 @@
 #include "stokgrupform.h"
 #include "ui_stokgrupform.h"
-#include "veritabani.h"
 //*****************************
 #include <QMessageBox>
 #include <QDebug>
+#include <QLocale>
 
 StokGrupForm::StokGrupForm(QWidget *parent) :
     QDialog(parent),
@@ -34,7 +34,7 @@ void StokGrupForm::on_EkleBtn_clicked()
         QList<QListWidgetItem *> eslesme = ui->gruplarlistWidget->findItems(aranacak,Qt::MatchExactly);
         if(eslesme.size() > 0)
         {
-            QMessageBox msg;
+            QMessageBox msg(this);
             msg.setWindowTitle("Hata");
             msg.setIcon(QMessageBox::Critical);
             msg.setText("Bu stok gurubu zaten mevcut.");
@@ -44,7 +44,8 @@ void StokGrupForm::on_EkleBtn_clicked()
         }
         else
         {
-            QMessageBox msg;
+            vt_grup->stokGrupEkle(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->YenilineEdit->text()));
+            QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Stok gurubu başarıyla eklendi.");
@@ -63,9 +64,10 @@ void StokGrupForm::on_SilBtn_clicked()
 {
     if(ui->gruplarlistWidget->selectedItems().size() != 0 )
     {
+        vt_grup->stokGrupSil(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->gruplarlistWidget->currentItem()->text()));
         QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
         delete silinecek_item;
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Stok gurubu silindi.");
@@ -76,7 +78,7 @@ void StokGrupForm::on_SilBtn_clicked()
     }
     else
     {
-        QMessageBox msg;
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Listeden silinecek gurubu seçin.");
@@ -88,17 +90,16 @@ void StokGrupForm::on_SilBtn_clicked()
 
 void StokGrupForm::on_KaydetBtn_clicked()
 {
-
+    this->close();
 }
 
 void StokGrupForm::stokGruplariGetir()
 {
-    Veritabani *vt_grup = new Veritabani();
+    ui->gruplarlistWidget->model()->removeRows(0, ui->gruplarlistWidget->count());
     QStringList liste = vt_grup->stokGruplariGetir();
     foreach (auto item, liste) {
         ui->gruplarlistWidget->addItem(item);
     }
-    delete vt_grup;
 }
 
 void StokGrupForm::keyPressEvent(QKeyEvent *event)

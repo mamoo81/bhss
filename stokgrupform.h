@@ -1,6 +1,7 @@
 #ifndef STOKGRUPFORM_H
 #define STOKGRUPFORM_H
-
+#include "veritabani.h"
+//*****************************
 #include <QDialog>
 #include <QKeyEvent>
 
@@ -15,6 +16,8 @@ class StokGrupForm : public QDialog
 public:
     explicit StokGrupForm(QWidget *parent = nullptr);
     ~StokGrupForm();
+
+    Veritabani *vt_grup = new Veritabani();
 
 private slots:
     void formLoad();

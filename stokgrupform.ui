@@ -68,7 +68,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Kaydet</string>
+    <string>Kapat</string>
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
