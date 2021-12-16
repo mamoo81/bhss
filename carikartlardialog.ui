@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>Cari Kartlar</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/images/ui/mhss.png</normaloff>:/images/ui/mhss.png</iconset>
+  </property>
   <widget class="QToolButton" name="YenitoolButton">
    <property name="geometry">
     <rect>

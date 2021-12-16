@@ -500,7 +500,7 @@ QList<Cari> Veritabani::getCariKartlar()
         Cari kart;
         kart.setId(sorgu.value(0).toInt());
         kart.setAd(sorgu.value(1).toString());
-        kart.setTip(sorgu.value(2).toString());
+        kart.setTip(sorgu.value(2).toInt());
         kart.setVerigino(sorgu.value(3).toString());
         kart.setVergiDaire(sorgu.value(4).toString());
         kart.setIl(sorgu.value(5).toString());
@@ -532,7 +532,7 @@ Cari Veritabani::getCariKart(QString _cariID)
     if(sorgu.next()){
         kart.setId(sorgu.value(0).toInt());
         kart.setAd(sorgu.value(1).toString());
-        kart.setTip(sorgu.value(2).toString());
+        kart.setTip(sorgu.value(2).toInt());
         kart.setVerigino(sorgu.value(3).toString());
         kart.setVergiDaire(sorgu.value(4).toString());
         kart.setIl(sorgu.value(5).toString());
@@ -804,6 +804,16 @@ void Veritabani::stokGrupSil(QString _silinecekGrupAdi)
     if(sorgu.lastError().isValid()){
         qWarning() << "stok grup silme sorgu DELETE hatası: " << sorgu.lastError().text();
     }
+}
+
+QStringList Veritabani::getVergiDaireleri()
+{
+    QStringList liste;
+    sorgu.exec("SELECT ad FROM vergidaireleri");
+    while (sorgu.next()) {
+        liste.append(sorgu.value(0).toString());
+    }
+    return liste;
 }
 
 Sepet Veritabani::getSatis(QString _faturaNo)

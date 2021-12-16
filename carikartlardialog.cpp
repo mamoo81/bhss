@@ -1,7 +1,9 @@
 #include "carikartlardialog.h"
 #include "ui_carikartlardialog.h"
 //**************************
+#include <QCompleter>
 #include <QLocale>
+#include <QDateTime>
 
 QLocale turkce(QLocale::Turkish, QLocale::Turkey);
 
@@ -22,6 +24,13 @@ CariKartlarDialog::~CariKartlarDialog()
 
 void CariKartlarDialog::formLoad()
 {
+    setVergiDaireleri(vt.getVergiDaireleri());
+
+    QCompleter *tamamlayici = new QCompleter(vergiDaireleri, this);
+    tamamlayici->setCompletionMode(QCompleter::PopupCompletion);
+    tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->VergiDairelineEdit->setCompleter(tamamlayici);
+
     ui->CariKartlartableView->setModel(vt.getCariKartIsimleri());
     ui->CariTipcomboBox->addItems(vt.getCariTipleri());
     ui->ilcomboBox->addItems(vt.getIller());
@@ -56,10 +65,25 @@ void CariKartlarDialog::alanlariDoldur(QString _cariID)
     Cari gelenCari = vt.getCariKart(_cariID);
     ui->CariIDlineEdit->setText(QString(gelenCari.getId()));
     ui->CariAdlineEdit->setText(gelenCari.getAd());
-    ui->CariTipcomboBox->setCurrentIndex(ui->CariTipcomboBox->findText(gelenCari.getTip()));
+    if(gelenCari.getTip() == 1){
+        ui->CariTipcomboBox->setCurrentIndex(0);
+    }
+    else if(gelenCari.getTip() == 2){
+        ui->CariTipcomboBox->setCurrentIndex(1);
+    }
     ui->VergiNolineEdit->setText(gelenCari.getVerigino());
     ui->VergiDairelineEdit->setText(gelenCari.getVergiDaire());
-    //vergi dairelerini vt ye gir sonra devam et
+    ui->ilcomboBox->setCurrentIndex(ui->ilcomboBox->findText(gelenCari.getIl()));
+    ui->ilcecomboBox->setCurrentIndex(ui->ilcecomboBox->findText(gelenCari.getIlce()));
+    ui->AdrestextEdit->setText(gelenCari.getAdres());
+    ui->MaillineEdit->setText(gelenCari.getMail());
+    ui->TelefonlineEdit->setText(gelenCari.getTelefon());
+    ui->AciklamatextEdit->setText(gelenCari.getAciklama());
+}
+
+void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
+{
+    vergiDaireleri = newVergiDaireleri;
 }
 
 void CariKartlarDialog::on_KaydettoolButton_clicked()
@@ -68,14 +92,20 @@ void CariKartlarDialog::on_KaydettoolButton_clicked()
         if(!ui->CariAdlineEdit->text().isEmpty()){
             Cari yeniCariKart;
             yeniCariKart.setAd(turkce.toUpper(ui->CariAdlineEdit->text()));
-            yeniCariKart.setTip(ui->CariTipcomboBox->currentText());
+            if(ui->CariTipcomboBox->currentText() == "MÜŞTERİ"){
+                yeniCariKart.setTip(1);
+            }
+            else if(ui->CariTipcomboBox->currentText() == "TOPTANCI"){
+                yeniCariKart.setTip(2);
+            }
             yeniCariKart.setVerigino(ui->VergiNolineEdit->text());
             yeniCariKart.setVergiDaire(ui->VergiDairelineEdit->text());
             yeniCariKart.setIl(ui->ilcomboBox->currentText());
             yeniCariKart.setIlce(ui->ilcecomboBox->currentText());
-            yeniCariKart.setAdres(ui->AdrestextEdit->toPlainText());
+            yeniCariKart.setAdres(turkce.toUpper(ui->AdrestextEdit->toPlainText()));
             yeniCariKart.setMail(ui->MaillineEdit->text());
             yeniCariKart.setTelefon(ui->TelefonlineEdit->text());
+            yeniCariKart.setTarih(QDateTime::currentDateTime());
             yeniCariKart.setAciklama(ui->AciklamatextEdit->toPlainText());
             vt.yeniCariKart(yeniCariKart);
             ui->SiltoolButton->setEnabled(true);

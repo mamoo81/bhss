@@ -105,12 +105,12 @@ void Cari::setTarih(const QDateTime &newTarih)
     tarih = newTarih;
 }
 
-const QString &Cari::getTip() const
+const int &Cari::getTip() const
 {
     return tip;
 }
 
-void Cari::setTip(const QString &newTip)
+void Cari::setTip(const int &newTip)
 {
     tip = newTip;
 }

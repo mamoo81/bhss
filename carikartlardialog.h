@@ -19,6 +19,8 @@ public:
 
     Veritabani vt = Veritabani();
 
+    void setVergiDaireleri(const QStringList &newVergiDaireleri);
+
 private slots:
     void formLoad();
     void on_YenitoolButton_clicked();
@@ -34,6 +36,8 @@ private slots:
     void alanlariDoldur(QString _cariID);
 private:
     Ui::CariKartlarDialog *ui;
+
+    QStringList vergiDaireleri;
 };
 
 #endif // CARIKARTLARDIALOG_H

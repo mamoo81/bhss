@@ -33,8 +33,8 @@ public:
     const QDateTime &getTarih() const;
     void setTarih(const QDateTime &newTarih);
 
-    const QString &getTip() const;
-    void setTip(const QString &newTip);
+    const int &getTip() const;
+    void setTip(const int &newTip);
 
     const QString &getTelefon() const;
     void setTelefon(const QString &newTelefon);
@@ -45,7 +45,7 @@ public:
 private:
     int id;
     QString ad;
-    QString tip;
+    int tip;
     QString verigino;
     QString vergiDaire;
     QString tcNo;

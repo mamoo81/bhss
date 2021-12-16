@@ -66,6 +66,7 @@ public slots:
     QStringList getIlceler(int _plaka);
     void stokGrupEkle(QString _eklenecekGrupAdi);
     void stokGrupSil(QString _silinecekGrupAdi);
+    QStringList getVergiDaireleri();
 };
 
 #endif // VERITABANI_H
