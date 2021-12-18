@@ -67,6 +67,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
     StokFrom *stokKartiFormu = new StokFrom(this);
     stokKartiFormu->setUser(kullanici);
     stokKartiFormu->exec();
+    delete stokKartiFormu;
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4157,9 +4158,11 @@ void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
 
 void SatisForm::on_KasaBtn_clicked()
 {
+    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
     paraCekForm->setKasadakiPara(vt->getKasadakiPara());
     paraCekForm->setKull(kullanici);
     paraCekForm->exec();
+    delete paraCekForm;
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4229,8 +4232,10 @@ void SatisForm::on_CarpBtn_clicked()
 
 void SatisForm::on_AyarlarBtn_clicked()
 {
+    AyarlarDialog *ayarForm = new AyarlarDialog(this);
     ayarForm->setCurrentUser(kullanici);
     ayarForm->exec();
+    delete ayarForm;
     ui->barkodLineEdit->setFocus();
 }
 

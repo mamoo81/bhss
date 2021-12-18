@@ -17,6 +17,8 @@ public:
     LoginForm(QWidget *parent = nullptr);
     ~LoginForm();
 
+    bool capslock;
+
     void formLoad();
 private slots:
     void on_GirisBtn_clicked();
@@ -27,6 +29,8 @@ private slots:
 
     void getUsers();
 
+    void keyPressEvent(QKeyEvent *event);
+    void getCapslockState();
 private:
     Ui::LoginForm *ui;
 };

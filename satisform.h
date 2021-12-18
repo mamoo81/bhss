@@ -392,9 +392,8 @@ private:
 
     User kullanici;
 
-    AyarlarDialog *ayarForm = new AyarlarDialog(this);
+
     CariKartlarDialog *cariForm = new CariKartlarDialog(this);
-    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
     SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
     AdetDialogForm *adetForm = new AdetDialogForm(this);
 };

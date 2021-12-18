@@ -71,8 +71,6 @@ FORMS += \
     stokfrom.ui \
     stokgrupform.ui
 
-TRANSLATIONS += \
-    mhss_tr_TR.ts
 CONFIG += lrelease
 CONFIG += embed_translations
 

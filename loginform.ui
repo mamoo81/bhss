@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>475</height>
+    <height>445</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>250</width>
+    <height>445</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>250</width>
+    <height>445</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -75,6 +87,9 @@
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -129,7 +144,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0.1 beta</string>
+     <string>0.1.4 beta</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -143,6 +158,28 @@
     </property>
     <property name="text">
      <string>Versiyon:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>340</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/images/ui/capslock.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

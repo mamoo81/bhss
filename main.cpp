@@ -16,10 +16,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    //localizasyon default türkçe ayarlama.
-    QLocale loc(QLocale::Turkish, QLocale::Turkey);
-    QLocale::setDefault(loc);
-
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
     db.setUserName("postgres");
@@ -28,7 +24,7 @@ int main(int argc, char *argv[])
 
         a.setOrganizationName("milis");
         a.setApplicationName("mhss");
-        // .config altında mhss klasörü varmı kontrol
+        // ./home/user/.config/ altında mhss klasörü varmı kontrol
         auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();
         if(!QFileInfo::exists(dizin)){
             QDir().mkdir(dizin);// mhss klasörünü oluşturma.
@@ -51,15 +47,6 @@ int main(int argc, char *argv[])
             QFile ayarlarini(dizin + "/genel.ini");
             if(!QFileInfo::exists(ayarlarini.fileName())){
                 ayarlarini.open(QIODevice::ReadWrite);
-            }
-        }
-        QTranslator translator;
-        const QStringList uiLanguages = QLocale::system().uiLanguages();
-        for (const QString &locale : uiLanguages) {
-            const QString baseName = "mhss_" + QLocale(locale).name();
-            if (translator.load(":/i18n/" + baseName)) {
-                a.installTranslator(&translator);
-                break;
             }
         }
         LoginForm w;

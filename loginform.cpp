@@ -6,7 +6,11 @@
 //*******************************
 #include <QCloseEvent>
 #include <QSqlDatabase>
-
+#include <QKeyEvent>
+#include <QDirIterator>
+#include <QTextStream>
+#include <QFile>
+#include <QFileInfo>
 
 LoginForm::LoginForm(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +19,7 @@ LoginForm::LoginForm(QWidget *parent)
     ui->setupUi(this);
 
     formLoad();
+    getCapslockState();
 }
 
 LoginForm::~LoginForm()
@@ -43,6 +48,7 @@ void LoginForm::formLoad()
         }
     }
     getUsers();
+
 }
 
 void LoginForm::on_GirisBtn_clicked()
@@ -81,3 +87,42 @@ void LoginForm::getUsers()
     }
 }
 
+void LoginForm::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_CapsLock){
+        if(capslock){
+            capslock = false;
+            ui->label_6->setVisible(false);
+        }
+        else{
+            capslock = true;
+            ui->label_6->setVisible(true);
+        }
+    }
+}
+
+void LoginForm::getCapslockState()
+{
+    QString directory = "/sys/class/leds/"; // Where to search
+    QDirIterator it(directory, QDirIterator::Subdirectories);
+
+    // Iterate through the directory using the QDirIterator
+    while (it.hasNext()) {
+        QString filename = it.next();
+        QFileInfo file(filename);
+
+        if (file.isDir()) { // Check if it's a dir
+            // If the filename contains target string - put it in the hitlist
+            if (file.fileName().contains("capslock", Qt::CaseInsensitive)) {
+                QFile dosya(file.absoluteFilePath().append("/brightness"));
+                if(!dosya.open(QIODevice::ReadOnly)){
+                    return;
+                }
+                QTextStream in(&dosya);
+                capslock = in.readAll().toInt();
+                ui->label_6->setVisible(capslock);
+                dosya.close();
+            }
+        }
+    }
+}

@@ -30,7 +30,7 @@ public:
     bool urunSepetteVarmi(QString _Barkod);
     QHash<QString, Urun> sepetiGetir();
     Urun urunBilgileriniGetir(QString _Barkod);
-    double paraYuvarla(double _toplam);
+//    double paraYuvarla(double _toplam);
     double getOdenenTutar() const;
     void setOdenenTutar(double newOdenenTutar);
     double getKalanTutar() const;

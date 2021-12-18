@@ -4,6 +4,7 @@
 #include <QCompleter>
 #include <QLocale>
 #include <QDateTime>
+#include <QDebug>
 
 QLocale turkce(QLocale::Turkish, QLocale::Turkey);
 
@@ -24,6 +25,7 @@ CariKartlarDialog::~CariKartlarDialog()
 
 void CariKartlarDialog::formLoad()
 {
+    qDebug() << ui->ilcomboBox->maxVisibleItems();
     setVergiDaireleri(vt.getVergiDaireleri());
 
     QCompleter *tamamlayici = new QCompleter(vergiDaireleri, this);
