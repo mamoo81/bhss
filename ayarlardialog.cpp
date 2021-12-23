@@ -60,8 +60,8 @@ void AyarlarDialog::getUsers()
 {
     ui->KullanicilarlistWidget->clear();
     QList<QString> k = vt.GetUsers();
-    foreach (QString item, k) {
-        ui->KullanicilarlistWidget->addItem(item);
+    foreach (QString user, k) {
+        ui->KullanicilarlistWidget->addItem(user);
     }
 }
 

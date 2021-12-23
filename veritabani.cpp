@@ -608,6 +608,7 @@ QStringList Veritabani::getIlceler(int _plaka)
 
 QList<QString> Veritabani::GetUsers()
 {
+    users.clear();
     sorgu.exec("SELECT username FROM kullanicilar");
     while (sorgu.next()) {
         users << sorgu.value(0).toString();
