@@ -76,7 +76,8 @@ void SatisYapForm::on_satBtn_clicked()
 void SatisYapForm::setSatilacakSepet(const Sepet &newSatilacakSepet)
 {
     satilacakSepet = newSatilacakSepet;
-    ui->toplamLBL->setText("₺" + QString::number(satilacakSepet.sepetToplamTutari()));
+    ui->toplamLBL->setText("₺" + QString::number(satilacakSepet.sepetToplamTutari(), 'f', 2));
+    ui->OdenendoubleSpinBox->setValue(satilacakSepet.sepetToplamTutari());
 }
 
 

@@ -114,3 +114,43 @@ void StokKarti::setAciklama(const QString &newAciklama)
 {
     aciklama = newAciklama;
 }
+
+const QString &StokKarti::getKod() const
+{
+    return kod;
+}
+
+void StokKarti::setKod(const QString &newKod)
+{
+    kod = newKod;
+}
+
+int StokKarti::getOtv() const
+{
+    return otv;
+}
+
+void StokKarti::setOtv(int newOtv)
+{
+    otv = newOtv;
+}
+
+bool StokKarti::getKdvdahil() const
+{
+    return kdvdahil;
+}
+
+void StokKarti::setKdvdahil(bool newKdvdahil)
+{
+    kdvdahil = newKdvdahil;
+}
+
+bool StokKarti::getOtvdahil() const
+{
+    return otvdahil;
+}
+
+void StokKarti::setOtvdahil(bool newOtvdahil)
+{
+    otvdahil = newOtvdahil;
+}

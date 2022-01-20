@@ -392,8 +392,6 @@ private:
 
     User kullanici;
 
-
-    CariKartlarDialog *cariForm = new CariKartlarDialog(this);
     SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
     AdetDialogForm *adetForm = new AdetDialogForm(this);
 };

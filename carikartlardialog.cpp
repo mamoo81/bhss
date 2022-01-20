@@ -1,5 +1,6 @@
 #include "carikartlardialog.h"
 #include "ui_carikartlardialog.h"
+#include "carihareketiekleform.h"
 //**************************
 #include <QCompleter>
 #include <QLocale>
@@ -25,62 +26,71 @@ CariKartlarDialog::~CariKartlarDialog()
 
 void CariKartlarDialog::formLoad()
 {
-    qDebug() << ui->ilcomboBox->maxVisibleItems();
     setVergiDaireleri(vt.getVergiDaireleri());
 
-    QCompleter *tamamlayici = new QCompleter(vergiDaireleri, this);
-    tamamlayici->setCompletionMode(QCompleter::PopupCompletion);
-    tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->VergiDairelineEdit->setCompleter(tamamlayici);
-
     ui->CariKartlartableView->setModel(vt.getCariKartIsimleri());
-    ui->CariTipcomboBox->addItems(vt.getCariTipleri());
-    ui->ilcomboBox->addItems(vt.getIller());
-    ui->ilcomboBox->setCurrentIndex(0);
-    ui->ilcecomboBox->addItem("İlçe seçiniz.");
-    ui->ilcecomboBox->setCurrentIndex(0);
+    ui->CariKartlartableView->resizeColumnsToContents();
+    connect(ui->CariKartlartableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriListele()));
+    ui->CariKartlartableView->selectRow(0);
+    //tarihleri ayarlama
+    ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
+    connect(ui->CariKartHareketleritableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriTableSelectionChanged()));
+}
+
+void CariKartlarDialog::cariHareketleriListele()
+{
+    //cari seçilince yapılacaklar
+    QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
+    ui->CariKartHareketleritableView->setModel(vt.getCariHareketleri(cariID));
+    ui->CariKartHareketleritableView->resizeColumnsToContents();
+    ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
+    ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID), 'f', 2));
+
+    // butonların aktif/pasif durumları ayarlama
+    if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() != "1000"){//direkt carisi ise es geç
+        ui->CaridenTahsilatYaptoolButton->setEnabled(true);
+        ui->CariyeOdemeYaptoolButton->setEnabled(true);
+        ui->CariyiBorclandirtoolButton->setEnabled(true);
+        ui->CariyiAlacaklandirtoolButton->setEnabled(true);
+        ui->CariBankatoolButton->setEnabled(true);
+        ui->CariyeStokluSatistoolButton->setEnabled(true);
+        ui->CariyeStoksuzSatistoolButton->setEnabled(true);
+    }
+    else{
+        ui->CaridenTahsilatYaptoolButton->setEnabled(false);
+        ui->CariyeOdemeYaptoolButton->setEnabled(false);
+        ui->CariyiBorclandirtoolButton->setEnabled(false);
+        ui->CariyiAlacaklandirtoolButton->setEnabled(false);
+        ui->CariBankatoolButton->setEnabled(false);
+        ui->CariyeStokluSatistoolButton->setEnabled(false);
+        ui->CariyeStoksuzSatistoolButton->setEnabled(false);
+    }
+    // cari seçimi değişince ödeme ve tahsilat makbuzları butonlarını pasif yapma
+    ui->OdemeMakbuzuBastoolButton->setEnabled(false);
+    ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
+}
+
+void CariKartlarDialog::cariHareketleriTableSelectionChanged()
+{
+    if(ui->CariKartHareketleritableView->currentIndex().row() > -1){
+        if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 1).data().toString() == "ÖDEME"){
+            ui->OdemeMakbuzuBastoolButton->setEnabled(true);
+            ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
+        }
+        else if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 1).data().toString() == "TAHSİLAT"){
+            ui->TahsilatMakbuzuBastoolButton->setEnabled(true);
+            ui->OdemeMakbuzuBastoolButton->setEnabled(false);
+        }
+        else{
+            ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
+            ui->OdemeMakbuzuBastoolButton->setEnabled(false);
+        }
+    }
 }
 
 void CariKartlarDialog::on_YenitoolButton_clicked()
 {
     ui->SiltoolButton->setEnabled(false);
-    alanlariTemizle();
-}
-
-void CariKartlarDialog::alanlariTemizle()
-{
-    ui->CariIDlineEdit->clear();
-    ui->CariAdlineEdit->clear();
-    ui->CariTipcomboBox->setCurrentIndex(0);
-    ui->VergiNolineEdit->clear();
-    ui->VergiDairelineEdit->clear();
-    ui->ilcomboBox->setCurrentIndex(0);
-    ui->ilcecomboBox->setCurrentIndex(0);
-    ui->AdrestextEdit->clear();
-    ui->MaillineEdit->clear();
-    ui->TelefonlineEdit->clear();
-    ui->AciklamatextEdit->clear();
-}
-
-void CariKartlarDialog::alanlariDoldur(QString _cariID)
-{
-    Cari gelenCari = vt.getCariKart(_cariID);
-    ui->CariIDlineEdit->setText(QString(gelenCari.getId()));
-    ui->CariAdlineEdit->setText(gelenCari.getAd());
-    if(gelenCari.getTip() == 1){
-        ui->CariTipcomboBox->setCurrentIndex(0);
-    }
-    else if(gelenCari.getTip() == 2){
-        ui->CariTipcomboBox->setCurrentIndex(1);
-    }
-    ui->VergiNolineEdit->setText(gelenCari.getVerigino());
-    ui->VergiDairelineEdit->setText(gelenCari.getVergiDaire());
-    ui->ilcomboBox->setCurrentIndex(ui->ilcomboBox->findText(gelenCari.getIl()));
-    ui->ilcecomboBox->setCurrentIndex(ui->ilcecomboBox->findText(gelenCari.getIlce()));
-    ui->AdrestextEdit->setText(gelenCari.getAdres());
-    ui->MaillineEdit->setText(gelenCari.getMail());
-    ui->TelefonlineEdit->setText(gelenCari.getTelefon());
-    ui->AciklamatextEdit->setText(gelenCari.getAciklama());
 }
 
 void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
@@ -88,61 +98,10 @@ void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
     vergiDaireleri = newVergiDaireleri;
 }
 
-void CariKartlarDialog::on_KaydettoolButton_clicked()
+void CariKartlarDialog::on_CaridenTahsilatYaptoolButton_clicked()
 {
-    if(ui->CariIDlineEdit->text().isEmpty()){// idlineedit boş ilse yeni kayıt
-        if(!ui->CariAdlineEdit->text().isEmpty()){
-            Cari yeniCariKart;
-            yeniCariKart.setAd(turkce.toUpper(ui->CariAdlineEdit->text()));
-            if(ui->CariTipcomboBox->currentText() == "MÜŞTERİ"){
-                yeniCariKart.setTip(1);
-            }
-            else if(ui->CariTipcomboBox->currentText() == "TOPTANCI"){
-                yeniCariKart.setTip(2);
-            }
-            yeniCariKart.setVerigino(ui->VergiNolineEdit->text());
-            yeniCariKart.setVergiDaire(ui->VergiDairelineEdit->text());
-            yeniCariKart.setIl(ui->ilcomboBox->currentText());
-            yeniCariKart.setIlce(ui->ilcecomboBox->currentText());
-            yeniCariKart.setAdres(turkce.toUpper(ui->AdrestextEdit->toPlainText()));
-            yeniCariKart.setMail(ui->MaillineEdit->text());
-            yeniCariKart.setTelefon(ui->TelefonlineEdit->text());
-            yeniCariKart.setTarih(QDateTime::currentDateTime());
-            yeniCariKart.setAciklama(ui->AciklamatextEdit->toPlainText());
-            vt.yeniCariKart(yeniCariKart);
-            ui->SiltoolButton->setEnabled(true);
-        }
-        else{
-            QMessageBox msg(this);
-            msg.setWindowTitle("Uyarı");
-            msg.setIcon(QMessageBox::Warning);
-            msg.setText("Cari adını yazmalısınız.");
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.setDefaultButton(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
-            msg.exec();
-        }
-    }
-    else{// değilse mevcut kayıtı güncelleme
-
-    }
-}
-
-
-void CariKartlarDialog::on_ilcomboBox_currentIndexChanged(int index)
-{
-    ui->ilcecomboBox->clear();
-    ui->ilcecomboBox->addItems(vt.getIlceler(index));
-}
-
-void CariKartlarDialog::cariBilgileriGetir(QString _cariID)
-{
-
-}
-
-
-void CariKartlarDialog::on_CariKartlartableView_clicked(const QModelIndex &index)
-{
-    alanlariDoldur(index.model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
+    cariHareketForm->setWindowTitle("Cariden Tahsilat Yap");
+    cariHareketForm->exec();
 }
 

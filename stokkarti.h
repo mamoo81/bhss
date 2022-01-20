@@ -42,8 +42,21 @@ public:
     const QString &getAciklama() const;
     void setAciklama(const QString &newAciklama);
 
+    const QString &getKod() const;
+    void setKod(const QString &newKod);
+
+    int getOtv() const;
+    void setOtv(int newOtv);
+
+    bool getKdvdahil() const;
+    void setKdvdahil(bool newKdvdahil);
+
+    bool getOtvdahil() const;
+    void setOtvdahil(bool newOtvdahil);
+
 private:
     QString id;
+    QString kod;
     QString barkod;
     QString ad;
     QString birim;
@@ -52,6 +65,9 @@ private:
     double aFiyat;
     double sFiyat;
     int kdv;
+    int otv;
+    bool kdvdahil;
+    bool otvdahil;
     QDateTime tarih;
     QString aciklama;
 };

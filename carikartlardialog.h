@@ -24,16 +24,9 @@ public:
 private slots:
     void formLoad();
     void on_YenitoolButton_clicked();
-
-    void alanlariTemizle();
-    void on_KaydettoolButton_clicked();
-
-    void on_ilcomboBox_currentIndexChanged(int index);
-
-    void cariBilgileriGetir(QString _cariID);
-    void on_CariKartlartableView_clicked(const QModelIndex &index);
-
-    void alanlariDoldur(QString _cariID);
+    void cariHareketleriListele();
+    void on_CaridenTahsilatYaptoolButton_clicked();
+    void cariHareketleriTableSelectionChanged();
 private:
     Ui::CariKartlarDialog *ui;
 

@@ -77,7 +77,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     sorgu.bindValue(4, _satisYapanKullanici.getUserID());
     sorgu.bindValue(5, _satilacakSepet.sepetToplamTutari());
     sorgu.bindValue(6, _satilacakSepet.getOdenenTutar());
-    sorgu.bindValue(7, (_satilacakSepet.getKalanTutar()));
+    sorgu.bindValue(7, _satilacakSepet.getKalanTutar());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
@@ -507,12 +507,44 @@ QList<Cari> Veritabani::getCariKartlar()
     return kartlar;
 }
 
+QStringList Veritabani::getOdemeTipleri()
+{
+    QStringList odemeTipleri;
+    sorgu.exec("SELECT * FROM odemetipleri");
+    while (sorgu.next()) {
+        odemeTipleri.append(sorgu.value(1).toString());
+    }
+    return odemeTipleri;
+}
+
 QSqlQueryModel* Veritabani::getCariKartIsimleri()
 {
-    cariKartIsımleriModel->setQuery("SELECT id, ad FROM carikartlar", db);
+    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, ad, caritipleri.tip, il, ilce, vergi_no, vergi_daire FROM carikartlar INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id", db);
     cariKartIsımleriModel->setHeaderData(0, Qt::Horizontal, "ID");
     cariKartIsımleriModel->setHeaderData(1, Qt::Horizontal, "Cari ismi");
+    cariKartIsımleriModel->setHeaderData(2, Qt::Horizontal, "Cari Tipi");
+    cariKartIsımleriModel->setHeaderData(3, Qt::Horizontal, "İl");
+    cariKartIsımleriModel->setHeaderData(4, Qt::Horizontal, "İlçe");
+    cariKartIsımleriModel->setHeaderData(5, Qt::Horizontal, "Vergi No");
+    cariKartIsımleriModel->setHeaderData(6, Qt::Horizontal, "Vergi Dairesi");
     return cariKartIsımleriModel;
+}
+
+QSqlQueryModel *Veritabani::getCariHareketleri(QString _cariID)
+{
+    sorgu.prepare("SELECT fatura_no, tipi, toplamtutar, odenentutar, kalantutar, kullanicilar.username, faturalar.tarih FROM faturalar "
+                    "INNER JOIN kullanicilar ON faturalar.kullanici = kullanicilar.id WHERE cari = ? ORDER BY faturalar.tarih DESC");
+    sorgu.bindValue(0, _cariID);
+    sorgu.exec();
+    cariHareketleriModel->setQuery(sorgu);
+    cariHareketleriModel->setHeaderData(0, Qt::Horizontal, "Fatura No");
+    cariHareketleriModel->setHeaderData(1, Qt::Horizontal, "Fatura Tip");
+    cariHareketleriModel->setHeaderData(2, Qt::Horizontal, "Toplam Tutar");
+    cariHareketleriModel->setHeaderData(3, Qt::Horizontal, "Ödenen Tutar");
+    cariHareketleriModel->setHeaderData(4, Qt::Horizontal, "Kalan Tutar");
+    cariHareketleriModel->setHeaderData(5, Qt::Horizontal, "İşlemi Yapan");
+    cariHareketleriModel->setHeaderData(6, Qt::Horizontal, "Fatura Tarihi");
+    return cariHareketleriModel;
 }
 
 Cari Veritabani::getCariKart(QString _cariID)
@@ -549,6 +581,88 @@ QStringList Veritabani::getCariTipleri()
         cariTipList.append(sorgu.value(1).toString());
     }
     return cariTipList;
+}
+
+double Veritabani::getCariToplamAlacak(QString _cariID)
+{
+    if(_cariID != "1000"){// DİREKT CARİSİ İSE ES GEÇSİN
+        double kalanTutar, odenenTutar;
+        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'ALIŞ'");
+        sorgu.bindValue(0, _cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            kalanTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            kalanTutar = 0;
+        }
+        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'ÖDEME'");
+        sorgu.bindValue(0, _cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            odenenTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            odenenTutar = 0;
+        }
+        return kalanTutar - odenenTutar;
+    }
+    else{
+        return 0;
+    }
+//    sorgu.prepare("SELECT "
+//                  "(SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'ALIŞ')"
+//                  " - "
+//                  "(SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'ÖDEME')");
+//    sorgu.bindValue(0, _cariID);
+//    sorgu.bindValue(1, _cariID);
+//    sorgu.exec();
+//    sorgu.next();
+//    if(sorgu.lastError().isValid()){
+//        qFatal(sorgu.lastError().text().toStdString().c_str());
+//    }
+//    return sorgu.value(0).toDouble();
+}
+
+double Veritabani::getCariToplamBorc(QString _cariID)
+{
+    if(_cariID != "1000"){// DİREKT CARİSİ İSE ES GEÇSİN
+        double kalanTutar, odenenTutar;
+        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'SATIŞ'");
+        sorgu.bindValue(0, _cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            kalanTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            kalanTutar = 0;
+        }
+        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'TAHSİLAT'");
+        sorgu.bindValue(0, _cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            odenenTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            odenenTutar = 0;
+        }
+        return kalanTutar - odenenTutar;
+    }
+    else{
+        return 0;
+    }
+//    sorgu.prepare("SELECT "
+//                  "(SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'SATIŞ')"
+//                  " - "
+//                  "(SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'TAHSİLAT')");
+//    sorgu.bindValue(0, _cariID);
+//    sorgu.bindValue(1, _cariID);
+//    sorgu.exec();
+//    sorgu.next();
+//    if(sorgu.lastError().isValid()){
+//        qFatal(sorgu.lastError().text().toStdString().c_str());
+//    }
+//    return sorgu.value(0).toDouble();
 }
 
 void Veritabani::yeniCariKart(Cari _cariKart)
@@ -619,39 +733,47 @@ QList<QString> Veritabani::GetUsers()
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
     StokKarti kart = StokKarti();
-    sorgu.prepare("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
+    sorgu.prepare("SELECT id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
     if(sorgu.next()){
         kart.setId(sorgu.value(0).toString());
         kart.setBarkod(sorgu.value(1).toString());
-        kart.setAd(sorgu.value(2).toString());
-        kart.setBirim(sorgu.value(3).toString());
-        kart.setMiktar(sorgu.value(4).toFloat());
-        kart.setGrup(sorgu.value(5).toString());
-        kart.setAFiyat(sorgu.value(6).toDouble());
-        kart.setSFiyat(sorgu.value(7).toDouble());
-        kart.setKdv(sorgu.value(8).toInt());
-        kart.setTarih(sorgu.value(9).toDateTime());
-        kart.setAciklama(sorgu.value(10).toString());
+        kart.setKod(sorgu.value(2).toString());
+        kart.setAd(sorgu.value(3).toString());
+        kart.setBirim(sorgu.value(4).toString());
+        kart.setMiktar(sorgu.value(5).toFloat());
+        kart.setGrup(sorgu.value(6).toString());
+        kart.setAFiyat(sorgu.value(7).toDouble());
+        kart.setSFiyat(sorgu.value(8).toDouble());
+        kart.setKdv(sorgu.value(9).toInt());
+        kart.setOtv(sorgu.value(10).toInt());
+        kart.setKdvdahil(sorgu.value(11).toBool());
+        kart.setOtvdahil(sorgu.value(12).toBool());
+        kart.setTarih(sorgu.value(13).toDateTime());
+        kart.setAciklama(sorgu.value(14).toString());
     }
     return kart;
 }
 
 void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 {
-    sorgu.prepare("INSERT INTO stokkartlari (id, barkod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, tarih, aciklama) "
-                    "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, aciklama) "
+                    "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _StokKarti.getBarkod());
-    sorgu.bindValue(1, _StokKarti.getAd());
-    sorgu.bindValue(2, _StokKarti.getBirim());
-    sorgu.bindValue(3, _StokKarti.getMiktar());
-    sorgu.bindValue(4, _StokKarti.getGrup());
-    sorgu.bindValue(5, _StokKarti.getAFiyat());
-    sorgu.bindValue(6, _StokKarti.getSFiyat());
-    sorgu.bindValue(7, _StokKarti.getKdv());
-    sorgu.bindValue(8, _StokKarti.getTarih());
-    sorgu.bindValue(9, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
+    sorgu.bindValue(1, _StokKarti.getKod());
+    sorgu.bindValue(2, _StokKarti.getAd());
+    sorgu.bindValue(3, _StokKarti.getBirim());
+    sorgu.bindValue(4, _StokKarti.getMiktar());
+    sorgu.bindValue(5, _StokKarti.getGrup());
+    sorgu.bindValue(6, _StokKarti.getAFiyat());
+    sorgu.bindValue(7, _StokKarti.getSFiyat());
+    sorgu.bindValue(8, _StokKarti.getKdv());
+    sorgu.bindValue(9, _StokKarti.getOtv());
+    sorgu.bindValue(10, _StokKarti.getKdvdahil());
+    sorgu.bindValue(11, _StokKarti.getOtvdahil());
+    sorgu.bindValue(12, _StokKarti.getTarih());
+    sorgu.bindValue(13, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
@@ -676,19 +798,23 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 
 void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici)
 {
-    sorgu.prepare("UPDATE stokkartlari SET barkod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, tarih = ? , aciklama = ? "
+    sorgu.prepare("UPDATE stokkartlari SET barkod = ?, kod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, otv = ?, kdvdahil = ?, otvdahil = ?, tarih = ? , aciklama = ? "
                         "WHERE id = ?");
     sorgu.bindValue(0, _YeniStokKarti.getBarkod());
-    sorgu.bindValue(1, _YeniStokKarti.getAd());
-    sorgu.bindValue(2, _YeniStokKarti.getBirim());
-    sorgu.bindValue(3, _YeniStokKarti.getMiktar());
-    sorgu.bindValue(4, _YeniStokKarti.getGrup());
-    sorgu.bindValue(5, _YeniStokKarti.getAFiyat());
-    sorgu.bindValue(6, _YeniStokKarti.getSFiyat());
-    sorgu.bindValue(7, _YeniStokKarti.getKdv());
-    sorgu.bindValue(8, _YeniStokKarti.getTarih());
-    sorgu.bindValue(9, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
-    sorgu.bindValue(10, _EskiStokKartiID);
+    sorgu.bindValue(1, _YeniStokKarti.getKod());
+    sorgu.bindValue(2, _YeniStokKarti.getAd());
+    sorgu.bindValue(3, _YeniStokKarti.getBirim());
+    sorgu.bindValue(4, _YeniStokKarti.getMiktar());
+    sorgu.bindValue(5, _YeniStokKarti.getGrup());
+    sorgu.bindValue(6, _YeniStokKarti.getAFiyat());
+    sorgu.bindValue(7, _YeniStokKarti.getSFiyat());
+    sorgu.bindValue(8, _YeniStokKarti.getKdv());
+    sorgu.bindValue(9, _YeniStokKarti.getOtv());
+    sorgu.bindValue(10, _YeniStokKarti.getKdvdahil());
+    sorgu.bindValue(11, _YeniStokKarti.getOtvdahil());
+    sorgu.bindValue(12, _YeniStokKarti.getTarih());
+    sorgu.bindValue(13, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
+    sorgu.bindValue(14, _EskiStokKartiID);
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox();
         msg->setIcon(QMessageBox::Information);
@@ -741,17 +867,22 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
 
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
-    stokKartlariModel->setQuery("SELECT id, barkod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
+    stokKartlariModel->setQuery("SELECT id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
     stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Stok ID");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
-    stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Adı");
-    stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Birim");
-    stokKartlariModel->setHeaderData(4, Qt::Horizontal, "Miktar");
-    stokKartlariModel->setHeaderData(5, Qt::Horizontal, "Stok Grup");
-    stokKartlariModel->setHeaderData(6, Qt::Horizontal, "Alış Fiyat");
-    stokKartlariModel->setHeaderData(7, Qt::Horizontal, "Satış Fiyat");
-    stokKartlariModel->setHeaderData(8, Qt::Horizontal, "Gün. tarihi");
-    stokKartlariModel->setHeaderData(9, Qt::Horizontal, "Açıklama");
+    stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Stok Kodu");
+    stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Adı");
+    stokKartlariModel->setHeaderData(4, Qt::Horizontal, "Birim");
+    stokKartlariModel->setHeaderData(5, Qt::Horizontal, "Miktar");
+    stokKartlariModel->setHeaderData(6, Qt::Horizontal, "Stok Grup");
+    stokKartlariModel->setHeaderData(7, Qt::Horizontal, "Alış Fiyat");
+    stokKartlariModel->setHeaderData(8, Qt::Horizontal, "Satış Fiyat");
+    stokKartlariModel->setHeaderData(9, Qt::Horizontal, "KDV");
+    stokKartlariModel->setHeaderData(10, Qt::Horizontal, "ÖTV");
+    stokKartlariModel->setHeaderData(11, Qt::Horizontal, "KDV dahil");
+    stokKartlariModel->setHeaderData(12, Qt::Horizontal, "ÖTV dahil");
+    stokKartlariModel->setHeaderData(13, Qt::Horizontal, "Gün. tarihi");
+    stokKartlariModel->setHeaderData(14, Qt::Horizontal, "Açıklama");
     return stokKartlariModel;
 }
 
@@ -794,6 +925,23 @@ void Veritabani::stokGrupSil(QString _silinecekGrupAdi)
     }
 }
 
+void Veritabani::stokBirimEkle(QString _birim)
+{
+    sorgu.prepare("INSERT INTO stokbirimleri(id, birim) VALUES(nextval('stokbirimleri_sequence'), ?)");
+    sorgu.bindValue(0, _birim);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+    }
+}
+
+void Veritabani::stokBirimSil(QString _birim)
+{
+    sorgu.prepare("DELETE FROM stokbirimleri WHERE birim = ?");
+    sorgu.bindValue(0, _birim);
+    sorgu.exec();
+}
+
 QStringList Veritabani::getVergiDaireleri()
 {
     QStringList liste;
@@ -802,6 +950,36 @@ QStringList Veritabani::getVergiDaireleri()
         liste.append(sorgu.value(0).toString());
     }
     return liste;
+}
+
+QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod)
+{
+    sorgu.prepare("SELECT * FROM stokhareketleri WHERE barkod = ?");
+    sorgu.bindValue(0, _barkod);
+    sorgu.exec();
+    stokHareketleriModel->setQuery(sorgu);
+    return stokHareketleriModel;
+}
+
+QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih)
+{
+    sorgu.prepare("SELECT * FROM stokhareketleri WHERE barkod = ? AND tarih BETWEEN ? AND ?");
+    sorgu.bindValue(0, _barkod);
+    sorgu.bindValue(1, _baslangicTarih);
+    sorgu.bindValue(2, _bitisTarih.addDays(1));
+    sorgu.exec();
+    stokHareketleriModel->setQuery(sorgu);
+    return stokHareketleriModel;
+}
+
+QStringList Veritabani::getStokBirimleri()
+{
+    stokbirimleri.clear();
+    sorgu.exec("SELECT * FROM stokbirimleri");
+    while (sorgu.next()) {
+        stokbirimleri.append(sorgu.value(1).toString());
+    }
+    return stokbirimleri;
 }
 
 Sepet Veritabani::getSatis(QString _faturaNo)

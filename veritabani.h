@@ -22,7 +22,10 @@ public:
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
     QSqlQuery sorgu = QSqlQuery(db);
     QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
+    QSqlQueryModel *stokHareketleriModel = new QSqlQueryModel();
     QSqlQueryModel *cariKartIsımleriModel = new QSqlQueryModel();
+    QSqlQueryModel *cariHareketleriModel = new QSqlQueryModel();
+    QStringList stokbirimleri;
 
     bool barkodVarmi(QString _Barkod);
     void baglan();
@@ -66,7 +69,16 @@ public slots:
     QStringList getIlceler(int _plaka);
     void stokGrupEkle(QString _eklenecekGrupAdi);
     void stokGrupSil(QString _silinecekGrupAdi);
+    void stokBirimEkle(QString _birim);
+    void stokBirimSil(QString _birim);
     QStringList getVergiDaireleri();
+    QSqlQueryModel* getStokHareketleri(QString _barkod);
+    QSqlQueryModel *getStokHareketleri(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    QStringList getStokBirimleri();
+    QSqlQueryModel *getCariHareketleri(QString _cariID);
+    double getCariToplamAlacak(QString _cariID);
+    double getCariToplamBorc(QString _cariID);
+    QStringList getOdemeTipleri();
 };
 
 #endif // VERITABANI_H

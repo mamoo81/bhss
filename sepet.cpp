@@ -19,8 +19,8 @@ double Sepet::getOdenenTutar() const
 
 void Sepet::setOdenenTutar(double newOdenenTutar)
 {
-    double kalan = newOdenenTutar - sepetToplamTutari();
-    if(kalan > 0){
+    double kalan = sepetToplamTutari() - newOdenenTutar;
+    if(kalan <= 0){
         setKalanTutar(0);
     }
     else{
@@ -170,11 +170,4 @@ Urun Sepet::urunBilgileriniGetir(QString _Barkod)
 {
     return urunler.value(_Barkod);
 }
-
-//double Sepet::paraYuvarla(double _toplam)
-//{
-//    int noktaPosizyonu(QString::number(_toplam).indexOf('.'));
-//    QString yeni(QString::number(_toplam, 'g', noktaPosizyonu + 2));
-//    return yeni.toDouble();
-//}
 

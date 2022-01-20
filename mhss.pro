@@ -1,4 +1,4 @@
-QT       += core gui sql multimedia printsupport
+QT       += core gui sql multimedia printsupport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,7 +11,9 @@ CONFIG += c++11
 SOURCES += \
     adetdialogform.cpp \
     ayarlardialog.cpp \
+    birimekleform.cpp \
     cari.cpp \
+    carihareketiekleform.cpp \
     carikartlardialog.cpp \
     fiyatgorform.cpp \
     hizliurunekleformdialog.cpp \
@@ -22,6 +24,7 @@ SOURCES += \
     paracekdialogform.cpp \
     satisform.cpp \
     satisgosterdialog.cpp \
+    satisgrafigiform.cpp \
     satisyapform.cpp \
     sepet.cpp \
     stokfrom.cpp \
@@ -30,12 +33,15 @@ SOURCES += \
     urun.cpp \
     user.cpp \
     veritabani.cpp \
-    yazici.cpp
+    yazici.cpp \
+    yenicariform.cpp
 
 HEADERS += \
     adetdialogform.h \
     ayarlardialog.h \
+    birimekleform.h \
     cari.h \
+    carihareketiekleform.h \
     carikartlardialog.h \
     fiyatgorform.h \
     hizliurunekleformdialog.h \
@@ -45,6 +51,7 @@ HEADERS += \
     paracekdialogform.h \
     satisform.h \
     satisgosterdialog.h \
+    satisgrafigiform.h \
     satisyapform.h \
     sepet.h \
     stokfrom.h \
@@ -53,11 +60,14 @@ HEADERS += \
     urun.h \
     user.h \
     veritabani.h \
-    yazici.h
+    yazici.h \
+    yenicariform.h
 
 FORMS += \
     adetdialogform.ui \
     ayarlardialog.ui \
+    birimekleform.ui \
+    carihareketiekleform.ui \
     carikartlardialog.ui \
     fiyatgorform.ui \
     hizliurunekleformdialog.ui \
@@ -67,9 +77,11 @@ FORMS += \
     paracekdialogform.ui \
     satisform.ui \
     satisgosterdialog.ui \
+    satisgrafigiform.ui \
     satisyapform.ui \
     stokfrom.ui \
-    stokgrupform.ui
+    stokgrupform.ui \
+    yenicariform.ui
 
 CONFIG += lrelease
 CONFIG += embed_translations

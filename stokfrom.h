@@ -20,7 +20,7 @@ public:
     ~StokFrom();
 
     int seciliIndex;
-
+    bool yeniKayit = false;
 
 public slots:
     void setUser(User user);
@@ -50,14 +50,18 @@ private slots:
 
     void on_SilBtn_clicked();
 
-    void on_BckBtn_clicked();
-
-    void on_Fwbtn_clicked();
-
     void stokKartiAra(QString aranacakMetin);
 
     void on_araBtn_clicked();
     void on_dosyadanToolButton_clicked();
+
+    void on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_StokBirimBtn_clicked();
+
+    void on_SatisGrafikBtn_clicked();
 
 private:
     Ui::StokFrom *ui;

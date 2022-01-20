@@ -103,7 +103,7 @@ void LoginForm::keyPressEvent(QKeyEvent *event)
 
 void LoginForm::getCapslockState()
 {
-    // farklı pclerde capslock dosyası adı değişebiliyor o yüzden önce dosya yolunu buluyorum.
+    // farklı pclerde capslock dosya yolu değişebiliyor o yüzden önce dosya yolunu buluyorum.
     QString directory = "/sys/class/leds/"; // Where to search
     QDirIterator it(directory, QDirIterator::Subdirectories);
 
@@ -123,6 +123,7 @@ void LoginForm::getCapslockState()
                 capslock = in.readAll().toInt();
                 ui->label_6->setVisible(capslock);
                 dosya.close();
+                break;
             }
         }
     }

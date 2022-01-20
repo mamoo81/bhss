@@ -3,6 +3,8 @@
 #include "stokgrupform.h"
 #include "veritabani.h"
 #include "user.h"
+#include "birimekleform.h"
+#include "satisgrafigiform.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -44,11 +46,17 @@ void StokFrom::formLoad()
 {
     grupComboboxDoldur();
     stokKartlariniListele();
+    // stok birimlerini çekme
+    ui->BirimiComboBox->clear();
+    ui->BirimiComboBox->addItems(vt->getStokBirimleri());
 
 //    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
+
+    // stok hareketleri tarihleri ayarlama
+    ui->bitisdateEdit->setDate(QDate::currentDate());
 
     ui->AraLineEdit->setFocus();
 }
@@ -82,15 +90,35 @@ void StokFrom::stokKartlariniListele()
 
 void StokFrom::on_YeniBtn_clicked()
 {
-    if(!ui->stokKartBilGroupBox->isEnabled())
+    if(!ui->BarkodLnEdit->isEnabled())
     {
-        ui->stokKartBilGroupBox->setEnabled(true);
+        //butonlar
+        ui->YeniBtn->setEnabled(false);
         ui->DuzenleBtn->setEnabled(false);
         ui->SilBtn->setEnabled(false);
         ui->StokKartlaritableView->setEnabled(false);
         ui->AraLineEdit->setEnabled(false);
         ui->araBtn->setEnabled(false);
-        ui->BarkodLnEdit->setFocus();
+        //textbox ve butonlar
+        ui->BarkodLnEdit->setEnabled(true);
+        ui->BarkodOlusturBtn->setEnabled(true);
+        ui->StokKoduLnEdit->setEnabled(true);
+        ui->StokAdiLnEdit->setEnabled(true);
+        ui->BirimiComboBox->setEnabled(true);
+        ui->MiktarLnEdit->setEnabled(true);
+        ui->StokGrubuComboBox->setEnabled(true);
+        ui->AFiyatdoubleSpinBox->setEnabled(true);
+        ui->SFiyatdoubleSpinBox->setEnabled(true);
+        ui->KDVspinBox->setEnabled(true);
+        ui->OTVspinBox->setEnabled(true);
+        ui->KDVcheckbox->setEnabled(true);
+        ui->OTVcheckbox->setEnabled(true);
+        ui->ResimEkleBtn->setEnabled(true);
+        ui->ResimSilBtn->setEnabled(true);
+        ui->SurekliYenicheckBox->setEnabled(true);
+        ui->KaydetBtn->setEnabled(true);
+        ui->IptalBtn->setEnabled(true);
+        yeniKayit = true;
     }
     alanlariTemizle();
     ui->BarkodLnEdit->setFocus();
@@ -99,51 +127,84 @@ void StokFrom::on_YeniBtn_clicked()
 void StokFrom::on_DuzenleBtn_clicked()
 {
     seciliIndex = ui->StokKartlaritableView->currentIndex().row();
-    if(!ui->stokKartBilGroupBox->isEnabled())
+    if(ui->StokKartlaritableView->currentIndex().row() > -1)
     {
-        if(ui->StokKartlaritableView->currentIndex().row() > -1)
+        if(!ui->BarkodLnEdit->isEnabled())
         {
-            ui->stokKartBilGroupBox->setEnabled(true);
+            //butonlar
             ui->YeniBtn->setEnabled(false);
+            ui->DuzenleBtn->setEnabled(false);
             ui->SilBtn->setEnabled(false);
             ui->StokKartlaritableView->setEnabled(false);
-            ui->Fwbtn->setEnabled(false);
-            ui->BckBtn->setEnabled(false);
             ui->AraLineEdit->setEnabled(false);
             ui->araBtn->setEnabled(false);
+            //textbox ve butonlar
+            ui->BarkodLnEdit->setEnabled(true);
+            ui->StokKoduLnEdit->setEnabled(true);
+            ui->StokAdiLnEdit->setEnabled(true);
+            ui->BirimiComboBox->setEnabled(true);
+            ui->MiktarLnEdit->setEnabled(true);
+            ui->StokGrubuComboBox->setEnabled(true);
+            ui->AFiyatdoubleSpinBox->setEnabled(true);
+            ui->SFiyatdoubleSpinBox->setEnabled(true);
+            ui->KDVspinBox->setEnabled(true);
+            ui->OTVspinBox->setEnabled(true);
+            ui->KDVcheckbox->setEnabled(true);
+            ui->OTVcheckbox->setEnabled(true);
+            ui->ResimEkleBtn->setEnabled(true);
+            ui->ResimSilBtn->setEnabled(true);
+            ui->KaydetBtn->setEnabled(true);
+            ui->IptalBtn->setEnabled(true);
             ui->BarkodLnEdit->setFocus();
+            yeniKayit = false;
         }
-        else
-        {
-            uyariSes.play();
-            QMessageBox msg(this);
-            msg.setWindowTitle("Uyarı");
-            msg.setIcon(QMessageBox::Information);
-            msg.setText("Bir stok kartı seçiniz.");
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
-            msg.exec();
-        }
-        //QItemSelectionModel *select = ui->StokKartlaritableView->selectionModel();
-        //if(select.hasSelection()){
-        //      böylede yapabilirsin.
-        //}
     }
+    else
+    {
+        uyariSes.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Bir stok kartı seçiniz.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+    //QItemSelectionModel *select = ui->StokKartlaritableView->selectionModel();
+    //if(select.hasSelection()){
+    //      böylede yapabilirsin.
+    //}
 }
 
 
 void StokFrom::on_IptalBtn_clicked()
 {
-    ui->stokKartBilGroupBox->setEnabled(false);
     alanlariTemizle();
     ui->YeniBtn->setEnabled(true);
     ui->DuzenleBtn->setEnabled(true);
     ui->SilBtn->setEnabled(true);
     ui->StokKartlaritableView->setEnabled(true);
-    ui->Fwbtn->setEnabled(true);
-    ui->BckBtn->setEnabled(true);
     ui->AraLineEdit->setEnabled(true);
     ui->araBtn->setEnabled(true);
+
+    ui->BarkodLnEdit->setEnabled(false);
+    ui->BarkodOlusturBtn->setEnabled(false);
+    ui->StokKoduLnEdit->setEnabled(false);
+    ui->StokAdiLnEdit->setEnabled(false);
+    ui->BirimiComboBox->setEnabled(false);
+    ui->MiktarLnEdit->setEnabled(false);
+    ui->StokGrubuComboBox->setEnabled(false);
+    ui->AFiyatdoubleSpinBox->setEnabled(false);
+    ui->SFiyatdoubleSpinBox->setEnabled(false);
+    ui->KDVspinBox->setEnabled(false);
+    ui->OTVspinBox->setEnabled(false);
+    ui->KDVcheckbox->setEnabled(false);
+    ui->OTVcheckbox->setEnabled(false);
+    ui->ResimEkleBtn->setEnabled(false);
+    ui->ResimSilBtn->setEnabled(false);
+    ui->SurekliYenicheckBox->setEnabled(false);
+    ui->KaydetBtn->setEnabled(false);
+    ui->IptalBtn->setEnabled(false);
     alanlariDoldur();
 }
 
@@ -166,30 +227,37 @@ void StokFrom::alanlariDoldur()
     seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
     seciliSatirModel = ui->StokKartlaritableView->selectionModel();
     ui->BarkodLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString());
-    ui->StokAdiLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString());
+    ui->StokKoduLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString());
+    ui->StokAdiLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString());
     for (int i = 0; i <ui->BirimiComboBox->count(); ++i)
     {
-        int result = QString::compare(ui->BirimiComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString(), Qt::CaseInsensitive);
+        int result = QString::compare(ui->BirimiComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 4).data().toString(), Qt::CaseInsensitive);
         if(result == 0)
         {
             ui->BirimiComboBox->setCurrentIndex(i);
             break;
         }
     }
-    ui->MiktarLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 4).data().toString());
+    ui->MiktarLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 5).data().toString());
     for (int i = 0; i <ui->StokGrubuComboBox->count(); ++i)
     {
-        int result = QString::compare(ui->StokGrubuComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 5).data().toString(), Qt::CaseInsensitive);
+        int result = QString::compare(ui->StokGrubuComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 6).data().toString(), Qt::CaseInsensitive);
         if(result == 0)
         {
             ui->StokGrubuComboBox->setCurrentIndex(i);
             break;
         }
     }
-    ui->AFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 6).data().toDouble());
-    ui->SFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 7).data().toDouble());
-    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 8).data().toInt());
-    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toString());
+    ui->AFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 7).data().toDouble());
+    ui->SFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 8).data().toDouble());
+    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 9).data().toInt());
+    ui->OTVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toInt());
+    ui->KDVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toBool());
+    ui->OTVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toBool());
+    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString());
+
+    //stok hareketlerini getirme
+    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(seciliSatirModel->model()->index(seciliSatirIndex,1).data().toString()));
 }
 
 void StokFrom::closeEvent(QCloseEvent *)
@@ -200,7 +268,7 @@ void StokFrom::closeEvent(QCloseEvent *)
 void StokFrom::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape){
-        if(ui->stokKartBilGroupBox->isEnabled()){
+        if(ui->KaydetBtn->isEnabled() && ui->IptalBtn->isEnabled()){
             uyariSes.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
@@ -232,10 +300,11 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 
 void StokFrom::on_KaydetBtn_clicked()
 {
-    if(ui->YeniBtn->isEnabled()){// yenibtn aktifse yeni stok kartı kaydı oluşturur.
+    if(yeniKayit){// true ise yeni stok kartı kaydı oluşturur.
         if(!vt->barkodVarmi(ui->BarkodLnEdit->text())){
             StokKarti yeniStokKarti = StokKarti();
             yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
+            yeniStokKarti.setKod(ui->StokKoduLnEdit->text());
             yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
             yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
             yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
@@ -243,6 +312,9 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
             yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
             yeniStokKarti.setKdv(ui->KDVspinBox->value());
+            yeniStokKarti.setOtv(ui->OTVspinBox->value());
+            yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
+            yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
             yeniStokKarti.setTarih(QDateTime::currentDateTime());
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
             vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
@@ -266,7 +338,7 @@ void StokFrom::on_KaydetBtn_clicked()
             msg.exec();
         }
     }
-    else if(ui->DuzenleBtn->isEnabled()){// duzenlebtn aktifse mevcut stok kartını günceller.
+    else if(!yeniKayit){// yenikayit false ise mevcut stok kartını günceller.
 
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
@@ -333,18 +405,6 @@ void StokFrom::on_SilBtn_clicked()
     ui->StokKartlaritableView->setFocus();
 }
 
-
-void StokFrom::on_BckBtn_clicked()
-{
-    ui->StokKartlaritableView->selectRow(ui->StokKartlaritableView->currentIndex().row() - 1);
-}
-
-
-void StokFrom::on_Fwbtn_clicked()
-{
-    ui->StokKartlaritableView->selectRow(ui->StokKartlaritableView->currentIndex().row() + 1);
-}
-
 void StokFrom::stokKartiAra(QString aranacakMetin)
 {
     bool bulundumu(false);
@@ -396,5 +456,34 @@ void StokFrom::on_araBtn_clicked()
 void StokFrom::on_dosyadanToolButton_clicked()
 {
 
+}
+
+
+
+void StokFrom::on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    //stok hareketlerini getirme
+    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(), ui->baslangicdateEdit->dateTime(), dateTime));
+}
+
+
+void StokFrom::on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    //stok hareketlerini getirme
+    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(),dateTime, ui->bitisdateEdit->dateTime()));
+}
+
+
+void StokFrom::on_StokBirimBtn_clicked()
+{
+    BirimekleForm *birimForm = new BirimekleForm(this);
+    birimForm->exec();
+}
+
+
+void StokFrom::on_SatisGrafikBtn_clicked()
+{
+    SatisGrafigiForm *grafikForm = new SatisGrafigiForm(this);
+    grafikForm->exec();
 }
 
