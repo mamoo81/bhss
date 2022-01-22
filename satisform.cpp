@@ -4243,6 +4243,7 @@ void SatisForm::on_AyarlarBtn_clicked()
 void SatisForm::on_CariKartlarBtn_clicked()
 {
     CariKartlarDialog *cariForm = new CariKartlarDialog(this);
+    cariForm->setKullanici(kullanici);
     cariForm->exec();
     ui->barkodLineEdit->setFocus();
 }

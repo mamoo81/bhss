@@ -23,6 +23,11 @@ CariKartlarDialog::~CariKartlarDialog()
     delete ui;
 }
 
+void CariKartlarDialog::setKullanici(User newKullanici)
+{
+    kullanici = newKullanici;
+}
+
 
 void CariKartlarDialog::formLoad()
 {
@@ -101,7 +106,11 @@ void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
 void CariKartlarDialog::on_CaridenTahsilatYaptoolButton_clicked()
 {
     CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
+//    qDebug() << "cariid :" << ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
+    cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(tahsilat));
     cariHareketForm->setWindowTitle("Cariden Tahsilat Yap");
+    cariHareketForm->setKullanici(kullanici);
     cariHareketForm->exec();
 }
 

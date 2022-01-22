@@ -42,9 +42,13 @@ public:
     const QString &getAciklama() const;
     void setAciklama(const QString &newAciklama);
 
+    const QString &getYetkili() const;
+    void setYetkili(const QString &newYetkili);
+
 private:
     int id;
     QString ad;
+    QString yetkili;
     int tip;
     QString verigino;
     QString vergiDaire;

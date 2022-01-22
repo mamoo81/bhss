@@ -134,3 +134,13 @@ void Cari::setAciklama(const QString &newAciklama)
 {
     aciklama = newAciklama;
 }
+
+const QString &Cari::getYetkili() const
+{
+    return yetkili;
+}
+
+void Cari::setYetkili(const QString &newYetkili)
+{
+    yetkili = newYetkili;
+}

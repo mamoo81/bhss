@@ -19,7 +19,18 @@ public:
 
     Veritabani vt = Veritabani();
 
+    enum FaturaTipi{
+        alis = 1,
+        satis = 2,
+        iade = 3,
+        odeme = 4,
+        tahsilat = 5
+    };
+    Q_ENUM(FaturaTipi)
+
     void setVergiDaireleri(const QStringList &newVergiDaireleri);
+
+    void setKullanici(User newKullanici);
 
 private slots:
     void formLoad();
@@ -31,6 +42,7 @@ private:
     Ui::CariKartlarDialog *ui;
 
     QStringList vergiDaireleri;
+    User kullanici;
 };
 
 #endif // CARIKARTLARDIALOG_H
