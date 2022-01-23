@@ -1,6 +1,7 @@
 #include "carikartlardialog.h"
 #include "ui_carikartlardialog.h"
 #include "carihareketiekleform.h"
+#include "yenicarikartdialog.h"
 //**************************
 #include <QCompleter>
 #include <QLocale>
@@ -96,6 +97,9 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 void CariKartlarDialog::on_YenitoolButton_clicked()
 {
     ui->SiltoolButton->setEnabled(false);
+    YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
+    yeniCari->exec();
+    delete yeniCari;
 }
 
 void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
@@ -106,11 +110,25 @@ void CariKartlarDialog::setVergiDaireleri(const QStringList &newVergiDaireleri)
 void CariKartlarDialog::on_CaridenTahsilatYaptoolButton_clicked()
 {
     CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
-//    qDebug() << "cariid :" << ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
     cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
     cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(tahsilat));
     cariHareketForm->setWindowTitle("Cariden Tahsilat Yap");
     cariHareketForm->setKullanici(kullanici);
     cariHareketForm->exec();
+    CariKartlarDialog::cariHareketleriListele();
+    delete cariHareketForm;
+}
+
+
+void CariKartlarDialog::on_CariyeOdemeYaptoolButton_clicked()
+{
+    CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
+    cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    cariHareketForm->setWindowTitle("Cariye Ödeme Yap");
+    cariHareketForm->setKullanici(kullanici);
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(odeme));
+    cariHareketForm->exec();
+    CariKartlarDialog::cariHareketleriListele();
+    delete cariHareketForm;
 }
 

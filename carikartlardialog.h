@@ -38,6 +38,8 @@ private slots:
     void cariHareketleriListele();
     void on_CaridenTahsilatYaptoolButton_clicked();
     void cariHareketleriTableSelectionChanged();
+    void on_CariyeOdemeYaptoolButton_clicked();
+
 private:
     Ui::CariKartlarDialog *ui;
 

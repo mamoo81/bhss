@@ -51,6 +51,10 @@ private slots:
 
     void on_OdemeTipcomboBox_currentIndexChanged(const QString &arg1);
 
+    void on_YetkililineEdit_textChanged(const QString &arg1);
+
+    void on_iptalpushButton_clicked();
+
 private:
     User kullanici;
 

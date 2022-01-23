@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>YeniCariKartDialog</class>
+ <widget class="QDialog" name="YeniCariKartDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Monospace</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Yeni Cari Kart Oluştur</string>
+  </property>
+  <widget class="QPushButton" name="KaydetpushButton">
+   <property name="geometry">
+    <rect>
+     <x>259</x>
+     <y>470</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kaydet</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="iptalpushButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>470</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>İptal</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>341</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Cari Adı</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="4">
+     <widget class="QLineEdit" name="CariAdilineEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>Yetkilisi</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Tipi</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="4">
+     <widget class="QComboBox" name="CariTipicomboBox"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Vergi No</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Vergi Dairesi</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="4">
+     <widget class="QLineEdit" name="YetkililineEdit"/>
+    </item>
+    <item row="3" column="1" colspan="4">
+     <widget class="QLineEdit" name="VergiNolineEdit"/>
+    </item>
+    <item row="4" column="1" colspan="4">
+     <widget class="QLineEdit" name="VergiDairesilineEdit"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>İl</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>İlçe</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="4">
+     <widget class="QComboBox" name="ilcomboBox">
+      <property name="maxVisibleItems">
+       <number>15</number>
+      </property>
+      <property name="maxCount">
+       <number>10000</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="4">
+     <widget class="QComboBox" name="ilcecomboBox"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Adres</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="4">
+     <widget class="QPlainTextEdit" name="AdresplainTextEdit"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Mail</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1" colspan="4">
+     <widget class="QLineEdit" name="MaillineEdit"/>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Telefon</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1" colspan="4">
+     <widget class="QLineEdit" name="TelefonlineEdit"/>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>Açıklama</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1" colspan="4">
+     <widget class="QPlainTextEdit" name="AciklamaplainTextEdit"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>CariAdilineEdit</tabstop>
+  <tabstop>YetkililineEdit</tabstop>
+  <tabstop>CariTipicomboBox</tabstop>
+  <tabstop>VergiNolineEdit</tabstop>
+  <tabstop>VergiDairesilineEdit</tabstop>
+  <tabstop>ilcomboBox</tabstop>
+  <tabstop>ilcecomboBox</tabstop>
+  <tabstop>AdresplainTextEdit</tabstop>
+  <tabstop>MaillineEdit</tabstop>
+  <tabstop>TelefonlineEdit</tabstop>
+  <tabstop>AciklamaplainTextEdit</tabstop>
+  <tabstop>KaydetpushButton</tabstop>
+  <tabstop>iptalpushButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

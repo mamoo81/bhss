@@ -34,7 +34,8 @@ SOURCES += \
     user.cpp \
     veritabani.cpp \
     yazici.cpp \
-    yenicariform.cpp
+    yenicariform.cpp \
+    yenicarikartdialog.cpp
 
 HEADERS += \
     adetdialogform.h \
@@ -61,7 +62,8 @@ HEADERS += \
     user.h \
     veritabani.h \
     yazici.h \
-    yenicariform.h
+    yenicariform.h \
+    yenicarikartdialog.h
 
 FORMS += \
     adetdialogform.ui \
@@ -81,7 +83,8 @@ FORMS += \
     satisyapform.ui \
     stokfrom.ui \
     stokgrupform.ui \
-    yenicariform.ui
+    yenicariform.ui \
+    yenicarikartdialog.ui
 
 CONFIG += lrelease
 CONFIG += embed_translations
