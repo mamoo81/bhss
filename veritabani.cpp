@@ -68,8 +68,8 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     sorgu.next();
     QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, yeniFaturaNo);
     sorgu.bindValue(1, _satisYapilanCariID);
     sorgu.bindValue(2, 2);// 2 = satış faturası (veritabanında faturatipleri.tip)
@@ -78,6 +78,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     sorgu.bindValue(5, _satilacakSepet.sepetToplamTutari());
     sorgu.bindValue(6, _satilacakSepet.getOdenenTutar());
     sorgu.bindValue(7, _satilacakSepet.getKalanTutar());
+    sorgu.bindValue(8, 1);//nakit ödeme tipinde satış
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();

@@ -34,12 +34,12 @@ void SatisGosterDialog::sepetiCek()
     satisFaturaNo.truncate(10);
     satilmisSepet = vt->getSatis(satisFaturaNo);
     qr = vt->getIslemInfo(satisFaturaNo);
-    this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(8).toString() + " işlemi");
+    this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(11).toString() + " işlemi");
     cari = vt->getCariKart(qr.value(7).toString());
     ui->islemYapilanCariLabel->setText(cari.getAd());
     ui->odenenLabel->setText("₺" + qr.value(5).toString());
     ui->kalanLabel->setText("₺" + qr.value(6).toString());
-    ui->tarihLabel->setText(qr.value(9).toDate().toString("dd.MM.yyyy") + " " + qr.value(9).toTime().toString("hh:mm"));
+    ui->tarihLabel->setText(qr.value(8).toDate().toString("dd.MM.yyyy") + " " + qr.value(8).toTime().toString("hh:mm"));
     ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari()));
     int satirIndex = 0;
     ui->sepetTableWidget->model()->removeRows(0, ui->sepetTableWidget->rowCount());
@@ -47,10 +47,10 @@ void SatisGosterDialog::sepetiCek()
         ui->sepetTableWidget->insertRow(ui->sepetTableWidget->rowCount());
         ui->sepetTableWidget->setItem(satirIndex, 0, new QTableWidgetItem(urun.barkod));
         ui->sepetTableWidget->setItem(satirIndex, 1, new QTableWidgetItem(urun.ad));
-        ui->sepetTableWidget->setItem(satirIndex, 2, new QTableWidgetItem(QString::number(urun.birimFiyat)));
+        ui->sepetTableWidget->setItem(satirIndex, 2, new QTableWidgetItem(QString::number(urun.birimFiyat, 'f', 2)));
         ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem(urun.birim));
         ui->sepetTableWidget->setItem(satirIndex, 4, new QTableWidgetItem(QString::number(urun.miktar)));
-        ui->sepetTableWidget->setItem(satirIndex, 5, new QTableWidgetItem(QString::number(urun.toplam)));
+        ui->sepetTableWidget->setItem(satirIndex, 5, new QTableWidgetItem(QString::number(urun.toplam, 'f', 2)));
         satirIndex++;
     }
 }
