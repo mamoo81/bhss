@@ -32,6 +32,8 @@ public:
 
     void setKullanici(User newKullanici);
 
+public slots:
+    void cariKartlariListele();
 private slots:
     void formLoad();
     void on_YenitoolButton_clicked();
@@ -39,6 +41,12 @@ private slots:
     void on_CaridenTahsilatYaptoolButton_clicked();
     void cariHareketleriTableSelectionChanged();
     void on_CariyeOdemeYaptoolButton_clicked();
+
+    void on_SiltoolButton_clicked();
+
+    void on_CariyiAlacaklandirtoolButton_clicked();
+
+    void on_CariyiBorclandirtoolButton_clicked();
 
 private:
     Ui::CariKartlarDialog *ui;

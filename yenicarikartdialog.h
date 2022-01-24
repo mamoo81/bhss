@@ -22,6 +22,10 @@ private slots:
     void FormLoad();
     void on_iptalpushButton_clicked();
 
+    void on_ilcomboBox_currentIndexChanged(int index);
+
+    void on_KaydetpushButton_clicked();
+
 private:
     Ui::YeniCariKartDialog *ui;
 };

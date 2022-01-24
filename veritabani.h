@@ -80,6 +80,10 @@ public slots:
     double getCariToplamBorc(QString _cariID);
     QStringList getOdemeTipleri();
     void caridenTahsilatYap(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
+    void cariKartSil(QString _cariID);
+    void cariyiAlacaklandır(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
+    void cariyeOdemeYap(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
+    void cariyiBorclandir(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
 };
 
 #endif // VERITABANI_H

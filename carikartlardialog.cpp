@@ -33,16 +33,21 @@ void CariKartlarDialog::setKullanici(User newKullanici)
 void CariKartlarDialog::formLoad()
 {
     setVergiDaireleri(vt.getVergiDaireleri());
+    //cari kartların getirilmesi
+    CariKartlarDialog::cariKartlariListele();
 
-    ui->CariKartlartableView->setModel(vt.getCariKartIsimleri());
-    ui->CariKartlartableView->resizeColumnsToContents();
-    connect(ui->CariKartlartableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriListele()));
-    ui->CariKartlartableView->selectRow(0);
     //tarihleri ayarlama
     ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
     connect(ui->CariKartHareketleritableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriTableSelectionChanged()));
 }
 
+void CariKartlarDialog::cariKartlariListele()
+{
+    ui->CariKartlartableView->setModel(vt.getCariKartIsimleri());
+    ui->CariKartlartableView->resizeColumnsToContents();
+    connect(ui->CariKartlartableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriListele()));
+    ui->CariKartlartableView->selectRow(0);
+}
 void CariKartlarDialog::cariHareketleriListele()
 {
     //cari seçilince yapılacaklar
@@ -99,6 +104,7 @@ void CariKartlarDialog::on_YenitoolButton_clicked()
     ui->SiltoolButton->setEnabled(false);
     YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
     yeniCari->exec();
+    CariKartlarDialog::cariKartlariListele();
     delete yeniCari;
 }
 
@@ -111,7 +117,7 @@ void CariKartlarDialog::on_CaridenTahsilatYaptoolButton_clicked()
 {
     CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
     cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
-    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(tahsilat));
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(tahsilat));// faturalar tablosuna tahsilat faturasi girilmesi için
     cariHareketForm->setWindowTitle("Cariden Tahsilat Yap");
     cariHareketForm->setKullanici(kullanici);
     cariHareketForm->exec();
@@ -126,7 +132,62 @@ void CariKartlarDialog::on_CariyeOdemeYaptoolButton_clicked()
     cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
     cariHareketForm->setWindowTitle("Cariye Ödeme Yap");
     cariHareketForm->setKullanici(kullanici);
-    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(odeme));
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(odeme));// faturalar tablosuna ödeme işlemi girilmesi için
+    cariHareketForm->exec();
+    CariKartlarDialog::cariHareketleriListele();
+    delete cariHareketForm;
+}
+
+
+void CariKartlarDialog::on_SiltoolButton_clicked()
+{
+    if(ui->CariKartlartableView->currentIndex().row() > 0){// DİREKT CARİSİNİ SİLEMESİN.
+        QMessageBox msg(this);
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setText(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 1).data().toString() + " carisi silinecek!\n\nSilmek istediğinize emin misiniz?");
+        msg.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::No);
+        msg.exec();
+        if(msg.result() == QMessageBox::Yes){
+            vt.cariKartSil(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+            CariKartlarDialog::cariKartlariListele();
+        }
+    }
+    else{
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("DİREKT carisini silemezsiniz!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+}
+
+
+void CariKartlarDialog::on_CariyiAlacaklandirtoolButton_clicked()
+{
+    CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
+    cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    cariHareketForm->setWindowTitle("Cariyi Alacaklandır");
+    cariHareketForm->setKullanici(kullanici);
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(alis)); // faturalar tablosuna alış faturası girilmesi için
+    cariHareketForm->exec();
+    CariKartlarDialog::cariHareketleriListele();
+    delete cariHareketForm;
+}
+
+
+void CariKartlarDialog::on_CariyiBorclandirtoolButton_clicked()
+{
+    CariHareketiEkleForm *cariHareketForm = new CariHareketiEkleForm(this);
+    cariHareketForm->setCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    cariHareketForm->setWindowTitle("Cariyi Borçlandır");
+    cariHareketForm->setKullanici(kullanici);
+    cariHareketForm->setFaturaTip(CariHareketiEkleForm::FaturaTipi(satis)); // faturalar tablosuna alış faturası girilmesi için
     cariHareketForm->exec();
     CariKartlarDialog::cariHareketleriListele();
     delete cariHareketForm;

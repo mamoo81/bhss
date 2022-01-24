@@ -34,6 +34,12 @@ void CariHareketiEkleForm::setFaturaTip(FaturaTipi newFaturaTip)
     else if(faturaTip == 5){// cariden tahsilat yapılacaksa yetkiliye tahsilat yapılacak cari karttaki cari yetkilisi yazsın.
         ui->YetkililineEdit->setText(cariKart.getYetkili());
     }
+    else if(faturaTip == 1){// cari alacaklandırılacaksa yetkiliye carikart yetkilisi yazılacak
+        ui->YetkililineEdit->setText(cariKart.getYetkili());
+    }
+    else if(faturaTip == 2){// cari borçlandırılacak ise yetkiliye satış yapan kullanıcı adı girilecek
+        ui->YetkililineEdit->setText(kullanici.getUserName());
+    }
 }
 
 void CariHareketiEkleForm::setCariID(const QString &newCariID)
@@ -52,33 +58,121 @@ void CariHareketiEkleForm::FormLoad()
 
 void CariHareketiEkleForm::on_KaydetpushButton_clicked()
 {
-    if(ui->islemTutaridoubleSpinBox->value() >= 1){
-        vt->caridenTahsilatYap(cariID,
-                               ui->islemTutaridoubleSpinBox->value(),
-                               ui->islemdateEdit->dateTime(),
-                               faturaTip,
-                               odemeTip,
-                               kullanici,
-                               QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->EvrakNolineEdit->text()),
-                               QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AciklamaplainTextEdit->toPlainText()));
-        QMessageBox msg(this);
-        msg.setWindowTitle("Bilgi");
-        msg.setIcon(QMessageBox::Information);
-        msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-        this->close();
+    switch (faturaTip) {
+    case 5://cariden tahsilat yapma
+        if(ui->islemTutaridoubleSpinBox->value() >= 1){
+            vt->caridenTahsilatYap(cariID,
+                                   ui->islemTutaridoubleSpinBox->value(),
+                                   ui->islemdateEdit->dateTime(),
+                                   faturaTip,
+                                   odemeTip,
+                                   kullanici,
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->EvrakNolineEdit->text()),
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AciklamaplainTextEdit->toPlainText()));
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        break;
+    case 4:
+        if(ui->islemTutaridoubleSpinBox->value() >= 1){
+            vt->cariyeOdemeYap(cariID,
+                                   ui->islemTutaridoubleSpinBox->value(),
+                                   ui->islemdateEdit->dateTime(),
+                                   faturaTip,
+                                   odemeTip,
+                                   kullanici,
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->EvrakNolineEdit->text()),
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AciklamaplainTextEdit->toPlainText()));
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        break;
+    case 1:
+        if(ui->islemTutaridoubleSpinBox->value() >= 1){
+            vt->cariyiAlacaklandır(cariID,
+                                   ui->islemTutaridoubleSpinBox->value(),
+                                   ui->islemdateEdit->dateTime(),
+                                   faturaTip,
+                                   odemeTip,
+                                   kullanici,
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->EvrakNolineEdit->text()),
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AciklamaplainTextEdit->toPlainText()));
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        break;
+    case 2:
+        if(ui->islemTutaridoubleSpinBox->value() >= 1){
+            vt->cariyiBorclandir(cariID,
+                                   ui->islemTutaridoubleSpinBox->value(),
+                                   ui->islemdateEdit->dateTime(),
+                                   faturaTip,
+                                   odemeTip,
+                                   kullanici,
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->EvrakNolineEdit->text()),
+                                   QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AciklamaplainTextEdit->toPlainText()));
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        break;
     }
-    else{
-        QMessageBox msg(this);
-        msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Information);
-        msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-    }
+
 }
 
 void CariHareketiEkleForm::on_OdemeTipcomboBox_currentIndexChanged(const QString &arg1)

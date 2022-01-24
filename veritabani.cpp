@@ -534,8 +534,8 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
     sorgu.next();
     QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, yeniFaturaNo);
     sorgu.bindValue(1, _cariID);
     sorgu.bindValue(2, _faturaTipi);
@@ -547,6 +547,104 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
     sorgu.bindValue(7, 0);
     sorgu.bindValue(8, _evrakNo);
     sorgu.bindValue(9, _aciklama);
+    sorgu.bindValue(10, _odemeTipi);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+    }
+}
+
+void Veritabani::cariyeOdemeYap(QString _cariID,
+                                    double _tutar,
+                                    QDateTime _tarih,
+                                    int _faturaTipi,
+                                    int _odemeTipi,
+                                    User _islemYapanKullanici,
+                                    QString _evrakNo,
+                                    QString _aciklama)
+{
+    //yeni fatura numarası için faturalar_sequence'den son değeri alma
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    //yeni fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(1, _cariID);
+    sorgu.bindValue(2, _faturaTipi);
+    _tarih.setTime(QTime::currentTime());
+    sorgu.bindValue(3, _tarih);
+    sorgu.bindValue(4, _islemYapanKullanici.getUserID());
+    sorgu.bindValue(5, 0);
+    sorgu.bindValue(6, _tutar);
+    sorgu.bindValue(7, 0);
+    sorgu.bindValue(8, _evrakNo);
+    sorgu.bindValue(9, _aciklama);
+    sorgu.bindValue(10, _odemeTipi);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+    }
+}
+
+void Veritabani::cariyiAlacaklandır(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama)
+{
+    //yeni fatura numarası için faturalar_sequence'den son değeri alma
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    //yeni fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(1, _cariID);
+    sorgu.bindValue(2, _faturaTipi);
+    _tarih.setTime(QTime::currentTime());
+    sorgu.bindValue(3, _tarih);
+    sorgu.bindValue(4, _islemYapanKullanici.getUserID());
+    sorgu.bindValue(5, _tutar);
+    sorgu.bindValue(6, 0);
+    sorgu.bindValue(7, _tutar);
+    sorgu.bindValue(8, _evrakNo);
+    sorgu.bindValue(9, _aciklama);
+    sorgu.bindValue(10, _odemeTipi);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+    }
+}
+
+void Veritabani::cariyiBorclandir(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama)
+{
+    //yeni fatura numarası için faturalar_sequence'den son değeri alma
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    sorgu.next();
+    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    //yeni fatura bilgisi girme başlangıcı
+    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(1, _cariID);
+    sorgu.bindValue(2, _faturaTipi);
+    _tarih.setTime(QTime::currentTime());
+    sorgu.bindValue(3, _tarih);
+    sorgu.bindValue(4, _islemYapanKullanici.getUserID());
+    sorgu.bindValue(5, _tutar);
+    sorgu.bindValue(6, 0);
+    sorgu.bindValue(7, _tutar);
+    sorgu.bindValue(8, _evrakNo);
+    sorgu.bindValue(9, _aciklama);
+    sorgu.bindValue(10, _odemeTipi);
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qFatal(sorgu.lastError().text().toStdString().c_str());
@@ -555,7 +653,8 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
 
 QSqlQueryModel* Veritabani::getCariKartIsimleri()
 {
-    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire FROM carikartlar INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id", db);
+    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire FROM carikartlar "
+                                    "INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id", db);
     cariKartIsımleriModel->setHeaderData(0, Qt::Horizontal, "ID");
     cariKartIsımleriModel->setHeaderData(1, Qt::Horizontal, "Cari ismi");
     cariKartIsımleriModel->setHeaderData(2, Qt::Horizontal, "Yetkili");
@@ -569,20 +668,22 @@ QSqlQueryModel* Veritabani::getCariKartIsimleri()
 
 QSqlQueryModel *Veritabani::getCariHareketleri(QString _cariID)
 {
-    sorgu.prepare("SELECT fatura_no, faturatipleri.tip, toplamtutar, odenentutar, kalantutar, kullanicilar.username, faturalar.tarih, faturalar.aciklama FROM faturalar "
+    sorgu.prepare("SELECT fatura_no, faturalar.tarih, faturatipleri.tip, toplamtutar, odenentutar, kalantutar, odemetipleri.tip, kullanicilar.username, faturalar.aciklama FROM faturalar "
                     "INNER JOIN faturatipleri ON faturalar.tipi = faturatipleri.id "
+                    "INNER JOIN odemetipleri ON faturalar.odemetipi = odemetipleri.id "
                     "INNER JOIN kullanicilar ON faturalar.kullanici = kullanicilar.id WHERE cari = ? ORDER BY faturalar.tarih DESC");
     sorgu.bindValue(0, _cariID);
     sorgu.exec();
     cariHareketleriModel->setQuery(sorgu);
     cariHareketleriModel->setHeaderData(0, Qt::Horizontal, "Fatura No");
-    cariHareketleriModel->setHeaderData(1, Qt::Horizontal, "Fatura Tip");
-    cariHareketleriModel->setHeaderData(2, Qt::Horizontal, "T. Tutar");
-    cariHareketleriModel->setHeaderData(3, Qt::Horizontal, "Ö. Tutar");
-    cariHareketleriModel->setHeaderData(4, Qt::Horizontal, "K. Tutar");
-    cariHareketleriModel->setHeaderData(5, Qt::Horizontal, "İşlemi Yapan");
-    cariHareketleriModel->setHeaderData(6, Qt::Horizontal, "Fatura Tarihi");
-    cariHareketleriModel->setHeaderData(7, Qt::Horizontal, "Açıklama");
+    cariHareketleriModel->setHeaderData(1, Qt::Horizontal, "Fatura Tarihi");
+    cariHareketleriModel->setHeaderData(2, Qt::Horizontal, "Fatura Tip");
+    cariHareketleriModel->setHeaderData(3, Qt::Horizontal, "T. Tutar");
+    cariHareketleriModel->setHeaderData(4, Qt::Horizontal, "Ö. Tutar");
+    cariHareketleriModel->setHeaderData(5, Qt::Horizontal, "K. Tutar");
+    cariHareketleriModel->setHeaderData(6, Qt::Horizontal, "Ödeme");
+    cariHareketleriModel->setHeaderData(7, Qt::Horizontal, "İşlemi Yapan");
+    cariHareketleriModel->setHeaderData(8, Qt::Horizontal, "Açıklama");
     return cariHareketleriModel;
 }
 
@@ -630,7 +731,7 @@ double Veritabani::getCariToplamAlacak(QString _cariID)
 {
     if(_cariID != "1000"){// DİREKT CARİSİ İSE ES GEÇSİN
         double kalanTutar, odenenTutar;
-        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'ALIŞ'");
+        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 1");
         sorgu.bindValue(0, _cariID);
         sorgu.exec();
         if(sorgu.next()){
@@ -639,7 +740,7 @@ double Veritabani::getCariToplamAlacak(QString _cariID)
         else{
             kalanTutar = 0;
         }
-        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'ÖDEME'");
+        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 4");
         sorgu.bindValue(0, _cariID);
         sorgu.exec();
         if(sorgu.next()){
@@ -653,18 +754,6 @@ double Veritabani::getCariToplamAlacak(QString _cariID)
     else{
         return 0;
     }
-//    sorgu.prepare("SELECT "
-//                  "(SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'ALIŞ')"
-//                  " - "
-//                  "(SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'ÖDEME')");
-//    sorgu.bindValue(0, _cariID);
-//    sorgu.bindValue(1, _cariID);
-//    sorgu.exec();
-//    sorgu.next();
-//    if(sorgu.lastError().isValid()){
-//        qFatal(sorgu.lastError().text().toStdString().c_str());
-//    }
-//    return sorgu.value(0).toDouble();
 }
 
 double Veritabani::getCariToplamBorc(QString _cariID)
@@ -694,24 +783,12 @@ double Veritabani::getCariToplamBorc(QString _cariID)
     else{
         return 0;
     }
-//    sorgu.prepare("SELECT "
-//                  "(SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 'SATIŞ')"
-//                  " - "
-//                  "(SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 'TAHSİLAT')");
-//    sorgu.bindValue(0, _cariID);
-//    sorgu.bindValue(1, _cariID);
-//    sorgu.exec();
-//    sorgu.next();
-//    if(sorgu.lastError().isValid()){
-//        qFatal(sorgu.lastError().text().toStdString().c_str());
-//    }
-//    return sorgu.value(0).toDouble();
 }
 
 void Veritabani::yeniCariKart(Cari _cariKart)
 {
-    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama)"
-                    "VALUES (nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili)"
+                    "VALUES (nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _cariKart.getAd());
     sorgu.bindValue(1, _cariKart.getTip());
     sorgu.bindValue(2, _cariKart.getVerigino());
@@ -723,9 +800,10 @@ void Veritabani::yeniCariKart(Cari _cariKart)
     sorgu.bindValue(8, _cariKart.getTelefon());
     sorgu.bindValue(9, _cariKart.getTarih());
     sorgu.bindValue(10, _cariKart.getAciklama());
+    sorgu.bindValue(11, _cariKart.getYetkili());
     sorgu.exec();
-    if(!QString(sorgu.lastError().text()).isEmpty()){
-        qDebug() << sorgu.lastError().text();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
     }
     else{
         QMessageBox msg;
@@ -736,6 +814,24 @@ void Veritabani::yeniCariKart(Cari _cariKart)
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
+    }
+}
+
+void Veritabani::cariKartSil(QString _cariID)
+{
+    sorgu.prepare("DELETE FROM carikartlar WHERE id = ?");
+    sorgu.bindValue(0, _cariID);
+    if(sorgu.exec()){
+        QMessageBox msg(0);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Cari kart silindi!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
     }
 }
 
