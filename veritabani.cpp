@@ -98,7 +98,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
     sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
     sorgu.bindValue(1, _satisYapanKullanici.getUserID());
-    sorgu.bindValue(2, "giriş");
+    sorgu.bindValue(2, "GİRİŞ");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
     if(sorgu.lastError().isValid()){

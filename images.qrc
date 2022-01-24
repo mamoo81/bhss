@@ -34,6 +34,7 @@
         <file>images/ui/capslock.png</file>
         <file>images/ui/get-cash.png</file>
         <file>images/ui/copy.png</file>
+        <file>images/ui/delete.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

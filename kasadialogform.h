@@ -18,3 +18,25 @@
 //IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 //DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#ifndef KASADIALOGFORM_H
+#define KASADIALOGFORM_H
+
+#include <QDialog>
+
+namespace Ui {
+    class KasaDialogForm;
+}
+
+class KasaDialogForm : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit KasaDialogForm(QWidget *parent = nullptr);
+    ~KasaDialogForm();
+
+private:
+    Ui::KasaDialogForm *ui;
+};
+
+#endif // KASADIALOGFORM_H
