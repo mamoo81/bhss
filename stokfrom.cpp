@@ -470,7 +470,7 @@ void StokFrom::on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime)
 void StokFrom::on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime)
 {
     //stok hareketlerini getirme
-    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(),dateTime, ui->bitisdateEdit->dateTime()));
+    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(), dateTime, ui->bitisdateEdit->dateTime()));
 }
 
 

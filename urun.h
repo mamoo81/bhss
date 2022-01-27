@@ -10,6 +10,7 @@ public:
 
     QString barkod;
     QString ad;
+    double alisFiyat;
     double birimFiyat;
     QString birim;
     float miktar= 0;

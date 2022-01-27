@@ -25,6 +25,7 @@ public:
     QSqlQueryModel *stokHareketleriModel = new QSqlQueryModel();
     QSqlQueryModel *cariKartIsımleriModel = new QSqlQueryModel();
     QSqlQueryModel *cariHareketleriModel = new QSqlQueryModel();
+    QSqlQueryModel *kasaHareketlerimodel = new QSqlQueryModel();
     QStringList stokbirimleri;
 
     bool barkodVarmi(QString _Barkod);
@@ -84,6 +85,11 @@ public slots:
     void cariyiAlacaklandır(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
     void cariyeOdemeYap(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
     void cariyiBorclandir(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
+    double getKasaToplamGiren(QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    double getKasaToplamCikan(QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    QSqlQueryModel *getKasaHareketleri(QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    double getNetKar(QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    void KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno);
 };
 
 #endif // VERITABANI_H

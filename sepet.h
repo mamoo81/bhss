@@ -34,6 +34,8 @@ public:
     void setOdenenTutar(double newOdenenTutar);
     double getKalanTutar() const;
     void setKalanTutar(double newKalanTutar);
+public slots:
+    double getSepettekiKazanc();
 };
 
 #endif // SEPET_H

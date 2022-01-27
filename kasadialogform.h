@@ -20,7 +20,8 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef KASADIALOGFORM_H
 #define KASADIALOGFORM_H
-
+#include "veritabani.h"
+//***************************
 #include <QDialog>
 
 namespace Ui {
@@ -35,8 +36,27 @@ public:
     explicit KasaDialogForm(QWidget *parent = nullptr);
     ~KasaDialogForm();
 
+    Veritabani *vt = new Veritabani();
+    QDateTime baslangicTarih;
+    QDateTime bitisTarih;
+    void setKullanici(User newKullanici);
+
+private slots:
+    void FormLoad();
+
+    void on_BaslangicdateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_BitisdateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_KasaGirisYaptoolButton_clicked();
+
+    void on_KasaCikisYaptoolButton_clicked();
+
+    void KasaHareketleriListele();
 private:
     Ui::KasaDialogForm *ui;
+
+    User kullanici;
 };
 
 #endif // KASADIALOGFORM_H

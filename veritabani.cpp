@@ -95,11 +95,13 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
         qDebug() << sorgu.lastError().text();
     }
     //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
+    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih, kar) "
+                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
     sorgu.bindValue(1, _satisYapanKullanici.getUserID());
     sorgu.bindValue(2, "GİRİŞ");
     sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(4, _satilacakSepet.getSepettekiKazanc());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
@@ -147,6 +149,91 @@ double Veritabani::getKasadakiPara()
     sorgu.exec("SELECT * FROM kasa");
     sorgu.next();
     return sorgu.value(1).toDouble();
+}
+
+double Veritabani::getNetKar(QDateTime _baslangicTarih, QDateTime _bitisTarih)
+{
+    sorgu.prepare("SELECT SUM(CAST(kar AS DECIMAL)) FROM kasahareketleri WHERE tarih BETWEEN ? AND ?");
+    sorgu.bindValue(0, _baslangicTarih);
+    sorgu.bindValue(1, _bitisTarih);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+        return 0;
+    }
+    else{
+        if(sorgu.next()){
+            return sorgu.value(0).toDouble();
+        }
+        else{
+            return 0;
+        }
+    }
+}
+
+double Veritabani::getKasaToplamGiren(QDateTime _baslangicTarih, QDateTime _bitisTarih)
+{
+    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 'GİRİŞ' AND tarih BETWEEN ? AND ?");
+    sorgu.bindValue(0, _baslangicTarih);
+    sorgu.bindValue(1, _bitisTarih);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+        return 0;
+    }
+    else{
+        if(sorgu.next()){
+            return sorgu.value(0).toDouble();
+        }
+        else{
+            return 0;
+        }
+    }
+}
+
+double Veritabani::getKasaToplamCikan(QDateTime _baslangicTarih, QDateTime _bitisTarih)
+{
+    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 'ÇIKIŞ' AND tarih BETWEEN ? AND ?");
+    sorgu.bindValue(0, _baslangicTarih);
+    sorgu.bindValue(1, _bitisTarih);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+        return 0;
+    }
+    else{
+        if(sorgu.next()){
+            return sorgu.value(0).toDouble();
+        }
+        else{
+            return 0;
+        }
+    }
+}
+
+QSqlQueryModel *Veritabani::getKasaHareketleri(QDateTime _baslangicTarih, QDateTime _bitisTarih)
+{
+    sorgu.prepare("SELECT kasahareketleri.id, islem, miktar, kasahareketleri.tarih, kullanicilar.username FROM kasahareketleri "
+                    "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
+                    "WHERE kasahareketleri.tarih BETWEEN ? AND ? "
+                    "ORDER BY kasahareketleri.tarih DESC");
+    sorgu.bindValue(0, _baslangicTarih);
+    sorgu.bindValue(1, _bitisTarih);
+    sorgu.exec();
+    kasaHareketlerimodel->clear();
+    kasaHareketlerimodel->setQuery(sorgu);
+    kasaHareketlerimodel->setHeaderData(0, Qt::Horizontal, "ID");
+    kasaHareketlerimodel->setHeaderData(1, Qt::Horizontal, "Hareket");
+    kasaHareketlerimodel->setHeaderData(2, Qt::Horizontal, "Miktar");
+    kasaHareketlerimodel->setHeaderData(3, Qt::Horizontal, "Tarih");
+    kasaHareketlerimodel->setHeaderData(4, Qt::Horizontal, "Kullanici");
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+        return NULL;
+    }
+    else{
+        return kasaHareketlerimodel;
+    }
 }
 
 bool Veritabani::veritabaniVarmi()
@@ -203,7 +290,7 @@ void Veritabani::veritabaniOlustur()
     sorgu.bindValue(7, true);
     sorgu.bindValue(8, true);
     sorgu.exec();
-    if(!QString(sorgu.lastError().text()).isEmpty()){
+    if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
     //stokkartlari tablosunu oluşturma.
@@ -220,7 +307,7 @@ void Veritabani::veritabaniOlustur()
                 "tarih TIMESTAMP NOT NULL,"
                 "aciklama TEXT)");
     sorgu.exec("CREATE SEQUENCE stokkartlari_sequence START WITH 10000 INCREMENT BY 1 OWNED BY stokkartlari.id");
-    if(!QString(sorgu.lastError().text()).isEmpty()){
+    if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
     //stokhareketleri tablosu oluşturma.
@@ -232,7 +319,7 @@ void Veritabani::veritabaniOlustur()
                 "tarih TIMESTAMP NOT NULL,"
                 "kullanici BIGSERIAL NOT NULL,"
                 "aciklama TEXT)");
-    if(!QString(sorgu.lastError().text()).isEmpty()){
+    if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
     //faturalar tablosu olusturma
@@ -1160,7 +1247,7 @@ void Veritabani::kasadanParaCek(double _cekilecekTutar, User _kullanici)
     sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
     sorgu.bindValue(0, _cekilecekTutar);
     sorgu.bindValue(1, _kullanici.getUserID());
-    sorgu.bindValue(2, "çıkış");
+    sorgu.bindValue(2, "ÇIKIŞ");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
@@ -1172,8 +1259,8 @@ double Veritabani::getGunlukCiro()
 {
     sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem IN(?,?)");
     sorgu.bindValue(0, QDateTime::currentDateTime().date());
-    sorgu.bindValue(1, "giriş");
-    sorgu.bindValue(2, "iade");
+    sorgu.bindValue(1, "GİRİŞ");
+    sorgu.bindValue(2, "İADE");
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qWarning() << sorgu.lastError().text();
@@ -1219,7 +1306,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
     sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
     sorgu.bindValue(0, -_iadeSepet.sepetToplamTutari());// eksi değer kaydediyorum
     sorgu.bindValue(1, 1000);// DİREKT cari id
-    sorgu.bindValue(2, "iade");
+    sorgu.bindValue(2, "İADE");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
@@ -1287,10 +1374,10 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
         qDebug() << sorgu.lastError().text();
     }
     //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
+    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?)");
     sorgu.bindValue(0, _iadeSepet.sepetToplamTutari());
     sorgu.bindValue(1, _iadeCari.getId());
-    sorgu.bindValue(2, "iade");
+    sorgu.bindValue(2, "İADE");
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
@@ -1321,6 +1408,23 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
         if(sorgu.lastError().isValid()){
             qWarning() << "iade ürün stoğa geri ekleme hatası: " << sorgu.lastError().text();
         }
+    }
+}
+
+void Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno)
+{
+    sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
+                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, _tutar);
+    sorgu.bindValue(1, _user.getUserID().toInt());
+    sorgu.bindValue(2, _hareket);
+    sorgu.bindValue(3, _tarih);
+    sorgu.bindValue(4, 0);
+    sorgu.bindValue(5, _evrakno);
+    sorgu.bindValue(6, _aciklama);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text().toStdString().c_str();
     }
 }
 

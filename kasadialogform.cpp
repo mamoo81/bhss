@@ -20,15 +20,84 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "kasadialogform.h"
 #include "ui_kasadialogform.h"
+#include "kasahareketekledialog.h"
+//**************************************
+#include <QDebug>
+#include <QDateTime>
 
 KasaDialogForm::KasaDialogForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::KasaDialogForm)
 {
     ui->setupUi(this);
+    FormLoad();
 }
 
 KasaDialogForm::~KasaDialogForm()
 {
     delete ui;
 }
+
+void KasaDialogForm::FormLoad()
+{
+    ui->BaslangicdateTimeEdit->setDate(QDate::currentDate());
+    ui->BitisdateTimeEdit->setDateTime(QDateTime::currentDateTime());
+}
+
+void KasaDialogForm::on_BaslangicdateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    baslangicTarih = dateTime;
+    baslangicTarih.setTime(QTime());// boş QTime() atayarak seçili tarihin saatini 0:0:0 yapıyorum
+    KasaHareketleriListele();
+}
+
+
+void KasaDialogForm::on_BitisdateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    bitisTarih = dateTime;
+    bitisTarih.setTime(QTime(23, 59, 59, 999));
+    KasaHareketleriListele();
+}
+
+void KasaDialogForm::KasaHareketleriListele()
+{
+    // kasa hareketlerini getirme
+    ui->KasaHareketleritableView->setModel(vt->getKasaHareketleri(baslangicTarih, bitisTarih));
+    ui->KasaHareketleritableView->setSortingEnabled(true);
+    ui->KasaHareketleritableView->resizeColumnsToContents();
+    // kasaya toplam giren parayı getirme
+    ui->ToplamGirislabel->setText("₺" + QString::number(vt->getKasaToplamGiren(baslangicTarih, bitisTarih), 'f', 2));
+    // kasadan toplam çıkan parayı getirme
+    ui->ToplamCikislabel->setText("₺" + QString::number(vt->getKasaToplamCikan(baslangicTarih, bitisTarih), 'f', 2));
+    // net kârı getirme
+    ui->NetKarlabel->setText("₺" + QString::number(vt->getNetKar(baslangicTarih, bitisTarih), 'f', 2));
+    //kasadaki parayı getirme
+    ui->KasadakiParalabel->setText("₺" + QString::number(vt->getKasadakiPara(), 'f', 2));
+}
+
+void KasaDialogForm::on_KasaGirisYaptoolButton_clicked()
+{
+    KasaHareketEkleDialog *hareketForm = new KasaHareketEkleDialog(this);
+    hareketForm->setKullanici(kullanici);
+    hareketForm->setHareket(0);// giriş hareketi seçilsin.
+    hareketForm->exec();
+    delete hareketForm;
+    KasaHareketleriListele();
+}
+
+void KasaDialogForm::setKullanici(User newKullanici)
+{
+    kullanici = newKullanici;
+}
+
+
+void KasaDialogForm::on_KasaCikisYaptoolButton_clicked()
+{
+    KasaHareketEkleDialog *hareketForm = new KasaHareketEkleDialog(this);
+    hareketForm->setKullanici(kullanici);
+    hareketForm->setHareket(1);// giriş hareketi seçilsin.
+    hareketForm->exec();
+    delete hareketForm;
+    KasaHareketleriListele();
+}
+

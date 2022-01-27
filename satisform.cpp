@@ -9,6 +9,7 @@
 #include "fiyatgorform.h"
 #include "loginform.h"
 #include "adetdialogform.h"
+#include "kasadialogform.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -4158,11 +4159,14 @@ void SatisForm::on_sepet1TableWidget_clicked(const QModelIndex &index)
 
 void SatisForm::on_KasaBtn_clicked()
 {
-    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
-    paraCekForm->setKasadakiPara(vt->getKasadakiPara());
-    paraCekForm->setKull(kullanici);
-    paraCekForm->exec();
-    delete paraCekForm;
+    KasaDialogForm *kasaForm = new KasaDialogForm(this);
+    kasaForm->setKullanici(kullanici);
+    kasaForm->exec();
+//    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
+//    paraCekForm->setKasadakiPara(vt->getKasadakiPara());
+//    paraCekForm->setKull(kullanici);
+//    paraCekForm->exec();
+//    delete paraCekForm;
     ui->barkodLineEdit->setFocus();
 }
 

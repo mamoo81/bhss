@@ -1,8 +1,8 @@
 /*######################################
-*MIT LICENCE
+*MIT LICENCE                          #
 *######################################
-*Copyright 2021 Mehmet AKDEMİR
-*bilgi@basat.dev
+*Copyright 2021 Mehmet AKDEMİR        #
+*bilgi@basat.dev                      #
 *######################################
 *Permission is hereby granted, free of charge,
 *to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,3 +19,41 @@
 *DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 *OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef KASAHAREKETEKLEDIALOG_H
+#define KASAHAREKETEKLEDIALOG_H
+#include "user.h"
+#include "veritabani.h"
+//*************************
+#include <QDialog>
+
+namespace Ui {
+class KasaHareketEkleDialog;
+}
+
+class KasaHareketEkleDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit KasaHareketEkleDialog(QWidget *parent = nullptr);
+    ~KasaHareketEkleDialog();
+
+    Veritabani *vt = new Veritabani();
+
+    void setKullanici(User newKullanici);
+
+    void setHareket(int newHareket);
+
+private slots:
+    void on_KaydetpushButton_clicked();
+
+    void on_iptalpushButton_clicked();
+
+private:
+    Ui::KasaHareketEkleDialog *ui;
+
+    int hareket;
+    User kullanici;
+};
+
+#endif // KASAHAREKETEKLEDIALOG_H
