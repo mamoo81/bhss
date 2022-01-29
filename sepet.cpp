@@ -173,7 +173,7 @@ Urun Sepet::urunBilgileriniGetir(QString _Barkod)
 
 double Sepet::getSepettekiKazanc()
 {
-    double toplam;
+    double toplam = 0;
     foreach (auto urun, urunler) {
         toplam += urun.birimFiyat - urun.alisFiyat;
     }

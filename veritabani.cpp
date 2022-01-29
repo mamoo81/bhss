@@ -83,29 +83,30 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
-    //kasaya artı para girme
-    sorgu.exec("SELECT * FROM kasa");
-    sorgu.next();
-    double suankiPara = sorgu.value(1).toDouble();
-    double guncelKasaPara = suankiPara + _satilacakSepet.sepetToplamTutari();
-    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-    sorgu.bindValue(0, guncelKasaPara);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih, kar) "
-                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
-    sorgu.bindValue(1, _satisYapanKullanici.getUserID());
-    sorgu.bindValue(2, "GİRİŞ");
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.bindValue(4, _satilacakSepet.getSepettekiKazanc());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
+    //kasa hareketi girme ve kasaya para giriş/çıkış
+    KasaHareketiEkle(_satisYapanKullanici, "GİRİŞ", _satilacakSepet.sepetToplamTutari(), "SATIŞ FAT.NO:" + yeniFaturaNo, QDateTime::currentDateTime(), _satilacakSepet.getSepettekiKazanc());
+//    sorgu.exec("SELECT * FROM kasa");
+//    sorgu.next();
+//    double suankiPara = sorgu.value(1).toDouble();
+//    double guncelKasaPara = suankiPara + _satilacakSepet.sepetToplamTutari();
+//    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+//    sorgu.bindValue(0, guncelKasaPara);
+//    sorgu.exec();
+//    if(sorgu.lastError().isValid()){
+//        qDebug() << sorgu.lastError().text();
+//    }
+//    //kasa hareketlerini girme
+//    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih, kar) "
+//                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?)");
+//    sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
+//    sorgu.bindValue(1, _satisYapanKullanici.getUserID());
+//    sorgu.bindValue(2, "GİRİŞ");
+//    sorgu.bindValue(3, QDateTime::currentDateTime());
+//    sorgu.bindValue(4, _satilacakSepet.getSepettekiKazanc());
+//    sorgu.exec();
+//    if(sorgu.lastError().isValid()){
+//        qDebug() << sorgu.lastError().text();
+//    }
     //sepetteki ürünlerin stok hareketlerine girişi
     foreach (auto urun, _satilacakSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
@@ -193,7 +194,7 @@ double Veritabani::getKasaToplamGiren(QDateTime _baslangicTarih, QDateTime _biti
 
 double Veritabani::getKasaToplamCikan(QDateTime _baslangicTarih, QDateTime _bitisTarih)
 {
-    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 'ÇIKIŞ' AND tarih BETWEEN ? AND ?");
+    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN ('ÇIKIŞ','İADE') AND tarih BETWEEN ? AND ?");
     sorgu.bindValue(0, _baslangicTarih);
     sorgu.bindValue(1, _bitisTarih);
     sorgu.exec();
@@ -213,10 +214,10 @@ double Veritabani::getKasaToplamCikan(QDateTime _baslangicTarih, QDateTime _biti
 
 QSqlQueryModel *Veritabani::getKasaHareketleri(QDateTime _baslangicTarih, QDateTime _bitisTarih)
 {
-    sorgu.prepare("SELECT kasahareketleri.id, islem, miktar, kasahareketleri.tarih, kullanicilar.username FROM kasahareketleri "
+    sorgu.prepare("SELECT kasahareketleri.id, islem, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
                     "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
                     "WHERE kasahareketleri.tarih BETWEEN ? AND ? "
-                    "ORDER BY kasahareketleri.tarih DESC");
+                    "ORDER BY kasahareketleri.id DESC");
     sorgu.bindValue(0, _baslangicTarih);
     sorgu.bindValue(1, _bitisTarih);
     sorgu.exec();
@@ -227,6 +228,8 @@ QSqlQueryModel *Veritabani::getKasaHareketleri(QDateTime _baslangicTarih, QDateT
     kasaHareketlerimodel->setHeaderData(2, Qt::Horizontal, "Miktar");
     kasaHareketlerimodel->setHeaderData(3, Qt::Horizontal, "Tarih");
     kasaHareketlerimodel->setHeaderData(4, Qt::Horizontal, "Kullanici");
+    kasaHareketlerimodel->setHeaderData(5, Qt::Horizontal, "Evrak No");
+    kasaHareketlerimodel->setHeaderData(6, Qt::Horizontal, "Açıklama");
     if(sorgu.lastError().isValid()){
         qFatal(sorgu.lastError().text().toStdString().c_str());
         return NULL;
@@ -234,6 +237,86 @@ QSqlQueryModel *Veritabani::getKasaHareketleri(QDateTime _baslangicTarih, QDateT
     else{
         return kasaHareketlerimodel;
     }
+}
+
+int Veritabani::kasaHareketiDuzenle(User _user, QString _hareketID, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakNo)
+{
+    //KASA HAREKETİNİ DÜZELTMEDEN ÖNCE, düzeltilecek işlemin şuan ki HAREKET TUTARINI AL. metodun EN SON da +/- YÖNDE kasadaki paraya ekle
+    sorgu.prepare("SELECT islem, CAST(miktar AS DECIMAL) FROM kasahareketleri WHERE id = ?");
+    sorgu.bindValue(0, _hareketID);
+    sorgu.exec();
+    double oncekiTutar;
+    QString oncekiHareket;
+    if(sorgu.next()){
+        oncekiTutar = sorgu.value(1).toDouble();
+        oncekiHareket = sorgu.value(0).toString();
+    }
+    //----------------------------------------
+    //KASA HAREKETLERİ TABLOSUNU DÜZELTME
+    sorgu.prepare("UPDATE kasahareketleri "
+                    "SET miktar = ?, kullanici = ?, islem = ?, tarih = ?, evrakno = ?, aciklama = ?");
+    sorgu.bindValue(0, _tutar);
+    sorgu.bindValue(1, _user.getUserID());
+    sorgu.bindValue(2, _hareket);
+    sorgu.bindValue(3, _tarih);
+    sorgu.bindValue(4, _evrakNo);
+    sorgu.bindValue(5, "İŞLEM DÜZELTME:" + _aciklama);
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qFatal(sorgu.lastError().text().toStdString().c_str());
+    }
+    // DÜZELTME YAPILACAK HAREKET DEĞİŞTİ İSE TUTARI KASAda ki paraya EKLE/ÇIKAR
+    if(_hareket != oncekiHareket){
+        if(oncekiHareket == "GİRİŞ"){
+            double suankiPara = getKasadakiPara();
+            double guncelPara = suankiPara - oncekiTutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+            sorgu.bindValue(0, guncelPara);
+            sorgu.exec();
+            guncelPara = getKasadakiPara();
+            guncelPara -= _tutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+            sorgu.bindValue(0, guncelPara);
+            sorgu.exec();
+        }
+        else if(oncekiHareket == "ÇIKIŞ"){
+            double suankiPara = getKasadakiPara();
+            double guncelPara = suankiPara + oncekiTutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+            sorgu.bindValue(0, guncelPara);
+            sorgu.exec();
+            guncelPara = getKasadakiPara();
+            guncelPara += _tutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+            sorgu.bindValue(0, guncelPara);
+            sorgu.exec();
+        }
+    }
+    return 1;
+}
+
+bool Veritabani::kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar)
+{
+    // kasahareketleri tablosundan kayıdı silme
+    sorgu.prepare("DELETE FROM kasahareketleri WHERE id = ?");
+    sorgu.bindValue(0, _hareketID);
+    sorgu.exec();
+    //kasadan silinen işlemin parasını düşme.
+    if(_hareket == "GİRİŞ"){
+        double suankiPara = getKasadakiPara();
+        double guncelPara = suankiPara - _tutar;
+        sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+        sorgu.bindValue(0, guncelPara);
+        sorgu.exec();
+    }
+    else if(_hareket == "ÇIKIŞ"){
+        double suankiPara = getKasadakiPara();
+        double guncelPara = suankiPara + _tutar;
+        sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
+        sorgu.bindValue(0, guncelPara);
+        sorgu.exec();
+    }
+    return true;
 }
 
 bool Veritabani::veritabaniVarmi()
@@ -1278,7 +1361,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
     }
     sorgu.next();
     QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
-    // iade fatura bilgisi girme başlangıcı
+    // faturalar tablosuna iade fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, iadeFaturaNo);
@@ -1302,16 +1385,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
-    //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
-    sorgu.bindValue(0, -_iadeSepet.sepetToplamTutari());// eksi değer kaydediyorum
-    sorgu.bindValue(1, 1000);// DİREKT cari id
-    sorgu.bindValue(2, "İADE");
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
+    KasaHareketiEkle(_kullanici, "İADE", _iadeSepet.sepetToplamTutari(), ("İADE İŞLEMİ:" + iadeFaturaNo), QDateTime::currentDateTime(), -_iadeSepet.getSepettekiKazanc());
     //sepetteki iade ürünlerin stok hareketlerine girişi
     foreach (auto urun, _iadeSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
@@ -1411,20 +1485,106 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
     }
 }
 
-void Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno)
+int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno, double _netKar)
 {
-    sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
-                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, _tutar);
-    sorgu.bindValue(1, _user.getUserID().toInt());
-    sorgu.bindValue(2, _hareket);
-    sorgu.bindValue(3, _tarih);
-    sorgu.bindValue(4, 0);
-    sorgu.bindValue(5, _evrakno);
-    sorgu.bindValue(6, _aciklama);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text().toStdString().c_str();
+    // KASAYA PARA GİRİŞ/ÇIKIŞ İŞLEMİ BAŞLANGIÇ
+    sorgu.exec("select para FROM kasa");
+    double mevcutPara = 0;
+    double sonPara = 0;
+    if(sorgu.next()){
+        mevcutPara = sorgu.value(0).toDouble();
+        if(_hareket == "GİRİŞ"){
+            sonPara = mevcutPara + _tutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+            sorgu.bindValue(0, sonPara);
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qDebug() << "kasahareketiekle() hata:\n" << sorgu.lastError().text();
+            }
+        }
+        else if(_hareket == "ÇIKIŞ"){
+            sonPara = mevcutPara - _tutar;
+            if(sonPara < 0){//KASADAKİ PARA EKSİ DEĞERE DÜŞMESİN
+                QMessageBox msg(0);
+                msg.setWindowTitle("Dikkat");
+                msg.setIcon(QMessageBox::Warning);
+                msg.setText("Kasada ki miktardan fazla çıkış yapamazsınız!");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+                return 0;
+            }
+            else{
+                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+                sorgu.bindValue(0, sonPara);
+                sorgu.exec();
+                if(sorgu.lastError().isValid()){
+                    qDebug() << "kasahareketiekle() hata:\n" << sorgu.lastError().text();
+                }
+            }
+        }
+        //HAREKET EKLEME BAŞLANGICI
+        sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
+                        "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?, ?)");
+        sorgu.bindValue(0, _tutar);
+        sorgu.bindValue(1, _user.getUserID().toInt());
+        sorgu.bindValue(2, _hareket);
+        sorgu.bindValue(3, _tarih);
+        sorgu.bindValue(4, _netKar);
+        sorgu.bindValue(5, _evrakno);
+        sorgu.bindValue(6, _aciklama);
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qDebug() << sorgu.lastError().text().toStdString().c_str();
+        }
+        QMessageBox msg(0);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        if(_hareket == "GİRİŞ"){// hareket giriş ise
+            msg.setText("Kasaya " + QString::number(_tutar, 'f', 2) + " TL giriş yapıldı.");
+        }
+        else if(_hareket == "ÇIKIŞ"){// hareket çıkış ise
+            msg.setText("Kasadan " + QString::number(_tutar, 'f', 2) + " TL çıkış yapıldı.");
+        }
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+        return 1;
     }
+}
+
+//
+int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, double _netKar)
+{
+    // KASAYA PARA GİRİŞ/ÇIKIŞ İŞLEMİ BAŞLANGIÇ
+    sorgu.exec("select para FROM kasa");
+    double mevcutPara = 0;
+    double sonPara = 0;
+    if(sorgu.next()){
+        mevcutPara = sorgu.value(0).toDouble();
+        if(_hareket == "GİRİŞ"){
+            sonPara = mevcutPara + _tutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+            sorgu.bindValue(0, sonPara);
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qDebug() << "kasahareketiekle() hata:\n" << sorgu.lastError().text();
+            }
+        }
+        //HAREKET EKLEME BAŞLANGICI
+        sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
+                        "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
+        sorgu.bindValue(0, _tutar);
+        sorgu.bindValue(1, _user.getUserID().toInt());
+        sorgu.bindValue(2, _hareket);
+        sorgu.bindValue(3, _tarih);
+        sorgu.bindValue(4, _netKar);
+        sorgu.bindValue(5, _aciklama);
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qDebug() << sorgu.lastError().text().toStdString().c_str();
+        }
+    }
+    return 1;
 }
 

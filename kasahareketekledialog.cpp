@@ -23,14 +23,13 @@
 #include "ui_kasahareketekledialog.h"
 //**************************************
 #include <QMessageBox>
+#include <QDebug>
 
 KasaHareketEkleDialog::KasaHareketEkleDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::KasaHareketEkleDialog)
 {
     ui->setupUi(this);
-
-    ui->tarihdateEdit->setDateTime(QDateTime::currentDateTime());
 }
 
 KasaHareketEkleDialog::~KasaHareketEkleDialog()
@@ -47,27 +46,44 @@ void KasaHareketEkleDialog::setKullanici(User newKullanici)
 void KasaHareketEkleDialog::setHareket(int newHareket)
 {
     hareket = newHareket;
+    if(hareket == 0){
+        oncekiHareket = "GİRİŞ";
+    }
+    else if(hareket == 1){
+        oncekiHareket = "ÇIKIŞ";
+    }
     ui->HareketcomboBox->setCurrentIndex(hareket);
 }
 
 void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
 {
     if(ui->tutardoubleSpinBox->value() > 1){
-        vt->KasaHareketiEkle(kullanici, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->placeholderText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
-        QMessageBox msg(this);
-        msg.setWindowTitle("Bilgi");
-        msg.setIcon(QMessageBox::Information);
-        msg.setText("Kasaya " + QString::number(ui->tutardoubleSpinBox->value(), 'f', 2) + " TL giriş yapıldı.");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-        this->close();
+        if(!hareketDuzenle){
+            int sonuc = vt->KasaHareketiEkle(kullanici, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text(), 0);
+            switch (sonuc) {
+            case 1:
+                this->close();
+                break;
+            case 0:
+                ui->tutardoubleSpinBox->setFocus();
+                ui->tutardoubleSpinBox->selectAll();
+                break;
+            }
+        }
+        else{
+            int sonuc = vt->kasaHareketiDuzenle(kullanici, hareketID, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
+            switch (sonuc) {
+            case 1:
+                this->close();
+                break;
+            }
+        }
     }
     else{
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Warning);
-        msg.setText("Tutar 0 dan büyük olmalı.");
+        msg.setText("Tutar en az 1,00 TL den büyük olmalı.");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
@@ -80,3 +96,47 @@ void KasaHareketEkleDialog::on_iptalpushButton_clicked()
     this->close();
 }
 
+void KasaHareketEkleDialog::setHareketID(const QString &newHareketID)
+{
+    hareketID = newHareketID;
+}
+
+void KasaHareketEkleDialog::setEvrakNo(const QString &newEvrakNo)
+{
+    evrakNo = newEvrakNo;
+    if(hareketDuzenle){
+        ui->EvrakNolineEdit->setText(evrakNo);
+    }
+}
+
+void KasaHareketEkleDialog::setTutar(double newTutar)
+{
+    tutar = newTutar;
+    if(hareketDuzenle){
+        ui->tutardoubleSpinBox->setValue(tutar);
+    }
+}
+
+void KasaHareketEkleDialog::setAciklama(const QString &newAciklama)
+{
+    aciklama = newAciklama;
+    if(hareketDuzenle){
+        ui->AciklamaplainTextEdit->setPlainText(aciklama);
+    }
+}
+
+void KasaHareketEkleDialog::sethareketDuzenle(bool newhareketDuzenle)
+{
+    hareketDuzenle = newhareketDuzenle;
+}
+
+void KasaHareketEkleDialog::setTarih(const QDateTime newTarih)
+{
+    tarih = newTarih;
+    if(hareketDuzenle){
+        ui->tarihdateEdit->setDateTime(tarih);
+    }
+    else{
+        ui->tarihdateEdit->setDateTime(QDateTime::currentDateTime());
+    }
+}

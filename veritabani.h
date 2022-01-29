@@ -89,7 +89,10 @@ public slots:
     double getKasaToplamCikan(QDateTime _baslangicTarih, QDateTime _bitisTarih);
     QSqlQueryModel *getKasaHareketleri(QDateTime _baslangicTarih, QDateTime _bitisTarih);
     double getNetKar(QDateTime _baslangicTarih, QDateTime _bitisTarih);
-    void KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno);
+    int KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno, double _netKar);// kasa forumdan giriş/çıkış/düzeltme için
+    int KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, double _netKar);// sepetten satış için overload metod
+    int kasaHareketiDuzenle(User _user, QString _hareketID, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakNo);
+    bool kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar);
 };
 
 #endif // VERITABANI_H

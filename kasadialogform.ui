@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>800</width>
     <height>340</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>630</width>
+    <width>800</width>
     <height>340</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>630</width>
+    <width>800</width>
     <height>340</height>
    </size>
   </property>
@@ -36,9 +36,12 @@
     <rect>
      <x>10</x>
      <y>40</y>
-     <width>461</width>
+     <width>631</width>
      <height>231</height>
     </rect>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
    </property>
    <property name="selectionMode">
     <enum>QAbstractItemView::SingleSelection</enum>
@@ -53,7 +56,7 @@
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>650</x>
      <y>200</y>
      <width>141</width>
      <height>31</height>
@@ -66,8 +69,8 @@
   <widget class="QPushButton" name="KapatpushButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>240</y>
+     <x>650</x>
+     <y>300</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -89,7 +92,7 @@
   <widget class="QToolButton" name="KasaGirisYaptoolButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>650</x>
      <y>40</y>
      <width>141</width>
      <height>31</height>
@@ -115,7 +118,7 @@
   <widget class="QToolButton" name="KasaCikisYaptoolButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>650</x>
      <y>80</y>
      <width>141</width>
      <height>31</height>
@@ -141,7 +144,7 @@
   <widget class="QToolButton" name="DuzelttoolButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>650</x>
      <y>120</y>
      <width>141</width>
      <height>31</height>
@@ -167,7 +170,7 @@
   <widget class="QToolButton" name="SiltoolButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>650</x>
      <y>160</y>
      <width>141</width>
      <height>31</height>
@@ -195,7 +198,7 @@
     <rect>
      <x>10</x>
      <y>280</y>
-     <width>141</width>
+     <width>151</width>
      <height>51</height>
     </rect>
    </property>
@@ -210,7 +213,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>141</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -229,7 +232,7 @@
      <rect>
       <x>10</x>
       <y>25</y>
-      <width>121</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -246,7 +249,7 @@
     <rect>
      <x>170</x>
      <y>280</y>
-     <width>141</width>
+     <width>151</width>
      <height>51</height>
     </rect>
    </property>
@@ -261,7 +264,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>141</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -286,7 +289,7 @@
      <rect>
       <x>10</x>
       <y>25</y>
-      <width>121</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -303,7 +306,7 @@
     <rect>
      <x>330</x>
      <y>280</y>
-     <width>141</width>
+     <width>151</width>
      <height>51</height>
     </rect>
    </property>
@@ -318,7 +321,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>141</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -343,7 +346,7 @@
      <rect>
       <x>10</x>
       <y>25</y>
-      <width>121</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -358,9 +361,9 @@
   <widget class="QFrame" name="frame_4">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>490</x>
      <y>280</y>
-     <width>141</width>
+     <width>151</width>
      <height>51</height>
     </rect>
    </property>
@@ -375,7 +378,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>141</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -400,7 +403,7 @@
      <rect>
       <x>10</x>
       <y>25</y>
-      <width>121</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -412,7 +415,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>

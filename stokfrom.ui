@@ -817,44 +817,6 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="StokKartiAdetLabel">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>490</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>99999</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>490</y>
-     <width>121</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Ürün çeşidi:</string>
-   </property>
-  </widget>
   <widget class="QRadioButton" name="barkodRadioButton">
    <property name="geometry">
     <rect>
@@ -1086,64 +1048,6 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QDateEdit" name="baslangicdateEdit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>490</y>
-     <width>121</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="displayFormat">
-    <string>dd.MM.yyyy</string>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-   <property name="date">
-    <date>
-     <year>2022</year>
-     <month>1</month>
-     <day>1</day>
-    </date>
-   </property>
-  </widget>
-  <widget class="QDateEdit" name="bitisdateEdit">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>490</y>
-     <width>121</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="displayFormat">
-    <string>dd.MM.yyyy</string>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>490</y>
-     <width>111</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Bitiş Tarihi</string>
-   </property>
-  </widget>
   <widget class="QToolButton" name="dosyadanToolButton">
    <property name="geometry">
     <rect>
@@ -1185,46 +1089,127 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_14">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>490</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Başlangıç</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>490</y>
-     <width>151</width>
-     <height>20</height>
+     <y>480</y>
+     <width>622</width>
+     <height>30</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>11</pointsize>
-    </font>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_15">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 170, 255);</string>
+      </property>
+      <property name="text">
+       <string>Stok Hareketleri</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_14">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Başlangıç</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDateEdit" name="baslangicdateEdit">
+      <property name="displayFormat">
+       <string>dd.MM.yyyy</string>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+      <property name="date">
+       <date>
+        <year>2022</year>
+        <month>1</month>
+        <day>1</day>
+       </date>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Bitiş Tarihi</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDateEdit" name="bitisdateEdit">
+      <property name="displayFormat">
+       <string>dd.MM.yyyy</string>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>490</y>
+     <width>164</width>
+     <height>21</height>
+    </rect>
    </property>
-   <property name="text">
-    <string>Stok Hareketleri</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Ürün çeşidi:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="StokKartiAdetLabel">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 0, 0);</string>
+      </property>
+      <property name="text">
+       <string>99999</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <tabstops>

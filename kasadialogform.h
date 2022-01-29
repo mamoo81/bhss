@@ -53,6 +53,10 @@ private slots:
     void on_KasaCikisYaptoolButton_clicked();
 
     void KasaHareketleriListele();
+    void on_DuzelttoolButton_clicked();
+
+    void on_SiltoolButton_clicked();
+
 private:
     Ui::KasaDialogForm *ui;
 

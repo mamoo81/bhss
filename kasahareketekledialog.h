@@ -44,6 +44,18 @@ public:
 
     void setHareket(int newHareket);
 
+    void sethareketDuzenle(bool newhareketDuzenle);
+
+    void setTarih(const QDateTime newTarih);
+
+    void setAciklama(const QString &newAciklama);
+
+    void setTutar(double newTutar);
+
+    void setEvrakNo(const QString &newEvrakNo);
+
+    void setHareketID(const QString &newHareketID);
+
 private slots:
     void on_KaydetpushButton_clicked();
 
@@ -54,6 +66,13 @@ private:
 
     int hareket;
     User kullanici;
+    bool hareketDuzenle;
+    QDateTime tarih;
+    QString aciklama;
+    QString hareketID;
+    QString oncekiHareket;
+    double tutar;
+    QString evrakNo;
 };
 
 #endif // KASAHAREKETEKLEDIALOG_H
