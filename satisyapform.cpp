@@ -118,8 +118,8 @@ bool SatisYapForm::eventFilter(QObject *filtrelenecekObje, QEvent *event){
 void SatisYapForm::on_OdenendoubleSpinBox_valueChanged(double arg1)
 {
     double toplamTutar = satilacakSepet.sepetToplamTutari();
-    double paraUstu = arg1 - toplamTutar;
-    ui->ParaUstuLBL->setText("₺" + QString::number(paraUstu));
+    double paraUstu = (arg1 - toplamTutar);
+    ui->ParaUstuLBL->setText("₺" + QString::number(paraUstu, 'f', 2));
     if(paraUstu > 0){
         ui->ParaUstuLBL->setStyleSheet("QLabel {color: green;}");
     }

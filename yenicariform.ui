@@ -314,6 +314,9 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>10</number>
+    </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
     </property>

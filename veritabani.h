@@ -38,6 +38,7 @@ private:
 
 public slots:
     StokKarti getStokKarti(QString _Barkod);
+    void setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar);
     User GetUserInfos(QString _UserName);
     QList<Cari> getCariKartlar();
     Cari getCariKart(QString _cariID);
@@ -65,6 +66,7 @@ public slots:
     QString sonIslemNumarasi();
     QSqlQueryModel *getCariKartIsimleri();
     void yeniCariKart(Cari _cariKart);
+    bool cariKartDuzenle(Cari _cariKart);
     QStringList getCariTipleri();
     QStringList getIller();
     QStringList getIlceler(int _plaka);
@@ -75,6 +77,7 @@ public slots:
     QStringList getVergiDaireleri();
     QSqlQueryModel* getStokHareketleri(QString _barkod);
     QSqlQueryModel *getStokHareketleri(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    void stokHareketiEkle(User _kullanici, QString _barkod, QString _islem, float _miktar);
     QStringList getStokBirimleri();
     QSqlQueryModel *getCariHareketleri(QString _cariID);
     double getCariToplamAlacak(QString _cariID);

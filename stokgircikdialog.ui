@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StokGirCikDialog</class>
+ <widget class="QDialog" name="StokGirCikDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>160</width>
+    <height>100</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>160</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>160</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Monospace</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kaydet</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Adet</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="maximum">
+       <double>99999.990000000005239</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

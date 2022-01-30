@@ -4,6 +4,7 @@
 #include "stokkarti.h"
 #include "yazici.h"
 //*********************
+#include <QDebug>
 
 SatisGosterDialog::SatisGosterDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,13 +35,20 @@ void SatisGosterDialog::sepetiCek()
     satisFaturaNo.truncate(10);
     satilmisSepet = vt->getSatis(satisFaturaNo);
     qr = vt->getIslemInfo(satisFaturaNo);
-    this->setWindowTitle(satisFaturaNo + " nolu " + qr.value(11).toString() + " işlemi");
+    switch (qr.value(11).toInt()) {
+    case 2:
+        this->setWindowTitle(satisFaturaNo + " nolu " + "SATIŞ" + " işlemi");
+        break;
+    case 3:
+        this->setWindowTitle(satisFaturaNo + " nolu " + "İADE" + " işlemi");
+        break;
+    }
     cari = vt->getCariKart(qr.value(7).toString());
     ui->islemYapilanCariLabel->setText(cari.getAd());
-    ui->odenenLabel->setText("₺" + qr.value(5).toString());
-    ui->kalanLabel->setText("₺" + qr.value(6).toString());
+    ui->odenenLabel->setText("₺" + QString::number(qr.value(5).toDouble(), 'f', 2));
+    ui->kalanLabel->setText("₺" + QString::number(qr.value(6).toDouble(), 'f', 2));
     ui->tarihLabel->setText(qr.value(8).toDate().toString("dd.MM.yyyy") + " " + qr.value(8).toTime().toString("hh:mm"));
-    ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari()));
+    ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
     int satirIndex = 0;
     ui->sepetTableWidget->model()->removeRows(0, ui->sepetTableWidget->rowCount());
     foreach (auto urun, satilmisSepet.urunler) {

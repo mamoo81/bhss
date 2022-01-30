@@ -5,6 +5,7 @@
 #include "user.h"
 #include "birimekleform.h"
 #include "satisgrafigiform.h"
+#include "stokgircikdialog.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -485,5 +486,33 @@ void StokFrom::on_SatisGrafikBtn_clicked()
 {
     SatisGrafigiForm *grafikForm = new SatisGrafigiForm(this);
     grafikForm->exec();
+}
+
+
+
+void StokFrom::on_StokGirBtn_clicked()
+{
+    StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+    stokMiktarigirForm->setKullanici(kullanici);
+    stokMiktarigirForm->setWindowTitle("Stok Gir");
+    stokMiktarigirForm->setIslem("GİRİŞ");
+    stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
+    stokMiktarigirForm->exec();
+    stokKartlariniListele();
+    delete stokMiktarigirForm;
+}
+
+
+void StokFrom::on_StokCikBtn_clicked()
+{
+    StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+    stokMiktarigirForm->setKullanici(kullanici);
+    stokMiktarigirForm->setWindowTitle("Stok Çık");
+    stokMiktarigirForm->setIslem("ÇIKIŞ");
+    stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
+    stokMiktarigirForm->exec();
+    stokKartlariniListele();
+    ui->StokKartlaritableView->selectRow(seciliSatirIndex);
+    delete stokMiktarigirForm;
 }
 

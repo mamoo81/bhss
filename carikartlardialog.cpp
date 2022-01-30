@@ -35,7 +35,6 @@ void CariKartlarDialog::formLoad()
     setVergiDaireleri(vt.getVergiDaireleri());
     //cari kartların getirilmesi
     CariKartlarDialog::cariKartlariListele();
-
     //tarihleri ayarlama
     ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
     connect(ui->CariKartHareketleritableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriTableSelectionChanged()));
@@ -56,7 +55,6 @@ void CariKartlarDialog::cariHareketleriListele()
     ui->CariKartHareketleritableView->resizeColumnsToContents();
     ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
     ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID), 'f', 2));
-
     // butonların aktif/pasif durumları ayarlama
     if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() != "1000"){//direkt carisi ise es geç
         ui->CaridenTahsilatYaptoolButton->setEnabled(true);
@@ -101,7 +99,6 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 
 void CariKartlarDialog::on_YenitoolButton_clicked()
 {
-    ui->SiltoolButton->setEnabled(false);
     YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
     yeniCari->exec();
     CariKartlarDialog::cariKartlariListele();
@@ -191,5 +188,27 @@ void CariKartlarDialog::on_CariyiBorclandirtoolButton_clicked()
     cariHareketForm->exec();
     CariKartlarDialog::cariHareketleriListele();
     delete cariHareketForm;
+}
+
+void CariKartlarDialog::on_DuzenletoolButton_clicked()
+{
+    if(ui->CariKartlartableView->currentIndex().row() > 0){
+        YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
+        yeniCari->setWindowTitle("Cari Kartı Düzenle");
+        yeniCari->setDuzenle(true);
+        yeniCari->setDuzenlenecekCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+        yeniCari->exec();
+        CariKartlarDialog::cariKartlariListele();
+        delete yeniCari;
+    }
+    else{
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("DİREKT carisini düzenleyemessiniz!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
 }
 

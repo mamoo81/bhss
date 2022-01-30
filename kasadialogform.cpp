@@ -135,7 +135,8 @@ void KasaDialogForm::on_DuzelttoolButton_clicked()
 
 void KasaDialogForm::on_SiltoolButton_clicked()
 {
-    if(ui->KasaHareketleritableView->currentIndex().row() > -1){
+    QItemSelectionModel *seciliSatir = ui->KasaHareketleritableView->selectionModel();
+    if(seciliSatir->hasSelection()){
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Information);
@@ -170,5 +171,6 @@ void KasaDialogForm::on_SiltoolButton_clicked()
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
+    delete seciliSatir;
 }
 

@@ -65,7 +65,7 @@
      <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -180,7 +180,11 @@
      </widget>
     </item>
     <item row="9" column="1" colspan="4">
-     <widget class="QLineEdit" name="TelefonlineEdit"/>
+     <widget class="QLineEdit" name="TelefonlineEdit">
+      <property name="maxLength">
+       <number>10</number>
+      </property>
+     </widget>
     </item>
     <item row="10" column="0">
      <widget class="QLabel" name="label_11">

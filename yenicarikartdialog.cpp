@@ -18,6 +18,11 @@ YeniCariKartDialog::~YeniCariKartDialog()
     delete ui;
 }
 
+void YeniCariKartDialog::setDuzenle(bool newDuzenle)
+{
+    duzenle = newDuzenle;
+}
+
 void YeniCariKartDialog::FormLoad()
 {
     ui->CariTipicomboBox->addItems(vt->getCariTipleri());
@@ -47,21 +52,75 @@ void YeniCariKartDialog::on_ilcomboBox_currentIndexChanged(int index)
 void YeniCariKartDialog::on_KaydetpushButton_clicked()
 {
     QLocale turkce(QLocale::Turkish, QLocale::Turkey);
-    Cari yeniCari;
-    yeniCari.setTarih(QDateTime::currentDateTime());
-    yeniCari.setAd(turkce.toUpper(ui->CariAdilineEdit->text()));
-    yeniCari.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
-    yeniCari.setTip(ui->CariTipicomboBox->currentIndex() + 1);// currentindex 'e +1 ekliyorum. veritabanındaki caritipleri id'sine denk gelsin diye
-    yeniCari.setVerigino(ui->VergiNolineEdit->text());
-    yeniCari.setVergiDaire(turkce.toUpper(ui->VergiDairesilineEdit->text()));
-    yeniCari.setIl(turkce.toUpper(ui->ilcomboBox->currentText()));
-    yeniCari.setIlce(turkce.toUpper(ui->ilcecomboBox->currentText()));
-    yeniCari.setAdres(turkce.toUpper(ui->AdresplainTextEdit->placeholderText()));
-    yeniCari.setMail(ui->MaillineEdit->text());
-    yeniCari.setTelefon(ui->TelefonlineEdit->text());
-    yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));
-    vt->yeniCariKart(yeniCari);
-
+    if(duzenle){
+        duzenlenecekCariKart.setAd(turkce.toUpper(ui->CariAdilineEdit->text()));
+        duzenlenecekCariKart.setTip(ui->CariTipicomboBox->currentIndex() + 1);// caritipleri tablosunda ki tip id'sine denk gelmesi için +1 ekliyorum.
+        duzenlenecekCariKart.setVerigino(ui->VergiNolineEdit->text());
+        duzenlenecekCariKart.setVergiDaire(turkce.toUpper(ui->VergiDairesilineEdit->text()));
+        duzenlenecekCariKart.setIl(turkce.toUpper(ui->ilcomboBox->currentText()));
+        duzenlenecekCariKart.setIlce(turkce.toUpper(ui->ilcecomboBox->currentText()));
+        duzenlenecekCariKart.setAdres(turkce.toUpper(ui->AdresplainTextEdit->toPlainText()));
+        duzenlenecekCariKart.setMail(ui->MaillineEdit->text());
+        duzenlenecekCariKart.setTelefon(ui->TelefonlineEdit->text());
+        duzenlenecekCariKart.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->toPlainText()));
+        duzenlenecekCariKart.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
+        bool sonuc = vt->cariKartDuzenle(duzenlenecekCariKart);
+        if(sonuc){
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Cari kart düzenlendi");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Cari kart düzenlenlenemedi!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+    }
+    else{
+        Cari yeniCari;
+        yeniCari.setTarih(QDateTime::currentDateTime());
+        yeniCari.setAd(turkce.toUpper(ui->CariAdilineEdit->text()));
+        yeniCari.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
+        yeniCari.setTip(ui->CariTipicomboBox->currentIndex() + 1);// currentindex 'e +1 ekliyorum. veritabanındaki caritipleri id'sine denk gelsin diye
+        yeniCari.setVerigino(ui->VergiNolineEdit->text());
+        yeniCari.setVergiDaire(turkce.toUpper(ui->VergiDairesilineEdit->text()));
+        yeniCari.setIl(turkce.toUpper(ui->ilcomboBox->currentText()));
+        yeniCari.setIlce(turkce.toUpper(ui->ilcecomboBox->currentText()));
+        yeniCari.setAdres(turkce.toUpper(ui->AdresplainTextEdit->placeholderText()));
+        yeniCari.setMail(ui->MaillineEdit->text());
+        yeniCari.setTelefon(ui->TelefonlineEdit->text());
+        yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));
+        vt->yeniCariKart(yeniCari);
+    }
     this->close();
 }
+
+void YeniCariKartDialog::setDuzenlenecekCariID(const QString &newDuzenlenecekCariID)
+{
+    duzenlenecekCariID = newDuzenlenecekCariID;
+    if(duzenle){
+        duzenlenecekCariKart = vt->getCariKart(duzenlenecekCariID);
+        ui->CariAdilineEdit->setText(duzenlenecekCariKart.getAd());
+        ui->YetkililineEdit->setText(duzenlenecekCariKart.getYetkili());
+        ui->CariTipicomboBox->setCurrentIndex(duzenlenecekCariKart.getTip() - 1);// currentindex 'e -1 ekliyorum. veritabanındaki caritipleri id'sine denk gelsin diye
+        ui->VergiNolineEdit->setText(duzenlenecekCariKart.getVerigino());
+        ui->VergiDairesilineEdit->setText(duzenlenecekCariKart.getVergiDaire());
+        ui->ilcomboBox->setCurrentIndex(ui->ilcomboBox->findText(duzenlenecekCariKart.getIl()));
+        ui->ilcecomboBox->setCurrentIndex(ui->ilcecomboBox->findText(duzenlenecekCariKart.getIlce()));
+        ui->AdresplainTextEdit->setPlainText(duzenlenecekCariKart.getAdres());
+        ui->MaillineEdit->setText(duzenlenecekCariKart.getMail());
+        ui->TelefonlineEdit->setText(duzenlenecekCariKart.getTelefon());
+        ui->AciklamaplainTextEdit->setPlainText(duzenlenecekCariKart.getAciklama());
+    }
+}
+
 

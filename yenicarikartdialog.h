@@ -18,6 +18,10 @@ public:
 
     Veritabani *vt = new Veritabani();
 
+    void setDuzenle(bool newDuzenle);
+
+    void setDuzenlenecekCariID(const QString &newDuzenlenecekCariID);
+
 private slots:
     void FormLoad();
     void on_iptalpushButton_clicked();
@@ -28,6 +32,10 @@ private slots:
 
 private:
     Ui::YeniCariKartDialog *ui;
+
+    bool duzenle;
+    QString duzenlenecekCariID;
+    Cari duzenlenecekCariKart;
 };
 
 #endif // YENICARIKARTDIALOG_H

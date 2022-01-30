@@ -30,6 +30,7 @@ SOURCES += \
     satisyapform.cpp \
     sepet.cpp \
     stokfrom.cpp \
+    stokgircikdialog.cpp \
     stokgrupform.cpp \
     stokkarti.cpp \
     urun.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
     satisyapform.h \
     sepet.h \
     stokfrom.h \
+    stokgircikdialog.h \
     stokgrupform.h \
     stokkarti.h \
     urun.h \
@@ -88,6 +90,7 @@ FORMS += \
     satisgrafigiform.ui \
     satisyapform.ui \
     stokfrom.ui \
+    stokgircikdialog.ui \
     stokgrupform.ui \
     yenicariform.ui \
     yenicarikartdialog.ui

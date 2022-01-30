@@ -920,7 +920,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="SatisGrfBtn_2">
+  <widget class="QToolButton" name="StokGirBtn">
    <property name="geometry">
     <rect>
      <x>800</x>
@@ -932,7 +932,7 @@
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>10</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="text">
@@ -952,7 +952,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="SatisGrfBtn_3">
+  <widget class="QToolButton" name="StokCikBtn">
    <property name="geometry">
     <rect>
      <x>940</x>
@@ -964,7 +964,7 @@
    <property name="font">
     <font>
      <family>Monospace</family>
-     <pointsize>10</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="text">
@@ -984,7 +984,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="SatisGrfBtn_4">
+  <widget class="QToolButton" name="IslemDuzenleBtn">
    <property name="geometry">
     <rect>
      <x>800</x>
@@ -1016,7 +1016,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="SatisGrfBtn_5">
+  <widget class="QToolButton" name="IslemSilBtn">
    <property name="geometry">
     <rect>
      <x>800</x>
@@ -1089,7 +1089,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -1173,7 +1173,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -1235,10 +1235,10 @@
   <tabstop>StokKartlaritableView</tabstop>
   <tabstop>dosyadanToolButton</tabstop>
   <tabstop>adRadioButton_2</tabstop>
-  <tabstop>SatisGrfBtn_2</tabstop>
-  <tabstop>SatisGrfBtn_3</tabstop>
-  <tabstop>SatisGrfBtn_4</tabstop>
-  <tabstop>SatisGrfBtn_5</tabstop>
+  <tabstop>StokGirBtn</tabstop>
+  <tabstop>StokCikBtn</tabstop>
+  <tabstop>IslemDuzenleBtn</tabstop>
+  <tabstop>IslemSilBtn</tabstop>
   <tabstop>AciklamaLnEdit</tabstop>
   <tabstop>StokGrupBtn</tabstop>
   <tabstop>adRadioButton</tabstop>

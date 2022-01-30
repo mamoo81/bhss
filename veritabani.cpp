@@ -84,29 +84,12 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
         qDebug() << sorgu.lastError().text();
     }
     //kasa hareketi girme ve kasaya para giriş/çıkış
-    KasaHareketiEkle(_satisYapanKullanici, "GİRİŞ", _satilacakSepet.sepetToplamTutari(), "SATIŞ FAT.NO:" + yeniFaturaNo, QDateTime::currentDateTime(), _satilacakSepet.getSepettekiKazanc());
-//    sorgu.exec("SELECT * FROM kasa");
-//    sorgu.next();
-//    double suankiPara = sorgu.value(1).toDouble();
-//    double guncelKasaPara = suankiPara + _satilacakSepet.sepetToplamTutari();
-//    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-//    sorgu.bindValue(0, guncelKasaPara);
-//    sorgu.exec();
-//    if(sorgu.lastError().isValid()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //kasa hareketlerini girme
-//    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih, kar) "
-//                    "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?)");
-//    sorgu.bindValue(0, _satilacakSepet.sepetToplamTutari());
-//    sorgu.bindValue(1, _satisYapanKullanici.getUserID());
-//    sorgu.bindValue(2, "GİRİŞ");
-//    sorgu.bindValue(3, QDateTime::currentDateTime());
-//    sorgu.bindValue(4, _satilacakSepet.getSepettekiKazanc());
-//    sorgu.exec();
-//    if(sorgu.lastError().isValid()){
-//        qDebug() << sorgu.lastError().text();
-//    }
+    KasaHareketiEkle(_satisYapanKullanici,
+                     "GİRİŞ",
+                     _satilacakSepet.sepetToplamTutari(),
+                     "SATIŞ FAT.NO:" + yeniFaturaNo,
+                     QDateTime::currentDateTime(),
+                     _satilacakSepet.getSepettekiKazanc());
     //sepetteki ürünlerin stok hareketlerine girişi
     foreach (auto urun, _satilacakSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
@@ -988,6 +971,31 @@ void Veritabani::yeniCariKart(Cari _cariKart)
     }
 }
 
+bool Veritabani::cariKartDuzenle(Cari _cariKart)
+{
+    sorgu.prepare("UPDATE carikartlar "
+                    "SET ad = ?, tip = ?, vergi_no = ?, vergi_daire = ?, il = ?, ilce = ?, adres = ?, mail = ?, telefon = ?, aciklama = ?, yetkili = ? "
+                    "WHERE id = ?") ;
+    sorgu.bindValue(0, _cariKart.getAd());
+    sorgu.bindValue(1, _cariKart.getTip());
+    sorgu.bindValue(2, _cariKart.getVerigino());
+    sorgu.bindValue(3, _cariKart.getVergiDaire());
+    sorgu.bindValue(4, _cariKart.getIl());
+    sorgu.bindValue(5, _cariKart.getIlce());
+    sorgu.bindValue(6, _cariKart.getAdres());
+    sorgu.bindValue(7, _cariKart.getMail());
+    sorgu.bindValue(8, _cariKart.getTelefon());
+    sorgu.bindValue(9, QDateTime::currentDateTime().toString() + " <- tarihinde güncellendi.");
+    sorgu.bindValue(10, _cariKart.getYetkili());
+    sorgu.bindValue(11, _cariKart.getId());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+        return false;
+    }
+    return true;
+}
+
 void Veritabani::cariKartSil(QString _cariID)
 {
     sorgu.prepare("DELETE FROM carikartlar WHERE id = ?");
@@ -1064,6 +1072,53 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
         kart.setAciklama(sorgu.value(14).toString());
     }
     return kart;
+}
+
+void Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar)
+{
+    float mevcutStokMiktari = 0;
+    sorgu.exec("SELECT miktar FROM stokkartlari WHERE id = ?");
+    if(sorgu.next()){
+        mevcutStokMiktari = sorgu.value(0).toFloat();
+    }
+    QString barkod;
+    sorgu.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
+    sorgu.bindValue(0, _stokKartiID);
+    sorgu.exec();
+    if(sorgu.next()){
+        barkod = sorgu.value(0).toString();
+    }
+    if(_islem == "GİRİŞ"){
+        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+        sorgu.bindValue(0, mevcutStokMiktari + _Miktar);
+        sorgu.bindValue(1, _stokKartiID);
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+        }
+        stokHareketiEkle(_kullanici, barkod, _islem, _Miktar);
+    }
+    else if(_islem == "ÇIKIŞ"){
+        if(mevcutStokMiktari <= _Miktar){
+            sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+            sorgu.bindValue(0, (mevcutStokMiktari - _Miktar));
+            sorgu.bindValue(1, _stokKartiID);
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+            }
+            stokHareketiEkle(_kullanici, barkod, _islem, _Miktar);
+        }
+        else{
+            QMessageBox msg(0);
+            msg.setWindowTitle("Uyari");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Stoktan düşülecek miktar stok miktarından fazla olamaz.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+    }
 }
 
 void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
@@ -1280,6 +1335,22 @@ QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod, QDateTime _basla
     sorgu.exec();
     stokHareketleriModel->setQuery(sorgu);
     return stokHareketleriModel;
+}
+
+void Veritabani::stokHareketiEkle(User _kullanici, QString _barkod, QString _islem, float _miktar)
+{
+    sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama "
+                    "VALUES (?, ?, ?, ?, ?, ?)");
+    sorgu.bindValue(0, _barkod);
+    sorgu.bindValue(1, _islem);
+    sorgu.bindValue(2, _miktar);
+    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(4, _kullanici.getUserID());
+    sorgu.bindValue(5, "STOK GİRİŞİ");
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
 }
 
 QStringList Veritabani::getStokBirimleri()

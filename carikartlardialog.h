@@ -48,6 +48,8 @@ private slots:
 
     void on_CariyiBorclandirtoolButton_clicked();
 
+    void on_DuzenletoolButton_clicked();
+
 private:
     Ui::CariKartlarDialog *ui;
 
