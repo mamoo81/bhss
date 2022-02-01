@@ -100,6 +100,8 @@ void StokFrom::on_YeniBtn_clicked()
         ui->StokKartlaritableView->setEnabled(false);
         ui->AraLineEdit->setEnabled(false);
         ui->araBtn->setEnabled(false);
+        ui->StokGirBtn->setEnabled(false);
+        ui->StokCikBtn->setEnabled(false);
         //textbox ve butonlar
         ui->BarkodLnEdit->setEnabled(true);
         ui->BarkodOlusturBtn->setEnabled(true);
@@ -139,12 +141,14 @@ void StokFrom::on_DuzenleBtn_clicked()
             ui->StokKartlaritableView->setEnabled(false);
             ui->AraLineEdit->setEnabled(false);
             ui->araBtn->setEnabled(false);
+            ui->StokGirBtn->setEnabled(false);
+            ui->StokCikBtn->setEnabled(false);
+            ui->MiktarLnEdit->setEnabled(false);
             //textbox ve butonlar
             ui->BarkodLnEdit->setEnabled(true);
             ui->StokKoduLnEdit->setEnabled(true);
             ui->StokAdiLnEdit->setEnabled(true);
             ui->BirimiComboBox->setEnabled(true);
-            ui->MiktarLnEdit->setEnabled(true);
             ui->StokGrubuComboBox->setEnabled(true);
             ui->AFiyatdoubleSpinBox->setEnabled(true);
             ui->SFiyatdoubleSpinBox->setEnabled(true);
@@ -187,6 +191,8 @@ void StokFrom::on_IptalBtn_clicked()
     ui->StokKartlaritableView->setEnabled(true);
     ui->AraLineEdit->setEnabled(true);
     ui->araBtn->setEnabled(true);
+    ui->StokGirBtn->setEnabled(true);
+    ui->StokCikBtn->setEnabled(true);
 
     ui->BarkodLnEdit->setEnabled(false);
     ui->BarkodOlusturBtn->setEnabled(false);
@@ -492,6 +498,7 @@ void StokFrom::on_SatisGrafikBtn_clicked()
 
 void StokFrom::on_StokGirBtn_clicked()
 {
+    int seciliStokIndex = ui->StokKartlaritableView->currentIndex().row();
     StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
     stokMiktarigirForm->setKullanici(kullanici);
     stokMiktarigirForm->setWindowTitle("Stok Gir");
@@ -500,11 +507,13 @@ void StokFrom::on_StokGirBtn_clicked()
     stokMiktarigirForm->exec();
     stokKartlariniListele();
     delete stokMiktarigirForm;
+    ui->StokKartlaritableView->selectRow(seciliStokIndex);
 }
 
 
 void StokFrom::on_StokCikBtn_clicked()
 {
+    int seciliStokIndex = ui->StokKartlaritableView->currentIndex().row();
     StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
     stokMiktarigirForm->setKullanici(kullanici);
     stokMiktarigirForm->setWindowTitle("Stok Çık");
@@ -512,7 +521,7 @@ void StokFrom::on_StokCikBtn_clicked()
     stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
     stokMiktarigirForm->exec();
     stokKartlariniListele();
-    ui->StokKartlaritableView->selectRow(seciliSatirIndex);
     delete stokMiktarigirForm;
+    ui->StokKartlaritableView->selectRow(seciliStokIndex);
 }
 

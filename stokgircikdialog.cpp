@@ -44,8 +44,14 @@ void StokGirCikDialog::setIslem(const QString &newIslem)
 
 void StokGirCikDialog::on_pushButton_clicked()
 {
-    vt->setStokMiktari(kullanici, stokKartiID, islem, ui->doubleSpinBox->value());
-    this->close();
+    bool basarilimi = vt->setStokMiktari(kullanici, stokKartiID, islem, ui->doubleSpinBox->value());
+    if(basarilimi){
+        this->close();
+    }
+    else{
+        ui->doubleSpinBox->selectAll();
+        ui->doubleSpinBox->setFocus();
+    }
 }
 
 void StokGirCikDialog::setKullanici(const User &newKullanici)

@@ -1074,10 +1074,12 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
     return kart;
 }
 
-void Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar)
+bool Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar)
 {
     float mevcutStokMiktari = 0;
-    sorgu.exec("SELECT miktar FROM stokkartlari WHERE id = ?");
+    sorgu.prepare("SELECT miktar FROM stokkartlari WHERE id = ?");
+    sorgu.bindValue(0, _stokKartiID);
+    sorgu.exec();
     if(sorgu.next()){
         mevcutStokMiktari = sorgu.value(0).toFloat();
     }
@@ -1097,9 +1099,10 @@ void Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
             qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
         }
         stokHareketiEkle(_kullanici, barkod, _islem, _Miktar);
+        return true;
     }
     else if(_islem == "ÇIKIŞ"){
-        if(mevcutStokMiktari <= _Miktar){
+        if(mevcutStokMiktari >= _Miktar){
             sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
             sorgu.bindValue(0, (mevcutStokMiktari - _Miktar));
             sorgu.bindValue(1, _stokKartiID);
@@ -1108,6 +1111,7 @@ void Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
                 qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
             }
             stokHareketiEkle(_kullanici, barkod, _islem, _Miktar);
+            return true;
         }
         else{
             QMessageBox msg(0);
@@ -1117,6 +1121,7 @@ void Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
             msg.setStandardButtons(QMessageBox::Ok);
             msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
+            return false;
         }
     }
 }
@@ -1339,7 +1344,7 @@ QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod, QDateTime _basla
 
 void Veritabani::stokHareketiEkle(User _kullanici, QString _barkod, QString _islem, float _miktar)
 {
-    sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama "
+    sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                     "VALUES (?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _barkod);
     sorgu.bindValue(1, _islem);

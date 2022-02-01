@@ -38,7 +38,7 @@ private:
 
 public slots:
     StokKarti getStokKarti(QString _Barkod);
-    void setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar);
+    bool setStokMiktari(User _kullanici, QString _stokKartiID, QString _islem, float _Miktar);
     User GetUserInfos(QString _UserName);
     QList<Cari> getCariKartlar();
     Cari getCariKart(QString _cariID);
