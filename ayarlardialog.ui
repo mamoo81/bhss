@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -253,6 +253,11 @@
    <widget class="QWidget" name="tabVeritabani">
     <attribute name="title">
      <string>Veritabanı</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabHakkinda">
+    <attribute name="title">
+     <string>Hakkında</string>
     </attribute>
    </widget>
   </widget>

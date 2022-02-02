@@ -546,7 +546,7 @@
      <x>480</x>
      <y>10</y>
      <width>391</width>
-     <height>141</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -557,8 +557,8 @@
    </property>
    <property name="font">
     <font>
-     <family>Sans Serif</family>
-     <pointsize>20</pointsize>
+     <family>Monospace</family>
+     <pointsize>16</pointsize>
     </font>
    </property>
    <property name="autoFillBackground">
@@ -573,7 +573,7 @@ color: rgb(0, 255, 0);</string>
     <bool>false</bool>
    </property>
    <property name="digitCount">
-    <number>7</number>
+    <number>8</number>
    </property>
    <property name="segmentStyle">
     <enum>QLCDNumber::Flat</enum>

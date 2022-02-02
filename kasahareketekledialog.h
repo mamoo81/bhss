@@ -61,6 +61,8 @@ private slots:
 
     void on_iptalpushButton_clicked();
 
+    void on_tarihdateEdit_dateTimeChanged(const QDateTime &dateTime);
+
 private:
     Ui::KasaHareketEkleDialog *ui;
 

@@ -90,6 +90,18 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
+        else if(_StokKarti.getBirim() == "METRE"){
+            Urun urun;
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.birimFiyat = _StokKarti.getSFiyat();
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * _StokKarti.getSFiyat();
+            urunler.insert(_StokKarti.getBarkod(), urun);
+        }
     }
     else{// arrayde var ise
         if(_StokKarti.getBirim() == "ADET"){
@@ -97,6 +109,10 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }
         else if(_StokKarti.getBirim() == "KİLOGRAM"){
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
+        }
+        else if(_StokKarti.getBirim() == "METRE"){
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }
@@ -175,7 +191,7 @@ double Sepet::getSepettekiKazanc()
 {
     double toplam = 0;
     foreach (auto urun, urunler) {
-        toplam += urun.birimFiyat - urun.alisFiyat;
+        toplam += (urun.birimFiyat - urun.alisFiyat) * urun.miktar;
     }
     return toplam;
 }

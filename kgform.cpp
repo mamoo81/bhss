@@ -39,4 +39,12 @@ void KgForm::on_pushButton_clicked()
     }
 }
 
+void KgForm::setBirimi(const QString &newBirimi)
+{
+    birimi = newBirimi;
+    if(birimi == "METRE"){
+        ui->label->setText("Metre giriniz");
+    }
+}
+
 

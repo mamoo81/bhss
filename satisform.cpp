@@ -277,6 +277,19 @@ void SatisForm::sepeteEkle()
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
                 }
+                delete kgformu;
+            }
+            else if(stokKarti.getBirim() == "METRE"){
+                KgForm *kgformu = new KgForm(this);
+                kgformu->setWindowTitle("Metre Girişi");
+                kgformu->setBirimi("METRE");
+                kgformu->setModal(true);
+                kgformu->exec();
+                if(kgformu->getGirilenKg() != 0){
+                    tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                }
+                delete kgformu;
             }
             ui->barkodLineEdit->clear();
             sepetToplaminiYaz();
@@ -478,7 +491,8 @@ void SatisForm::adetCarp()
     msg.setButtonText(QMessageBox::Ok, "Tamam");
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
-        if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+        if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"
+            || ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "METRE"){
             //adet girme formu açılması
             adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].miktar;
             adetForm->exec();
@@ -495,7 +509,8 @@ void SatisForm::adetCarp()
         }
         break;
     case 1:
-        if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+        if(ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 3).data().toString() == "ADET"
+            || ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "METRE"){
             // adet girme formu açılması
             adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].miktar;
             adetForm->exec();
@@ -511,7 +526,8 @@ void SatisForm::adetCarp()
         }
         break;
     case 2:
-        if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+        if(ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 3).data().toString() == "ADET"
+            || ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "METRE"){
             // adet girme formu açılması
             adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].miktar;
             adetForm->exec();
@@ -527,7 +543,8 @@ void SatisForm::adetCarp()
         }
         break;
     case 3:
-        if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"){
+        if(ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 3).data().toString() == "ADET"
+            || ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "METRE"){
             // adet girme formu açılması
             adetForm->carpilacakAdet = sepet[ui->SepetlertabWidget->currentIndex()].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].miktar;
             adetForm->exec();
@@ -2237,8 +2254,15 @@ void SatisForm::keyPressEvent(QKeyEvent *event)
             SatisForm::on_sepetSilBtn_clicked();
         }
     }
+    else if(event->key() == Qt::Key_F10){
+        SatisForm::on_CariKartlarBtn_clicked();
+    }
     else if(event->key() == Qt::Key_F11){
         // kasa formu açılacak
+        SatisForm::on_KasaBtn_clicked();
+    }
+    else if(event->key() == Qt::Key_F12){
+        SatisForm::on_AyarlarBtn_clicked();
     }
 }
 
@@ -2284,6 +2308,17 @@ void SatisForm::on_artirBtn_clicked()
             kgformu->setModal(true);
             kgformu->exec();
             sepet[0].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // metre giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[0].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[0].urunBilgileriniGetir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2299,6 +2334,17 @@ void SatisForm::on_artirBtn_clicked()
             kgformu->setModal(true);
             kgformu->exec();
             sepet[1].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[1].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[1].urunBilgileriniGetir(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2314,6 +2360,17 @@ void SatisForm::on_artirBtn_clicked()
             kgformu->setModal(true);
             kgformu->exec();
             sepet[2].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[2].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[2].urunBilgileriniGetir(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2329,6 +2386,17 @@ void SatisForm::on_artirBtn_clicked()
             kgformu->setModal(true);
             kgformu->exec();
             sepet[3].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[3].urunArtir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[3].urunBilgileriniGetir(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2350,6 +2418,21 @@ void SatisForm::on_azaltBtn_clicked()
         }
         else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[0].urunAzalt(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // metre giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[0].urunAzalt(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[0].urunBilgileriniGetir(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet1TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2361,6 +2444,21 @@ void SatisForm::on_azaltBtn_clicked()
         }
         else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[1].urunAzalt(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // metre giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[1].urunAzalt(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[1].urunBilgileriniGetir(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet2TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2372,6 +2470,21 @@ void SatisForm::on_azaltBtn_clicked()
         }
         else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[2].urunAzalt(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // metre giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[2].urunAzalt(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[2].urunBilgileriniGetir(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet3TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2383,6 +2496,21 @@ void SatisForm::on_azaltBtn_clicked()
         }
         else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "KİLOGRAM"){
             // kilogram giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[3].urunAzalt(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
+        }
+        else if(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 3).data() == "METRE"){
+            // metre giriş formu gösterilecek alınan değer gönderilecek.
+            KgForm *kgformu = new KgForm(this);
+            kgformu->setWindowTitle("Metre Girişi");
+            kgformu->setBirimi("METRE");
+            kgformu->setModal(true);
+            kgformu->exec();
+            sepet[3].urunAzalt(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString(), kgformu->getGirilenKg());
+            delete kgformu;
         }
         guncelUrun = sepet[3].urunBilgileriniGetir(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(), 0).data().toString());
         ui->sepet4TableWidget->setItem(getSeciliSatirIndexi(), 4, new QTableWidgetItem(QString::number(guncelUrun.miktar)));
@@ -2404,7 +2532,6 @@ void SatisForm::on_satirSilBtn_clicked()
     msgBox.setDefaultButton(QMessageBox::Yes);
     msgBox.setButtonText(QMessageBox::Yes, "Evet");
     msgBox.setButtonText(QMessageBox::No, "Hayır");
-    msgBox.setModal(true);
     int cevap;
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:

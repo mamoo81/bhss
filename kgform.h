@@ -16,6 +16,8 @@ public:
     ~KgForm();
 
     float girilenKilo = 0;
+    void setBirimi(const QString &newBirimi);
+
 public slots:
     float getGirilenKg();
 
@@ -24,6 +26,7 @@ private slots:
 
 private:
     Ui::KgForm *ui;
+    QString birimi;
 };
 
 #endif // KGFORM_H

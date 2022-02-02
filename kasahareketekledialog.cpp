@@ -24,6 +24,7 @@
 //**************************************
 #include <QMessageBox>
 #include <QDebug>
+#include <QThread>
 
 KasaHareketEkleDialog::KasaHareketEkleDialog(QWidget *parent) :
     QDialog(parent),
@@ -140,3 +141,22 @@ void KasaHareketEkleDialog::setTarih(const QDateTime newTarih)
         ui->tarihdateEdit->setDateTime(QDateTime::currentDateTime());
     }
 }
+
+void KasaHareketEkleDialog::on_tarihdateEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+    if(QDateTime::currentDateTime() < dateTime){
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Kasa giriş/çıkış işlemini ileri bir tarihe yapamazsınız!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+        QThread::msleep(100);
+        ui->KaydetpushButton->setEnabled(false);
+    }
+    else{
+        ui->KaydetpushButton->setEnabled(true);
+    }
+}
+
