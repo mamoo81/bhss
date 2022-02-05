@@ -33,6 +33,7 @@ SOURCES += \
     stokgircikdialog.cpp \
     stokgrupform.cpp \
     stokkarti.cpp \
+    toplustokyukledialog.cpp \
     urun.cpp \
     user.cpp \
     veritabani.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     stokgircikdialog.h \
     stokgrupform.h \
     stokkarti.h \
+    toplustokyukledialog.h \
     urun.h \
     user.h \
     veritabani.h \
@@ -92,6 +94,7 @@ FORMS += \
     stokfrom.ui \
     stokgircikdialog.ui \
     stokgrupform.ui \
+    toplustokyukledialog.ui \
     yenicariform.ui \
     yenicarikartdialog.ui
 

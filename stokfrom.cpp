@@ -6,6 +6,7 @@
 #include "birimekleform.h"
 #include "satisgrafigiform.h"
 #include "stokgircikdialog.h"
+#include "toplustokyukledialog.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -462,10 +463,11 @@ void StokFrom::on_araBtn_clicked()
 
 void StokFrom::on_dosyadanToolButton_clicked()
 {
-
+    TopluStokYukleDialog *stokYukleForm = new TopluStokYukleDialog(this);
+    stokYukleForm->exec();
+    stokKartlariniListele();
+    delete stokYukleForm;
 }
-
-
 
 void StokFrom::on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime)
 {
