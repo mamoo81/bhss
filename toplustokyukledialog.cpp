@@ -60,10 +60,21 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
                 sorgu.bindValue(2, value["marka"].toString());
                 sorgu.bindValue(3, value["ad"].toString());
                 sorgu.bindValue(4, value["birim"].toString());
-                sorgu.bindValue(5, value["miktar"].toVariant().value<float>());
+                if(ui->miktarcheckBox->isChecked()){// seçili ise miktarları 10000 adet/kg/metre girer.
+                    sorgu.bindValue(5, 10000);
+                }
+                else{
+                    sorgu.bindValue(5, value["miktar"].toVariant().value<float>());
+                }
                 sorgu.bindValue(6, value["grup"].toString());
-                sorgu.bindValue(7, value["afiyat"].toDouble());
-                sorgu.bindValue(8, value["sfiyat"].toDouble());
+                if(ui->fiyatcheckBox->isChecked()){// seçili ise fiyatları 0 TL girer.
+                    sorgu.bindValue(7, 0);
+                    sorgu.bindValue(8, 0);
+                }
+                else{
+                    sorgu.bindValue(7, value["afiyat"].toDouble());
+                    sorgu.bindValue(8, value["sfiyat"].toDouble());
+                }
                 sorgu.bindValue(9, value["kdv"].toInt());
                 sorgu.bindValue(10, value["kdvdahil"].toBool());
                 sorgu.bindValue(11, value["otv"].toInt());
