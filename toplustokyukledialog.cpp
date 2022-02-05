@@ -82,6 +82,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
             }
             ui->progressBar->setValue(ui->progressBar->value() + 1);
         }
+        ui->Bilgilabel->setText("Aktarım tamamlandı.");
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Warning);
@@ -89,7 +90,6 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
-        ui->Bilgilabel->setText("Aktarım tamamlandı.");
     }
     else{
         QMessageBox msg(this);
