@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>621</width>
+     <width>631</width>
      <height>381</height>
     </rect>
    </property>
@@ -112,7 +112,7 @@
       <rect>
        <x>270</x>
        <y>10</y>
-       <width>341</width>
+       <width>351</width>
        <height>331</height>
       </rect>
      </property>
@@ -221,7 +221,7 @@
       <rect>
        <x>370</x>
        <y>10</y>
-       <width>241</width>
+       <width>251</width>
        <height>25</height>
       </rect>
      </property>
@@ -231,7 +231,7 @@
       <rect>
        <x>370</x>
        <y>40</y>
-       <width>241</width>
+       <width>251</width>
        <height>25</height>
       </rect>
      </property>
@@ -254,11 +254,242 @@
     <attribute name="title">
      <string>Veritabanı</string>
     </attribute>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>301</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Veritabanı Yedekleme</string>
+     </property>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>141</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Yedekleme sıklığı</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>131</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Günlük</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Haftalık</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Aylık</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QCheckBox" name="checkBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>281</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Veritabanını otomatik yedekle</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>0</y>
+       <width>311</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Veritabanı Geri Yükleme</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tabHakkinda">
     <attribute name="title">
      <string>Hakkında</string>
     </attribute>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>611</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;a href=&quot;http://mls.akdeniz.edu.tr/git/mamoo/mhss/&quot;&gt;MİLİS HIZLI SATIŞ SİSTEMİ&lt;/a&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lisans:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>40</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>MIT</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Telif hakkı:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>60</y>
+       <width>311</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2022 Mehmet AKDEMİR &lt;a href=&quot;mailto:bilgi@basat.dev&quot;&gt;bilgi@basat.dev&lt;/a&gt;</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>180</y>
+       <width>621</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Ek bilgiler</string>
+     </property>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>611</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Bu proje Milis Linux'un bir parçasıdır. Milis Linux üzerinde geliştirilmiştir.</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>150</y>
+       <width>611</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;a href=&quot;http://mls.akdeniz.edu.tr/&quot;&gt;MİLİS LİNUX&lt;/a&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>80</y>
+       <width>521</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>mamoo, milisarge, sonnakinci41, yasarciv</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Katkıcılar:</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="pushButton">
@@ -273,8 +504,12 @@
    <property name="text">
     <string>Kaydet</string>
    </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="kapatpushButton">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -284,10 +519,16 @@
     </rect>
    </property>
    <property name="text">
-    <string>İptal</string>
+    <string>Kapat</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>
