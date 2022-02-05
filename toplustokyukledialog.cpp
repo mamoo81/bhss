@@ -27,7 +27,7 @@ void TopluStokYukleDialog::on_SecpushButton_clicked()
     dosyaYolu = QFileDialog::getOpenFileName(this,
                                          "Stok Kartları Dosyasını Seçin",
                                          QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-                                         tr("JSON Dosyası (*.json)"));
+                                         tr("JSON Dosyası (stok-kartlari.json)"));
 
     dosya.setFileName(dosyaYolu);
     QFileInfo dosyaBilgisi(dosya);
