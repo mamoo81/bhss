@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -266,56 +266,284 @@
      <property name="title">
       <string>Veritabanı Yedekleme</string>
      </property>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>141</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Yedekleme sıklığı</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="comboBox">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>60</y>
-        <width>131</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text">
-        <string>Günlük</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Haftalık</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Aylık</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QCheckBox" name="checkBox">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>281</width>
-        <height>21</height>
+        <width>280</width>
+        <height>177</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Veritabanını otomatik yedekle</string>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Yedekleme saati</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Yedekleme sıklığı</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Yedekleme günü</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="comboBox_3">
+         <item>
+          <property name="text">
+           <string>00:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>01:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>02:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>03:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>04:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>05:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>06:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>07:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>08:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>09:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>11:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>12:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>13:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>14:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>15:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>16:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>17:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>18:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>19:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>20:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>21:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>22:00</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>23:00</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Veritabanını otomatik yedekle</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="comboBox">
+         <item>
+          <property name="text">
+           <string>Günlük</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Haftalık</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Aylık</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="comboBox_2">
+         <item>
+          <property name="text">
+           <string>Pazartesi</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Salı</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Çarşamba</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Perşembe</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cuma</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cumartesi</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Pazar</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_17">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 0, 0);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>Bilgisayarın aktif olduğu saatler içerisinde bir saat seçiniz. Aksi takdirde yedekleme yapılmaz. Otomatik yedekleme için Crontab kullanır. </string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>310</y>
+        <width>281</width>
+        <height>31</height>
+       </rect>
       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Elle yedekleme</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="YedeklepushButton">
+         <property name="text">
+          <string>Yedekle</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox_3">
@@ -330,6 +558,32 @@
      <property name="title">
       <string>Veritabanı Geri Yükleme</string>
      </property>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>291</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Yedekten</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="GeriYuklepushButton">
+         <property name="text">
+          <string>Geri yükle</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="tabHakkinda">
@@ -415,6 +669,12 @@
      <property name="text">
       <string>2022 Mehmet AKDEMİR &lt;a href=&quot;mailto:bilgi@basat.dev&quot;&gt;bilgi@basat.dev&lt;/a&gt;</string>
      </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
@@ -460,8 +720,14 @@
      <property name="text">
       <string>&lt;a href=&quot;http://mls.akdeniz.edu.tr/&quot;&gt;MİLİS LİNUX&lt;/a&gt;</string>
      </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="label_13">

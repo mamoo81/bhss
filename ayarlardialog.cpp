@@ -6,6 +6,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QPrinterInfo>
+#include <QFileDialog>
+#include <QDebug>
 
 AyarlarDialog::AyarlarDialog(QWidget *parent) :
     QDialog(parent),
@@ -147,5 +149,61 @@ void AyarlarDialog::on_pushButton_clicked()
 
 
     this->close();
+}
+
+
+void AyarlarDialog::on_YedeklepushButton_clicked()
+{
+    QString dosyaYolu = QFileDialog::getExistingDirectory(this, "Kayt Yeri Seçiniz", QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    if(!dosyaYolu.isEmpty()){
+        bool ok = vt.veritabaniYedekle(dosyaYolu);
+        if(ok){
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Veritabanı Yedeklendi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Veritabanı yedeklenemedi!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+    }
+}
+
+
+void AyarlarDialog::on_GeriYuklepushButton_clicked()
+{
+    QString dosyaYolu = QFileDialog::getOpenFileName(this, "Veritabanı yedeğini seçiniz.",
+                                                     QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                                                     tr("Veritabanı dump dpsyası (*.dump)"));
+    if(!dosyaYolu.isEmpty()){
+        bool ok = vt.veritabaniYedektenGeriYukle(dosyaYolu);
+        if(ok){
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Veritabanı yedekten geri yüklendi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Veritabanı yedekten geri yüklenemedi!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+    }
 }
 

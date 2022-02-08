@@ -34,6 +34,13 @@ private slots:
     void getUsers();
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_YedeklepushButton_clicked();
+
+
+    void on_GeriYuklepushButton_clicked();
+
 private:
     Ui::AyarlarDialog *ui;
 

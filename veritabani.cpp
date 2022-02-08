@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QVariant>
 #include <QDateTime>
+#include <QProcess>
 
 Veritabani::Veritabani()
 {
@@ -300,6 +301,51 @@ bool Veritabani::kasaHareketiSil(User _user, QString _hareketID, QString _hareke
         sorgu.exec();
     }
     return true;
+}
+
+bool Veritabani::veritabaniYedekle(QString _Dir)
+{
+    QString yedeklemeKomutu = "pg_dump -Fc -U postgres mhss_data > ";
+    QString dosyaAdi = "mhss_data-" + QDate::currentDate().toString("dd-MM-yyyy") + ".dump";
+    yedeklemeKomutu += _Dir + "/" + dosyaAdi;
+    int exitCode = system(qPrintable(yedeklemeKomutu));
+    if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
+        // komut başarılı
+        return true;
+    } else {
+        // komut başarısız.
+        return false;
+    }
+}
+
+bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
+{
+    db.close();
+    db.setDatabaseName("postgres");
+    //veritabanını silme
+    db.open();
+    QSqlQuery yedekSorgu = QSqlQuery(db);
+    yedekSorgu.exec("DROP DATABASE mhss_data");
+    if(!QString(yedekSorgu.lastError().text()).isEmpty()){
+        qDebug() << yedekSorgu.lastError().text();
+    }
+    //veritabanını oluşturma
+    yedekSorgu.exec("CREATE DATABASE mhss_data OWNER postgres");
+    if(!QString(yedekSorgu.lastError().text()).isEmpty()){
+        qDebug() << yedekSorgu.lastError().text();
+    }
+    db.close();
+    db.setDatabaseName("mhss_data");
+    db.open();
+    QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data " + _dosyaYolu;
+    int exitCode = system(qPrintable(geriYuklemeKomutu));
+    if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
+        // komut başarılı
+        return true;
+    } else {
+        // komut başarısız.
+        return false;
+    }
 }
 
 bool Veritabani::veritabaniVarmi()
