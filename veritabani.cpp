@@ -303,11 +303,10 @@ bool Veritabani::kasaHareketiSil(User _user, QString _hareketID, QString _hareke
     return true;
 }
 
-bool Veritabani::veritabaniYedekle(QString _Dir)
+bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
     QString yedeklemeKomutu = "pg_dump -Fc -U postgres mhss_data > ";
-    QString dosyaAdi = "mhss_data-" + QDate::currentDate().toString("dd-MM-yyyy") + ".dump";
-    yedeklemeKomutu += _Dir + "/" + dosyaAdi;
+    yedeklemeKomutu += _dirNameAndFileName + ".dump";
     int exitCode = system(qPrintable(yedeklemeKomutu));
     if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
         // komut başarılı

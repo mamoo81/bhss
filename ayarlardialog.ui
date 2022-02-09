@@ -260,7 +260,7 @@
        <x>0</x>
        <y>0</y>
        <width>301</width>
-       <height>351</height>
+       <height>311</height>
       </rect>
      </property>
      <property name="title">
@@ -272,33 +272,26 @@
         <x>10</x>
         <y>30</y>
         <width>280</width>
-        <height>177</height>
+        <height>241</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
           <string>Yedekleme saati</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Yedekleme sıklığı</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Yedekleme günü</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="comboBox_3">
+       <item row="5" column="1">
+        <widget class="QComboBox" name="SaatcomboBox">
          <item>
           <property name="text">
            <string>00:00</string>
@@ -421,15 +414,60 @@
          </item>
         </widget>
        </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_17">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 0, 0);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>Bilgisayarın aktif olduğu saatler içerisinde bir saat seçiniz. Aksi takdirde yedekleme yapılmaz. Aylık yedekleme takip eden her ayın ilk günü yapılır. Haftalık yedekleme takip eden her haftanın ilk günü yapılır. Otomatik yedekleme için Crontab kullanır.</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="KonuSecpushButton">
+         <property name="text">
+          <string>Seç</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="Konumlabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="OtomatikYedekcheckBox">
          <property name="text">
           <string>Veritabanını otomatik yedekle</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="comboBox">
+       <item row="4" column="1">
+        <widget class="QComboBox" name="SiklikcomboBox">
          <item>
           <property name="text">
            <string>Günlük</string>
@@ -447,99 +485,10 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="comboBox_2">
-         <item>
-          <property name="text">
-           <string>Pazartesi</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Salı</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Çarşamba</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Perşembe</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Cuma</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Cumartesi</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pazar</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_17">
-         <property name="font">
-          <font>
-           <family>Monospace</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(255, 0, 0);</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_20">
          <property name="text">
-          <string>Bilgisayarın aktif olduğu saatler içerisinde bir saat seçiniz. Aksi takdirde yedekleme yapılmaz. Otomatik yedekleme için Crontab kullanır. </string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>281</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Elle yedekleme</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="YedeklepushButton">
-         <property name="text">
-          <string>Yedekle</string>
+          <string>Yedekleme konumu</string>
          </property>
         </widget>
        </item>
@@ -552,7 +501,7 @@
        <x>310</x>
        <y>0</y>
        <width>311</width>
-       <height>351</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="title">
@@ -584,6 +533,32 @@
        </item>
       </layout>
      </widget>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>281</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Elle yedekleme</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="YedeklepushButton">
+        <property name="text">
+         <string>Yedekle</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tabHakkinda">

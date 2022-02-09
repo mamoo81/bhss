@@ -96,7 +96,7 @@ public slots:
     int KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, double _netKar);// sepetten satış için overload metod
     int kasaHareketiDuzenle(User _user, QString _hareketID, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakNo);
     bool kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar);
-    bool veritabaniYedekle(QString _Dir);
+    bool veritabaniYedekle(QString _dirNameAndFileName);
     bool veritabaniYedektenGeriYukle(QString _dosyaYolu);
 };
 

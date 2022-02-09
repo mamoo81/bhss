@@ -38,8 +38,12 @@ private slots:
 
     void on_YedeklepushButton_clicked();
 
-
     void on_GeriYuklepushButton_clicked();
+
+    void on_KonuSecpushButton_clicked();
+
+    void on_OtomatikYedekcheckBox_clicked();
+
 
 private:
     Ui::AyarlarDialog *ui;
