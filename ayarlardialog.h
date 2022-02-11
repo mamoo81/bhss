@@ -21,6 +21,10 @@ public:
 
     void setCurrentUser(const User &newCurrentUser);
 
+    QString periyod = NULL;
+    QString jobSaati = NULL;
+    QString jobDakika = NULL;
+
 private slots:
     void on_YeniPushButton_clicked();
 
@@ -34,8 +38,6 @@ private slots:
     void getUsers();
     void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
-
     void on_YedeklepushButton_clicked();
 
     void on_GeriYuklepushButton_clicked();
@@ -44,6 +46,15 @@ private slots:
 
     void on_OtomatikYedekcheckBox_clicked();
 
+    void cronJobKaydet();
+
+    void on_SiklikcomboBox_currentIndexChanged(const QString &arg1);
+
+    void on_SaatcomboBox_currentIndexChanged(int index);
+
+    void on_dakikacomboBox_currentIndexChanged(int index);
+
+    void on_SifirlapushButton_clicked();
 
 private:
     Ui::AyarlarDialog *ui;

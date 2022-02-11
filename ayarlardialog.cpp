@@ -8,6 +8,9 @@
 #include <QPrinterInfo>
 #include <QFileDialog>
 #include <QDebug>
+#include <QProcess>
+#include <QRegularExpression> // text dosyasında metin arama(karşılaştırma) için.
+#include <QDir>
 
 AyarlarDialog::AyarlarDialog(QWidget *parent) :
     QDialog(parent),
@@ -26,6 +29,9 @@ AyarlarDialog::~AyarlarDialog()
 void AyarlarDialog::formLoad()
 {
     ui->tabWidget->setCurrentIndex(0);
+    ui->SiklikcomboBox->setCurrentIndex(0);
+    ui->SaatcomboBox->setCurrentIndex(0);
+    ui->dakikacomboBox->setCurrentIndex(0);
     // sistemdeki yazıcıların okunması
     QStringList yazicilar = QPrinterInfo::availablePrinterNames();
     ui->fisYazicisicomboBox->addItems(yazicilar);
@@ -37,7 +43,8 @@ void AyarlarDialog::formLoad()
     ui->OtomatikYedekcheckBox->setChecked(genelAyarlar.value("otomatik").toBool());
     ui->Konumlabel->setText(genelAyarlar.value("yedekleme-konum").toString());
     ui->SiklikcomboBox->setCurrentText(genelAyarlar.value("periyod").toString());
-    ui->SaatcomboBox->setCurrentText(genelAyarlar.value("saat").toString());
+    ui->SaatcomboBox->setCurrentIndex(genelAyarlar.value("saat").toInt());
+    ui->dakikacomboBox->setCurrentIndex(genelAyarlar.value("dakika").toInt());
     genelAyarlar.endGroup();
     // veritabani ayarlari okuma bitiş
     //yazıcı ayarları okuma başlangıç
@@ -51,8 +58,6 @@ void AyarlarDialog::formLoad()
     //yazici ayarlari okuma bitiş
 
     //genel ayarların okunması bitiş
-
-
 }
 
 void AyarlarDialog::setCurrentUser(const User &newCurrentUser)
@@ -145,7 +150,8 @@ void AyarlarDialog::on_pushButton_clicked()
         genelAyarlar.setValue("otomatik", true);
         genelAyarlar.setValue("yedekleme-konum", ui->Konumlabel->text());
         genelAyarlar.setValue("periyod", ui->SiklikcomboBox->currentText());
-        genelAyarlar.setValue("saat", ui->SaatcomboBox->currentText());
+        genelAyarlar.setValue("saat", ui->SaatcomboBox->currentIndex());
+        genelAyarlar.setValue("dakika", ui->dakikacomboBox->currentIndex());
         genelAyarlar.endGroup();
     }
     else{
@@ -174,6 +180,8 @@ void AyarlarDialog::on_pushButton_clicked()
     // yazıcı ayarları kayıt bitiş.
     // genel.ini dosyasına kayıt etme bitiş.
     this->close();
+
+    cronJobKaydet();
 }
 
 
@@ -288,4 +296,149 @@ void AyarlarDialog::on_OtomatikYedekcheckBox_clicked()
     }
 }
 
+void AyarlarDialog::cronJobKaydet()
+{
+    //yedekleme betiği kontrol ve oluşturma
+    QFile betik(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh");
+    if(!betik.exists()){
+        betik.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+        betik.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+        QTextStream betikYazilacak(&betik);
+        betikYazilacak << "#!/bin/bash" << Qt::endl;
+        betikYazilacak << "/usr/bin/pg_dump -Fc -U postgres mhss_data > " << ui->Konumlabel->text() << "/\"mhss-data-\"`date +\"%d-%m-%Y.dump\"`" << Qt::endl;
+        betik.close();
+        //betiğe çalıştırılabilir dosya izni verme
+        QString yetkilendirmeCMD = "chmod +x " + QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh";
+        system(qPrintable(yetkilendirmeCMD));
+    }
+
+    // kullanıcı adını alma
+    QString userName = qgetenv("USER");
+        if (userName.isEmpty()){
+            userName = qgetenv("USERNAME");
+        }
+    QFile cronMevcutDosya("/var/spool/cron/" + userName);
+    QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
+    QFile cronGeciciDosya("/tmp/mhss-cronjob/" + userName);
+
+    // crontab dosyası önceden oluşturulmuşsa /tmp/ altına al onu düzenle yoksa /tmp/ altında oluştur onu düzenle
+    if(cronMevcutDosya.exists()){
+        QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
+        cronMevcutDosya.copy("/tmp/mhss-cronjob/" + userName);
+    }
+    else{
+        cronGeciciDosya.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+        cronGeciciDosya.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+        cronGeciciDosya.close();
+    }
+
+    // /tmp altına oluşturulan/kopyalanan crontab dosyasından varsa önceki görev silme
+    QFile cronDosya("/tmp/mhss-cronjob/" + userName);
+    cronDosya.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+    cronDosya.open(QIODevice::ReadWrite /*| QIODevice::Append */| QIODevice::Text);
+    QTextStream in(&cronDosya);
+    QStringList satirlar;
+    // dosya okuyup QStringList içine atma
+    {
+        while (!in.atEnd()) {
+            satirlar.push_back(in.readLine());
+        }
+        // listeden mhss satırlarını silme
+        {
+            int satirSayac = 0;
+            foreach (QString satir, satirlar) {
+                if(satir.contains("#MHSS")){
+                    satirlar.removeAt(satirSayac);
+                    satirlar.removeAt(satirSayac);// sonraki satiri siler. +1 yapmadım çünkü üstte sildiği için sonraki satir indexsi bir yukarı kaydı.
+                    continue;
+                }
+                else if(satir.isEmpty()){
+                    satirlar.removeAt(satirSayac);
+                    continue;
+                }
+                satirSayac++;
+            }
+        }
+    }
+    cronDosya.close();
+
+    // düzenlenen listeyi tekrar dosyaya yazma
+    {
+        cronDosya.open(QIODevice::WriteOnly | QIODevice::Text);
+        cronDosya.resize(0);
+        QTextStream in(&cronDosya);
+
+        for (int var = 0; var < satirlar.size(); ++var) {
+            in << satirlar[var] << Qt::endl;
+        }
+        cronDosya.close();
+    }
+    // /tmp altına oluşturulan/kopyalanan/düzenlenen crontab dosyasına görev ekleme
+    cronDosya.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+    cronDosya.open(QIODevice::ReadWrite | QIODevice::Append | QIODevice::Text);
+    if(ui->SiklikcomboBox->currentText() == "Günlük"){
+        in << "#MHSS" << Qt::endl;
+        in << jobDakika << " " << jobSaati << " * * * ~/.config/mhss/yedekle-betik.sh > " << QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) << "/mhss/yedekle-betik.log 2>&1" << Qt::endl;
+    }
+    if(ui->SiklikcomboBox->currentText() == "Haftalık"){
+        in << "#MHSS" << Qt::endl;
+        in << jobDakika << " " << jobSaati << " * * 1 ~/.config/mhss/yedekle-betik.sh > " << QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) << "/mhss/yedekle-betik.log 2>&1" << Qt::endl;
+    }
+    if(ui->SiklikcomboBox->currentText() == "Aylık"){
+        in << "#MHSS" << Qt::endl;
+        in << jobDakika << " " << jobSaati << " 1 * * ~/.config/mhss/yedekle-betik.sh > " << QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) << "/mhss/yedekle-betik.log 2>&1" << Qt::endl;
+    }
+    cronDosya.close();
+
+    // cronjob dosyasını /var/spool/cron/ altına aktarma
+    QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
+    int exitCode = system(qPrintable(cmd));
+    if(exitCode == QProcess::NormalExit){
+        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+    }
+    else{
+        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+    }
+}
+
+
+void AyarlarDialog::on_SiklikcomboBox_currentIndexChanged(const QString &arg1)
+{
+    periyod = arg1;
+}
+
+
+void AyarlarDialog::on_SaatcomboBox_currentIndexChanged(int index)
+{
+    jobSaati = QString::number(index);
+}
+
+
+
+void AyarlarDialog::on_dakikacomboBox_currentIndexChanged(int index)
+{
+    jobDakika = QString::number(index);
+}
+
+
+void AyarlarDialog::on_SifirlapushButton_clicked()
+{
+    QMessageBox msg(this);
+    msg.setWindowTitle("Dikkat");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setText("Dikkat veritabanındaki tüm veriler sıfırlanacak! Sıfırlamak istediğinize emin misiniz?\n\n"
+                "Silinecekler:\n"
+                "Stok kartları ve Stok Hareketleri\n"
+                "Kasa ve Kasa hareketleri\n"
+                "Cari Kartlar ve Cari Hareketleri\n"
+                "Kullanıcılar");
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setButtonText(QMessageBox::Yes, "Evet");
+    msg.setButtonText(QMessageBox::No, "Hayır");
+    msg.setDefaultButton(QMessageBox::No);
+    int cevap = msg.exec();
+    if(cevap == QMessageBox::Yes){
+
+    }
+}
 

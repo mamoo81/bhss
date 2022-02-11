@@ -229,7 +229,7 @@ int Veritabani::kasaHareketiDuzenle(User _user, QString _hareketID, QString _har
     sorgu.prepare("SELECT islem, CAST(miktar AS DECIMAL) FROM kasahareketleri WHERE id = ?");
     sorgu.bindValue(0, _hareketID);
     sorgu.exec();
-    double oncekiTutar;
+    double oncekiTutar = 0;
     QString oncekiHareket;
     if(sorgu.next()){
         oncekiTutar = sorgu.value(1).toDouble();
@@ -338,13 +338,18 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     db.open();
     QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data " + _dosyaYolu;
     int exitCode = system(qPrintable(geriYuklemeKomutu));
-    if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
+    if(exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut süreci normal olarak bittiyse
         // komut başarılı
         return true;
     } else {
         // komut başarısız.
         return false;
     }
+}
+
+bool Veritabani::veritabaniSifirla()
+{
+
 }
 
 bool Veritabani::veritabaniVarmi()

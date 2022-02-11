@@ -98,6 +98,7 @@ public slots:
     bool kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar);
     bool veritabaniYedekle(QString _dirNameAndFileName);
     bool veritabaniYedektenGeriYukle(QString _dosyaYolu);
+    bool veritabaniSifirla();
 };
 
 #endif // VERITABANI_H
