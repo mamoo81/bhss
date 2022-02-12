@@ -47,6 +47,14 @@ void AyarlarDialog::formLoad()
     ui->dakikacomboBox->setCurrentIndex(genelAyarlar.value("dakika").toInt());
     genelAyarlar.endGroup();
     // veritabani ayarlari okuma bitiş
+    //hizliürün tabpage sayfa adları okuma
+    genelAyarlar.beginGroup("hizlisayfa");
+    ui->sayfalineEdit1->setText(genelAyarlar.value("0").toString());
+    ui->sayfalineEdit2->setText(genelAyarlar.value("1").toString());
+    ui->sayfalineEdit3->setText(genelAyarlar.value("2").toString());
+    ui->sayfalineEdit4->setText(genelAyarlar.value("3").toString());
+    ui->sayfalineEdit5->setText(genelAyarlar.value("4").toString());
+    genelAyarlar.endGroup();
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
@@ -58,6 +66,7 @@ void AyarlarDialog::formLoad()
     //yazici ayarlari okuma bitiş
 
     //genel ayarların okunması bitiş
+    VtYedeklemeButonlariniAyarla();
 }
 
 void AyarlarDialog::setCurrentUser(const User &newCurrentUser)
@@ -145,26 +154,6 @@ void AyarlarDialog::on_pushButton_clicked()
 {
     // genel.ini dosyasına kayıt etme başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-    genelAyarlar.beginGroup("veritabani");
-    if(ui->OtomatikYedekcheckBox->isChecked() && !ui->Konumlabel->text().isEmpty()){
-        genelAyarlar.setValue("otomatik", true);
-        genelAyarlar.setValue("yedekleme-konum", ui->Konumlabel->text());
-        genelAyarlar.setValue("periyod", ui->SiklikcomboBox->currentText());
-        genelAyarlar.setValue("saat", ui->SaatcomboBox->currentIndex());
-        genelAyarlar.setValue("dakika", ui->dakikacomboBox->currentIndex());
-        genelAyarlar.endGroup();
-    }
-    else{
-        QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("Veritabanının otomatik yedeklenmesi için yedekleneceği konumu belirtin!");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-        ui->tabWidget->setCurrentIndex(3);
-        return;
-    }
     // yazıcı ayarları kayıt başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     if(ui->herZamancheckBox->isChecked()){
@@ -178,10 +167,50 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("sirketAdres", ui->SirketAdreslineEdit->text());
     genelAyarlar.endGroup();
     // yazıcı ayarları kayıt bitiş.
+    // hizli ürün sayfa adları kayıt başlangıç
+    genelAyarlar.beginGroup("hizlisayfa");
+    genelAyarlar.setValue("0", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit1->text()));
+    genelAyarlar.setValue("1", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit2->text()));
+    genelAyarlar.setValue("2", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit3->text()));
+    genelAyarlar.setValue("3", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit4->text()));
+    genelAyarlar.setValue("4", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit5->text()));
+    genelAyarlar.endGroup();
+    // veritabanı otomatik yedekleme ayarları kaydetme başlangıç
+    genelAyarlar.beginGroup("veritabani");
+    if(!genelAyarlar.value("otomatik").toBool() && ui->OtomatikYedekcheckBox->isChecked()){// genel.ini'de false ve arayüzde checkbox true ise cronjob kaydet
+        if(ui->OtomatikYedekcheckBox->isChecked() && !ui->Konumlabel->text().isEmpty()){
+            genelAyarlar.setValue("otomatik", ui->OtomatikYedekcheckBox->isChecked());
+            genelAyarlar.setValue("yedekleme-konum", ui->Konumlabel->text());
+            genelAyarlar.setValue("periyod", ui->SiklikcomboBox->currentText());
+            genelAyarlar.setValue("saat", ui->SaatcomboBox->currentIndex());
+            genelAyarlar.setValue("dakika", ui->dakikacomboBox->currentIndex());
+            genelAyarlar.endGroup();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Veritabanının otomatik yedeklenmesi için yedekleneceği konumu belirtin!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            ui->tabWidget->setCurrentIndex(3);
+            return;
+        }
+        cronJobKaydet();
+    }
+    else if(genelAyarlar.value("otomatik").toBool() && !ui->OtomatikYedekcheckBox->isChecked()){// genel.ini'de true ve arayüzde checkbox false ise cronjob sil
+        genelAyarlar.setValue("otomatik", ui->OtomatikYedekcheckBox->isChecked());
+        genelAyarlar.setValue("yedekleme-konum", "");
+        genelAyarlar.setValue("periyod", "");
+        genelAyarlar.setValue("saat", "");
+        genelAyarlar.setValue("dakika", "");
+        genelAyarlar.endGroup();
+        cronJobSil();
+        genelAyarlar.endGroup();
+    }
     // genel.ini dosyasına kayıt etme bitiş.
     this->close();
-
-    cronJobKaydet();
 }
 
 
@@ -284,15 +313,22 @@ void AyarlarDialog::on_KonuSecpushButton_clicked()
 
 void AyarlarDialog::on_OtomatikYedekcheckBox_clicked()
 {
+    VtYedeklemeButonlariniAyarla();
+}
+
+void AyarlarDialog::VtYedeklemeButonlariniAyarla()
+{
     if(ui->OtomatikYedekcheckBox->isChecked()){
         ui->KonuSecpushButton->setEnabled(true);
         ui->SiklikcomboBox->setEnabled(true);
         ui->SaatcomboBox->setEnabled(true);
+        ui->dakikacomboBox->setEnabled(true);
     }
     else{
         ui->KonuSecpushButton->setEnabled(false);
         ui->SiklikcomboBox->setEnabled(false);
         ui->SaatcomboBox->setEnabled(false);
+        ui->dakikacomboBox->setEnabled(false);
     }
 }
 
@@ -401,6 +437,70 @@ void AyarlarDialog::cronJobKaydet()
     }
 }
 
+void AyarlarDialog::cronJobSil()
+{
+    // kullanıcı adını alma
+    QString userName = qgetenv("USER");
+        if (userName.isEmpty()){
+            userName = qgetenv("USERNAME");
+        }
+    QFile cronMevcutDosya("/var/spool/cron/" + userName);
+    // crontab dosyası önceden oluşturulmuşsa /tmp/ altına al onu düzenle yoksa /tmp/ altında oluştur onu düzenle
+    if(cronMevcutDosya.exists()){
+        QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
+        cronMevcutDosya.copy("/tmp/mhss-cronjob/" + userName);
+    }
+    // /tmp altına oluşturulan/kopyalanan crontab dosyasından varsa önceki görev silme
+    QFile cronDosya("/tmp/mhss-cronjob/" + userName);
+    cronDosya.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+    cronDosya.open(QIODevice::ReadWrite /*| QIODevice::Append */| QIODevice::Text);
+    QTextStream in(&cronDosya);
+    QStringList satirlar;
+    // dosya okuyup QStringList içine atma
+    {
+        while (!in.atEnd()) {
+            satirlar.push_back(in.readLine());
+        }
+        // listeden mhss satırlarını silme
+        {
+            int satirSayac = 0;
+            foreach (QString satir, satirlar) {
+                if(satir.contains("#MHSS")){
+                    satirlar.removeAt(satirSayac);
+                    satirlar.removeAt(satirSayac);// sonraki satiri siler. +1 yapmadım çünkü üstte sildiği için sonraki satir indexsi bir yukarı kaydı.
+                    continue;
+                }
+                else if(satir.isEmpty()){
+                    satirlar.removeAt(satirSayac);
+                    continue;
+                }
+                satirSayac++;
+            }
+        }
+    }
+    cronDosya.close();
+    // düzenlenen listeyi tekrar dosyaya yazma
+    {
+        cronDosya.open(QIODevice::WriteOnly | QIODevice::Text);
+        cronDosya.resize(0);
+        QTextStream in(&cronDosya);
+
+        for (int var = 0; var < satirlar.size(); ++var) {
+            in << satirlar[var] << Qt::endl;
+        }
+        cronDosya.close();
+    }
+    // cronjob dosyasını /var/spool/cron/ altına aktarma
+    QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
+    int exitCode = system(qPrintable(cmd));
+    if(exitCode == QProcess::NormalExit){
+        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+    }
+    else{
+        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+    }
+}
+
 
 void AyarlarDialog::on_SiklikcomboBox_currentIndexChanged(const QString &arg1)
 {
@@ -438,7 +538,25 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
     msg.setDefaultButton(QMessageBox::No);
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
-
+        bool ok = vt.veritabaniSifirla();
+        if(ok){
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Veritabanı sıfırlandı.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Veritabanı sıfırlanamadı.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
 }
 

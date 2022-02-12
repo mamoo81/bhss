@@ -17,6 +17,7 @@ public:
 
     QString hizliUrunBarkod;
     QString hizliUrunAd;
+    QString hizliUrunStokID;
     bool ok = false;
 
 public slots:

@@ -99,6 +99,7 @@ public slots:
     bool veritabaniYedekle(QString _dirNameAndFileName);
     bool veritabaniYedektenGeriYukle(QString _dosyaYolu);
     bool veritabaniSifirla();
+    void setHizliButon(StokKarti _stokKarti);
 };
 
 #endif // VERITABANI_H

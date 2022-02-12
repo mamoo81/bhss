@@ -10,6 +10,10 @@
 #include <QVariant>
 #include <QDateTime>
 #include <QProcess>
+#include <QFile>
+#include <QFileInfo>
+#include <QSettings>
+#include <QStandardPaths>
 
 Veritabani::Veritabani()
 {
@@ -349,7 +353,31 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
 
 bool Veritabani::veritabaniSifirla()
 {
+    QFile mhss_data_sifir(":/dosyalar/dosyalar/mhss_data_sifir.dump");
+    mhss_data_sifir.copy("/tmp/mhss_data_sifir.dump");
+    if(QFileInfo().exists("/tmp/mhss_data_sifir.dump")){
+        bool ok = veritabaniYedektenGeriYukle("/tmp/mhss_data_sifir.dump");
+        if(ok){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+}
 
+void Veritabani::setHizliButon(StokKarti _stokKarti)
+{
+    QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
+    foreach (QString buttonName, hizliButonBarkodlar.childGroups()) {
+        hizliButonBarkodlar.beginGroup(buttonName);
+        QString duzenlenecekStokID = hizliButonBarkodlar.value("stokid").toString();
+        if(duzenlenecekStokID == _stokKarti.getId()){
+            hizliButonBarkodlar.setValue("barkod", _stokKarti.getBarkod());
+            hizliButonBarkodlar.setValue("ad", _stokKarti.getAd());
+        }
+        hizliButonBarkodlar.endGroup();
+    }
 }
 
 bool Veritabani::veritabaniVarmi()
@@ -1309,8 +1337,9 @@ QSqlQueryModel *Veritabani::getStokKartlari()
 QSqlQueryModel *Veritabani::getStokKartlari(QString query)
 {
     stokKartlariModel->setQuery(query, db);
-    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Barkod");
-    stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Ürün Adı");
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Stok ID");
+    stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
+    stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Ürün Adı");
     return stokKartlariModel;
 }
 

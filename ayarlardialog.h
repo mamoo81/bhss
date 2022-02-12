@@ -48,6 +48,8 @@ private slots:
 
     void cronJobKaydet();
 
+    void cronJobSil();
+
     void on_SiklikcomboBox_currentIndexChanged(const QString &arg1);
 
     void on_SaatcomboBox_currentIndexChanged(int index);
@@ -56,6 +58,7 @@ private slots:
 
     void on_SifirlapushButton_clicked();
 
+    void VtYedeklemeButonlariniAyarla();
 private:
     Ui::AyarlarDialog *ui;
 

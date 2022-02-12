@@ -59,6 +59,7 @@ void SatisForm::formLoad()
     butonDurumlariniAyarla();
     getSonSatislar();
     hizliUrunButonlariAyarla();
+    hizliUrunSayfaAyarla();
     ui->barkodLineEdit->setFocus();
     uyariSesi.setLoops(0);
 }
@@ -69,6 +70,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
     stokKartiFormu->setUser(kullanici);
     stokKartiFormu->exec();
     delete stokKartiFormu;
+    hizliUrunButonlariAyarla();
     ui->barkodLineEdit->setFocus();
 }
 
@@ -2152,6 +2154,18 @@ void SatisForm::hizliUrunButonlariAyarla()
     }
 }
 
+void SatisForm::hizliUrunSayfaAyarla()
+{
+    QSettings hizliButonSayfaAdlari(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    hizliButonSayfaAdlari.beginGroup("hizlisayfa");
+    ui->HizliUrunlertabWidget->setTabText(0, hizliButonSayfaAdlari.value("0").toString());
+    ui->HizliUrunlertabWidget->setTabText(1, hizliButonSayfaAdlari.value("1").toString());
+    ui->HizliUrunlertabWidget->setTabText(2, hizliButonSayfaAdlari.value("2").toString());
+    ui->HizliUrunlertabWidget->setTabText(3, hizliButonSayfaAdlari.value("3").toString());
+    ui->HizliUrunlertabWidget->setTabText(4, hizliButonSayfaAdlari.value("4").toString());
+    hizliButonSayfaAdlari.endGroup();
+}
+
 void SatisForm::ekleAction()
 {
     HizliUrunEkleFormDialog *hizliDialog = new HizliUrunEkleFormDialog(this);
@@ -2160,6 +2174,7 @@ void SatisForm::ekleAction()
         // hizlibutonlar.ini dosyasına kayıt etme başlangıcı
         QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
         hizliButonBarkodlar.beginGroup(hizliEklenecekButon->objectName());
+        hizliButonBarkodlar.setValue("stokid", hizliDialog->hizliUrunStokID);
         hizliButonBarkodlar.setValue("ad", hizliDialog->hizliUrunAd);
         hizliButonBarkodlar.setValue("barkod", hizliDialog->hizliUrunBarkod);
         hizliButonBarkodlar.endGroup();
@@ -4367,6 +4382,9 @@ void SatisForm::on_AyarlarBtn_clicked()
     ayarForm->setCurrentUser(kullanici);
     ayarForm->exec();
     delete ayarForm;
+    // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
+    hizliUrunButonlariAyarla();
+    hizliUrunSayfaAyarla();
     ui->barkodLineEdit->setFocus();
 }
 

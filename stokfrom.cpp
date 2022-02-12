@@ -308,6 +308,19 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 
 void StokFrom::on_KaydetBtn_clicked()
 {
+    if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
+        uyariSes.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Satış fiyatı alış fiyatından düşük olamaz");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+        ui->SFiyatdoubleSpinBox->setFocus();
+        ui->SFiyatdoubleSpinBox->selectAll();
+        return;
+    }
     if(yeniKayit){// true ise yeni stok kartı kaydı oluşturur.
         if(!vt->barkodVarmi(ui->BarkodLnEdit->text())){
             StokKarti yeniStokKarti = StokKarti();
@@ -352,6 +365,7 @@ void StokFrom::on_KaydetBtn_clicked()
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
         QString duzenlenecekStokKartiID(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
         StokKarti yeniStokKarti = StokKarti();
+        yeniStokKarti.setId(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
         yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
         yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
@@ -365,7 +379,7 @@ void StokFrom::on_KaydetBtn_clicked()
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
         // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
-        // burayı kodlamadan önce ini dosyasına stok kartı ID sini de kaydet düzenlenen ürünün barkodu da değişebilir. bundan dolayı sağlıklı çalışmaz.
+        vt->setHizliButon(yeniStokKarti);
 
         alanlariTemizle();
         stokKartlariniListele();

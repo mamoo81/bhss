@@ -739,7 +739,10 @@ color: rgb(0, 255, 0);</string>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">

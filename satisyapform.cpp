@@ -91,7 +91,14 @@ void SatisYapForm::on_iptalBtn_clicked()
 void SatisYapForm::keyPressEvent(QKeyEvent *e)
 {
     if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return){
-        SatisYapForm::on_satBtn_clicked();
+        if(ui->OdenendoubleSpinBox->value() < 99999){// yanlışlıkla barkod okuturlarsa satışı yapmasın düzgün tutar girilsin
+            SatisYapForm::on_satBtn_clicked();
+        }
+        else{
+            ui->OdenendoubleSpinBox->setValue(satilacakSepet.sepetToplamTutari());
+            ui->OdenendoubleSpinBox->selectAll();
+            ui->OdenendoubleSpinBox->setFocus();
+        }
     }
 }
 
