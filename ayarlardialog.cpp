@@ -28,6 +28,16 @@ AyarlarDialog::~AyarlarDialog()
 
 void AyarlarDialog::formLoad()
 {
+    // oto başlangıç wayfire.ini ayarlama
+    QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
+    wayfireini.beginGroup("autostart");
+    if(wayfireini.contains("mhss")){
+        ui->otoMhsscheckBox->setChecked(true);
+    }
+    else{
+        ui->otoMhsscheckBox->setChecked(false);
+    }
+    wayfireini.endGroup();
     ui->tabWidget->setCurrentIndex(0);
     ui->SiklikcomboBox->setCurrentIndex(0);
     ui->SaatcomboBox->setCurrentIndex(0);
@@ -152,6 +162,16 @@ void AyarlarDialog::on_SilPushButton_clicked()
 
 void AyarlarDialog::on_pushButton_clicked()
 {
+    // oto başlangıç wayfire.ini ayarlama
+    QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
+    wayfireini.beginGroup("autostart");
+    if(!wayfireini.contains("mhss") && ui->otoMhsscheckBox->isChecked()){
+        wayfireini.setValue("mhss", "mhss");
+    }
+    else if(wayfireini.contains("mhss") && !ui->otoMhsscheckBox->isChecked()){
+        wayfireini.remove("mhss");
+    }
+    wayfireini.endGroup();
     // genel.ini dosyasına kayıt etme başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     // yazıcı ayarları kayıt başlangıç

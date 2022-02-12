@@ -65,13 +65,13 @@
      <property name="title">
       <string>Hızlı ürün sayfa adları</string>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>25</y>
         <width>141</width>
-        <height>121</height>
+        <height>136</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
@@ -147,6 +147,19 @@
        </item>
       </layout>
      </widget>
+    </widget>
+    <widget class="QCheckBox" name="otoMhsscheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>231</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Başlangıçta otomatik başlat</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tabKullanicilar">
