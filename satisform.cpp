@@ -465,7 +465,6 @@ void SatisForm::closeEvent(QCloseEvent *event)
         msg.setButtonText(QMessageBox::Cancel, "İptal");
         int cevap = msg.exec();
         if(QMessageBox::Yes == cevap){
-            // kasa formu açılacak *************************************************
             SatisForm::on_KasaBtn_clicked();
             this->close();
             LoginForm *lg = new LoginForm();
@@ -2145,12 +2144,21 @@ void SatisForm::slotCustomContextMenuRequested(QPoint position)
 void SatisForm::hizliUrunButonlariAyarla()
 {
     QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
-    foreach (QString butonName, hizliButonBarkodlar.childGroups()) {
-        QToolButton *btn = this->findChild<QToolButton*>(butonName);
-        hizliButonBarkodlar.beginGroup(butonName);
-        btn->setText(hizliButonBarkodlar.value("ad").toString());
-        btn->setWhatsThis(hizliButonBarkodlar.value("barkod").toString());
-        hizliButonBarkodlar.endGroup();
+    if(!hizliButonBarkodlar.childGroups().empty()){
+        foreach (QString butonName, hizliButonBarkodlar.childGroups()) {
+            QToolButton *btn = this->findChild<QToolButton*>(butonName);
+            hizliButonBarkodlar.beginGroup(butonName);
+            btn->setText(hizliButonBarkodlar.value("ad").toString());
+            btn->setWhatsThis(hizliButonBarkodlar.value("barkod").toString());
+            hizliButonBarkodlar.endGroup();
+        }
+    }
+    else{
+        for (int i = 1; i < 151; ++i) {
+            QToolButton *btn = this->findChild<QToolButton*>("hizlitoolButton" + QString::number(i));
+            btn->setText("");
+            btn->setWhatsThis("");
+        }
     }
 }
 
@@ -4304,11 +4312,6 @@ void SatisForm::on_KasaBtn_clicked()
     KasaDialogForm *kasaForm = new KasaDialogForm(this);
     kasaForm->setKullanici(kullanici);
     kasaForm->exec();
-//    ParaCekDialogForm *paraCekForm = new ParaCekDialogForm(this);
-//    paraCekForm->setKasadakiPara(vt->getKasadakiPara());
-//    paraCekForm->setKull(kullanici);
-//    paraCekForm->exec();
-//    delete paraCekForm;
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4385,6 +4388,7 @@ void SatisForm::on_AyarlarBtn_clicked()
     // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
     hizliUrunButonlariAyarla();
     hizliUrunSayfaAyarla();
+    getSonSatislar();
     ui->barkodLineEdit->setFocus();
 }
 

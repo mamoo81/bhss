@@ -59,7 +59,7 @@ void CariHareketiEkleForm::FormLoad()
 void CariHareketiEkleForm::on_KaydetpushButton_clicked()
 {
     switch (faturaTip) {
-    case 5://cariden tahsilat yapma
+    case tahsilat://cariden tahsilat yapma
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
             vt->caridenTahsilatYap(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
@@ -87,7 +87,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.exec();
         }
         break;
-    case 4:
+    case odeme:
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
             vt->cariyeOdemeYap(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
@@ -115,7 +115,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.exec();
         }
         break;
-    case 1:
+    case satis:// satis
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
             vt->cariyiAlacaklandır(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
@@ -143,7 +143,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.exec();
         }
         break;
-    case 2:
+    case alis:
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
             vt->cariyiBorclandir(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),

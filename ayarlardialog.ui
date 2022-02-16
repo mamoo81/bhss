@@ -50,10 +50,10 @@
     <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
       <rect>
-       <x>469</x>
+       <x>449</x>
        <y>0</y>
-       <width>161</width>
-       <height>151</height>
+       <width>181</width>
+       <height>171</height>
       </rect>
      </property>
      <property name="font">
@@ -70,8 +70,8 @@
        <rect>
         <x>10</x>
         <y>25</y>
-        <width>141</width>
-        <height>121</height>
+        <width>161</width>
+        <height>141</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">

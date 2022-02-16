@@ -1,6 +1,6 @@
 #ifndef LOGINFORM_H
 #define LOGINFORM_H
-
+#include "veritabani.h"
 //**********************
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -17,9 +17,12 @@ public:
     LoginForm(QWidget *parent = nullptr);
     ~LoginForm();
 
-    bool capslock;
+    Veritabani vt = Veritabani();
 
     void formLoad();
+
+    void setCapsLockFilePath(const QString &newCapsLockFilePath);
+
 private slots:
     void on_GirisBtn_clicked();
 
@@ -27,11 +30,11 @@ private slots:
 
     void closeEvent(QCloseEvent *);
 
-    void getUsers();
-
     void keyPressEvent(QKeyEvent *event);
-    void getCapslockState();
+    bool getCapslockState();
 private:
     Ui::LoginForm *ui;
+
+    QString capsLockFilePath;
 };
 #endif // LOGINFORM_H

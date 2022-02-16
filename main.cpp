@@ -3,10 +3,7 @@
 //***********************
 #include <QApplication>
 #include <QSqlDatabase>
-#include <QSqlError>
-#include <QLocale>
-#include <QTranslator>
-#include <QSharedMemory>
+#include <QSqlQuery>
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QFileInfo>
@@ -20,7 +17,36 @@ int main(int argc, char *argv[])
     db.setHostName("localhost");
     db.setUserName("postgres");
     db.setPassword("postgres");
+    Veritabani vt = Veritabani();
     if(db.open()){
+        //mhss_data veritabanı varmı. yoksa oluştur.
+        QSqlQuery sorgu = QSqlQuery(db);
+        sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
+        if(!sorgu.next()){
+            QMessageBox msg(0);
+            msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Question);
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::No);
+            msg.setButtonText(QMessageBox::Yes, "Evet");
+            msg.setButtonText(QMessageBox::No, "Hayır");
+            int cevap = msg.exec();
+            if(cevap == QMessageBox::Yes){
+                if(vt.veritabaniSifirla()){// sıfırla metodu vt yi yeniden yüklediği için bunu çağırıyorum.
+                    QMessageBox msg(0);
+                    msg.setWindowTitle("Bilgi");
+                    msg.setIcon(QMessageBox::Information);
+                    msg.setText("Veritabanı oluşturuldu");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    msg.setButtonText(QMessageBox::Ok, "Tamam");
+                    msg.exec();
+                }
+            }
+        }
+        db.close();
+        db.setDatabaseName("mhss_data");
+        db.open();
 
         a.setOrganizationName("milis");
         a.setApplicationName("mhss");

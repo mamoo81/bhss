@@ -31,8 +31,7 @@ public:
     bool barkodVarmi(QString _Barkod);
     void baglan();
 
-    QList<QString> GetUsers();
-    QList<QString> users;
+    QStringList GetUsers();
 private:
     Sepet satilacakSepet;
 
