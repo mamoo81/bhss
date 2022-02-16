@@ -88,7 +88,7 @@ bool LoginForm::getCapslockState()
         QFile capslock(capsLockFilePath);
         capslock.open(QIODevice::ReadOnly | QIODevice::Text);
         QTextStream stream(&capslock);
-        qDebug() << capslock << stream.readLine().toInt();
+//        qDebug() << capslock << stream.readLine().toInt();
         bool state = stream.readAll().toInt();
         capslock.close();
         return state;
