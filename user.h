@@ -8,7 +8,7 @@ class User
 {
 public:
     User();
-
+    User(QDateTime);
 
     const QString &getUserID() const;
     void setUserID(const QString &newUserID);
@@ -40,6 +40,15 @@ public:
     const QString &getPassWord() const;
     void setPassWord(const QString &newPassWord);
 
+    bool getCariyetki() const;
+    void setCariyetki(bool newCariyetki);
+
+    bool getAyaryetki() const;
+    void setAyaryetki(bool newAyaryetki);
+
+    const QDateTime &getGirisTarih() const;
+    void setGirisTarih(const QDateTime &newGirisTarih);
+
 private:
     QString userID;
     QString userName;
@@ -48,9 +57,12 @@ private:
     QString soyad;
     QString cepNo;
     QDateTime tarih;
+    QDateTime _girisTarih;
     bool kasaYetki;
     bool iadeYetki;
     bool stokYetki;
+    bool cariyetki;
+    bool ayaryetki;
 };
 
 #endif // USER_H

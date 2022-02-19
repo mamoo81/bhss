@@ -63,6 +63,10 @@ private slots:
 
     void on_tarihdateEdit_dateTimeChanged(const QDateTime &dateTime);
 
+    void on_KullaniciCikisipushButton_clicked();
+
+    void on_HareketcomboBox_currentIndexChanged(int index);
+
 private:
     Ui::KasaHareketEkleDialog *ui;
 

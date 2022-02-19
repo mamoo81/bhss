@@ -49,9 +49,11 @@ void KasaHareketEkleDialog::setHareket(int newHareket)
     hareket = newHareket;
     if(hareket == 0){
         oncekiHareket = "GİRİŞ";
+        ui->KullaniciCikisipushButton->setVisible(false);
     }
     else if(hareket == 1){
         oncekiHareket = "ÇIKIŞ";
+        ui->KullaniciCikisipushButton->setVisible(true);
     }
     ui->HareketcomboBox->setCurrentIndex(hareket);
 }
@@ -157,6 +159,27 @@ void KasaHareketEkleDialog::on_tarihdateEdit_dateTimeChanged(const QDateTime &da
     }
     else{
         ui->KaydetpushButton->setEnabled(true);
+    }
+}
+
+
+void KasaHareketEkleDialog::on_KullaniciCikisipushButton_clicked()
+{
+    double cekilecekPara = vt->getKasadakiPara() - 100;
+
+    ui->tutardoubleSpinBox->setValue(cekilecekPara);
+
+}
+
+
+void KasaHareketEkleDialog::on_HareketcomboBox_currentIndexChanged(int index)
+{
+    switch (index) {
+    case 0:
+        ui->KullaniciCikisipushButton->setVisible(false);
+        break;
+    case 1:
+        ui->KullaniciCikisipushButton->setVisible(true);
     }
 }
 

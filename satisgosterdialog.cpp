@@ -32,7 +32,9 @@ void SatisGosterDialog::initTableWidgets()
 
 void SatisGosterDialog::sepetiCek()
 {
-    satisFaturaNo.truncate(10);
+    QStringList no = satisFaturaNo.split(" ");
+
+    satisFaturaNo = no[0];
     satilmisSepet = vt->getSatis(satisFaturaNo);
     qr = vt->getIslemInfo(satisFaturaNo);
     switch (qr.value(11).toInt()) {

@@ -44,7 +44,6 @@ public slots:
     bool loginControl(QString _UserName, QString _Password);
     void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
     QStringList getSonIslemler();
-    void veritabaniOlustur();
     bool veritabaniVarmi();
     void yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici);
     void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici);
@@ -94,11 +93,14 @@ public slots:
     int KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno, double _netKar);// kasa forumdan giriş/çıkış/düzeltme için
     int KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, double _netKar);// sepetten satış için overload metod
     int kasaHareketiDuzenle(User _user, QString _hareketID, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakNo);
-    bool kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar);
+    bool kasaHareketiSil(QString _hareketID, QString _hareket, double _tutar);
     bool veritabaniYedekle(QString _dirNameAndFileName);
     bool veritabaniYedektenGeriYukle(QString _dosyaYolu);
     bool veritabaniSifirla();
     void setHizliButon(StokKarti _stokKarti);
+    void setOturum(User _user);
+    QSqlQuery getOturum();
+    void oturumSonlandir();
 };
 
 #endif // VERITABANI_H

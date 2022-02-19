@@ -49,3 +49,13 @@ void HizliUrunEkleFormDialog::on_IptalpushButton_clicked()
     this->close();
 }
 
+
+void HizliUrunEkleFormDialog::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
+{
+    hizliUrunStokID = ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString();
+    hizliUrunBarkod = ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString();
+    hizliUrunAd = ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 2).data().toString();
+    ok = true;
+    this->close();
+}
+

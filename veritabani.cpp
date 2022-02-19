@@ -126,7 +126,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
 QStringList Veritabani::getSonIslemler()
 {
     QStringList islemler;
-    sorgu.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date AND tipi = 2 ORDER BY fatura_no DESC");
+    sorgu.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date AND tipi = 2 ORDER BY tarih DESC");
     while(sorgu.next()){
         islemler.append(sorgu.value(0).toString() + " " + sorgu.value(1).toTime().toString("hh:mm:ss"));
     }
@@ -283,7 +283,7 @@ int Veritabani::kasaHareketiDuzenle(User _user, QString _hareketID, QString _har
     return 1;
 }
 
-bool Veritabani::kasaHareketiSil(User _user, QString _hareketID, QString _hareket, double _tutar)
+bool Veritabani::kasaHareketiSil(QString _hareketID, QString _hareket, double _tutar)
 {
     // kasahareketleri tablosundan kayıdı silme
     sorgu.prepare("DELETE FROM kasahareketleri WHERE id = ?");
@@ -355,9 +355,6 @@ bool Veritabani::veritabaniSifirla()
 {
     // veritabani sıfırlandığı için hizli butonları da sıfırla
     QSettings hizlibutonlariINI(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
-//    foreach (QString grup, hizlibutonlariINI.childGroups()) {
-//        hizlibutonlariINI.remove(grup);
-//    }
     hizlibutonlariINI.clear();
     QFile mhss_data_sifir(":/dosyalar/dosyalar/mhss_data_sifir.dump");
     if(!QFileInfo().exists("/tmp/mhss_data_sifir.dump")){
@@ -387,13 +384,54 @@ void Veritabani::setHizliButon(StokKarti _stokKarti)
     }
 }
 
+void Veritabani::setOturum(User _user)
+{
+    sorgu.exec("SELECT * FROM oturum");
+    if(sorgu.next()){
+        if(sorgu.value(1).toString() != _user.getUserName()){
+            sorgu.prepare("UPDATE oturum SET username = ?, giristarihi = ? WHERE id = 1");
+            sorgu.bindValue(0, _user.getUserName());
+            sorgu.bindValue(1, QDateTime::currentDateTime());
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qCritical(qPrintable(sorgu.lastError().text()));
+            }
+        }
+    }
+    else{
+        sorgu.prepare("INSERT INTO oturum(username, giristarihi) VALUES(?,?)");
+        sorgu.bindValue(0, _user.getUserName());
+        sorgu.bindValue(1, QDateTime::currentDateTime());
+        sorgu.exec();
+        if(sorgu.lastError().isValid()){
+            qCritical(qPrintable(sorgu.lastError().text()));
+        }
+    }
+}
+
+QSqlQuery Veritabani::getOturum()
+{
+    sorgu.exec("SELECT * FROM oturum");
+    if(!sorgu.next()){
+        return QSqlQuery();
+    }
+    return sorgu;
+}
+
+void Veritabani::oturumSonlandir()
+{
+    sorgu.exec("DELETE FROM oturum WHERE id = 1");
+    if(sorgu.lastError().isValid()){
+        qCritical(qPrintable(sorgu.lastError().text()));
+    }
+}
+
 bool Veritabani::veritabaniVarmi()
 {
     //mhss_data veritabanı varmı kontrol
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(sorgu.next()){
         db.setDatabaseName("mhss_data");
-//        db.close();
         db.open();
         return true;
     }
@@ -402,193 +440,6 @@ bool Veritabani::veritabaniVarmi()
     }
 }
 
-void Veritabani::veritabaniOlustur()
-{
-//    //veritabanını oluşturma
-//    sorgu.exec("CREATE DATABASE mhss_data OWNER postgres");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    db.setDatabaseName("mhss_data");
-//    db.close();
-//    db.open();
-//    //kullanıcılar tablosunu oluşturma
-//    sorgu.exec("CREATE TABLE kullanicilar("
-//                "id BIGSERIAL PRIMARY KEY,"
-//                "username VARCHAR(32) NOT NULL,"
-//                "password VARCHAR(32) NOT NULL,"
-//                "ad TEXT,"
-//                "soyad TEXT,"
-//                "cepno VARCHAR(10),"
-//                "tarih TIMESTAMP NOT NULL,"
-//                "kasayetki BOOLEAN DEFAULT FALSE,"
-//                "iadeyetki BOOLEAN DEFAULT FALSE,"
-//                "stokyetki BOOLEAN DEFAULT FALSE)");
-//    sorgu.exec("CREATE SEQUENCE kullanicilar_sequence START WITH 100 INCREMENT BY 1 OWNED BY kullanicilar.id");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //kullanıcılar tablosuna admin kullanıcısını ekleme
-//    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki) "
-//                    "VALUES (nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-//    sorgu.bindValue(0, "admin");
-//    sorgu.bindValue(1, "admin");
-//    sorgu.bindValue(2, "ADMİN");
-//    sorgu.bindValue(3, "ADMİN");
-//    sorgu.bindValue(4, "0000000000");
-//    sorgu.bindValue(5, QDate::currentDate());
-//    sorgu.bindValue(6, true);
-//    sorgu.bindValue(7, true);
-//    sorgu.bindValue(8, true);
-//    sorgu.exec();
-//    if(sorgu.lastError().isValid()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //stokkartlari tablosunu oluşturma.
-//    sorgu.exec("CREATE TABLE stokkartlari("
-//                "id BIGSERIAL PRIMARY KEY,"
-//                "barkod VARCHAR(13) NOT NULL,"
-//                "ad TEXT NOT NULL,"
-//                "birim VARCHAR(8) NOT NULL,"
-//                "miktar DECIMAL(18,3) NOT NULL,"
-//                "grup VARCHAR(32) NOT NULL,"
-//                "afiyat MONEY NOT NULL,"
-//                "sfiyat MONEY NOT NULL,"
-//                "kdv SERIAL,"
-//                "tarih TIMESTAMP NOT NULL,"
-//                "aciklama TEXT)");
-//    sorgu.exec("CREATE SEQUENCE stokkartlari_sequence START WITH 10000 INCREMENT BY 1 OWNED BY stokkartlari.id");
-//    if(sorgu.lastError().isValid()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //stokhareketleri tablosu oluşturma.
-//    sorgu.exec("CREATE TABLE stokhareketleri("
-//                "barkod VARCHAR(13) NOT NULL,"
-//                "islem_no VARCHAR,"
-//                "islem_turu VARCHAR NOT NULL,"
-//                "islem_miktari DECIMAL(18,3) NOT NULL,"
-//                "tarih TIMESTAMP NOT NULL,"
-//                "kullanici BIGSERIAL NOT NULL,"
-//                "aciklama TEXT)");
-//    if(sorgu.lastError().isValid()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //faturalar tablosu olusturma
-//    sorgu.exec("CREATE TABLE faturalar("
-//                "id BIGSERIAL PRIMARY KEY,"
-//                "fatura_no TEXT NOT NULL,"
-//                "kullanici BIGSERIAL NOT NULL,"
-//                "durum BOOLEAN DEFAULT FALSE,"
-//                "toplamtutar DECIMAL(18,3) NOT NULL DEFAULT 0,"
-//                "odenentutar DECIMAL(18,3) NOT NULL DEFAULT 0,"
-//                "kalantutar DECIMAL(18,3) NOT NULL DEFAULT 0,"
-//                "cari BIGSERIAL NOT NULL,"
-//                "tipi TEXT NOT NULL,"
-//                "tarih TIMESTAMP NOT NULL)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.exec("CREATE SEQUENCE faturalar_sequence START WITH 1000 INCREMENT BY 1 OWNED BY faturalar.id");
-//    sorgu.exec("SELECT setval('faturalar_sequence', 1000)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //stokgruplari tablosu oluşturma
-//    sorgu.exec("CREATE TABLE stokgruplari("
-//                "id BIGSERIAL PRIMARY KEY NOT NULL,"
-//                "grup TEXT NOT NULL)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.exec("CREATE SEQUENCE stokgruplari_sequence START WITH 100 INCREMENT BY 1 OWNED BY stokgruplari.id");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'GIDA')");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'TÜTÜN')");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'ALKOLSÜZ İÇECEK')");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'ALKOLLÜ İÇECEK')");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'TEMİZLİK')");
-//    sorgu.exec("INSERT INTO stokgruplari(id, grup) VALUES(nextval('stokgruplari_sequence'), 'MANAV')");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    //carikartlar tablosu oluşturma
-//    sorgu.exec("CREATE TABLE carikartlar("
-//                "id BIGSERIAL PRIMARY KEY NOT NULL,"
-//                "ad TEXT NOT NULL,"
-//                "tip BIGSERIAL NOT NULL,"
-//                "vergi_no TEXT NOT NULL,"
-//                "vergi_daire TEXT NOT NULL,"
-//                "il TEXT,"
-//                "ilce TEXT,"
-//                "adres TEXT,"
-//                "mail TEXT,"
-//                "telefon VARCHAR(10) DEFAULT 0000000000,"
-//                "tarih DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-//                "aciklama TEXT)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.exec("CREATE SEQUENCE carikartlar_sequence START WITH 1000 INCREMENT BY 1 OWNED BY carikartlar.id");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.prepare("INSERT INTO carikartlar (id, ad, tc, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama) "
-//                    "VALUES (nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-//    sorgu.bindValue(0, "DİREKT");
-//    sorgu.bindValue(1, "00000000000");
-//    sorgu.bindValue(2, "");
-//    sorgu.bindValue(3, "");
-//    sorgu.bindValue(4, "");
-//    sorgu.bindValue(5, "");
-//    sorgu.bindValue(6, "");
-//    sorgu.bindValue(7, "");
-//    sorgu.bindValue(8, "");
-//    sorgu.bindValue(9, QDate::currentDate());
-//    sorgu.bindValue(10, "");
-//    sorgu.exec();
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qFatal(sorgu.lastError().text().toStdString().c_str());
-//    }
-//    // caritipleri tablosu oluşturma
-//    sorgu.exec("CREATE TABLE caritipleri ("
-//                    "id BIGSERIAL PRIMARY KEY NOT NULL,"
-//                    "tip TEXT NOT NULL)");
-//    sorgu.exec("CREATE SEQUENCE caritipleri_sequence START WITH 1 INCREMENT BY 1 OWNED BY caritipleri.id");
-//    sorgu.exec("INSERT INTO caritipleri(id, tip) VALUES(nextval('caritipleri_sequence'), 'MÜŞTERİ')");
-//    sorgu.exec("INSERT INTO caritipleri(id, tip) VALUES(nextval('caritipleri_sequence'), 'TOPTANCI')");
-//    // kasa tablosu oluşturma
-//    sorgu.exec("CREATE TABLE kasa("
-//                "id BIGSERIAL PRIMARY KEY NOT NULL,"
-//                "para DECIMAL(18,3) NOT NULL)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.exec("INSERT INTO kasa (id, para) VALUES('1','0')");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    // kasa hareketleri tablosu oluşturma
-//    sorgu.exec("CREATE TABLE kasahareketleri("
-//                  "id BIGSERIAL PRIMARY KEY NOT NULL,"
-//                  "miktar DECIMAL(18,3) NOT NULL,"
-//                  "kullanici BIGSERIAL NOT NULL,"
-//                  "islem TEXT,"
-//                  "tarih TIMESTAMP NOT NULL)");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    sorgu.exec("CREATE SEQUENCE kasahareketleri_sequence START WITH 1000 INCREMENT BY 1 OWNED BY kasahareketleri.id");
-//    if(!QString(sorgu.lastError().text()).isEmpty()){
-//        qDebug() << sorgu.lastError().text();
-//    }
-//    QMessageBox msg(0);
-//    msg.setText("localhost'ta veritabanı oluşturuldu");
-//    msg.setWindowTitle("Bilgi");
-//    msg.setStandardButtons(QMessageBox::Ok);
-//    msg.setDefaultButton(QMessageBox::Ok);
-//    msg.setButtonText(QMessageBox::Ok, "Tamam");
-//    msg.setIcon(QMessageBox::Information);
-//    msg.exec();
-}
 
 User Veritabani::GetUserInfos(QString _UserName)
 {
@@ -607,13 +458,15 @@ User Veritabani::GetUserInfos(QString _UserName)
         u.setKasaYetki(sorgu.value(7).toBool());
         u.setIadeYetki(sorgu.value(8).toBool());
         u.setStokYetki(sorgu.value(9).toBool());
+        u.setAyaryetki(sorgu.value(10).toBool());
+        u.setCariyetki(sorgu.value(11).toBool());
     }
     return u;
 }
 
 void Veritabani::updateUser(User _NewUserInfos)
 {
-    sorgu.prepare("UPDATE kullanicilar SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ? "
+    sorgu.prepare("UPDATE kullanicilar SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ?, ayaryetki = ?, cariyetki = ? "
                     "WHERE id = ?");
     sorgu.bindValue(0, _NewUserInfos.getPassWord());
     sorgu.bindValue(1, _NewUserInfos.getAd());
@@ -623,6 +476,8 @@ void Veritabani::updateUser(User _NewUserInfos)
     sorgu.bindValue(5, _NewUserInfos.getKasaYetki());
     sorgu.bindValue(6, _NewUserInfos.getIadeYetki());
     sorgu.bindValue(7, _NewUserInfos.getStokYetki());
+    sorgu.bindValue(8, _NewUserInfos.getAyaryetki());
+    sorgu.bindValue(9, _NewUserInfos.getCariyetki());
     sorgu.bindValue(8, _NewUserInfos.getUserID());
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
@@ -651,8 +506,8 @@ void Veritabani::updateUser(User _NewUserInfos)
 
 void Veritabani::CreateNewUser(User _NewUser)
 {
-    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki)"
-                    " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki)"
+                    " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _NewUser.getUserName());
     sorgu.bindValue(1, _NewUser.getPassWord());
     sorgu.bindValue(2, _NewUser.getAd());
@@ -662,6 +517,8 @@ void Veritabani::CreateNewUser(User _NewUser)
     sorgu.bindValue(6, _NewUser.getKasaYetki());
     sorgu.bindValue(7, _NewUser.getIadeYetki());
     sorgu.bindValue(8, _NewUser.getStokYetki());
+    sorgu.bindValue(9, _NewUser.getAyaryetki());
+    sorgu.bindValue(10, _NewUser.getCariyetki());
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
@@ -1326,7 +1183,7 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
     stokKartlariModel->setQuery("SELECT id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
-    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Stok ID");
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "ID");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
     stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Stok Kodu");
     stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Adı");
@@ -1522,19 +1379,20 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
     // iade faturano alımı ve yeni oluşturma.
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
+        qFatal(qPrintable(sorgu.lastError().text()));
     }
     sorgu.next();
     QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
     // faturalar tablosuna iade fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odemetipi) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, iadeFaturaNo);
     sorgu.bindValue(1, 1000);// DİREKT cari id
-    sorgu.bindValue(2, "İADE");
+    sorgu.bindValue(2, 3);// 3 = iade
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, _kullanici.getUserID());
     sorgu.bindValue(5, _iadeSepet.sepetToplamTutari());
+    sorgu.bindValue(6, 1);//1 = nakit ödeme tipi
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
@@ -1557,7 +1415,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
                         "VALUES (?, ?, ?, ?, ?, ?, ?)");
         sorgu.bindValue(0, urun.barkod);
         sorgu.bindValue(1, iadeFaturaNo);
-        sorgu.bindValue(2, "İADE");
+        sorgu.bindValue(2, 3);// 3 = iade
         sorgu.bindValue(3, urun.miktar);
         sorgu.bindValue(4, QDateTime::currentDateTime());
         sorgu.bindValue(5, _kullanici.getUserID());

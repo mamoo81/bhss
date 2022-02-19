@@ -10,6 +10,7 @@
 #include "loginform.h"
 #include "adetdialogform.h"
 #include "kasadialogform.h"
+#include "yazici.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -45,6 +46,7 @@ SatisForm::~SatisForm()
 void SatisForm::setUser(User user)
 {
     kullanici = user;
+    vt->setOturum(kullanici);
     this->setWindowTitle("MHSS - " + kullanici.getAd());
 }
 
@@ -66,11 +68,23 @@ void SatisForm::formLoad()
 
 void SatisForm::on_StokKartlariBtn_clicked()
 {
-    StokFrom *stokKartiFormu = new StokFrom(this);
-    stokKartiFormu->setUser(kullanici);
-    stokKartiFormu->exec();
-    delete stokKartiFormu;
-    hizliUrunButonlariAyarla();
+    if(kullanici.getStokYetki()){
+        StokFrom *stokKartiFormu = new StokFrom(this);
+        stokKartiFormu->setUser(kullanici);
+        stokKartiFormu->exec();
+        delete stokKartiFormu;
+        hizliUrunButonlariAyarla();
+    }
+    else{
+        uyariSesi.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Stok işlemleri yapmaya yetkiniz yoktur.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
     ui->barkodLineEdit->setFocus();
 }
 
@@ -4297,6 +4311,9 @@ void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item
 void SatisForm::on_CikisToolBtn_clicked()
 {   
     this->close();
+    Yazici *yazdir = new Yazici();
+    yazdir->cikisRaporuBas(kullanici);
+    vt->oturumSonlandir();
 }
 
 
@@ -4378,26 +4395,49 @@ void SatisForm::on_CarpBtn_clicked()
     ui->barkodLineEdit->setFocus();
 }
 
-
 void SatisForm::on_AyarlarBtn_clicked()
 {
-    AyarlarDialog *ayarForm = new AyarlarDialog(this);
-    ayarForm->setCurrentUser(kullanici);
-    ayarForm->exec();
-    delete ayarForm;
-    // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
-    hizliUrunButonlariAyarla();
-    hizliUrunSayfaAyarla();
-    getSonSatislar();
+    if(kullanici.getAyaryetki()){
+        AyarlarDialog *ayarForm = new AyarlarDialog(this);
+        ayarForm->setCurrentUser(kullanici);
+        ayarForm->exec();
+        delete ayarForm;
+        // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
+        hizliUrunButonlariAyarla();
+        hizliUrunSayfaAyarla();
+        getSonSatislar();
+    }
+    else{
+        uyariSesi.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Ayarlara erişim ve düzenleme yetkiniz yoktur.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
     ui->barkodLineEdit->setFocus();
 }
 
 
 void SatisForm::on_CariKartlarBtn_clicked()
 {
-    CariKartlarDialog *cariForm = new CariKartlarDialog(this);
-    cariForm->setKullanici(kullanici);
-    cariForm->exec();
+    if(kullanici.getCariyetki()){
+        CariKartlarDialog *cariForm = new CariKartlarDialog(this);
+        cariForm->setKullanici(kullanici);
+        cariForm->exec();
+    }
+    else{
+        uyariSesi.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Cari işlemleri yapmaya yetkiniz yoktur.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
     ui->barkodLineEdit->setFocus();
 }
 

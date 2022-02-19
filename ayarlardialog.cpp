@@ -68,6 +68,7 @@ void AyarlarDialog::formLoad()
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
+    ui->herZamanKasacheckBox->setChecked(genelAyarlar.value("raporHerZaman").toBool());
     int yaziciIndexi = ui->fisYazicisicomboBox->findText(genelAyarlar.value("yazici").toString());
     ui->fisYazicisicomboBox->setCurrentIndex(yaziciIndexi);
     ui->SirketAdilineEdit->setText(genelAyarlar.value("sirketAdi").toString());
@@ -176,12 +177,8 @@ void AyarlarDialog::on_pushButton_clicked()
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     // yazıcı ayarları kayıt başlangıç
     genelAyarlar.beginGroup("fis-yazici");
-    if(ui->herZamancheckBox->isChecked()){
-        genelAyarlar.setValue("herZaman", true);
-    }
-    else{
-        genelAyarlar.setValue("herZaman", false);
-    }
+    genelAyarlar.setValue("herZaman", ui->herZamancheckBox->isChecked());
+    genelAyarlar.setValue("raporHerZaman", ui->herZamanKasacheckBox->isChecked());
     genelAyarlar.setValue("yazici", ui->fisYazicisicomboBox->currentText());
     genelAyarlar.setValue("sirketAdi", ui->SirketAdilineEdit->text());
     genelAyarlar.setValue("sirketAdres", ui->SirketAdreslineEdit->text());
@@ -578,5 +575,11 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
             msg.exec();
         }
     }
+}
+
+
+void AyarlarDialog::on_kapatpushButton_clicked()
+{
+    this->close();
 }
 

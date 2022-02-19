@@ -146,8 +146,7 @@ void KasaDialogForm::on_SiltoolButton_clicked()
         msg.setButtonText(QMessageBox::No, "Hayır");
         int msgsonuc = msg.exec();
         if(QMessageBox::Yes == msgsonuc){
-            bool sonuc = vt->kasaHareketiSil(kullanici,
-                                             ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 0).data().toString(),
+            bool sonuc = vt->kasaHareketiSil(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 0).data().toString(),
                                              ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 1).data().toString(),
                                              ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 2).data().toDouble());
             if(sonuc == true){

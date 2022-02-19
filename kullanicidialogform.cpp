@@ -37,6 +37,8 @@ void KullaniciDialogForm::setDuzenlenecekUser(const QString &newDuzenlenecekUser
         ui->KasacheckBox->setChecked(u.getKasaYetki());
         ui->IadecheckBox->setChecked(u.getIadeYetki());
         ui->StokcheckBox->setChecked(u.getStokYetki());
+        ui->CaricheckBox->setChecked(u.getCariyetki());
+        ui->AyarcheckBox->setChecked(u.getAyaryetki());
     }
     duzenlenecekUserName = newDuzenlenecekUserName;
 }
@@ -59,6 +61,9 @@ void KullaniciDialogForm::on_pushButton_clicked()
         NewUser.setKasaYetki(ui->KasacheckBox->isChecked());
         NewUser.setIadeYetki(ui->IadecheckBox->isChecked());
         NewUser.setStokYetki(ui->StokcheckBox->isChecked());
+        NewUser.setCariyetki(ui->CaricheckBox->isChecked());
+        NewUser.setCariyetki(ui->CaricheckBox->isChecked());
+        NewUser.setAyaryetki(ui->AyarcheckBox->isChecked());
         vt.CreateNewUser(NewUser);
     }
     else{

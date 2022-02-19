@@ -28,6 +28,8 @@ private slots:
 
     void on_IptalpushButton_clicked();
 
+    void on_StokKartlaritableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::HizliUrunEkleFormDialog *ui;
 };

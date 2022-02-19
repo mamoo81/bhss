@@ -2,7 +2,12 @@
 
 User::User()
 {
+    setGirisTarih(QDateTime::currentDateTime());
+}
 
+User::User(QDateTime _tarih)
+{
+    setGirisTarih(_tarih);
 }
 
 const QString &User::getUserID() const
@@ -104,4 +109,35 @@ void User::setPassWord(const QString &newPassWord)
 {
     passWord = newPassWord;
 }
+
+bool User::getCariyetki() const
+{
+    return cariyetki;
+}
+
+void User::setCariyetki(bool newCariyetki)
+{
+    cariyetki = newCariyetki;
+}
+
+bool User::getAyaryetki() const
+{
+    return ayaryetki;
+}
+
+void User::setAyaryetki(bool newAyaryetki)
+{
+    ayaryetki = newAyaryetki;
+}
+
+const QDateTime &User::getGirisTarih() const
+{
+    return _girisTarih;
+}
+
+void User::setGirisTarih(const QDateTime &newGirisTarih)
+{
+    _girisTarih = newGirisTarih;
+}
+
 
