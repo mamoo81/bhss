@@ -7,6 +7,7 @@
 #include "satisgrafigiform.h"
 #include "stokgircikdialog.h"
 #include "toplustokyukledialog.h"
+#include "stokhareketleridialog.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -57,9 +58,6 @@ void StokFrom::formLoad()
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
 
-    // stok hareketleri tarihleri ayarlama
-    ui->bitisdateEdit->setDate(QDate::currentDate());
-
     ui->AraLineEdit->setFocus();
 }
 
@@ -80,7 +78,8 @@ void StokFrom::grupComboboxDoldur()
 
 void StokFrom::stokKartlariniListele()
 {
-    ui->StokKartlaritableView->setModel(vt->getStokKartlari());
+    sortModel->setSourceModel(vt->getStokKartlari());
+    ui->StokKartlaritableView->setModel(sortModel);
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
     ui->StokKartlaritableView->setSortingEnabled(true);
     ui->StokKartlaritableView->resizeColumnsToContents();
@@ -263,9 +262,6 @@ void StokFrom::alanlariDoldur()
     ui->KDVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toBool());
     ui->OTVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toBool());
     ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString());
-
-    //stok hareketlerini getirme
-    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(seciliSatirModel->model()->index(seciliSatirIndex,1).data().toString()));
 }
 
 void StokFrom::closeEvent(QCloseEvent *)
@@ -483,19 +479,6 @@ void StokFrom::on_dosyadanToolButton_clicked()
     delete stokYukleForm;
 }
 
-void StokFrom::on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime)
-{
-    //stok hareketlerini getirme
-    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(), ui->baslangicdateEdit->dateTime(), dateTime));
-}
-
-
-void StokFrom::on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime)
-{
-    //stok hareketlerini getirme
-    ui->StokHareketleritableView->setModel(vt->getStokHareketleri(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString(), dateTime, ui->bitisdateEdit->dateTime()));
-}
-
 
 void StokFrom::on_StokBirimBtn_clicked()
 {
@@ -539,5 +522,14 @@ void StokFrom::on_StokCikBtn_clicked()
     stokKartlariniListele();
     delete stokMiktarigirForm;
     ui->StokKartlaritableView->selectRow(seciliStokIndex);
+}
+
+
+void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
+{
+    StokHareketleriDialog *hareketlerForm = new StokHareketleriDialog(this);
+    hareketlerForm->setStokBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
+    hareketlerForm->exec();
+    delete hareketlerForm;
 }
 

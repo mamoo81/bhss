@@ -173,3 +173,9 @@ void KasaDialogForm::on_SiltoolButton_clicked()
     delete seciliSatir;
 }
 
+
+void KasaDialogForm::on_KapatpushButton_clicked()
+{
+    this->close();
+}
+

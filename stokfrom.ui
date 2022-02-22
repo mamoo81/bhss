@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
+    <width>1350</width>
     <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1080</width>
+    <width>1350</width>
     <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1080</width>
+    <width>1350</width>
     <height>700</height>
    </size>
   </property>
@@ -38,9 +38,9 @@
   <widget class="QLineEdit" name="AraLineEdit">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>10</y>
-     <width>171</width>
+     <x>10</x>
+     <y>280</y>
+     <width>176</width>
      <height>31</height>
     </rect>
    </property>
@@ -52,9 +52,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
-     <width>521</width>
-     <height>431</height>
+     <y>320</y>
+     <width>1331</width>
+     <height>371</height>
     </rect>
    </property>
    <property name="alternatingRowColors">
@@ -76,10 +76,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>10</x>
      <y>0</y>
-     <width>531</width>
-     <height>481</height>
+     <width>1031</width>
+     <height>271</height>
     </rect>
    </property>
    <property name="title">
@@ -91,8 +91,8 @@
    <widget class="QToolButton" name="SilBtn">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>430</y>
+      <x>830</x>
+      <y>220</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -123,8 +123,8 @@
    <widget class="QToolButton" name="YeniBtn">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>430</y>
+      <x>510</x>
+      <y>220</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -155,8 +155,8 @@
    <widget class="QToolButton" name="DuzenleBtn">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>430</y>
+      <x>720</x>
+      <y>220</y>
       <width>100</width>
       <height>41</height>
      </rect>
@@ -187,8 +187,8 @@
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>400</y>
+      <x>410</x>
+      <y>190</y>
       <width>87</width>
       <height>19</height>
      </rect>
@@ -203,8 +203,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>390</y>
+      <x>530</x>
+      <y>180</y>
       <width>51</width>
       <height>30</height>
      </rect>
@@ -248,8 +248,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>360</y>
+      <x>590</x>
+      <y>150</y>
       <width>131</width>
       <height>21</height>
      </rect>
@@ -264,8 +264,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>400</y>
+      <x>590</x>
+      <y>180</y>
       <width>131</width>
       <height>21</height>
      </rect>
@@ -277,9 +277,9 @@
    <widget class="QToolButton" name="StokGrupBtn">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>230</y>
-      <width>111</width>
+      <x>720</x>
+      <y>30</y>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -305,9 +305,9 @@
    <widget class="QCheckBox" name="SurekliYenicheckBox">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>400</y>
-      <width>211</width>
+      <x>410</x>
+      <y>230</y>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -315,15 +315,15 @@
      <enum>Qt::RightToLeft</enum>
     </property>
     <property name="text">
-     <string>Sürekli yeni kayıt</string>
+     <string>Sürekli</string>
     </property>
    </widget>
    <widget class="QToolButton" name="StokBirimBtn">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>150</y>
-      <width>111</width>
+      <x>279</x>
+      <y>190</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -354,7 +354,7 @@
      <rect>
       <x>280</x>
       <y>30</y>
-      <width>111</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -383,7 +383,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>920</x>
       <y>30</y>
       <width>100</width>
       <height>100</height>
@@ -414,9 +414,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>150</y>
-      <width>121</width>
+      <x>920</x>
+      <y>140</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -445,9 +445,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>190</y>
-      <width>121</width>
+      <x>920</x>
+      <y>180</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -476,8 +476,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>430</y>
+      <x>920</x>
+      <y>220</y>
       <width>100</width>
       <height>39</height>
      </rect>
@@ -514,8 +514,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>430</y>
+      <x>610</x>
+      <y>220</y>
       <width>100</width>
       <height>41</height>
      </rect>
@@ -575,19 +575,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>11</x>
-      <y>120</y>
-      <width>77</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stok adı</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="StokAdiLnEdit">
     <property name="enabled">
      <bool>false</bool>
@@ -596,7 +583,7 @@
      <rect>
       <x>130</x>
       <y>110</y>
-      <width>141</width>
+      <width>271</width>
       <height>30</height>
      </rect>
     </property>
@@ -607,8 +594,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>160</y>
+      <x>10</x>
+      <y>200</y>
       <width>58</width>
       <height>19</height>
      </rect>
@@ -623,8 +610,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>150</y>
+      <x>129</x>
+      <y>190</y>
       <width>141</width>
       <height>30</height>
      </rect>
@@ -648,8 +635,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>200</y>
+      <x>10</x>
+      <y>240</y>
       <width>116</width>
       <height>19</height>
      </rect>
@@ -664,8 +651,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>190</y>
+      <x>129</x>
+      <y>230</y>
       <width>141</width>
       <height>30</height>
      </rect>
@@ -674,8 +661,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>240</y>
+      <x>411</x>
+      <y>40</y>
       <width>97</width>
       <height>19</height>
      </rect>
@@ -690,9 +677,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>230</y>
-      <width>141</width>
+      <x>531</x>
+      <y>30</y>
+      <width>181</width>
       <height>30</height>
      </rect>
     </property>
@@ -700,8 +687,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>280</y>
+      <x>411</x>
+      <y>70</y>
       <width>106</width>
       <height>19</height>
      </rect>
@@ -716,9 +703,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>270</y>
-      <width>141</width>
+      <x>530</x>
+      <y>60</y>
+      <width>101</width>
       <height>30</height>
      </rect>
     </property>
@@ -732,8 +719,8 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>320</y>
+      <x>411</x>
+      <y>110</y>
       <width>116</width>
       <height>19</height>
      </rect>
@@ -745,8 +732,8 @@
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>360</y>
+      <x>411</x>
+      <y>150</y>
       <width>87</width>
       <height>19</height>
      </rect>
@@ -758,8 +745,8 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>300</y>
+      <x>770</x>
+      <y>70</y>
       <width>77</width>
       <height>19</height>
      </rect>
@@ -771,10 +758,10 @@
    <widget class="QLineEdit" name="AciklamaLnEdit">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>320</y>
-      <width>201</width>
-      <height>71</height>
+      <x>720</x>
+      <y>90</y>
+      <width>191</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="clearButtonEnabled">
@@ -787,8 +774,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>350</y>
+      <x>530</x>
+      <y>140</y>
       <width>51</width>
       <height>30</height>
      </rect>
@@ -803,9 +790,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>310</y>
-      <width>141</width>
+      <x>530</x>
+      <y>100</y>
+      <width>101</width>
       <height>30</height>
      </rect>
     </property>
@@ -816,13 +803,49 @@
      <double>0.000000000000000</double>
     </property>
    </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>77</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stok adı</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>77</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Üretici</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>152</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QRadioButton" name="barkodRadioButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>201</width>
+     <x>270</x>
+     <y>280</y>
+     <width>199</width>
      <height>21</height>
     </rect>
    </property>
@@ -836,8 +859,8 @@
   <widget class="QRadioButton" name="adRadioButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
+     <x>270</x>
+     <y>300</y>
      <width>99</width>
      <height>21</height>
     </rect>
@@ -849,8 +872,8 @@
   <widget class="QToolButton" name="araBtn">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>10</y>
+     <x>190</x>
+     <y>280</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -875,8 +898,8 @@
   <widget class="QRadioButton" name="adRadioButton_2">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>30</y>
+     <x>360</x>
+     <y>300</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -888,9 +911,9 @@
   <widget class="QToolButton" name="SatisGrafikBtn">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>500</y>
-     <width>271</width>
+     <x>1050</x>
+     <y>20</y>
+     <width>291</width>
      <height>31</height>
     </rect>
    </property>
@@ -923,9 +946,9 @@
   <widget class="QToolButton" name="StokGirBtn">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>540</y>
-     <width>131</width>
+     <x>1050</x>
+     <y>60</y>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
@@ -955,9 +978,9 @@
   <widget class="QToolButton" name="StokCikBtn">
    <property name="geometry">
     <rect>
-     <x>940</x>
-     <y>540</y>
-     <width>131</width>
+     <x>1200</x>
+     <y>60</y>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
@@ -984,76 +1007,12 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="IslemDuzenleBtn">
-   <property name="geometry">
-    <rect>
-     <x>800</x>
-     <y>580</y>
-     <width>271</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>İşlemi Düzenle</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/edit-property-100.png</normaloff>:/images/ui/edit-property-100.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="IslemSilBtn">
-   <property name="geometry">
-    <rect>
-     <x>800</x>
-     <y>620</y>
-     <width>271</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>İşlemi Sil</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/delete-document-100.png</normaloff>:/images/ui/delete-document-100.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
   <widget class="QToolButton" name="dosyadanToolButton">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>660</y>
-     <width>271</width>
+     <x>1050</x>
+     <y>240</y>
+     <width>291</width>
      <height>31</height>
     </rect>
    </property>
@@ -1079,107 +1038,13 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QTableView" name="StokHareketleritableView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>510</y>
-     <width>781</width>
-     <height>181</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>480</y>
-     <width>622</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label_15">
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(0, 170, 255);</string>
-      </property>
-      <property name="text">
-       <string>Stok Hareketleri</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_14">
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Başlangıç</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QDateEdit" name="baslangicdateEdit">
-      <property name="displayFormat">
-       <string>dd.MM.yyyy</string>
-      </property>
-      <property name="calendarPopup">
-       <bool>true</bool>
-      </property>
-      <property name="date">
-       <date>
-        <year>2022</year>
-        <month>1</month>
-        <day>1</day>
-       </date>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Bitiş Tarihi</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QDateEdit" name="bitisdateEdit">
-      <property name="displayFormat">
-       <string>dd.MM.yyyy</string>
-      </property>
-      <property name="calendarPopup">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>490</y>
-     <width>164</width>
-     <height>21</height>
+     <x>1133</x>
+     <y>280</y>
+     <width>201</width>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1195,7 +1060,7 @@
       <property name="font">
        <font>
         <family>Monospace</family>
-        <pointsize>10</pointsize>
+        <pointsize>11</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -1237,8 +1102,6 @@
   <tabstop>adRadioButton_2</tabstop>
   <tabstop>StokGirBtn</tabstop>
   <tabstop>StokCikBtn</tabstop>
-  <tabstop>IslemDuzenleBtn</tabstop>
-  <tabstop>IslemSilBtn</tabstop>
   <tabstop>AciklamaLnEdit</tabstop>
   <tabstop>StokGrupBtn</tabstop>
   <tabstop>adRadioButton</tabstop>

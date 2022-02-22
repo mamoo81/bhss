@@ -51,38 +51,38 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
             "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\"><b>" + sirketAdi + "</b></font></font></p>"
             "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + sirketAdresi + "</font></font></p>"
             "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
-                "<col width=\"176*\"/>"
+                "<col width=\"164*\"/>"
 
                 "<col width=\"34*\"/>"
 
-                "<col width=\"46*\"/>"
+                "<col width=\"57*\"/>"
 
                 "<tr valign=\"top\">"
-                    "<td width=\"69%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"left\">"
+                    "<td width=\"64%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"left\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\">Ürün</font></font></p>"
                     "</td>"
                     "<td width=\"13%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\">Adet</font></font></p>"
                     "</td>"
-                    "<td width=\"18%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
+                    "<td width=\"22%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\">Tutar</font></font></p>"
                     "</td>"
                 "</tr>";
     foreach (auto urun, _sepet.urunler) {
         html.append(QString(
                         "<tr valign=\"top\">"
-                            "<td width=\"69%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
+                            "<td width=\"64%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
                             "<td width=\"13%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.miktar) + "</strong></font></font></p></td>"
-                            "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"right\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
+                            "<td width=\"22%\" style=\"border: none; padding: 0in\"><p align=\"right\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
                         "</tr>"
                         ));
     };
     html.append(QString(
                 "<tr valign=\"top\">"
-                    "<td colspan=\"2\" width=\"82%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
+                    "<td colspan=\"2\" width=\"78%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\"><strong>Toplam<strong></font></font></p>"
                     "</td>"
-                    "<td width=\"18%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"right\">"
+                    "<td width=\"22%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"right\">"
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari(), 'f', 2) + "<strong></font></font></p>"
                     "</td>"
                 "</tr>"

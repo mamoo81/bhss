@@ -95,7 +95,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         yeniCari.setVergiDaire(turkce.toUpper(ui->VergiDairesilineEdit->text()));
         yeniCari.setIl(turkce.toUpper(ui->ilcomboBox->currentText()));
         yeniCari.setIlce(turkce.toUpper(ui->ilcecomboBox->currentText()));
-        yeniCari.setAdres(turkce.toUpper(ui->AdresplainTextEdit->placeholderText()));
+        yeniCari.setAdres(turkce.toUpper(ui->AdresplainTextEdit->toPlainText()));
         yeniCari.setMail(ui->MaillineEdit->text());
         yeniCari.setTelefon(ui->TelefonlineEdit->text());
         yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));

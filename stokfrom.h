@@ -2,6 +2,7 @@
 #define STOKFROM_H
 #include "user.h"
 #include "veritabani.h"
+#include "QSortFilterProxyModel"
 //************************
 #include <QDialog>
 
@@ -55,10 +56,6 @@ private slots:
     void on_araBtn_clicked();
     void on_dosyadanToolButton_clicked();
 
-    void on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime);
-
-    void on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime);
-
     void on_StokBirimBtn_clicked();
 
     void on_SatisGrafikBtn_clicked();
@@ -67,12 +64,15 @@ private slots:
 
     void on_StokCikBtn_clicked();
 
+    void on_StokKartlaritableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::StokFrom *ui;
 
     User kullanici;
     Veritabani *vt = new Veritabani();
     QItemSelectionModel *selectionModel = new QItemSelectionModel();
+    QSortFilterProxyModel *sortModel = new QSortFilterProxyModel();
 };
 
 #endif // STOKFROM_H

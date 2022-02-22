@@ -399,7 +399,7 @@ void Veritabani::setOturum(User _user)
         }
     }
     else{
-        sorgu.prepare("INSERT INTO oturum(username, giristarihi) VALUES(?,?)");
+        sorgu.prepare("INSERT INTO oturum(id, username, giristarihi) VALUES('1', ?,?)");
         sorgu.bindValue(0, _user.getUserName());
         sorgu.bindValue(1, QDateTime::currentDateTime());
         sorgu.exec();
@@ -1279,7 +1279,7 @@ QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod)
 
 QSqlQueryModel *Veritabani::getStokHareketleri(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih)
 {
-    sorgu.prepare("SELECT * FROM stokhareketleri WHERE barkod = ? AND tarih BETWEEN ? AND ?");
+    sorgu.prepare("SELECT * FROM stokhareketleri WHERE barkod = ? AND tarih BETWEEN ? AND ? ORDER BY tarih DESC");
     sorgu.bindValue(0, _barkod);
     sorgu.bindValue(1, _baslangicTarih);
     sorgu.bindValue(2, _bitisTarih.addDays(1));

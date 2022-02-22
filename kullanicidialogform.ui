@@ -207,6 +207,8 @@
   <tabstop>KasacheckBox</tabstop>
   <tabstop>IadecheckBox</tabstop>
   <tabstop>StokcheckBox</tabstop>
+  <tabstop>CaricheckBox</tabstop>
+  <tabstop>AyarcheckBox</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
  </tabstops>

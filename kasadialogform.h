@@ -57,6 +57,8 @@ private slots:
 
     void on_SiltoolButton_clicked();
 
+    void on_KapatpushButton_clicked();
+
 private:
     Ui::KasaDialogForm *ui;
 

@@ -83,15 +83,13 @@ void LoginForm::keyPressEvent(QKeyEvent *event)
 
 bool LoginForm::getCapslockState()
 {
-    const QString platform = QGuiApplication::platformName();
     QThread::msleep(100);
     QFile capslockFile(capsLockFilePath);
     if(!capslockFile.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::Unbuffered | QIODevice::ExistingOnly)){
         qCritical("%s", qPrintable(capslockFile.errorString()));
     }
     QTextStream stream(&capslockFile);
-    qDebug() << "platform:" << platform << capslockFile << stream.readLine();
-    bool state = (bool)stream.readAll().toInt();
+    bool state = stream.readLine().toInt();
     capslockFile.close();
     return state;
 }

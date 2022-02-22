@@ -100,6 +100,7 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 void CariKartlarDialog::on_YenitoolButton_clicked()
 {
     YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
+    yeniCari->setDuzenle(false);
     yeniCari->exec();
     CariKartlarDialog::cariKartlariListele();
     delete yeniCari;
@@ -192,7 +193,7 @@ void CariKartlarDialog::on_CariyiBorclandirtoolButton_clicked()
 
 void CariKartlarDialog::on_DuzenletoolButton_clicked()
 {
-    if(ui->CariKartlartableView->currentIndex().row() > 0){
+    if(ui->CariKartlartableView->currentIndex().row() != 0){
         YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
         yeniCari->setWindowTitle("Cari Kartı Düzenle");
         yeniCari->setDuzenle(true);

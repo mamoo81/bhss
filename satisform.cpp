@@ -4344,48 +4344,72 @@ void SatisForm::sepetTabIconlariAyarla()
 
 void SatisForm::on_iadeAlBtn_clicked()
 {
-    if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
+    if(kullanici.getIadeYetki()){
+        if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
+            uyariSesi.play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Question);
+            msg.setText(QString("Sepetteki %1 kalem ürün DİREKT carisine iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
+            msg.setInformativeText(QString("İade edilecek tutar: ₺%1").arg(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari()));
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::Yes);
+            msg.setButtonText(QMessageBox::Yes, "Evet");
+            msg.setButtonText(QMessageBox::No, "Hayır");
+            int cvp = msg.exec();
+            if(cvp == QMessageBox::Yes){
+                if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() < vt->getKasadakiPara()){
+                    // iade işlemleri başlangıcı.
+                    vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
+                    // sepet silme başlangıcı
+                    sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
+                    switch (ui->SepetlertabWidget->currentIndex()) {
+                    case 0:
+                        sepet[0].sepetiSil();
+                        ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
+                        break;
+                    case 1:
+                        sepet[1].sepetiSil();
+                        ui->sepet2TableWidget->model()->removeRows(0, ui->sepet2TableWidget->rowCount());
+                        break;
+                    case 2:
+                        sepet[2].sepetiSil();
+                        ui->sepet3TableWidget->model()->removeRows(0, ui->sepet3TableWidget->rowCount());
+                        break;
+                    case 3:
+                        sepet[3].sepetiSil();
+                        ui->sepet4TableWidget->model()->removeRows(0, ui->sepet4TableWidget->rowCount());
+                        break;
+                    }
+                    butonDurumlariniAyarla();
+                    sepetToplaminiYaz();
+                    getSonSatislar();
+                    sepetTabIconlariAyarla();
+                }
+                else{
+                    uyariSesi.play();
+                    QMessageBox msg(this);
+                    msg.setWindowTitle("Dikkat");
+                    msg.setIcon(QMessageBox::Warning);
+                    msg.setText("Kasada yeterli miktarda para yok!\n\nİade alamassınız.");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    msg.setButtonText(QMessageBox::Ok, "Tamam");
+                    msg.exec();
+                }
+            }
+        }
+    }
+    else{
         uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Question);
-        msg.setText(QString("Sepetteki %1 kalem ürün DİREKT carisine iade alınacak.\n\nİade almak istediğinize emin misiniz?").arg(sepet[ui->SepetlertabWidget->currentIndex()].urunler.count()));
-        msg.setInformativeText(QString("İade edilecek tutar: ₺%1").arg(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari()));
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setDefaultButton(QMessageBox::Yes);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
-        int cvp = msg.exec();
-        if(cvp == QMessageBox::Yes){
-            // iade işlemleri başlangıcı.
-            vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
-            // sepet silme başlangıcı
-            sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
-            switch (ui->SepetlertabWidget->currentIndex()) {
-            case 0:
-                sepet[0].sepetiSil();
-                ui->sepet1TableWidget->model()->removeRows(0, ui->sepet1TableWidget->rowCount());
-                break;
-            case 1:
-                sepet[1].sepetiSil();
-                ui->sepet2TableWidget->model()->removeRows(0, ui->sepet2TableWidget->rowCount());
-                break;
-            case 2:
-                sepet[2].sepetiSil();
-                ui->sepet3TableWidget->model()->removeRows(0, ui->sepet3TableWidget->rowCount());
-                break;
-            case 3:
-                sepet[3].sepetiSil();
-                ui->sepet4TableWidget->model()->removeRows(0, ui->sepet4TableWidget->rowCount());
-                break;
-            }
-            butonDurumlariniAyarla();
-            sepetToplaminiYaz();
-            getSonSatislar();
-            sepetTabIconlariAyarla();
-            ui->barkodLineEdit->setFocus();
-        }
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("İade almaya yetkiniz yok.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
     }
+    ui->barkodLineEdit->setFocus();
 }
 
 
