@@ -53,37 +53,38 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
         foreach (QString barkod, object.keys()) {
             if(!vt.barkodVarmi(barkod)){
                 QJsonValue value = object.value(barkod);
-                sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, marka, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, aciklama) "
-                                "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci, aciklama) "
+                                "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 sorgu.bindValue(0, barkod);
                 sorgu.bindValue(1, value["kod"].toString());
-                sorgu.bindValue(2, value["marka"].toString());
-                sorgu.bindValue(3, value["ad"].toString());
-                sorgu.bindValue(4, value["birim"].toString());
+                sorgu.bindValue(2, value["ad"].toString());
+                sorgu.bindValue(3, value["birim"].toString());
                 if(ui->miktarcheckBox->isChecked()){// seçili ise miktarları 10000 adet/kg/metre girer.
-                    sorgu.bindValue(5, 10000);
+                    sorgu.bindValue(4, 10000);
                 }
                 else{
-                    sorgu.bindValue(5, value["miktar"].toVariant().value<float>());
+                    sorgu.bindValue(4, value["miktar"].toVariant().value<float>());
                 }
-                sorgu.bindValue(6, value["grup"].toString());
+                sorgu.bindValue(5, value["grup"].toString());
                 if(ui->fiyatcheckBox->isChecked()){// seçili ise fiyatları 0 TL girer.
+                    sorgu.bindValue(6, 0);
                     sorgu.bindValue(7, 0);
-                    sorgu.bindValue(8, 0);
                 }
                 else{
-                    sorgu.bindValue(7, value["afiyat"].toDouble());
-                    sorgu.bindValue(8, value["sfiyat"].toDouble());
+                    sorgu.bindValue(6, value["afiyat"].toDouble());
+                    sorgu.bindValue(7, value["sfiyat"].toDouble());
                 }
-                sorgu.bindValue(9, value["kdv"].toInt());
-                sorgu.bindValue(10, value["kdvdahil"].toBool());
-                sorgu.bindValue(11, value["otv"].toInt());
-                sorgu.bindValue(12, value["otvdahil"].toBool());
-                sorgu.bindValue(13, value["tarih"].toVariant().value<QDateTime>());
-                sorgu.bindValue(14, value["aciklama"].toString());
+                sorgu.bindValue(8, value["kdv"].toInt());
+                sorgu.bindValue(9, value["kdvdahil"].toBool());
+                sorgu.bindValue(10, value["otv"].toInt());
+                sorgu.bindValue(11, value["otvdahil"].toBool());
+                sorgu.bindValue(12, value["tarih"].toVariant().value<QDateTime>());
+                sorgu.bindValue(13, value["uretici"].toInt());
+                sorgu.bindValue(14, QVariant(QString()));
+                sorgu.bindValue(15, value["aciklama"].toString());
                 sorgu.exec();
                 if(sorgu.lastError().isValid()){
-                    qWarning() << sorgu.lastError().text();
+                    qCritical(qPrintable(sorgu.lastError().text()));
                     basarisiz++;
                 }
                 yuklenen++;

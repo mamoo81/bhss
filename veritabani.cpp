@@ -426,6 +426,28 @@ void Veritabani::oturumSonlandir()
     }
 }
 
+QStringList Veritabani::getUreticiler()
+{
+    QStringList liste;
+    liste.append("Üretici seçin...");
+    sorgu.exec("SELECT ad FROM ureticiler ORDER BY ad ASC");
+    while (sorgu.next()) {
+        liste.append(sorgu.value(0).toString());
+    }
+    return liste;
+}
+
+QStringList Veritabani::getTedarikciler()
+{
+    QStringList liste;
+    liste.append("Tedarikçi seçin...");
+    sorgu.exec("SELECT ad FROM carikartlar WHERE tip = 2 ORDER BY ad ASC");
+    while (sorgu.next()) {
+        liste.append(sorgu.value(0).toString());
+    }
+    return liste;
+}
+
 bool Veritabani::veritabaniVarmi()
 {
     //mhss_data veritabanı varmı kontrol
@@ -1182,7 +1204,10 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
 
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
-    stokKartlariModel->setQuery("SELECT id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama FROM stokkartlari ORDER BY ad ASC", db);
+    stokKartlariModel->setQuery("SELECT stokkartlari.id, barkod, kod, stokkartlari.ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, stokkartlari.tarih, ureticiler.ad, carikartlar.ad, stokkartlari.aciklama FROM stokkartlari "
+                                "LEFT JOIN ureticiler ON stokkartlari.uretici = ureticiler.id "
+                                "LEFT JOIN carikartlar ON stokkartlari.tedarikci = carikartlar.id "
+                                "ORDER BY stokkartlari.ad ASC", db);
     stokKartlariModel->setHeaderData(0, Qt::Horizontal, "ID");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
     stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Stok Kodu");
@@ -1197,7 +1222,9 @@ QSqlQueryModel *Veritabani::getStokKartlari()
     stokKartlariModel->setHeaderData(11, Qt::Horizontal, "KDV dahil");
     stokKartlariModel->setHeaderData(12, Qt::Horizontal, "ÖTV dahil");
     stokKartlariModel->setHeaderData(13, Qt::Horizontal, "Gün. tarihi");
-    stokKartlariModel->setHeaderData(14, Qt::Horizontal, "Açıklama");
+    stokKartlariModel->setHeaderData(14, Qt::Horizontal, "Üretici");
+    stokKartlariModel->setHeaderData(15, Qt::Horizontal, "Tedarikçi");
+    stokKartlariModel->setHeaderData(16, Qt::Horizontal, "Açıklama");
     return stokKartlariModel;
 }
 

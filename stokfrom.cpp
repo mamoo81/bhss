@@ -52,7 +52,10 @@ void StokFrom::formLoad()
     // stok birimlerini çekme
     ui->BirimiComboBox->clear();
     ui->BirimiComboBox->addItems(vt->getStokBirimleri());
-
+    // üreticileri çekme
+    ui->ureticicomboBox->addItems(vt->getUreticiler());
+    // tedarikçileri getirme
+    ui->tedarikcicomboBox->addItems(vt->getTedarikciler());
 //    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
@@ -110,6 +113,8 @@ void StokFrom::on_YeniBtn_clicked()
         ui->BirimiComboBox->setEnabled(true);
         ui->MiktarLnEdit->setEnabled(true);
         ui->StokGrubuComboBox->setEnabled(true);
+        ui->ureticicomboBox->setEnabled(true);
+        ui->tedarikcicomboBox->setEnabled(true);
         ui->AFiyatdoubleSpinBox->setEnabled(true);
         ui->SFiyatdoubleSpinBox->setEnabled(true);
         ui->KDVspinBox->setEnabled(true);
@@ -149,6 +154,8 @@ void StokFrom::on_DuzenleBtn_clicked()
             ui->StokKoduLnEdit->setEnabled(true);
             ui->StokAdiLnEdit->setEnabled(true);
             ui->BirimiComboBox->setEnabled(true);
+            ui->ureticicomboBox->setEnabled(true);
+            ui->tedarikcicomboBox->setEnabled(true);
             ui->StokGrubuComboBox->setEnabled(true);
             ui->AFiyatdoubleSpinBox->setEnabled(true);
             ui->SFiyatdoubleSpinBox->setEnabled(true);
@@ -201,6 +208,8 @@ void StokFrom::on_IptalBtn_clicked()
     ui->BirimiComboBox->setEnabled(false);
     ui->MiktarLnEdit->setEnabled(false);
     ui->StokGrubuComboBox->setEnabled(false);
+    ui->ureticicomboBox->setEnabled(false);
+    ui->tedarikcicomboBox->setEnabled(false);
     ui->AFiyatdoubleSpinBox->setEnabled(false);
     ui->SFiyatdoubleSpinBox->setEnabled(false);
     ui->KDVspinBox->setEnabled(false);
@@ -261,7 +270,9 @@ void StokFrom::alanlariDoldur()
     ui->OTVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toInt());
     ui->KDVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toBool());
     ui->OTVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toBool());
-    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString());
+    ui->ureticicomboBox->setCurrentIndex(ui->ureticicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString()));
+    ui->tedarikcicomboBox->setCurrentIndex(ui->tedarikcicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 15).data().toString()));
+    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 16).data().toString());
 }
 
 void StokFrom::closeEvent(QCloseEvent *)

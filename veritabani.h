@@ -101,6 +101,8 @@ public slots:
     void setOturum(User _user);
     QSqlQuery getOturum();
     void oturumSonlandir();
+    QStringList getUreticiler();
+    QStringList getTedarikciler();
 };
 
 #endif // VERITABANI_H
