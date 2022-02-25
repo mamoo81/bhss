@@ -2164,6 +2164,12 @@ void SatisForm::hizliUrunButonlariAyarla()
             hizliButonBarkodlar.beginGroup(butonName);
             btn->setText(hizliButonBarkodlar.value("ad").toString());
             btn->setWhatsThis(hizliButonBarkodlar.value("barkod").toString());
+            if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg").exists()){
+                btn->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg"));
+            }
+            else{
+                btn->setIcon(QIcon(":/images/ui/box.png"));
+            }
             hizliButonBarkodlar.endGroup();
         }
     }
@@ -2199,12 +2205,17 @@ void SatisForm::ekleAction()
         hizliButonBarkodlar.setValue("stokid", hizliDialog->hizliUrunStokID);
         hizliButonBarkodlar.setValue("ad", hizliDialog->hizliUrunAd);
         hizliButonBarkodlar.setValue("barkod", hizliDialog->hizliUrunBarkod);
-        hizliButonBarkodlar.endGroup();
-        // hizlibutonlar.ini dosyasına kayıt etme bitiş.
-
         // static_cast edilmiş butonun textini ve whatthis değiştirme başlangıcı.
         hizliEklenecekButon->setText(hizliDialog->hizliUrunAd);
         hizliEklenecekButon->setWhatsThis(hizliDialog->hizliUrunBarkod);
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg").exists()){
+            hizliEklenecekButon->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg"));
+        }
+        else{
+            hizliEklenecekButon->setIcon(QIcon(":/images/ui/box.png"));
+        }
+        hizliButonBarkodlar.endGroup();
+        // hizlibutonlar.ini dosyasına kayıt etme bitiş.
     }
     ui->barkodLineEdit->setFocus();
 }

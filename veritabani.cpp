@@ -24,7 +24,11 @@ Veritabani::~Veritabani()
 {
 
 }
-
+/**
+ * @brief Veritabani::barkodVarmi varkod var ise true döner yok ise false
+ * @param _Barkod kontrol edilecek barkod parametresi
+ * @return
+ */
 bool Veritabani::barkodVarmi(QString _Barkod)
 {
     sorgu.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
@@ -437,6 +441,17 @@ QStringList Veritabani::getUreticiler()
     return liste;
 }
 
+int Veritabani::getUreticiID(QString _ureticiAd)
+{
+    sorgu.prepare("SELECT id FROM ureticiler WHERE ad = ?");
+    sorgu.bindValue(0, _ureticiAd);
+    sorgu.exec();
+    if(!sorgu.next()){
+        return 0;
+    }
+    return sorgu.value(0).toInt();
+}
+
 QStringList Veritabani::getTedarikciler()
 {
     QStringList liste;
@@ -446,6 +461,17 @@ QStringList Veritabani::getTedarikciler()
         liste.append(sorgu.value(0).toString());
     }
     return liste;
+}
+
+int Veritabani::getTedarikciID(QString _tedarikciAd)
+{
+    sorgu.prepare("SELECT id FROM carikartlar WHERE tip = 2 AND ad = ?");
+    sorgu.bindValue(0, _tedarikciAd);
+    sorgu.exec();
+    if(!sorgu.next()){
+        return 0;
+    }
+    return sorgu.value(0).toInt();
 }
 
 bool Veritabani::veritabaniVarmi()
@@ -1095,8 +1121,8 @@ bool Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
 
 void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 {
-    sorgu.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, aciklama) "
-                    "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, uretici, tedarikci, aciklama) "
+                    "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _StokKarti.getBarkod());
     sorgu.bindValue(1, _StokKarti.getKod());
     sorgu.bindValue(2, _StokKarti.getAd());
@@ -1110,7 +1136,9 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
     sorgu.bindValue(10, _StokKarti.getKdvdahil());
     sorgu.bindValue(11, _StokKarti.getOtvdahil());
     sorgu.bindValue(12, _StokKarti.getTarih());
-    sorgu.bindValue(13, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
+    sorgu.bindValue(13, _StokKarti.getUretici());
+    sorgu.bindValue(14, _StokKarti.getTedarikci());
+    sorgu.bindValue(15, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
@@ -1135,7 +1163,7 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 
 void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici)
 {
-    sorgu.prepare("UPDATE stokkartlari SET barkod = ?, kod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, otv = ?, kdvdahil = ?, otvdahil = ?, tarih = ? , aciklama = ? "
+    sorgu.prepare("UPDATE stokkartlari SET barkod = ?, kod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, otv = ?, kdvdahil = ?, otvdahil = ?, tarih = ?, uretici = ?, tedarikci = ?, aciklama = ? "
                         "WHERE id = ?");
     sorgu.bindValue(0, _YeniStokKarti.getBarkod());
     sorgu.bindValue(1, _YeniStokKarti.getKod());
@@ -1150,8 +1178,10 @@ void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _
     sorgu.bindValue(10, _YeniStokKarti.getKdvdahil());
     sorgu.bindValue(11, _YeniStokKarti.getOtvdahil());
     sorgu.bindValue(12, _YeniStokKarti.getTarih());
-    sorgu.bindValue(13, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
-    sorgu.bindValue(14, _EskiStokKartiID);
+    sorgu.bindValue(13, _YeniStokKarti.getUretici());
+    sorgu.bindValue(14, _YeniStokKarti.getTedarikci());
+    sorgu.bindValue(15, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
+    sorgu.bindValue(16, _EskiStokKartiID);
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox();
         msg->setIcon(QMessageBox::Information);

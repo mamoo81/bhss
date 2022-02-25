@@ -102,7 +102,9 @@ public slots:
     QSqlQuery getOturum();
     void oturumSonlandir();
     QStringList getUreticiler();
+    int getUreticiID(QString _ureticiAd);
     QStringList getTedarikciler();
+    int getTedarikciID(QString _tedarikciAd);
 };
 
 #endif // VERITABANI_H

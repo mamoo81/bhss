@@ -195,7 +195,7 @@
    </widget>
    <widget class="QLabel" name="UrunResimlabel">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -215,7 +215,10 @@
      <string notr="true">color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string>Ürün Resmi</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/images/ui/box.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -539,7 +542,7 @@
      <enum>Qt::ToolButtonTextBesideIcon</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>

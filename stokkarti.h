@@ -2,7 +2,12 @@
 #define STOKKARTI_H
 
 #include <QString>
+#include <QPixmap>
 #include <QDateTime>
+#include <QStandardPaths>
+#include <QImage>
+#include <QFile>
+#include <QFileInfo>
 
 class StokKarti
 {
@@ -54,6 +59,15 @@ public:
     bool getOtvdahil() const;
     void setOtvdahil(bool newOtvdahil);
 
+    int getUretici() const;
+    void setUretici(int newUretici);
+
+    int getTedarikci() const;
+    void setTedarikci(int newTedarikci);
+
+    const QPixmap &getResim() const;
+    void setResim(const QPixmap &newResim);
+
 private:
     QString id;
     QString kod;
@@ -70,6 +84,9 @@ private:
     bool otvdahil;
     QDateTime tarih;
     QString aciklama;
+    int uretici;
+    int tedarikci;
+    QPixmap resim;
 };
 
 #endif // STOKKARTI_H

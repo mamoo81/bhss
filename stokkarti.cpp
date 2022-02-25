@@ -23,6 +23,15 @@ const QString &StokKarti::getBarkod() const
 void StokKarti::setBarkod(const QString &newBarkod)
 {
     barkod = newBarkod;
+    QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + barkod + ".jpg");
+    if(resimDosya.exists()){
+        QImage img(QFileInfo(resimDosya).absoluteFilePath());
+        setResim(QPixmap::fromImage(img));
+    }
+    else{
+        QImage img(":/images/ui/box.png");
+        setResim(QPixmap::fromImage(img));
+    }
 }
 
 const QString &StokKarti::getAd() const
@@ -153,4 +162,34 @@ bool StokKarti::getOtvdahil() const
 void StokKarti::setOtvdahil(bool newOtvdahil)
 {
     otvdahil = newOtvdahil;
+}
+
+int StokKarti::getUretici() const
+{
+    return uretici;
+}
+
+void StokKarti::setUretici(int newUretici)
+{
+    uretici = newUretici;
+}
+
+int StokKarti::getTedarikci() const
+{
+    return tedarikci;
+}
+
+void StokKarti::setTedarikci(int newTedarikci)
+{
+    tedarikci = newTedarikci;
+}
+
+const QPixmap &StokKarti::getResim() const
+{
+    return resim;
+}
+
+void StokKarti::setResim(const QPixmap &newResim)
+{
+    resim = newResim;
 }

@@ -66,6 +66,8 @@ private slots:
 
     void on_StokKartlaritableView_doubleClicked(const QModelIndex &index);
 
+    void on_BarkodOlusturBtn_clicked();
+
 private:
     Ui::StokFrom *ui;
 

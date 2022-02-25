@@ -19,6 +19,7 @@
 #include <QSound>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QRandomGenerator>
 
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
@@ -273,6 +274,7 @@ void StokFrom::alanlariDoldur()
     ui->ureticicomboBox->setCurrentIndex(ui->ureticicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString()));
     ui->tedarikcicomboBox->setCurrentIndex(ui->tedarikcicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 15).data().toString()));
     ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 16).data().toString());
+    ui->UrunResimlabel->setPixmap(vt->getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
 }
 
 void StokFrom::closeEvent(QCloseEvent *)
@@ -344,6 +346,8 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
             yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
             yeniStokKarti.setTarih(QDateTime::currentDateTime());
+            yeniStokKarti.setUretici(vt->getUreticiID(ui->ureticicomboBox->currentText()));
+            yeniStokKarti.setTedarikci(vt->getTedarikciID(ui->tedarikcicomboBox->currentText()));
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
             vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
 
@@ -382,6 +386,8 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
         yeniStokKarti.setKdv(ui->KDVspinBox->value());
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
+        yeniStokKarti.setUretici(vt->getUreticiID(ui->ureticicomboBox->currentText()));
+        yeniStokKarti.setTedarikci(vt->getTedarikciID(ui->tedarikcicomboBox->currentText()));
         yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
@@ -538,9 +544,19 @@ void StokFrom::on_StokCikBtn_clicked()
 
 void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
     StokHareketleriDialog *hareketlerForm = new StokHareketleriDialog(this);
     hareketlerForm->setStokBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
     hareketlerForm->exec();
     delete hareketlerForm;
+}
+
+
+void StokFrom::on_BarkodOlusturBtn_clicked()
+{
+    QString uretilenBarkod(QString::number(QRandomGenerator::global()->generate()));
+    if(!vt->barkodVarmi(uretilenBarkod)){
+        ui->BarkodLnEdit->setText(uretilenBarkod);
+    }
 }
 
