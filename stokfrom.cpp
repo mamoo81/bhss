@@ -385,6 +385,9 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
         yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
         yeniStokKarti.setKdv(ui->KDVspinBox->value());
+        yeniStokKarti.setOtv(ui->OTVspinBox->value());
+        yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
+        yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
         yeniStokKarti.setUretici(vt->getUreticiID(ui->ureticicomboBox->currentText()));
         yeniStokKarti.setTedarikci(vt->getTedarikciID(ui->tedarikcicomboBox->currentText()));

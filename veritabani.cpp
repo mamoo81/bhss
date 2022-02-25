@@ -670,6 +670,12 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
                                     QString _evrakNo,
                                     QString _aciklama)
 {
+    double guncelBorc = getCariToplamBorc(_cariID);
+    double odenenTutar = _tutar;
+    if(guncelBorc < odenenTutar){// tahsilat _tutar'ı büyükse toplam borçtan. falza tutarı carinin alacağına ekle.
+        cariyiAlacaklandır(_cariID, (odenenTutar - guncelBorc), _tarih, 1, _odemeTipi, _islemYapanKullanici, _evrakNo, _aciklama);
+        _tutar = guncelBorc;
+    }
     //yeni fatura numarası için faturalar_sequence'den son değeri alma
     sorgu.exec("SELECT last_value FROM faturalar_sequence");
     if(sorgu.lastError().isValid()){

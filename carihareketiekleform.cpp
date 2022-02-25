@@ -87,8 +87,13 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.exec();
         }
         break;
-    case odeme:
+    case odeme:// cariye ödeme yapma
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
+            double cariToplamAlacak = vt->getCariToplamAlacak(cariID);
+            if(cariToplamAlacak < ui->islemTutaridoubleSpinBox->value()){// cariye yapılan ödeme toplamAlacaktan büyükse
+                ui->islemTutaridoubleSpinBox->setValue(cariToplamAlacak);
+            }
+            // cariye ödeme yapma
             vt->cariyeOdemeYap(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
                                    ui->islemdateEdit->dateTime(),
