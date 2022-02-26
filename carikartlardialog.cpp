@@ -2,6 +2,7 @@
 #include "ui_carikartlardialog.h"
 #include "carihareketiekleform.h"
 #include "yenicarikartdialog.h"
+#include "satisgosterdialog.h"
 //**************************
 #include <QCompleter>
 #include <QLocale>
@@ -53,19 +54,11 @@ void CariKartlarDialog::cariHareketleriListele()
     QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
     ui->CariKartHareketleritableView->setModel(vt.getCariHareketleri(cariID));
     ui->CariKartHareketleritableView->resizeColumnsToContents();
+    ui->CariKartHareketleritableView->setSortingEnabled(true);
     ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
     ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID), 'f', 2));
     // butonların aktif/pasif durumları ayarlama
-    if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() != "1000"){//direkt carisi ise es geç
-        ui->CaridenTahsilatYaptoolButton->setEnabled(true);
-        ui->CariyeOdemeYaptoolButton->setEnabled(true);
-        ui->CariyiBorclandirtoolButton->setEnabled(true);
-        ui->CariyiAlacaklandirtoolButton->setEnabled(true);
-        ui->CariBankatoolButton->setEnabled(true);
-        ui->CariyeStokluSatistoolButton->setEnabled(true);
-        ui->CariyeStoksuzSatistoolButton->setEnabled(true);
-    }
-    else{
+    if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() == "1"){//direkt carisi ise
         ui->CaridenTahsilatYaptoolButton->setEnabled(false);
         ui->CariyeOdemeYaptoolButton->setEnabled(false);
         ui->CariyiBorclandirtoolButton->setEnabled(false);
@@ -74,19 +67,37 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariyeStokluSatistoolButton->setEnabled(false);
         ui->CariyeStoksuzSatistoolButton->setEnabled(false);
     }
-    // cari seçimi değişince ödeme ve tahsilat makbuzları butonlarını pasif yapma
-    ui->OdemeMakbuzuBastoolButton->setEnabled(false);
-    ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
+    else{
+        // carinin borcu 0 veya düşükse tahsilat butonu pasif yap.
+        if(ui->cariToplamBorclabel->text().toDouble() <= 0){
+            ui->CaridenTahsilatYaptoolButton->setEnabled(false);
+        }
+        else{
+            ui->CaridenTahsilatYaptoolButton->setEnabled(true);
+        }
+        // carinin alacağı 0 veya düşükse tahsilat butonu pasif yap
+        if(ui->cariToplamAlacaklabel->text().toDouble() <= 0){
+            ui->CariyeOdemeYaptoolButton->setEnabled(false);
+        }
+        else{
+            ui->CariyeOdemeYaptoolButton->setEnabled(true);
+        }
+        ui->CariyiBorclandirtoolButton->setEnabled(true);
+        ui->CariyiAlacaklandirtoolButton->setEnabled(true);
+        ui->CariBankatoolButton->setEnabled(true);
+        ui->CariyeStokluSatistoolButton->setEnabled(true);
+        ui->CariyeStoksuzSatistoolButton->setEnabled(true);
+    }
 }
 
 void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 {
     if(ui->CariKartHareketleritableView->currentIndex().row() > -1){
-        if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 1).data().toString() == "ÖDEME"){
+        if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "ÖDEME"){
             ui->OdemeMakbuzuBastoolButton->setEnabled(true);
             ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
         }
-        else if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 1).data().toString() == "TAHSİLAT"){
+        else if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "TAHSİLAT"){
             ui->TahsilatMakbuzuBastoolButton->setEnabled(true);
             ui->OdemeMakbuzuBastoolButton->setEnabled(false);
         }
@@ -207,6 +218,48 @@ void CariKartlarDialog::on_DuzenletoolButton_clicked()
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
         msg.setText("DİREKT carisini düzenleyemessiniz!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+}
+
+
+void CariKartlarDialog::on_CariKartHareketleritableView_doubleClicked(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "SATIŞ"){
+        SatisGosterDialog *gecmisSatisForm = new SatisGosterDialog(this);
+        gecmisSatisForm->setSatisFaturaNo(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 0).data().toString());
+        gecmisSatisForm->sepetiCek();
+        gecmisSatisForm->exec();
+        delete gecmisSatisForm;
+    }
+}
+
+
+void CariKartlarDialog::on_TahsilatMakbuzuBastoolButton_clicked()
+{
+    if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "TAHSİLAT"){
+        yazici.tahsilatMakbuzuBas(kullanici,
+                                  vt.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString()),
+                                  ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 4).data().toDouble(),
+                                  ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 0).data().toString(),
+                                  ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 1).data().toDateTime(),
+                                  ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 8).data().toString());
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Tahsilat makbuzu yazdırıldı.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+    else{
+        QMessageBox msg(this);
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Cari hareketlerinden bir tahsilat seçiniz.");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();

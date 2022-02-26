@@ -2,6 +2,7 @@
 #define CARIKARTLARDIALOG_H
 #include "veritabani.h"
 #include "cari.h"
+#include "yazici.h"
 //**************************
 #include <QDialog>
 
@@ -18,7 +19,7 @@ public:
     ~CariKartlarDialog();
 
     Veritabani vt = Veritabani();
-
+    Yazici yazici = Yazici();
     enum FaturaTipi{
         alis = 1,
         satis = 2,
@@ -49,6 +50,10 @@ private slots:
     void on_CariyiBorclandirtoolButton_clicked();
 
     void on_DuzenletoolButton_clicked();
+
+    void on_CariKartHareketleritableView_doubleClicked(const QModelIndex &index);
+
+    void on_TahsilatMakbuzuBastoolButton_clicked();
 
 private:
     Ui::CariKartlarDialog *ui;
