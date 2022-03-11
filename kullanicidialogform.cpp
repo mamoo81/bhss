@@ -65,9 +65,7 @@ void KullaniciDialogForm::on_pushButton_clicked()
         NewUser.setCariyetki(ui->CaricheckBox->isChecked());
         NewUser.setAyaryetki(ui->AyarcheckBox->isChecked());
         vt.CreateNewUser(NewUser);
-    }
-    else{
-
+        this->close();
     }
 }
 

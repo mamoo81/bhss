@@ -120,6 +120,23 @@ void Yazici::setKullanici(const User &newKullanici)
 
 void Yazici::cikisRaporuBas(User _user)
 {
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    //yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("fis-yazici");
+    yaziciModel = genelAyarlar.value("yazici").toString();
+    if(genelAyarlar.value("sirketAdi").isNull()){
+        sirketAdi = "MAĞAZA ADI";
+    }
+    else{
+        sirketAdi = genelAyarlar.value("sirketAdi").toString();
+    }
+    if(genelAyarlar.value("sirketAdres").isNull()){
+        sirketAdresi = "MAĞAZA ADRESİ";
+    }
+    else{
+        sirketAdresi = genelAyarlar.value("sirketAdres").toString();
+    }
     // veritabanından giriş yapan kullanıcının oturum bilgilerini alıyorum.
     QSqlQuery raporSorgu = vt.getOturum();
     QString oturumGirisSaati = raporSorgu.value(2).toTime().toString("hh:mm");

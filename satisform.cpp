@@ -2178,6 +2178,7 @@ void SatisForm::hizliUrunButonlariAyarla()
             QToolButton *btn = this->findChild<QToolButton*>("hizlitoolButton" + QString::number(i));
             btn->setText("");
             btn->setWhatsThis("");
+            btn->setIcon(QIcon(":/images/ui/box.png"));
         }
     }
 }

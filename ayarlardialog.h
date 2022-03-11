@@ -61,6 +61,8 @@ private slots:
     void VtYedeklemeButonlariniAyarla();
     void on_kapatpushButton_clicked();
 
+    void on_hizliButtonSifirlapushButton_clicked();
+
 private:
     Ui::AyarlarDialog *ui;
 

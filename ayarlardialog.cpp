@@ -117,6 +117,8 @@ void AyarlarDialog::on_KullanicilarlistWidget_itemSelectionChanged()
     ui->KasacheckBox->setChecked(u.getKasaYetki());
     ui->IadecheckBox->setChecked(u.getIadeYetki());
     ui->StokcheckBox->setChecked(u.getStokYetki());
+    ui->KasacheckBox->setChecked(u.getKasaYetki());
+    ui->AyarcheckBox->setChecked(u.getAyaryetki());
 }
 
 
@@ -581,5 +583,25 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
 void AyarlarDialog::on_kapatpushButton_clicked()
 {
     this->close();
+}
+
+
+void AyarlarDialog::on_hizliButtonSifirlapushButton_clicked()
+{
+    QMessageBox msg(this);
+    msg.setWindowTitle("Dikkat");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setText("Hızlı ürün butonlarını sıfırlamak istediğinize emin misiniz?");
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setButtonText(QMessageBox::Yes, "Evet");
+    msg.setButtonText(QMessageBox::No, "Hayır");
+    msg.setDefaultButton(QMessageBox::No);
+    int ret = msg.exec();
+    if(ret == QMessageBox::Yes){
+        QSettings hizlibutonlarini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
+        foreach (auto buton, hizlibutonlarini.childGroups()) {
+            hizlibutonlarini.remove(buton);
+        }
+    }
 }
 

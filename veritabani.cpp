@@ -937,8 +937,8 @@ double Veritabani::getCariToplamBorc(QString _cariID)
 
 void Veritabani::yeniCariKart(Cari _cariKart)
 {
-    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili)"
-                    "VALUES (nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
+                  "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _cariKart.getAd());
     sorgu.bindValue(1, _cariKart.getTip());
     sorgu.bindValue(2, _cariKart.getVerigino());
@@ -953,7 +953,7 @@ void Veritabani::yeniCariKart(Cari _cariKart)
     sorgu.bindValue(11, _cariKart.getYetkili());
     sorgu.exec();
     if(sorgu.lastError().isValid()){
-        qFatal(sorgu.lastError().text().toStdString().c_str());
+        qWarning(qPrintable(sorgu.lastError().text()));
     }
     else{
         QMessageBox msg;
