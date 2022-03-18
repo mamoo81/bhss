@@ -8,6 +8,7 @@
 #include "stokgircikdialog.h"
 #include "toplustokyukledialog.h"
 #include "stokhareketleridialog.h"
+#include "resimekledialog.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -444,27 +445,11 @@ void StokFrom::on_SilBtn_clicked()
 }
 
 void StokFrom::stokKartiAra(QString aranacakMetin)
-{
+{    
     bool bulundumu(false);
-    if(ui->barkodRadioButton->isChecked()){
-        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
-            if(ui->StokKartlaritableView->model()->index(i, 1).data().toString().contains(aranacakMetin, Qt::CaseInsensitive)){
-                ui->StokKartlaritableView->selectRow(i);
-                bulundumu = true;
-                break;
-            }
-        }
-    }
+
     if(ui->adRadioButton->isChecked()){
-        if(ui->barkodRadioButton->isChecked()){
-            for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
-                if(ui->StokKartlaritableView->model()->index(i, 2).data().toString().contains(aranacakMetin, Qt::CaseInsensitive)){
-                    ui->StokKartlaritableView->selectRow(i);
-                    bulundumu = true;
-                    break;
-                }
-            }
-        }
+
     }
     if(!bulundumu){
         uyariSes.play();
@@ -560,6 +545,88 @@ void StokFrom::on_BarkodOlusturBtn_clicked()
     QString uretilenBarkod(QString::number(QRandomGenerator::global()->generate()));
     if(!vt->barkodVarmi(uretilenBarkod)){
         ui->BarkodLnEdit->setText(uretilenBarkod);
+    }
+}
+
+
+void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
+{
+    if(ui->adRadioButton->isChecked()){
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(!ui->StokKartlaritableView->model()->index(i, 3).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
+                ui->StokKartlaritableView->hideRow(i);
+            }
+            else{
+                ui->StokKartlaritableView->showRow(i);
+            }
+        }
+    }
+    if(ui->barkodRadioButton->isChecked()){
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(ui->StokKartlaritableView->model()->index(i, 1).data().toString().contains(arg1, Qt::CaseInsensitive)){
+                ui->StokKartlaritableView->selectRow(i);
+                break;
+            }
+        }
+    }
+    if(ui->kodRadioButton->isChecked()){
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(!ui->StokKartlaritableView->model()->index(i, 2).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
+                ui->StokKartlaritableView->hideRow(i);
+            }
+            else{
+                ui->StokKartlaritableView->showRow(i);
+            }
+        }
+    }
+}
+
+
+void StokFrom::on_ResimEkleBtn_clicked()
+{
+    ResimEkleDialog *resimEkleForm = new ResimEkleDialog(this);
+    resimEkleForm->setUrunBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
+    resimEkleForm->exec();
+    ui->UrunResimlabel->setPixmap(vt->getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
+}
+
+void StokFrom::on_ResimSilBtn_clicked()
+{
+    if(!vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim().isNull()){
+        uyariSes.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Ürün resmini silmek istediğinize emin misiniz?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::Yes);
+        int cevap = msg.exec();
+        if(cevap == QMessageBox::Yes){
+            QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString() + ".jpg");
+            if(resimDosya.remove()){
+                uyariSes.play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText("Ürün resmi silindi.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+                ui->UrunResimlabel->setPixmap(vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim());
+            }
+            else{
+                uyariSes.play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Warning);
+                msg.setText("Ürün resmi silinemedi.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+            }
+        }
     }
 }
 

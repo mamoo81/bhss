@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     loginform.cpp \
     paracekdialogform.cpp \
+    resimekledialog.cpp \
     satisform.cpp \
     satisgosterdialog.cpp \
     satisgrafigiform.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     kullanicidialogform.h \
     loginform.h \
     paracekdialogform.h \
+    resimekledialog.h \
     satisform.h \
     satisgosterdialog.h \
     satisgrafigiform.h \
@@ -89,6 +91,7 @@ FORMS += \
     kullanicidialogform.ui \
     loginform.ui \
     paracekdialogform.ui \
+    resimekledialog.ui \
     satisform.ui \
     satisgosterdialog.ui \
     satisgrafigiform.ui \

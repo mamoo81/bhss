@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         db.setDatabaseName("mhss_data");
         db.open();
 
-        a.setOrganizationName("milis");
+//        a.setOrganizationName("milis");
         a.setApplicationName("mhss");
         // ./home/user/.config/ altında mhss klasörü varmı kontrol
         auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();

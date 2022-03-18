@@ -357,6 +357,14 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
 
 bool Veritabani::veritabaniSifirla()
 {
+    // başka bir yerde bağlantı açıksa veya açık kaldıysa mhss_data veritabanına açık tüm bağlantıları sonlandırma.
+    QSqlQuery vtTumBaglantiKesmeSorgu = QSqlQuery(db);
+    vtTumBaglantiKesmeSorgu.exec("SELECT pg_terminate_backend(pg_stat_activity.pid) "
+                                 "FROM pg_stat_activity "
+                                 "WHERE pg_stat_activity.datname = 'mhss_data'"
+                                 "AND pid <> pg_backend_pid()");
+    qWarning(qPrintable(vtTumBaglantiKesmeSorgu.lastError().text()));
+
     // veritabani sıfırlandığı için hizli butonları da sıfırla
     QSettings hizlibutonlariINI(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     hizlibutonlariINI.clear();

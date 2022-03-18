@@ -68,6 +68,12 @@ private slots:
 
     void on_BarkodOlusturBtn_clicked();
 
+    void on_AraLineEdit_textChanged(const QString &arg1);
+
+    void on_ResimEkleBtn_clicked();
+
+    void on_ResimSilBtn_clicked();
+
 private:
     Ui::StokFrom *ui;
 
