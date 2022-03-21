@@ -25,6 +25,8 @@ private slots:
 
     void on_secpushButton_clicked();
 
+    void on_iptalpushButton_clicked();
+
 private:
     Ui::ResimEkleDialog *ui;
 

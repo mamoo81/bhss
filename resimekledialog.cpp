@@ -56,12 +56,20 @@ void ResimEkleDialog::on_secpushButton_clicked()
     dialog.setLabelText(QFileDialog::FileName, tr("Dosya"));
     dialog.setLabelText(QFileDialog::FileType, tr("Dosya tipi"));
     dialog.exec();
-    resim = new QFile(dialog.selectedFiles().first());
-    ui->label->setPixmap(dialog.selectedFiles().first());
+    if(!dialog.selectedFiles().isEmpty()){
+        resim = new QFile(dialog.selectedFiles().first());
+        ui->label->setPixmap(dialog.selectedFiles().first());
+    }
 }
 
 void ResimEkleDialog::setUrunBarkod(const QString &newUrunBarkod)
 {
     urunBarkod = newUrunBarkod;
+}
+
+
+void ResimEkleDialog::on_iptalpushButton_clicked()
+{
+    this->close();
 }
 
