@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     loginform.cpp \
     paracekdialogform.cpp \
+    rafetiketidialog.cpp \
     resimekledialog.cpp \
     satisform.cpp \
     satisgosterdialog.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     stokgrupform.cpp \
     stokhareketleridialog.cpp \
     stokkarti.cpp \
+    terazi.cpp \
     toplustokyukledialog.cpp \
     urun.cpp \
     user.cpp \
@@ -58,6 +60,7 @@ HEADERS += \
     kullanicidialogform.h \
     loginform.h \
     paracekdialogform.h \
+    rafetiketidialog.h \
     resimekledialog.h \
     satisform.h \
     satisgosterdialog.h \
@@ -69,6 +72,7 @@ HEADERS += \
     stokgrupform.h \
     stokhareketleridialog.h \
     stokkarti.h \
+    terazi.h \
     toplustokyukledialog.h \
     urun.h \
     user.h \
@@ -91,6 +95,7 @@ FORMS += \
     kullanicidialogform.ui \
     loginform.ui \
     paracekdialogform.ui \
+    rafetiketidialog.ui \
     resimekledialog.ui \
     satisform.ui \
     satisgosterdialog.ui \

@@ -105,6 +105,8 @@ public slots:
     int getUreticiID(QString _ureticiAd);
     QStringList getTedarikciler();
     int getTedarikciID(QString _tedarikciAd);
+    QStringList getTeraziler();
+    QStringList getTeraziModeller(QString Marka);
 };
 
 #endif // VERITABANI_H

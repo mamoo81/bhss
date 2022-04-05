@@ -37,11 +37,11 @@
      <x>0</x>
      <y>0</y>
      <width>631</width>
-     <height>381</height>
+     <height>391</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -325,89 +325,220 @@
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>Yazdırma</string>
+     <string>Donanım</string>
     </attribute>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QGroupBox" name="groupBox_6">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
-       <width>271</width>
-       <height>85</height>
+       <y>0</y>
+       <width>611</width>
+       <height>111</height>
       </rect>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Fiş yazıcısı</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="fisYazicisicomboBox"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="herZamancheckBox">
-        <property name="text">
-         <string>Her zaman fiş yazdır</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="herZamanKasacheckBox">
-        <property name="text">
-         <string>Çıkışta kasa raporu yazdır</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="title">
+      <string>Adisyon Yazıcı Ayarları</string>
+     </property>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>30</y>
+        <width>81</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Şirket adı</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>60</y>
+        <width>81</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Adres</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="SirketAdreslineEdit">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>60</y>
+        <width>281</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>221</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Yazıcı</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="fisYazicisicomboBox"/>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="herZamancheckBox">
+         <property name="text">
+          <string>Her zaman fiş yazdır</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLineEdit" name="SirketAdilineEdit">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>30</y>
+        <width>281</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="herZamanKasacheckBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>591</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Çıkışta kullanıcı kasa raporu yazdır</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QLabel" name="label_10">
+    <widget class="QGroupBox" name="groupBox_7">
      <property name="geometry">
       <rect>
-       <x>292</x>
-       <y>40</y>
-       <width>102</width>
-       <height>25</height>
+       <x>10</x>
+       <y>110</y>
+       <width>611</width>
+       <height>121</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Adres</string>
+     <property name="title">
+      <string>Terazi Ayarları</string>
      </property>
-    </widget>
-    <widget class="QLineEdit" name="SirketAdilineEdit">
-     <property name="geometry">
-      <rect>
-       <x>370</x>
-       <y>10</y>
-       <width>251</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="SirketAdreslineEdit">
-     <property name="geometry">
-      <rect>
-       <x>370</x>
-       <y>40</y>
-       <width>251</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_11">
-     <property name="geometry">
-      <rect>
-       <x>292</x>
-       <y>10</y>
-       <width>102</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Şirket adı</string>
-     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>29</y>
+        <width>591</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>Marka</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="TeraziMarkacomboBox"/>
+       </item>
+       <item row="0" column="2" colspan="2">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Otomatik ölçüm al</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>Parity</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QComboBox" name="ParitycomboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>Model</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="TeraziModelcomboBox"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>BaudRate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QComboBox" name="BaudRatecomboBox"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_30">
+         <property name="text">
+          <string>StopBits</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QComboBox" name="StopBitscomboBox"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>SeriPort</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="SeriPortcomboBox"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>DataBits</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QComboBox" name="DataBitscomboBox"/>
+       </item>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>FlowControl</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QComboBox" name="FlowControlcomboBox"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="tabVeritabani">

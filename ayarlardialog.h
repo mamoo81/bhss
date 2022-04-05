@@ -63,6 +63,10 @@ private slots:
 
     void on_hizliButtonSifirlapushButton_clicked();
 
+    void on_TeraziMarkacomboBox_currentIndexChanged(int index);
+
+    void SeriPortComboBoxDoldur();
+
 private:
     Ui::AyarlarDialog *ui;
 

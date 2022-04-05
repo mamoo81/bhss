@@ -11,6 +11,8 @@
 #include <QProcess>
 #include <QRegularExpression> // text dosyasında metin arama(karşılaştırma) için.
 #include <QDir>
+#include <QSerialPortInfo>
+#include <QSerialPort>
 
 AyarlarDialog::AyarlarDialog(QWidget *parent) :
     QDialog(parent),
@@ -38,13 +40,24 @@ void AyarlarDialog::formLoad()
         ui->otoMhsscheckBox->setChecked(false);
     }
     wayfireini.endGroup();
+
+    //terazileri markalarını getirme
+    ui->TeraziMarkacomboBox->addItems(vt.getTeraziler());
+    // kullanılabilir seriportları getirme
+    auto portlar = QSerialPortInfo::availablePorts();
+    foreach (auto port, portlar) {
+        ui->SeriPortcomboBox->addItem(port.portName());
+    }
+
     ui->tabWidget->setCurrentIndex(0);
     ui->SiklikcomboBox->setCurrentIndex(0);
     ui->SaatcomboBox->setCurrentIndex(0);
     ui->dakikacomboBox->setCurrentIndex(0);
+
+    SeriPortComboBoxDoldur();
+
     // sistemdeki yazıcıların okunması
-    QStringList yazicilar = QPrinterInfo::availablePrinterNames();
-    ui->fisYazicisicomboBox->addItems(yazicilar);
+    ui->fisYazicisicomboBox->addItems(QPrinterInfo::availablePrinterNames());
 
     //genel ayarların okunması başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
@@ -75,6 +88,12 @@ void AyarlarDialog::formLoad()
     ui->SirketAdreslineEdit->setText((genelAyarlar.value("sirketAdres").toString()));
     genelAyarlar.endGroup();
     //yazici ayarlari okuma bitiş
+    // terazi ayarları okuma başlangıç
+    genelAyarlar.beginGroup("terazi");
+    ui->TeraziMarkacomboBox->setCurrentText(genelAyarlar.value("marka").toString());
+    ui->TeraziModelcomboBox->setCurrentText(genelAyarlar.value("model").toString());
+    ui->SeriPortcomboBox->setCurrentText(genelAyarlar.value("port").toString());
+    genelAyarlar.endGroup();
 
     //genel ayarların okunması bitiş
     VtYedeklemeButonlariniAyarla();
@@ -186,6 +205,15 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("sirketAdres", ui->SirketAdreslineEdit->text());
     genelAyarlar.endGroup();
     // yazıcı ayarları kayıt bitiş.
+
+    // terazi ayarları kayıt başlangıç
+    genelAyarlar.beginGroup("terazi");
+    genelAyarlar.setValue("marka", ui->TeraziMarkacomboBox->currentText());
+    genelAyarlar.setValue("model", ui->TeraziModelcomboBox->currentText());
+    genelAyarlar.setValue("port", ui->SeriPortcomboBox->currentText());
+    genelAyarlar.endGroup();
+    // terazi ayarları kayıt bitiş.
+
     // hizli ürün sayfa adları kayıt başlangıç
     genelAyarlar.beginGroup("hizlisayfa");
     genelAyarlar.setValue("0", QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->sayfalineEdit1->text()));
@@ -603,5 +631,54 @@ void AyarlarDialog::on_hizliButtonSifirlapushButton_clicked()
             hizlibutonlarini.remove(buton);
         }
     }
+}
+
+
+void AyarlarDialog::on_TeraziMarkacomboBox_currentIndexChanged(int index)
+{
+    Q_UNUSED(index);
+    ui->TeraziModelcomboBox->clear();
+    ui->TeraziModelcomboBox->addItems(vt.getTeraziModeller(ui->TeraziMarkacomboBox->currentText()));
+}
+
+void AyarlarDialog::SeriPortComboBoxDoldur()
+{
+    QMap<QString, QSerialPort::BaudRate> *BaudRates = new QMap<QString, QSerialPort::BaudRate>;
+    BaudRates->insert("1200", QSerialPort::Baud1200);
+    BaudRates->insert("2400", QSerialPort::Baud2400);
+    BaudRates->insert("4800", QSerialPort::Baud4800);
+    BaudRates->insert("9600", QSerialPort::Baud9600);
+    BaudRates->insert("19200", QSerialPort::Baud19200);
+    BaudRates->insert("38400", QSerialPort::Baud38400);
+    BaudRates->insert("57600", QSerialPort::Baud57600);
+    BaudRates->insert("115200", QSerialPort::Baud115200);
+    ui->BaudRatecomboBox->addItems(QStringList(BaudRates->keys()));
+
+    QMap<QString, QSerialPort::DataBits> *DataBits = new QMap<QString, QSerialPort::DataBits>;
+    DataBits->insert("Data5", QSerialPort::Data5);
+    DataBits->insert("Data6", QSerialPort::Data6);
+    DataBits->insert("Data7", QSerialPort::Data7);
+    DataBits->insert("Data8", QSerialPort::Data8);
+    ui->DataBitscomboBox->addItems(QStringList(DataBits->keys()));
+
+    QMap<QString, QSerialPort::Parity> *Parity = new QMap<QString, QSerialPort::Parity>;
+    Parity->insert("NoParity", QSerialPort::NoParity);
+    Parity->insert("EvenParity", QSerialPort::EvenParity);
+    Parity->insert("OddParity", QSerialPort::OddParity);
+    Parity->insert("SpaceParity", QSerialPort::SpaceParity);
+    Parity->insert("MarkParity", QSerialPort::MarkParity);
+    ui->ParitycomboBox->addItems(QStringList(Parity->keys()));
+
+    QMap<QString, QSerialPort::StopBits> *StopBits = new QMap<QString, QSerialPort::StopBits>;
+    StopBits->insert("OneStop", QSerialPort::OneStop);
+    StopBits->insert("OneAndHalfStop", QSerialPort::OneAndHalfStop);
+    StopBits->insert("TwoStop", QSerialPort::TwoStop);
+    ui->StopBitscomboBox->addItems(QStringList(StopBits->keys()));
+
+    QMap<QString, QSerialPort::FlowControl> *FlowControl = new QMap<QString, QSerialPort::FlowControl>;
+    FlowControl->insert("NoFlowControl", QSerialPort::NoFlowControl);
+    FlowControl->insert("HardwareControl", QSerialPort::HardwareControl);
+    FlowControl->insert("SoftwareControl", QSerialPort::SoftwareControl);
+    ui->FlowControlcomboBox->addItems(QStringList(FlowControl->keys()));
 }
 

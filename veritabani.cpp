@@ -1682,3 +1682,31 @@ int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QS
     return 1;
 }
 
+QStringList Veritabani::getTeraziler()
+{
+    QStringList teraziler;
+    sorgu.exec("SELECT * FROM teraziler");
+    while (sorgu.next()) {
+        teraziler.append(sorgu.value(1).toString());
+    }
+    return teraziler;
+}
+
+QStringList Veritabani::getTeraziModeller(QString Marka)
+{
+    QStringList modeller;
+    // markanın id sini alma
+    sorgu.prepare("SELECT id FROM teraziler WHERE marka = ? ORDER BY marka ASC");
+    sorgu.bindValue(0, Marka);
+    sorgu.exec();
+    sorgu.next();
+    int id = sorgu.value(0).toInt();
+    // markanın modellerini getirme
+    sorgu.prepare("SELECT model FROM terazimodel WHERE id = ? ORDER BY model ASC");
+    sorgu.bindValue(0, id);
+    sorgu.exec();
+    while (sorgu.next()) {
+        modeller.append(sorgu.value(0).toString());
+    }
+    return modeller;
+}
