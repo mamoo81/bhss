@@ -78,6 +78,14 @@ void AyarlarDialog::formLoad()
     ui->sayfalineEdit4->setText(genelAyarlar.value("3").toString());
     ui->sayfalineEdit5->setText(genelAyarlar.value("4").toString());
     genelAyarlar.endGroup();
+
+    //stok takibi ayarı okuma başlangıç
+    genelAyarlar.beginGroup("stok");
+    ui->StokTakibicheckBox->setChecked(genelAyarlar.value("takip").toBool());
+    ui->StokMiktarspinBox->setValue(genelAyarlar.value("uyarimiktari").toInt());
+    genelAyarlar.endGroup();
+    //stok takibi ayarı okuma
+
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
@@ -93,6 +101,12 @@ void AyarlarDialog::formLoad()
     ui->TeraziMarkacomboBox->setCurrentText(genelAyarlar.value("marka").toString());
     ui->TeraziModelcomboBox->setCurrentText(genelAyarlar.value("model").toString());
     ui->SeriPortcomboBox->setCurrentText(genelAyarlar.value("port").toString());
+    ui->OtoOlcumcheckBox->setChecked(genelAyarlar.value("otomatik").toBool());
+    ui->BaudRatecomboBox->setCurrentText(genelAyarlar.value("baudrate").toString());
+    ui->DataBitscomboBox->setCurrentText(genelAyarlar.value("databits").toString());
+    ui->ParitycomboBox->setCurrentText(genelAyarlar.value("parity").toString());
+    ui->StopBitscomboBox->setCurrentText(genelAyarlar.value("stopbits").toString());
+    ui->FlowControlcomboBox->setCurrentText(genelAyarlar.value("flowcontrol").toString());
     genelAyarlar.endGroup();
 
     //genel ayarların okunması bitiş
@@ -211,8 +225,21 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("marka", ui->TeraziMarkacomboBox->currentText());
     genelAyarlar.setValue("model", ui->TeraziModelcomboBox->currentText());
     genelAyarlar.setValue("port", ui->SeriPortcomboBox->currentText());
+    genelAyarlar.setValue("otomatik", ui->OtoOlcumcheckBox->isChecked());
+    genelAyarlar.setValue("baudrate", ui->BaudRatecomboBox->currentText());
+    genelAyarlar.setValue("databits", ui->DataBitscomboBox->currentText());
+    genelAyarlar.setValue("parity", ui->ParitycomboBox->currentText());
+    genelAyarlar.setValue("stopbits", ui->StopBitscomboBox->currentText());
+    genelAyarlar.setValue("flowcontrol", ui->FlowControlcomboBox->currentText());
     genelAyarlar.endGroup();
     // terazi ayarları kayıt bitiş.
+
+    //stok takibi ayarı kayıt başlangıç
+    genelAyarlar.beginGroup("stok");
+    genelAyarlar.setValue("takip", ui->StokTakibicheckBox->isChecked());
+    genelAyarlar.setValue("uyarimiktar", ui->StokMiktarspinBox->value());
+    genelAyarlar.endGroup();
+    //stok takibi ayarı okuma bitiş
 
     // hizli ürün sayfa adları kayıt başlangıç
     genelAyarlar.beginGroup("hizlisayfa");

@@ -40,6 +40,28 @@ StokFrom::~StokFrom()
     delete ui;
 }
 
+void StokFrom::StokMiktarlariniKontrolEt()
+{
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    genelAyarlar.beginGroup("stok");
+    bool takipAktifMi = genelAyarlar.value("takip").toBool();
+    double UyariMiktari = genelAyarlar.value("uyarimiktar").toDouble();
+    double MevcutMiktar = 0;
+    genelAyarlar.endGroup();
+    if(takipAktifMi){
+        for (int row = 0; row < ui->StokKartlaritableView->model()->rowCount(); ++row) {
+            MevcutMiktar = ui->StokKartlaritableView->model()->index(row, 5).data().toDouble();
+            QModelIndex satir = ui->StokKartlaritableView->model()->index(row, 5);
+            if(MevcutMiktar <= UyariMiktari && MevcutMiktar >= 1){
+
+            }
+            else if(MevcutMiktar < 1){
+
+            }
+        }
+    }
+}
+
 void StokFrom::on_StokGrupBtn_clicked()
 {
     StokGrupForm *stkgrupform = new StokGrupForm(this);
@@ -92,6 +114,7 @@ void StokFrom::stokKartlariniListele()
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
+    StokMiktarlariniKontrolEt();
 }
 
 void StokFrom::on_YeniBtn_clicked()

@@ -23,6 +23,8 @@ public:
     int seciliIndex;
     bool yeniKayit = false;
 
+    void StokMiktarlariniKontrolEt();
+
 public slots:
     void setUser(User user);
 private slots:
