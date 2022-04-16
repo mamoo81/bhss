@@ -41,6 +41,7 @@
         <file>sounds/warning-sound.wav</file>
     </qresource>
     <qresource prefix="/dosyalar">
+        <file>dosyalar/mhss_data_sifir_eski.dump</file>
         <file>dosyalar/mhss_data_sifir.dump</file>
     </qresource>
 </RCC>

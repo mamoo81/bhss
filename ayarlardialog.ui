@@ -84,6 +84,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QLineEdit" name="sayfalineEdit1">
+         <property name="text">
+          <string>BARKODSUZ</string>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -98,6 +101,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="sayfalineEdit2">
+         <property name="text">
+          <string>MANAV</string>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -112,6 +118,9 @@
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="sayfalineEdit3">
+         <property name="text">
+          <string>HIRDAVAT</string>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -126,6 +135,9 @@
        </item>
        <item row="3" column="1">
         <widget class="QLineEdit" name="sayfalineEdit4">
+         <property name="text">
+          <string>KASAP</string>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -140,6 +152,9 @@
        </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="sayfalineEdit5">
+         <property name="text">
+          <string>GENEL</string>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -202,7 +217,7 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>

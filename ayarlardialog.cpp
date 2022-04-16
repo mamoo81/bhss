@@ -70,13 +70,44 @@ void AyarlarDialog::formLoad()
     ui->dakikacomboBox->setCurrentIndex(genelAyarlar.value("dakika").toInt());
     genelAyarlar.endGroup();
     // veritabani ayarlari okuma bitiş
+
     //hizliürün tabpage sayfa adları okuma
     genelAyarlar.beginGroup("hizlisayfa");
-    ui->sayfalineEdit1->setText(genelAyarlar.value("0").toString());
-    ui->sayfalineEdit2->setText(genelAyarlar.value("1").toString());
-    ui->sayfalineEdit3->setText(genelAyarlar.value("2").toString());
-    ui->sayfalineEdit4->setText(genelAyarlar.value("3").toString());
-    ui->sayfalineEdit5->setText(genelAyarlar.value("4").toString());
+    if(genelAyarlar.contains("0")){
+        ui->sayfalineEdit1->setText(genelAyarlar.value("0").toString());
+    }
+    else{
+        ui->sayfalineEdit1->setText("BARKODSUZ");
+        genelAyarlar.setValue("0", "BARKODSUZ");
+    }
+    if(genelAyarlar.contains("1")){
+        ui->sayfalineEdit2->setText(genelAyarlar.value("1").toString());
+    }
+    else{
+        ui->sayfalineEdit2->setText("MANAV");
+        genelAyarlar.setValue("1", "MANAV");
+    }
+    if(genelAyarlar.contains("2")){
+        ui->sayfalineEdit3->setText(genelAyarlar.value("2").toString());
+    }
+    else{
+        ui->sayfalineEdit3->setText("HIRDAVAT");
+        genelAyarlar.setValue("2", "HIRDAVAT");
+    }
+    if(genelAyarlar.contains("3")){
+        ui->sayfalineEdit4->setText(genelAyarlar.value("3").toString());
+    }
+    else{
+        ui->sayfalineEdit4->setText("KASAP");
+        genelAyarlar.setValue("3", "KASAP");
+    }
+    if(genelAyarlar.contains("4")){
+        ui->sayfalineEdit5->setText(genelAyarlar.value("4").toString());
+    }
+    else{
+        ui->sayfalineEdit5->setText("GENEL");
+        genelAyarlar.setValue("4", "GENEL");
+    }
     genelAyarlar.endGroup();
 
     //stok takibi ayarı okuma başlangıç

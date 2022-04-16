@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
                     msg.setStandardButtons(QMessageBox::Ok);
                     msg.setButtonText(QMessageBox::Ok, "Tamam");
                     msg.exec();
+                    qWarning("Veritabanı oluşturuldu.");
                 }
             }
         }
@@ -48,7 +49,6 @@ int main(int argc, char *argv[])
         db.setDatabaseName("mhss_data");
         db.open();
 
-//        a.setOrganizationName("milis");
         a.setApplicationName("mhss");
         // ./home/user/.config/ altında mhss klasörü varmı kontrol
         auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();
