@@ -59,11 +59,11 @@ public:
     bool getOtvdahil() const;
     void setOtvdahil(bool newOtvdahil);
 
-    int getUretici() const;
-    void setUretici(int newUretici);
+    QString getUretici() const;
+    void setUretici(QString newUretici);
 
-    int getTedarikci() const;
-    void setTedarikci(int newTedarikci);
+    QString getTedarikci() const;
+    void setTedarikci(QString newTedarikci);
 
     const QPixmap &getResim() const;
     void setResim(const QPixmap &newResim);
@@ -84,8 +84,8 @@ private:
     bool otvdahil;
     QDateTime tarih;
     QString aciklama;
-    int uretici;
-    int tedarikci;
+    QString uretici;
+    QString tedarikci;
     QPixmap resim;
 };
 

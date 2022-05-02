@@ -3,6 +3,7 @@
 #include "user.h"
 #include "veritabani.h"
 #include "QSortFilterProxyModel"
+#include "stokkartlarimodel.h"
 //************************
 #include <QDialog>
 
@@ -22,6 +23,8 @@ public:
 
     int seciliIndex;
     bool yeniKayit = false;
+
+    StokKartlariModel *_stokKartlariTableModel;
 
     void StokMiktarlariniKontrolEt();
 

@@ -164,22 +164,22 @@ void StokKarti::setOtvdahil(bool newOtvdahil)
     otvdahil = newOtvdahil;
 }
 
-int StokKarti::getUretici() const
+QString StokKarti::getUretici() const
 {
     return uretici;
 }
 
-void StokKarti::setUretici(int newUretici)
+void StokKarti::setUretici(QString newUretici)
 {
     uretici = newUretici;
 }
 
-int StokKarti::getTedarikci() const
+QString StokKarti::getTedarikci() const
 {
     return tedarikci;
 }
 
-void StokKarti::setTedarikci(int newTedarikci)
+void StokKarti::setTedarikci(QString newTedarikci)
 {
     tedarikci = newTedarikci;
 }

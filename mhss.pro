@@ -36,6 +36,7 @@ SOURCES += \
     stokgrupform.cpp \
     stokhareketleridialog.cpp \
     stokkarti.cpp \
+    stokkartlarimodel.cpp \
     terazi.cpp \
     toplustokyukledialog.cpp \
     urun.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     stokgrupform.h \
     stokhareketleridialog.h \
     stokkarti.h \
+    stokkartlarimodel.h \
     terazi.h \
     toplustokyukledialog.h \
     urun.h \

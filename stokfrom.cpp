@@ -9,6 +9,7 @@
 #include "toplustokyukledialog.h"
 #include "stokhareketleridialog.h"
 #include "resimekledialog.h"
+#include "stokkartlarimodel.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -105,11 +106,13 @@ void StokFrom::grupComboboxDoldur()
 
 void StokFrom::stokKartlariniListele()
 {
-    sortModel->setSourceModel(vt->getStokKartlari());
+    _stokKartlariTableModel = new StokKartlariModel();
+    sortModel->setSourceModel(_stokKartlariTableModel);
     ui->StokKartlaritableView->setModel(sortModel);
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
     ui->StokKartlaritableView->setSortingEnabled(true);
     ui->StokKartlaritableView->resizeColumnsToContents();
+    ui->StokKartlaritableView->sortByColumn(3, Qt::AscendingOrder);
     selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
@@ -370,8 +373,8 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
             yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
             yeniStokKarti.setTarih(QDateTime::currentDateTime());
-            yeniStokKarti.setUretici(vt->getUreticiID(ui->ureticicomboBox->currentText()));
-            yeniStokKarti.setTedarikci(vt->getTedarikciID(ui->tedarikcicomboBox->currentText()));
+            yeniStokKarti.setUretici(ui->ureticicomboBox->currentText());
+            yeniStokKarti.setTedarikci(ui->tedarikcicomboBox->currentText());
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
             vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
 
@@ -413,8 +416,8 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
         yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
-        yeniStokKarti.setUretici(vt->getUreticiID(ui->ureticicomboBox->currentText()));
-        yeniStokKarti.setTedarikci(vt->getTedarikciID(ui->tedarikcicomboBox->currentText()));
+        yeniStokKarti.setUretici(ui->ureticicomboBox->currentText());
+        yeniStokKarti.setTedarikci(ui->tedarikcicomboBox->currentText());
         yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
@@ -468,13 +471,19 @@ void StokFrom::on_SilBtn_clicked()
 }
 
 void StokFrom::stokKartiAra(QString aranacakMetin)
-{    
-    bool bulundumu(false);
-
-    if(ui->adRadioButton->isChecked()){
-
+{
+    bool varmi = false;
+    if(ui->barkodRadioButton->isChecked()){
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(ui->StokKartlaritableView->model()->index(i, 1).data().toString() == aranacakMetin){
+                ui->StokKartlaritableView->selectRow(i);
+                varmi = true;
+                break;
+            }
+        }
     }
-    if(!bulundumu){
+
+    if(!varmi){
         uyariSes.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
@@ -577,24 +586,6 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
     if(ui->adRadioButton->isChecked()){
         for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
             if(!ui->StokKartlaritableView->model()->index(i, 3).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
-                ui->StokKartlaritableView->hideRow(i);
-            }
-            else{
-                ui->StokKartlaritableView->showRow(i);
-            }
-        }
-    }
-    if(ui->barkodRadioButton->isChecked()){
-        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
-            if(ui->StokKartlaritableView->model()->index(i, 1).data().toString().contains(arg1, Qt::CaseInsensitive)){
-                ui->StokKartlaritableView->selectRow(i);
-                break;
-            }
-        }
-    }
-    if(ui->kodRadioButton->isChecked()){
-        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
-            if(!ui->StokKartlaritableView->model()->index(i, 2).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
                 ui->StokKartlaritableView->hideRow(i);
             }
             else{
