@@ -746,7 +746,7 @@ color: rgb(0, 255, 0);</string>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
-     <string>Sayfa 1</string>
+     <string>BARKODSUZ</string>
     </attribute>
     <widget class="QToolButton" name="hizlitoolButton1">
      <property name="geometry">
@@ -1861,7 +1861,7 @@ color: rgb(0, 255, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_6">
     <attribute name="title">
-     <string>Sayfa 2</string>
+     <string>MANAV</string>
     </attribute>
     <widget class="QToolButton" name="hizlitoolButton55">
      <property name="geometry">
@@ -2976,7 +2976,7 @@ color: rgb(0, 255, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_7">
     <attribute name="title">
-     <string>Sayfa 3</string>
+     <string>HIRDAVAT</string>
     </attribute>
     <widget class="QToolButton" name="hizlitoolButton74">
      <property name="geometry">
@@ -4091,7 +4091,7 @@ color: rgb(0, 255, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_8">
     <attribute name="title">
-     <string>Sayfa 4</string>
+     <string>KASAP</string>
     </attribute>
     <widget class="QToolButton" name="hizlitoolButton104">
      <property name="geometry">
@@ -5206,7 +5206,7 @@ color: rgb(0, 255, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_9">
     <attribute name="title">
-     <string>Sayfa 5</string>
+     <string>GENEL</string>
     </attribute>
     <widget class="QToolButton" name="hizlitoolButton134">
      <property name="geometry">

@@ -1150,8 +1150,8 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
     sorgu.bindValue(10, _StokKarti.getKdvdahil());
     sorgu.bindValue(11, _StokKarti.getOtvdahil());
     sorgu.bindValue(12, _StokKarti.getTarih());
-    sorgu.bindValue(13, _StokKarti.getUretici());
-    sorgu.bindValue(14, _StokKarti.getTedarikci());
+    sorgu.bindValue(13, _StokKarti.getUretici().toInt());
+    sorgu.bindValue(14, _StokKarti.getTedarikci().toInt());
     sorgu.bindValue(15, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
     if(sorgu.exec()){
         QMessageBox *msg = new QMessageBox(0);
@@ -1168,6 +1168,7 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
         msg->setIcon(QMessageBox::Critical);
         msg->setWindowTitle("Hata");
         msg->setText("Yeni stok kartı oluşturulamadı.");
+        msg->setInformativeText(qPrintable(sorgu.lastError().text()));
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
         msg->setButtonText(QMessageBox::Ok, "Tamam");
@@ -1192,8 +1193,8 @@ void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _
     sorgu.bindValue(10, _YeniStokKarti.getKdvdahil());
     sorgu.bindValue(11, _YeniStokKarti.getOtvdahil());
     sorgu.bindValue(12, _YeniStokKarti.getTarih());
-    sorgu.bindValue(13, _YeniStokKarti.getUretici());
-    sorgu.bindValue(14, _YeniStokKarti.getTedarikci());
+    sorgu.bindValue(13, _YeniStokKarti.getUretici().toInt());
+    sorgu.bindValue(14, _YeniStokKarti.getTedarikci().toInt());
     sorgu.bindValue(15, _YeniStokKarti.getAciklama() + " " + _Kullanici->getUserName());
     sorgu.bindValue(16, _EskiStokKartiID);
     if(sorgu.exec()){

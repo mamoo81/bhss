@@ -67,6 +67,8 @@ private slots:
 
     void SeriPortComboBoxDoldur();
 
+    void on_SekmeVarsayilanpushButton_clicked();
+
 private:
     Ui::AyarlarDialog *ui;
 

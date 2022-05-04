@@ -50,10 +50,10 @@
     <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
       <rect>
-       <x>419</x>
+       <x>410</x>
        <y>0</y>
        <width>211</width>
-       <height>171</height>
+       <height>251</height>
       </rect>
      </property>
      <property name="font">
@@ -162,6 +162,44 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="SekmeVarsayilanpushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Varsayılana döndür</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="hizliButtonSifirlapushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Hızlı butonları sıfırla</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QCheckBox" name="otoMhsscheckBox">
      <property name="geometry">
@@ -174,19 +212,6 @@
      </property>
      <property name="text">
       <string>Başlangıçta otomatik başlat</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="hizliButtonSifirlapushButton">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>180</y>
-       <width>201</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Hızlı butonları sıfırla</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBox_8">
@@ -210,8 +235,14 @@
         <height>21</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>Stok takibi yap</string>
+       <string>Stoğu bitenleri renklendir</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -222,7 +253,7 @@
        <rect>
         <x>10</x>
         <y>50</y>
-        <width>211</width>
+        <width>171</width>
         <height>28</height>
        </rect>
       </property>
@@ -244,22 +275,6 @@
          </property>
          <property name="value">
           <number>10</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_35">
-         <property name="maximumSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(142, 221, 255);</string>
-         </property>
-         <property name="text">
-          <string/>
          </property>
         </widget>
        </item>

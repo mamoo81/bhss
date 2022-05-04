@@ -125,122 +125,126 @@ void Yazici::cikisRaporuBas(User _user)
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     yaziciModel = genelAyarlar.value("yazici").toString();
-    if(genelAyarlar.value("sirketAdi").isNull()){
-        sirketAdi = "MAĞAZA ADI";
+
+    if(genelAyarlar.value("raporHerZaman").toBool()){
+        if(genelAyarlar.value("sirketAdi").isNull()){
+            sirketAdi = "MAĞAZA ADI";
+        }
+        else{
+            sirketAdi = genelAyarlar.value("sirketAdi").toString();
+        }
+        if(genelAyarlar.value("sirketAdres").isNull()){
+            sirketAdresi = "MAĞAZA ADRESİ";
+        }
+        else{
+            sirketAdresi = genelAyarlar.value("sirketAdres").toString();
+        }
+        // veritabanından giriş yapan kullanıcının oturum bilgilerini alıyorum.
+        QSqlQuery raporSorgu = vt.getOturum();
+        QString oturumGirisSaati = raporSorgu.value(2).toTime().toString("hh:mm");
+        QString oturumGirisTarihi = raporSorgu.value(2).toDate().toString("dd.MM.yyyy");
+        double giren = vt.getKasaToplamGiren(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
+        double cikan = vt.getKasaToplamCikan(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
+        QString html =
+                "<html>"
+                "<head>"
+                    "<style type=\"text/css\">"
+                        "@page { size: 2.83in 8.27in; margin-left: 0.1in; margin-right: 0.1in }"
+                        "td p { orphans: 0; widows: 0; background: transparent }"
+                        "p { line-height: 115%; margin-bottom: 0.1in; background: transparent }"
+                    "</style>"
+                "</head>"
+                "<body lang=\"tr-TR\" link=\"#000080\" vlink=\"#800000\" dir=\"ltr\"><p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\">"
+                "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">MHSS KASA RAPORU</font></font></p>"
+                "<p align=\"right\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy") + "</font></font></p>"
+                "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
+                    "<col width=\"103*\"/>"
+
+                    "<col width=\"153*\"/>"
+
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Kullanıcı</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _user.getUserName() + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                "</table>"
+                "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">ÇALIŞMA SAATİ</font></font></p>"
+                "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
+                    "<col width=\"103*\"/>"
+
+                    "<col width=\"153*\"/>"
+
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Giriş</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + oturumGirisSaati + " " + oturumGirisTarihi + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Çıkış</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy") + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                "</table>"
+                "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">TUTARLAR</font></font></p>"
+                "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
+                    "<col width=\"103*\"/>"
+
+                    "<col width=\"153*\"/>"
+
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Toplam Giren</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(giren, 'f', 2) + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Toplam Çıkan</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(cikan, 'f', 2) + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                    "<tr valign=\"top\">"
+                        "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Kasada</font></font></p>"
+                        "</td>"
+                        "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(vt.getKasadakiPara(), 'f', 2) + "</font></font></p>"
+                        "</td>"
+                    "</tr>"
+                "</table>"
+                "</body>"
+                "</html>";
+
+        QTextDocument document;
+        document.setPageSize(QSize(204,595));
+        document.setHtml(html);
+
+        QPrinter printer(QPrinter::PrinterResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setPaperSize(QSizeF(72,210), QPrinter::Millimeter);
+        printer.setPageMargins(QMarginsF(0, 0, 0, 0));
+        printer.setOutputFileName("/tmp/mhss-kasa-rapor.pdf");
+
+        document.print(&printer);
+
+        QProcess *processIslem = new QProcess();
+        yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-kasa-rapor.pdf";
+        processIslem->start(yazdirmaKomut);
     }
-    else{
-        sirketAdi = genelAyarlar.value("sirketAdi").toString();
-    }
-    if(genelAyarlar.value("sirketAdres").isNull()){
-        sirketAdresi = "MAĞAZA ADRESİ";
-    }
-    else{
-        sirketAdresi = genelAyarlar.value("sirketAdres").toString();
-    }
-    // veritabanından giriş yapan kullanıcının oturum bilgilerini alıyorum.
-    QSqlQuery raporSorgu = vt.getOturum();
-    QString oturumGirisSaati = raporSorgu.value(2).toTime().toString("hh:mm");
-    QString oturumGirisTarihi = raporSorgu.value(2).toDate().toString("dd.MM.yyyy");
-    double giren = vt.getKasaToplamGiren(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
-    double cikan = vt.getKasaToplamCikan(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
-    QString html =
-            "<html>"
-            "<head>"
-                "<style type=\"text/css\">"
-                    "@page { size: 2.83in 8.27in; margin-left: 0.1in; margin-right: 0.1in }"
-                    "td p { orphans: 0; widows: 0; background: transparent }"
-                    "p { line-height: 115%; margin-bottom: 0.1in; background: transparent }"
-                "</style>"
-            "</head>"
-            "<body lang=\"tr-TR\" link=\"#000080\" vlink=\"#800000\" dir=\"ltr\"><p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\">"
-            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">MHSS KASA RAPORU</font></font></p>"
-            "<p align=\"right\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy") + "</font></font></p>"
-            "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
-                "<col width=\"103*\"/>"
 
-                "<col width=\"153*\"/>"
-
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Kullanıcı</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _user.getUserName() + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-            "</table>"
-            "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">ÇALIŞMA SAATİ</font></font></p>"
-            "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
-                "<col width=\"103*\"/>"
-
-                "<col width=\"153*\"/>"
-
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Giriş</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + oturumGirisSaati + " " + oturumGirisTarihi + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Çıkış</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy") + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-            "</table>"
-            "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">TUTARLAR</font></font></p>"
-            "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
-                "<col width=\"103*\"/>"
-
-                "<col width=\"153*\"/>"
-
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Toplam Giren</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(giren, 'f', 2) + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Toplam Çıkan</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(cikan, 'f', 2) + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-                "<tr valign=\"top\">"
-                    "<td width=\"40%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Kasada</font></font></p>"
-                    "</td>"
-                    "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(vt.getKasadakiPara(), 'f', 2) + "</font></font></p>"
-                    "</td>"
-                "</tr>"
-            "</table>"
-            "</body>"
-            "</html>";
-
-    QTextDocument document;
-    document.setPageSize(QSize(204,595));
-    document.setHtml(html);
-
-    QPrinter printer(QPrinter::PrinterResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QSizeF(72,210), QPrinter::Millimeter);
-    printer.setPageMargins(QMarginsF(0, 0, 0, 0));
-    printer.setOutputFileName("/tmp/mhss-kasa-rapor.pdf");
-
-    document.print(&printer);
-
-    QProcess *processIslem = new QProcess();
-    yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-kasa-rapor.pdf";
-    processIslem->start(yazdirmaKomut);
 }
 
 void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QString _islemNo, QDateTime _islemTarihi, QString _aciklama)

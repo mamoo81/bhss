@@ -113,7 +113,7 @@ void AyarlarDialog::formLoad()
     //stok takibi ayarı okuma başlangıç
     genelAyarlar.beginGroup("stok");
     ui->StokTakibicheckBox->setChecked(genelAyarlar.value("takip").toBool());
-    ui->StokMiktarspinBox->setValue(genelAyarlar.value("uyarimiktari").toInt());
+    ui->StokMiktarspinBox->setValue(genelAyarlar.value("uyarimiktar").toInt());
     genelAyarlar.endGroup();
     //stok takibi ayarı okuma
 
@@ -738,5 +738,15 @@ void AyarlarDialog::SeriPortComboBoxDoldur()
     FlowControl->insert("HardwareControl", QSerialPort::HardwareControl);
     FlowControl->insert("SoftwareControl", QSerialPort::SoftwareControl);
     ui->FlowControlcomboBox->addItems(QStringList(FlowControl->keys()));
+}
+
+
+void AyarlarDialog::on_SekmeVarsayilanpushButton_clicked()
+{
+    ui->sayfalineEdit1->setText("BARKODSUZ");
+    ui->sayfalineEdit2->setText("MANAV");
+    ui->sayfalineEdit3->setText("HIRDAVAT");
+    ui->sayfalineEdit4->setText("KASAP");
+    ui->sayfalineEdit5->setText("GENEL");
 }
 

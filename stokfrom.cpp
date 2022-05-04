@@ -362,8 +362,8 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
             yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
             yeniStokKarti.setTarih(QDateTime::currentDateTime());
-            yeniStokKarti.setUretici(ui->ureticicomboBox->currentText());
-            yeniStokKarti.setTedarikci(ui->tedarikcicomboBox->currentText());
+            yeniStokKarti.setUretici(QString::number(vt->getUreticiID(ui->ureticicomboBox->currentText())));
+            yeniStokKarti.setTedarikci(QString::number(vt->getTedarikciID(ui->tedarikcicomboBox->currentText())));
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
             vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
 
@@ -405,8 +405,8 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
         yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
-        yeniStokKarti.setUretici(ui->ureticicomboBox->currentText());
-        yeniStokKarti.setTedarikci(ui->tedarikcicomboBox->currentText());
+        yeniStokKarti.setUretici(QString::number(vt->getUreticiID(ui->ureticicomboBox->currentText())));
+        yeniStokKarti.setTedarikci(QString::number(vt->getTedarikciID(ui->tedarikcicomboBox->currentText())));
         yeniStokKarti.setAciklama("stok kartı güncelleme");
         vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
