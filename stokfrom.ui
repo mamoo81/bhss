@@ -1080,6 +1080,7 @@
   <tabstop>BarkodLnEdit</tabstop>
   <tabstop>StokKoduLnEdit</tabstop>
   <tabstop>StokAdiLnEdit</tabstop>
+  <tabstop>ureticicomboBox</tabstop>
   <tabstop>BirimiComboBox</tabstop>
   <tabstop>MiktarLnEdit</tabstop>
   <tabstop>StokGrubuComboBox</tabstop>
@@ -1089,12 +1090,11 @@
   <tabstop>KDVcheckbox</tabstop>
   <tabstop>OTVspinBox</tabstop>
   <tabstop>OTVcheckbox</tabstop>
+  <tabstop>tedarikcicomboBox</tabstop>
   <tabstop>KaydetBtn</tabstop>
   <tabstop>IptalBtn</tabstop>
-  <tabstop>YeniBtn</tabstop>
-  <tabstop>DuzenleBtn</tabstop>
-  <tabstop>SilBtn</tabstop>
   <tabstop>araBtn</tabstop>
+  <tabstop>YeniBtn</tabstop>
   <tabstop>StokKartlaritableView</tabstop>
   <tabstop>dosyadanToolButton</tabstop>
   <tabstop>kodRadioButton</tabstop>
@@ -1110,6 +1110,9 @@
   <tabstop>ResimEkleBtn</tabstop>
   <tabstop>ResimSilBtn</tabstop>
   <tabstop>barkodRadioButton</tabstop>
+  <tabstop>toolButton</tabstop>
+  <tabstop>SilBtn</tabstop>
+  <tabstop>DuzenleBtn</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
