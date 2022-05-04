@@ -748,5 +748,6 @@ void AyarlarDialog::on_SekmeVarsayilanpushButton_clicked()
     ui->sayfalineEdit3->setText("HIRDAVAT");
     ui->sayfalineEdit4->setText("KASAP");
     ui->sayfalineEdit5->setText("GENEL");
+
 }
 
