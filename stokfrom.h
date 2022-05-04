@@ -26,7 +26,6 @@ public:
 
     StokKartlariModel *_stokKartlariTableModel;
 
-    void StokMiktarlariniKontrolEt();
 
 public slots:
     void setUser(User user);

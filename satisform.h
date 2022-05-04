@@ -388,6 +388,8 @@ private slots:
 
     void on_CariKartlarBtn_clicked();
 
+    void KasadanParaCek();
+
 private:
     Ui::SatisForm *ui;
 

@@ -22,6 +22,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QRandomGenerator>
+#include <QString>
 
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
@@ -41,27 +42,6 @@ StokFrom::~StokFrom()
     delete ui;
 }
 
-void StokFrom::StokMiktarlariniKontrolEt()
-{
-    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-    genelAyarlar.beginGroup("stok");
-    bool takipAktifMi = genelAyarlar.value("takip").toBool();
-    double UyariMiktari = genelAyarlar.value("uyarimiktar").toDouble();
-    double MevcutMiktar = 0;
-    genelAyarlar.endGroup();
-    if(takipAktifMi){
-        for (int row = 0; row < ui->StokKartlaritableView->model()->rowCount(); ++row) {
-            MevcutMiktar = ui->StokKartlaritableView->model()->index(row, 5).data().toDouble();
-            QModelIndex satir = ui->StokKartlaritableView->model()->index(row, 5);
-            if(MevcutMiktar <= UyariMiktari && MevcutMiktar >= 1){
-
-            }
-            else if(MevcutMiktar < 1){
-
-            }
-        }
-    }
-}
 
 void StokFrom::on_StokGrupBtn_clicked()
 {
@@ -117,7 +97,6 @@ void StokFrom::stokKartlariniListele()
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
-    StokMiktarlariniKontrolEt();
 }
 
 void StokFrom::on_YeniBtn_clicked()
@@ -294,10 +273,20 @@ void StokFrom::alanlariDoldur()
     }
     ui->AFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 7).data().toDouble());
     ui->SFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 8).data().toDouble());
-    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 9).data().toInt());
-    ui->OTVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toInt());
-    ui->KDVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toBool());
-    ui->OTVcheckbox->setChecked(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toBool());
+    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 9).data().toString().remove("%", Qt::CaseInsensitive).toInt());
+    ui->OTVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toString().remove("%", Qt::CaseInsensitive).toInt());
+    if(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toString() == "Evet"){
+        ui->KDVcheckbox->setChecked(true);
+    }
+    else{
+        ui->KDVcheckbox->setChecked(false);
+    }
+    if(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toString() == "Evet"){
+        ui->OTVcheckbox->setChecked(true);
+    }
+    else{
+        ui->OTVcheckbox->setChecked(false);
+    }
     ui->ureticicomboBox->setCurrentIndex(ui->ureticicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString()));
     ui->tedarikcicomboBox->setCurrentIndex(ui->tedarikcicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 15).data().toString()));
     ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 16).data().toString());

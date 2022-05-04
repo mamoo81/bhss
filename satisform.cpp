@@ -457,12 +457,45 @@ void SatisForm::closeEvent(QCloseEvent *event)
         closingMsgBox.setDefaultButton(QMessageBox::No);
         int cevap = closingMsgBox.exec();
         switch (cevap) {
-        case QMessageBox::Yes:
-            this->close();
+        case QMessageBox::Yes: {
+                uyariSesi.play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Kasa uyarısı");
+                msg.setIcon(QMessageBox::Question);
+                msg.setText("Kasadan para çekimi yapılsın mı?");
+                msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+                msg.setDefaultButton(QMessageBox::No);
+                msg.setButtonText(QMessageBox::Yes, "Evet");
+                msg.setButtonText(QMessageBox::No, "Hayır");
+                msg.setButtonText(QMessageBox::Cancel, "İptal");
+                int cevapKasa = msg.exec();
+                if(QMessageBox::Yes == cevapKasa){
+                    SatisForm::on_KasaBtn_clicked();
+                    Yazici *yazdir = new Yazici();
+                    yazdir->cikisRaporuBas(kullanici);
+                    vt->oturumSonlandir();
+                    this->close();
+                    LoginForm *lg = new LoginForm();
+                    lg->show();
+                }
+                else if(QMessageBox::Cancel == cevapKasa){
+                    event->ignore();
+                    return;
+                }
+                else if(QMessageBox::No == cevapKasa){
+                    Yazici *yazdir = new Yazici();
+                    yazdir->cikisRaporuBas(kullanici);
+                    vt->oturumSonlandir();
+                    this->close();
+                    LoginForm *lg = new LoginForm();
+                    lg->show();
+                }
+            }
             break;
-        case QMessageBox::No:
-            event->ignore();
-            this->show();
+        case QMessageBox::No: {
+                event->ignore();
+                this->show();
+            }
             break;
         }
     }
@@ -480,6 +513,9 @@ void SatisForm::closeEvent(QCloseEvent *event)
         int cevap = msg.exec();
         if(QMessageBox::Yes == cevap){
             SatisForm::on_KasaBtn_clicked();
+            Yazici *yazdir = new Yazici();
+            yazdir->cikisRaporuBas(kullanici);
+            vt->oturumSonlandir();
             this->close();
             LoginForm *lg = new LoginForm();
             lg->show();
@@ -489,6 +525,9 @@ void SatisForm::closeEvent(QCloseEvent *event)
             return;
         }
         else if(QMessageBox::No == cevap){
+            Yazici *yazdir = new Yazici();
+            yazdir->cikisRaporuBas(kullanici);
+            vt->oturumSonlandir();
             this->close();
             LoginForm *lg = new LoginForm();
             lg->show();
@@ -4323,9 +4362,6 @@ void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item
 void SatisForm::on_CikisToolBtn_clicked()
 {   
     this->close();
-    Yazici *yazdir = new Yazici();
-    yazdir->cikisRaporuBas(kullanici);
-    vt->oturumSonlandir();
 }
 
 
@@ -4475,5 +4511,10 @@ void SatisForm::on_CariKartlarBtn_clicked()
         msg.exec();
     }
     ui->barkodLineEdit->setFocus();
+}
+
+void SatisForm::KasadanParaCek()
+{
+
 }
 
