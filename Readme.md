@@ -8,6 +8,9 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
   <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
 </p>
 
+
+![resim](https://img-cdn.hltv.org/gallerypicture/I0-rRhh9KTAdGN3RxQjkr-.png)
+
 #### Tavsiye edilen sistem gereksinimleri
 * Milis Linux işletim sistemi
 * 1 GB sistem belleği
