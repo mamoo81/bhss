@@ -18,10 +18,10 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 * Crontab (isteğe bağlı)
 
 ## Kurulum
-
 #### Milis Linux
 
 ```sudo mps gun```
+
 ```sudo mps kur mhss```
 
 #### Ana ekran klavye kısayolları
