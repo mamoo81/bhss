@@ -9,7 +9,7 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 </p>
 
 
-![resim](https://img-cdn.hltv.org/gallerypicture/I0-rRhh9KTAdGN3RxQjkr-.png)
+![resim](https://img-cdn.hltv.org/gallerypicture/I0-rRhh9KTAdGN3RxQjkr-.png?ixlib=java-2.1.0&w=500&s=fa3b54dd9e8e9938129abe40a0e33305)
 
 #### Tavsiye edilen sistem gereksinimleri
 * Milis Linux işletim sistemi
