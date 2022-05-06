@@ -8,17 +8,21 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
   <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
 </p>
 
-### Stok kartları ekranı
-
-<p align="center">
-  <img alt="Stok kartları ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/src/branch/master/screenshots/stok-kartlari.png">
-</p>
-
 #### Tavsiye edilen sistem gereksinimleri
 * Milis Linux işletim sistemi
 * 1 GB sistem belleği
-* 1366x768px çözünürlüğünde monitör (isteğe göre dokunmatik monitör)
+* Minimum 1366x768px çözünürlüğünde monitör (isteğe göre dokunmatik monitör)
 
+#### Gerekler
+* Postgresql
+* Crontab (isteğe bağlı)
+
+## Kurulum
+
+#### Milis Linux
+
+```sudo mps gun```
+```sudo mps kur mhss```
 
 #### Ana ekran klavye kısayolları
 
