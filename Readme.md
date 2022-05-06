@@ -9,7 +9,8 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 * Cariye stoklu/stoksuz satış
 * Kasa takibi
 * Kullanıcı yönetimi ve yetkilendirme
-* Adisyon yazdırma
+* Adisyon/fiş yazdırma
+* Terazi entegrasyonu
 * Kasa raporu yazdırma
 * Veritabanı otomatik yedekleme
 
