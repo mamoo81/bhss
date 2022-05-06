@@ -21,15 +21,23 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 * Minimum 1366x768px çözünürlüğünde monitör (isteğe göre dokunmatik monitör)
 
 #### Gerekler
-* Postgresql
+* Postgresql (çalışma gereği)
 * Crontab (isteğe bağlı)
 
 ## Kurulum
 #### Milis Linux
 
+Terminalden Milis Hızlı Satış Sistemi kurulumu
 ```
 sudo mps gun
 sudo mps kur mhss
+```
+
+Postgresql servisinin kurulumu ve aktifleştirilmesi
+```
+sudo servis ekle postgresql
+sudo servis kos postgresql
+sudo servis aktif postgresql
 ```
 
 #### MHSS Giriş bilgileri
