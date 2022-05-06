@@ -3,13 +3,13 @@
 Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış yapabileceğiniz bir uygulama.
 
 ### Satış ekranı
-
 <p align="center">
   <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
 </p>
-
-
-![resim](https://img-cdn.hltv.org/gallerypicture/I0-rRhh9KTAdGN3RxQjkr-.png?ixlib=java-2.1.0&w=500&s=fa3b54dd9e8e9938129abe40a0e33305)
+### Stok ekranı
+![stok](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-stok.png)
+### Kasa ekranı
+![kasa](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-kasa.png)
 
 #### Tavsiye edilen sistem gereksinimleri
 * Milis Linux işletim sistemi
