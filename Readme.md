@@ -7,8 +7,11 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
   <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
 </p>
 ### Stok ekranı
+
 ![stok](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-stok.png)
+
 ### Kasa ekranı
+
 ![kasa](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-kasa.png)
 
 #### Tavsiye edilen sistem gereksinimleri
@@ -23,9 +26,10 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 ## Kurulum
 #### Milis Linux
 
-```sudo mps gun```
-
-```sudo mps kur mhss```
+```
+sudo mps gun
+sudo mps kur mhss
+```
 
 #### Ana ekran klavye kısayolları
 
