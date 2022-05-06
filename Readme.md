@@ -32,6 +32,12 @@ sudo mps gun
 sudo mps kur mhss
 ```
 
+#### MHSS Giriş bilgileri
+```
+kullanıcı: admin
+şifre    : admin
+```
+
 #### Ana ekran klavye kısayolları
 
 * [F9]    -> Stok kartları sayfasını açar
