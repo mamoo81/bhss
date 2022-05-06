@@ -9,8 +9,8 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 * Cariye stoklu/stoksuz satış
 * Kasa takibi
 * Kullanıcı yönetimi ve yetkilendirme
-* Adisyon/fiş yazdırma
-* Terazi entegrasyonu
+* Adisyon/fiş yazdırma (80mm adisyon yazıcılar ile uyumlu)
+* Terazi entegrasyonu (RS232 seriport)
 * Kasa raporu yazdırma
 * Veritabanı otomatik yedekleme
 
