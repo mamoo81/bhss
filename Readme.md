@@ -2,10 +2,20 @@
 
 Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış yapabileceğiniz bir uygulama.
 
+### Özellikler
+
+* Stok takibi
+* Cari takibi (temel seviyede)
+* Cariye stoklu/stoksuz satış
+* Kasa takibi
+* Kullanıcı yönetimi ve yetkilendirme
+* Adisyon yazdırma
+* Kasa raporu yazdırma
+* Veritabanı otomatik yedekleme
+
 ### Satış ekranı
-<p align="center">
-  <img alt="Satış ekranı" src="https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png">
-</p>
+
+![ana](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png)
 
 ### Stok ekranı
 
@@ -23,6 +33,7 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 #### Gerekler
 * Postgresql (çalışma gereği)
 * Crontab (isteğe bağlı)
+* CUPS (isteğe bağlı)
 
 ## Kurulum
 #### Milis Linux
