@@ -36,12 +36,12 @@
         <file>images/ui/copy.png</file>
         <file>images/ui/delete.png</file>
         <file>images/ui/label-printer.png</file>
+        <file>images/ui/search.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>
     </qresource>
     <qresource prefix="/dosyalar">
-        <file>dosyalar/mhss_data_sifir_eski.dump</file>
         <file>dosyalar/mhss_data_sifir.dump</file>
     </qresource>
 </RCC>

@@ -1090,7 +1090,7 @@ bool Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
     if(sorgu.next()){
         mevcutStokMiktari = sorgu.value(0).toFloat();
     }
-    QString barkod;
+    QString barkod = "";
     sorgu.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
     sorgu.bindValue(0, _stokKartiID);
     sorgu.exec();
@@ -1276,9 +1276,10 @@ QSqlQueryModel *Veritabani::getStokKartlari()
 QSqlQueryModel *Veritabani::getStokKartlari(QString query)
 {
     stokKartlariModel->setQuery(query, db);
-    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Stok ID");
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Kod");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
     stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Ürün Adı");
+    stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Satış Fiyatı");
     return stokKartlariModel;
 }
 

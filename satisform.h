@@ -16,6 +16,7 @@
 #include <QCloseEvent>
 #include <QList>
 #include <QToolButton>
+#include <QShortcut>
 
 namespace Ui {
 class SatisForm;
@@ -56,7 +57,6 @@ private slots:
     void sepetToplaminiYaz();
     void tableWidgetEkle(StokKarti p_StokKarti, float _miktar);
     void closeEvent(QCloseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
     int getSeciliSatirIndexi();
     void on_artirBtn_clicked();
 
@@ -68,6 +68,19 @@ private slots:
     void butonDurumlariniAyarla();
 
     void on_satisYapBtn_clicked();
+
+    void CTRL_F_Slot();
+    void ENTER_Slot();
+    void ESC_slot();
+    void F_Slot();
+    void F3_Slot();
+    void F5_Slot();
+    void F9_Slot();
+    void F10_Slot();
+    void F11_Slot();
+    void F12_Slot();
+    void key_Down_Slot();
+    void key_UP_Slot();
 
     void on_hizlitoolButton1_clicked();
 
@@ -390,8 +403,27 @@ private slots:
 
     void KasadanParaCek();
 
+    void on_KartAratoolButton_clicked();
+
 private:
     Ui::SatisForm *ui;
+
+    QShortcut *CTRL_F;
+    QShortcut *RETURN;
+    QShortcut *ENTER;
+    QShortcut *ESC;
+    QShortcut *key_F;
+    QShortcut *key_F3;
+    QShortcut *Key_F5;
+    QShortcut *key_F9;
+    QShortcut *key_F10;
+    QShortcut *key_F11;
+    QShortcut *key_F12;
+    QShortcut *key_Down;
+    QShortcut *key_DownArrow;
+    QShortcut *key_Up;
+    QShortcut *key_UpArrow;
+
 
     User kullanici;
 

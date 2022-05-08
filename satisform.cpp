@@ -64,6 +64,60 @@ void SatisForm::formLoad()
     hizliUrunSayfaAyarla();
     ui->barkodLineEdit->setFocus();
     uyariSesi.setLoops(0);
+
+    // klavye kısayol tanımlamaları
+    CTRL_F = new QShortcut(this);
+    CTRL_F->setKey(Qt::CTRL + Qt::Key_F);
+    connect(CTRL_F, SIGNAL(activated()), this, SLOT(CTRL_F_Slot()));
+
+    ENTER = new QShortcut(this);
+    ENTER->setKey(Qt::Key_Enter);
+    connect(ENTER, SIGNAL(activated()), this, SLOT(ENTER_Slot()));
+
+    RETURN = new QShortcut(this);
+    RETURN->setKey(Qt::Key_Return);
+    connect(RETURN, SIGNAL(activated()), this, SLOT(ENTER_Slot()));
+
+    ESC = new QShortcut(this);
+    ESC->setKey(Qt::Key_Escape);
+    connect(ESC, SIGNAL(activated()), this, SLOT(ESC_slot()));
+
+    key_F = new QShortcut(this);
+    key_F->setKey(Qt::Key_F);
+    connect(key_F, SIGNAL(activated()), this, SLOT(F_Slot()));
+
+    key_F3 = new QShortcut(this);
+    key_F3->setKey(Qt::Key_F3);
+    connect(key_F3, SIGNAL(activated()), this, SLOT(F3_Slot()));
+
+    Key_F5 = new QShortcut(this);
+    Key_F5->setKey(Qt::Key_F5);
+    connect(Key_F5, SIGNAL(activated()), this, SLOT(F5_Slot()));
+
+    key_F9 = new QShortcut(this);
+    key_F9->setKey(Qt::Key_F9);
+    connect(key_F9, SIGNAL(activated()), this, SLOT(F9_Slot()));
+
+    key_F10 = new QShortcut(this);
+    key_F10->setKey(Qt::Key_F10);
+    connect(key_F10, SIGNAL(activated()), this, SLOT(F10_Slot()));
+
+    key_F11 = new QShortcut(this);
+    key_F11->setKey(Qt::Key_F11);
+    connect(key_F11, SIGNAL(activated()), this, SLOT(F11_Slot()));
+
+    key_F12 = new QShortcut(this);
+    key_F12->setKey(Qt::Key_F12);
+    connect(key_F12, SIGNAL(activated()), this, SLOT(F12_Slot()));
+
+    key_Down = new QShortcut(this);
+    key_Down->setKey(Qt::Key_Down);
+    connect(key_Down, SIGNAL(activated()), this, SLOT(key_Down_Slot()));
+
+    key_DownArrow = new QShortcut(this);
+    key_DownArrow->setKey(Qt::DownArrow);
+    connect(key_DownArrow, SIGNAL(activated()), this, SLOT(key_Down_Slot()));
+
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
@@ -2271,89 +2325,6 @@ void SatisForm::silAction()
     ui->barkodLineEdit->setFocus();
 }
 
-void SatisForm::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-        if(ui->barkodLineEdit->text().isEmpty()){// barkod lineedit boş ise ödeme ekranını göster.
-            //ödeme ekranı işlemleri.
-            if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
-                SatisForm::on_satisYapBtn_clicked();
-            }
-        }
-        else{
-            //sepete ekleme işleri başlangıcı.
-            sepeteEkle();
-            ui->barkodLineEdit->clear();
-            ui->barkodLineEdit->setFocus();
-        }
-    }
-    else if(event->key() == Qt::DownArrow || event->key() == Qt::Key_Down){
-        switch (ui->SepetlertabWidget->currentIndex()) {
-        case 0:
-            ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() + 1);
-            break;
-        case 1:
-            ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->currentIndex().row() + 1);
-            break;
-        case 2:
-            ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->currentIndex().row() + 1);
-            break;
-        case 3:
-            ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->currentIndex().row() + 1);
-            break;
-        }
-    }
-    else if(event->key() == Qt::UpArrow || event->key() == Qt::Key_Up){
-        switch (ui->SepetlertabWidget->currentIndex()) {
-        case 0:
-            ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() - 1);
-            break;
-        case 1:
-            ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->currentIndex().row() - 1);
-            break;
-        case 2:
-            ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->currentIndex().row() - 1);
-            break;
-        case 3:
-            ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->currentIndex().row() - 1);
-            break;
-        }
-    }
-    else if (event->key() == Qt::Key_Escape){
-        this->close();
-    }
-    else if(event->key() == Qt::Key_F9){
-        SatisForm::on_StokKartlariBtn_clicked();
-    }
-    else if(event->key() == Qt::Key_F)
-    {
-        FiyatGorForm *fiyatForm = new FiyatGorForm(this);
-        fiyatForm->exec();
-        ui->barkodLineEdit->setFocus();;
-        delete fiyatForm;
-    }
-    else if(event->key() == Qt::Key_F3){
-        if(ui->satirSilBtn->isEnabled()){
-            SatisForm::on_satirSilBtn_clicked();
-        }
-    }
-    else if(event->key() == Qt::Key_F5){
-        if(ui->sepetSilBtn->isEnabled()){
-            SatisForm::on_sepetSilBtn_clicked();
-        }
-    }
-    else if(event->key() == Qt::Key_F10){
-        SatisForm::on_CariKartlarBtn_clicked();
-    }
-    else if(event->key() == Qt::Key_F11){
-        // kasa formu açılacak
-        SatisForm::on_KasaBtn_clicked();
-    }
-    else if(event->key() == Qt::Key_F12){
-        SatisForm::on_AyarlarBtn_clicked();
-    }
-}
-
 int SatisForm::getSeciliSatirIndexi()
 {
     int index = -1;
@@ -2850,6 +2821,111 @@ void SatisForm::on_satisYapBtn_clicked()
         ui->barkodLineEdit->setFocus();
     }
     delete satisyapfrm;
+}
+
+void SatisForm::CTRL_F_Slot()
+{
+    emit on_KartAratoolButton_clicked();
+}
+
+void SatisForm::ENTER_Slot()
+{
+    if(ui->barkodLineEdit->text().isEmpty()){// barkod lineedit boş ise ödeme ekranını göster.
+        //ödeme ekranı işlemleri.
+        if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
+            SatisForm::on_satisYapBtn_clicked();
+        }
+    }
+    else{
+        //sepete ekleme işleri başlangıcı.
+        sepeteEkle();
+        ui->barkodLineEdit->clear();
+        ui->barkodLineEdit->setFocus();
+    }
+}
+
+void SatisForm::ESC_slot()
+{
+    this->close();
+}
+
+void SatisForm::F_Slot()
+{
+    FiyatGorForm *fiyatForm = new FiyatGorForm(this);
+    fiyatForm->exec();
+    ui->barkodLineEdit->setFocus();;
+    delete fiyatForm;
+}
+
+void SatisForm::F3_Slot()
+{
+    if(ui->satirSilBtn->isEnabled()){
+        SatisForm::on_satirSilBtn_clicked();
+    }
+}
+
+void SatisForm::F5_Slot()
+{
+    if(ui->sepetSilBtn->isEnabled()){
+        SatisForm::on_sepetSilBtn_clicked();
+    }
+}
+
+void SatisForm::F9_Slot()
+{
+    SatisForm::on_StokKartlariBtn_clicked();
+}
+
+void SatisForm::F10_Slot()
+{
+    SatisForm::on_CariKartlarBtn_clicked();
+}
+
+void SatisForm::F11_Slot()
+{
+    // kasa formu açılacak
+    SatisForm::on_KasaBtn_clicked();
+}
+
+void SatisForm::F12_Slot()
+{
+    SatisForm::on_AyarlarBtn_clicked();
+}
+
+void SatisForm::key_Down_Slot()
+{
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() + 1);
+        break;
+    case 1:
+        ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->currentIndex().row() + 1);
+        break;
+    case 2:
+        ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->currentIndex().row() + 1);
+        break;
+    case 3:
+        ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->currentIndex().row() + 1);
+        break;
+    }
+}
+
+void SatisForm::key_UP_Slot()
+{
+    switch (ui->SepetlertabWidget->currentIndex()) {
+    case 0:
+        ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->currentIndex().row() - 1);
+        break;
+    case 1:
+        ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->currentIndex().row() - 1);
+        break;
+    case 2:
+        ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->currentIndex().row() - 1);
+        break;
+    case 3:
+        ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->currentIndex().row() - 1);
+        break;
+    }
 }
 
 #pragma region hizliurunbutonları click metodları {
@@ -4516,5 +4592,19 @@ void SatisForm::on_CariKartlarBtn_clicked()
 void SatisForm::KasadanParaCek()
 {
 
+}
+
+
+void SatisForm::on_KartAratoolButton_clicked()
+{
+    HizliUrunEkleFormDialog *hizliDialog = new HizliUrunEkleFormDialog(this);
+    hizliDialog->exec();
+    if(hizliDialog->ok){
+        if(!hizliDialog->hizliUrunBarkod.isNull() || !hizliDialog->hizliUrunBarkod.isEmpty()){
+            ui->barkodLineEdit->setText(hizliDialog->hizliUrunBarkod);
+            sepeteEkle();
+        }
+    }
+    ui->barkodLineEdit->setFocus();
 }
 
