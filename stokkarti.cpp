@@ -44,12 +44,12 @@ void StokKarti::setAd(const QString &newAd)
     ad = newAd;
 }
 
-const QString &StokKarti::getBirim() const
+const int &StokKarti::getBirim() const
 {
     return birim;
 }
 
-void StokKarti::setBirim(const QString &newBirim)
+void StokKarti::setBirim(const int &newBirim)
 {
     birim = newBirim;
 }
@@ -64,12 +64,12 @@ void StokKarti::setMiktar(float newMiktar)
     miktar = newMiktar;
 }
 
-const QString &StokKarti::getGrup() const
+const int &StokKarti::getGrup() const
 {
     return grup;
 }
 
-void StokKarti::setGrup(const QString &newGrup)
+void StokKarti::setGrup(const int &newGrup)
 {
     grup = newGrup;
 }

@@ -48,6 +48,10 @@ double Sepet::sepetToplamTutari()
     return sepetToplam;
 }
 
+/**
+ * @brief Sepet::sepetBosmu
+ * @return boş ise true döndürür
+ */
 bool Sepet::sepetBosmu()
 {
     if(urunler.isEmpty()){
@@ -66,7 +70,7 @@ bool Sepet::sepetBosmu()
 void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
 {
     if(!urunler.contains(_StokKarti.getBarkod())){ //arrayda yok ise
-        if(_StokKarti.getBirim() == "ADET"){
+        if(_StokKarti.getBirim() == 1){
             Urun urun;
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
@@ -78,7 +82,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
-        else if(_StokKarti.getBirim() == "KİLOGRAM"){
+        else if(_StokKarti.getBirim() == 2){
             Urun urun;
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
@@ -90,7 +94,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
         }
-        else if(_StokKarti.getBirim() == "METRE"){
+        else if(_StokKarti.getBirim() == 6){
             Urun urun;
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
@@ -104,15 +108,15 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
         }
     }
     else{// arrayde var ise
-        if(_StokKarti.getBirim() == "ADET"){
+        if(_StokKarti.getBirim() == 1){
             ++urunler[_StokKarti.getBarkod()].miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }
-        else if(_StokKarti.getBirim() == "KİLOGRAM"){
+        else if(_StokKarti.getBirim() == 2){
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }
-        else if(_StokKarti.getBirim() == "METRE"){
+        else if(_StokKarti.getBirim() == 6){
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
         }

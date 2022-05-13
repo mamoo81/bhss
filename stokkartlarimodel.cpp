@@ -1,5 +1,7 @@
 #include "stokkartlarimodel.h"
 
+#include <QBrush>
+
 StokKartlariModel::StokKartlariModel(QObject *parent) : QAbstractItemModel(parent)
 {
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
@@ -10,34 +12,12 @@ StokKartlariModel::StokKartlariModel(QObject *parent) : QAbstractItemModel(paren
 
     _QueryModel = vt->getStokKartlari();
     _nColumn = _QueryModel->columnCount();
-
-    for (int var = 0; var < _QueryModel->rowCount(); ++var) {
-        StokKarti kart = StokKarti();
-        kart.setId(_QueryModel->record(var).value("id").toString());
-        kart.setBarkod(_QueryModel->record(var).value("barkod").toString());
-        kart.setKod(_QueryModel->record(var).value("kod").toString());
-        kart.setAd(_QueryModel->record(var).value("ad").toString());
-        kart.setBirim(_QueryModel->record(var).value("birim").toString());
-        kart.setMiktar(_QueryModel->record(var).value("miktar").toDouble());
-        kart.setGrup(_QueryModel->record(var).value("grup").toString());
-        kart.setAFiyat(_QueryModel->record(var).value("afiyat").toDouble());
-        kart.setSFiyat(_QueryModel->record(var).value("sfiyat").toDouble());
-        kart.setKdv(_QueryModel->record(var).value("kdv").toInt());
-        kart.setOtv(_QueryModel->record(var).value("otv").toInt());
-        kart.setKdvdahil(_QueryModel->record(var).value("kdvdahil").toBool());
-        kart.setOtvdahil(_QueryModel->record(var).value("otvdahil").toBool());
-        kart.setTarih(_QueryModel->record(var).value("tarih").toDateTime());
-        kart.setUretici(_QueryModel->record(var).value("ureticiler.ad").toString());
-        kart.setTedarikci(_QueryModel->record(var).value("carikartlar.ad").toString());
-        kart.setAciklama(_QueryModel->record(var).value("aciklama").toString());
-        _kartlar.append(kart);
-    }
 }
 
 int StokKartlariModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return _kartlar.count();
+    return _QueryModel->rowCount();
 }
 
 int StokKartlariModel::columnCount(const QModelIndex &parent) const
@@ -49,68 +29,70 @@ int StokKartlariModel::columnCount(const QModelIndex &parent) const
 QVariant StokKartlariModel::data(const QModelIndex &index, int role) const
 {
     if(index.isValid() == false) return QVariant();
-    if(_kartlar.count() == 0) return QVariant();
-//    const StokKarti kart = _kartlar.at(index.row());
+
+    if(_QueryModel->rowCount() == 0) return QVariant();
 
     switch (role) {
     case Qt::DisplayRole:
-        if(_kartlar.count() == 0) return QVariant();
-
         switch (index.column()) {
         case 0:
-            return QVariant(_kartlar.at(index.row()).getId());
+            return QVariant(_QueryModel->record(index.row()).value("id").toString());
         case 1:
-            return QVariant(_kartlar.at(index.row()).getBarkod());
+            return QVariant(_QueryModel->record(index.row()).value("barkod").toString());
         case 2:
-            return QVariant(_kartlar.at(index.row()).getKod());
+            return QVariant(_QueryModel->record(index.row()).value("kod").toString());
         case 3:
-            return QVariant(_kartlar.at(index.row()).getAd());
+            return QVariant(_QueryModel->record(index.row()).value("ad").toString());
         case 4:
-            return QVariant(_kartlar.at(index.row()).getBirim());
+            return QVariant(_QueryModel->record(index.row()).value("stokbirimleri.birim").toString());
         case 5:
-            return QVariant(_kartlar.at(index.row()).getMiktar());
+            return QVariant(_QueryModel->record(index.row()).value("miktar").toDouble());
         case 6:
-            return QVariant(_kartlar.at(index.row()).getGrup());
+            return QVariant(_QueryModel->record(index.row()).value("grup").toString());
         case 7:
-            return QVariant(QString::number(_kartlar.at(index.row()).getAFiyat(), 'f', 2));
+            return QVariant(QString::number(_QueryModel->record(index.row()).value("afiyat").toDouble(), 'f', 2));
         case 8:
-            return QVariant(QString::number(_kartlar.at(index.row()).getSFiyat(), 'f', 2));
+            return QVariant(QString::number(_QueryModel->record(index.row()).value("sfiyat").toDouble(), 'f', 2));
         case 9:
-            return QVariant("%" + QString::number(_kartlar.at(index.row()).getKdv()));
+            return QVariant("%" + QString::number(_QueryModel->record(index.row()).value("kdv").toInt()));
         case 10:
-            return QVariant("%" + QString::number(_kartlar.at(index.row()).getOtv()));
+            return QVariant("%" + QString::number(_QueryModel->record(index.row()).value("otv").toInt()));
         case 11:
-            if(_kartlar.at(index.row()).getKdvdahil()){
+            if(_QueryModel->record(index.row()).value("kdvdahil").toBool()){
                 return QVariant("Evet");
             }
             else{
                 return QVariant("Hayır");
             }
         case 12:
-            if(_kartlar.at(index.row()).getOtvdahil()){
+            if(_QueryModel->record(index.row()).value("otvdahil").toBool()){
                 return QVariant("Evet");
             }
             else{
                 return QVariant("Hayır");
             }
         case 13:
-            return QVariant(_kartlar.at(index.row()).getTarih().toString("dd.MM.yyyy hh:mm"));
+            return QVariant(_QueryModel->record(index.row()).value("tarih").toDateTime().toString("dd.MM.yyyy hh:mm"));
         case 14:
-            return QVariant(_kartlar.at(index.row()).getUretici());
+            return QVariant(_QueryModel->record(index.row()).value("ureticiler.ad").toString());
         case 15:
-            return QVariant(_kartlar.at(index.row()).getTedarikci());
+            return QVariant(_QueryModel->record(index.row()).value("carikartlar.ad").toString());
         case 16:
-            return QVariant(_kartlar.at(index.row()).getAciklama());
+                return QVariant(_QueryModel->record(index.row()).value("aciklama").toString());
         default:
             return QVariant();
         }
-    case Qt::BackgroundRole:
+    case Qt::BackgroundColorRole: // renklendirme için
         if(_takipAktifMi){
-            if(index.column() == 5){
-                if(index.data().toDouble() < _stokUyariMiktari){
-                    return QBrush(Qt::red);
-                }
+            // satırı renklendirme
+            if(_QueryModel->record(index.row()).value("miktar").toDouble() <= _stokUyariMiktari){// miktar uyarı miktarından düşük veya eşitse
+                return QBrush(Qt::red);
             }
+//            else{
+//                if(index.column() == 5){ // hücreyi renklendirme
+//                    return QBrush(Qt::green);
+//                }
+//            }
         }
         break;
     case Qt::TextAlignmentRole:
@@ -194,7 +176,7 @@ QModelIndex StokKartlariModel::parent(const QModelIndex &child) const
 QModelIndex StokKartlariModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    int rowMax = _kartlar.count();
+    int rowMax = _QueryModel->rowCount();
     if(row < rowMax && row >= 0 && column < _nColumn && column >= 0){
         return createIndex(row, column);
     }

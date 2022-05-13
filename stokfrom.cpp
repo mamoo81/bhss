@@ -61,7 +61,6 @@ void StokFrom::formLoad()
     ui->ureticicomboBox->addItems(vt->getUreticiler());
     // tedarikçileri getirme
     ui->tedarikcicomboBox->addItems(vt->getTedarikciler());
-//    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
@@ -81,6 +80,7 @@ void StokFrom::grupComboboxDoldur()
     foreach (auto grup, gruplar) {
         ui->StokGrubuComboBox->addItem(grup);
     }
+    ui->StokGrubuComboBox->setCurrentIndex(0);
 }
 
 
@@ -89,14 +89,12 @@ void StokFrom::stokKartlariniListele()
     _stokKartlariTableModel = new StokKartlariModel();
     sortModel->setSourceModel(_stokKartlariTableModel);
     ui->StokKartlaritableView->setModel(sortModel);
-    ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
-    ui->StokKartlaritableView->setSortingEnabled(true);
-    ui->StokKartlaritableView->resizeColumnsToContents();
     ui->StokKartlaritableView->sortByColumn(3, Qt::AscendingOrder);
-    selectionModel = ui->StokKartlaritableView->selectionModel();
-    QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
-    selectionModel->select(modelindex, QItemSelectionModel::Clear);
+    ui->StokKartlaritableView->resizeColumnsToContents();
+    ui->StokKartlaritableView->setSortingEnabled(true);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
+
+    ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
 }
 
 void StokFrom::on_YeniBtn_clicked()
@@ -352,9 +350,9 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
             yeniStokKarti.setKod(ui->StokKoduLnEdit->text());
             yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-            yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
+            yeniStokKarti.setBirim(vt->getBirimID(ui->BirimiComboBox->currentText()));
             yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
-            yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
+            yeniStokKarti.setGrup(vt->getGrupID(ui->StokGrubuComboBox->currentText()));
             yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
             yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
             yeniStokKarti.setKdv(ui->KDVspinBox->value());
@@ -395,9 +393,9 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setId(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
         yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-        yeniStokKarti.setBirim(ui->BirimiComboBox->currentText());
+        yeniStokKarti.setBirim(vt->getBirimID(ui->BirimiComboBox->currentText()));
         yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
-        yeniStokKarti.setGrup(ui->StokGrubuComboBox->currentText());
+        yeniStokKarti.setGrup(vt->getGrupID(ui->StokGrubuComboBox->currentText()));
         yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
         yeniStokKarti.setSFiyat(ui->SFiyatdoubleSpinBox->value());
         yeniStokKarti.setKdv(ui->KDVspinBox->value());

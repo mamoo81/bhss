@@ -314,7 +314,7 @@ bool Veritabani::kasaHareketiSil(QString _hareketID, QString _hareket, double _t
 bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
     QString yedeklemeKomutu = "pg_dump -Fc -U postgres mhss_data > ";
-    yedeklemeKomutu += _dirNameAndFileName + ".dump";
+    yedeklemeKomutu += _dirNameAndFileName + ".sql";
     int exitCode = system(qPrintable(yedeklemeKomutu));
     if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
         // komut başarılı
@@ -344,7 +344,7 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     db.close();
     db.setDatabaseName("mhss_data");
     db.open();
-    QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data " + _dosyaYolu;
+    QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data < " + _dosyaYolu;
     int exitCode = system(qPrintable(geriYuklemeKomutu));
     if(exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut süreci normal olarak bittiyse
         // komut başarılı
@@ -368,12 +368,12 @@ bool Veritabani::veritabaniSifirla()
     // veritabani sıfırlandığı için hizli butonları da sıfırla
     QSettings hizlibutonlariINI(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     hizlibutonlariINI.clear();
-    QFile mhss_data_sifir(":/dosyalar/dosyalar/mhss_data_sifir.dump");
-    if(!QFileInfo().exists("/tmp/mhss_data_sifir.dump")){
-        mhss_data_sifir.copy("/tmp/mhss_data_sifir.dump");
+    QFile mhss_data_sifir(":/dosyalar/dosyalar/mhss_data.sql");
+    if(!QFileInfo().exists("/tmp/mhss_data.sql")){
+        mhss_data_sifir.copy("/tmp/mhss_data.sql");
     }
-    QFile dosya("/tmp/mhss_data_sifir.dump");
-    qDebug() << QFileInfo(dosya).absoluteFilePath();
+    QFile dosya("/tmp/mhss_data.sql");
+//    qDebug() << QFileInfo(dosya).absoluteFilePath();
     if(veritabaniYedektenGeriYukle(QFileInfo(dosya).absoluteFilePath())){
         return true;
     }
@@ -1058,7 +1058,10 @@ QStringList Veritabani::GetUsers()
 StokKarti Veritabani::getStokKarti(QString _Barkod)
 {
     StokKarti kart = StokKarti();
-    sorgu.prepare("SELECT id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama FROM stokkartlari WHERE barkod = ?");
+    sorgu.prepare("SELECT stokkartlari.id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama "
+                    "FROM stokkartlari "
+//                    "LEFT JOIN stokbirimleri ON stokkartlari.birim = stokbirimleri.id "
+                    "WHERE barkod = ?");
     sorgu.bindValue(0, _Barkod);
     sorgu.exec();
     if(sorgu.next()){
@@ -1066,9 +1069,9 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
         kart.setBarkod(sorgu.value(1).toString());
         kart.setKod(sorgu.value(2).toString());
         kart.setAd(sorgu.value(3).toString());
-        kart.setBirim(sorgu.value(4).toString());
+        kart.setBirim(sorgu.value(4).toInt());
         kart.setMiktar(sorgu.value(5).toFloat());
-        kart.setGrup(sorgu.value(6).toString());
+        kart.setGrup(sorgu.value(6).toInt());
         kart.setAFiyat(sorgu.value(7).toDouble());
         kart.setSFiyat(sorgu.value(8).toDouble());
         kart.setKdv(sorgu.value(9).toInt());
@@ -1077,6 +1080,9 @@ StokKarti Veritabani::getStokKarti(QString _Barkod)
         kart.setOtvdahil(sorgu.value(12).toBool());
         kart.setTarih(sorgu.value(13).toDateTime());
         kart.setAciklama(sorgu.value(14).toString());
+    }
+    else{
+        qWarning(qPrintable(sorgu.lastError().text()));
     }
     return kart;
 }
@@ -1249,9 +1255,11 @@ void Veritabani::stokKartiSil(QString _StokKartiID)
 
 QSqlQueryModel *Veritabani::getStokKartlari()
 {
-    stokKartlariModel->setQuery("SELECT stokkartlari.id, barkod, kod, stokkartlari.ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, stokkartlari.tarih, ureticiler.ad, carikartlar.ad, stokkartlari.aciklama FROM stokkartlari "
+    stokKartlariModel->setQuery("SELECT stokkartlari.id, barkod, kod, stokkartlari.ad, stokbirimleri.birim, miktar, stokgruplari.grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, stokkartlari.tarih, ureticiler.ad, carikartlar.ad, stokkartlari.aciklama FROM stokkartlari "
+                                "LEFT JOIN stokbirimleri ON stokkartlari.birim = stokbirimleri.id "
                                 "LEFT JOIN ureticiler ON stokkartlari.uretici = ureticiler.id "
                                 "LEFT JOIN carikartlar ON stokkartlari.tedarikci = carikartlar.id "
+                                "LEFT JOIN stokgruplari ON stokkartlari.grup = stokgruplari.id "
                                 "ORDER BY stokkartlari.ad ASC", db);
     stokKartlariModel->setHeaderData(0, Qt::Horizontal, "ID");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
@@ -1287,10 +1295,22 @@ QStringList Veritabani::stokGruplariGetir()
 {
     sorgu.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
+    liste.append("Stok Grubu seçin...");
     while (sorgu.next()) {
         liste.append(sorgu.value(0).toString());
     }
     return liste;
+}
+
+int Veritabani::getGrupID(QString pGrup)
+{
+    sorgu.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
+    sorgu.bindValue(0, pGrup);
+    sorgu.exec();
+    if(sorgu.next()){
+        return sorgu.value(0).toInt();
+    }
+    return 0;
 }
 
 void Veritabani::stokGrupEkle(QString _eklenecekGrupAdi)
@@ -1380,11 +1400,23 @@ void Veritabani::stokHareketiEkle(User _kullanici, QString _barkod, QString _isl
 QStringList Veritabani::getStokBirimleri()
 {
     stokbirimleri.clear();
+    stokbirimleri.append("Birim Seçin...");
     sorgu.exec("SELECT * FROM stokbirimleri");
     while (sorgu.next()) {
         stokbirimleri.append(sorgu.value(1).toString());
     }
     return stokbirimleri;
+}
+
+int Veritabani::getBirimID(QString pBirim)
+{
+    sorgu.prepare("SELECT id FROM stokbirimleri WHERE birim = ?");
+    sorgu.bindValue(0, pBirim);
+    sorgu.exec();
+    if(sorgu.next()){
+        return sorgu.value(0).toInt();
+    }
+    return 0;
 }
 
 Sepet Veritabani::getSatis(QString _faturaNo)

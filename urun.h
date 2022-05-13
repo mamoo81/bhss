@@ -12,7 +12,8 @@ public:
     QString ad;
     double alisFiyat;
     double birimFiyat;
-    QString birim;
+//    QString birim;
+    int birim;
     float miktar= 0;
     float stokMiktari = 0;
     double toplam = 0;

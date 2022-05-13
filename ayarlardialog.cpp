@@ -361,14 +361,14 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
         QFileDialog dialog(this);
         dialog.setWindowTitle("Veritabanı yedeğini seçiniz");
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-        dialog.setNameFilter(tr("Veritabanı dump dosyası (*.dump)"));
+        dialog.setNameFilter(tr("Veritabanı dump dosyası (*.sql)"));
         dialog.setLabelText(QFileDialog::Accept, tr("Seç"));
         dialog.setLabelText(QFileDialog::Reject, tr("Vazgeç"));
         dialog.setLabelText(QFileDialog::FileName, tr("Dosya"));
         dialog.setLabelText(QFileDialog::FileType, tr("dosya tipi"));
         dialog.exec();
         QString dosyaYolu = dialog.selectedFiles().first();
-        if(dosyaYolu.contains(".dump")){
+        if(dosyaYolu.contains(".sql")){
             bool ok = vt.veritabaniYedektenGeriYukle(dosyaYolu);
             if(ok){
                 QMessageBox msg(this);
@@ -446,7 +446,7 @@ void AyarlarDialog::cronJobKaydet()
         betik.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
         QTextStream betikYazilacak(&betik);
         betikYazilacak << "#!/bin/bash" << Qt::endl;
-        betikYazilacak << "/usr/bin/pg_dump -Fc -U postgres mhss_data > " << ui->Konumlabel->text() << "/\"mhss-data-\"`date +\"%d-%m-%Y.dump\"`" << Qt::endl;
+        betikYazilacak << "/usr/bin/pg_dump -Fc -U postgres mhss_data > " << ui->Konumlabel->text() << "/\"mhss-data-\"`date +\"%d-%m-%Y.sql\"`" << Qt::endl;
         betik.close();
         //betiğe çalıştırılabilir dosya izni verme
         QString yetkilendirmeCMD = "chmod +x " + QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh";

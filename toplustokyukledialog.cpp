@@ -58,14 +58,15 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
                 sorgu.bindValue(0, barkod);
                 sorgu.bindValue(1, value["kod"].toString());
                 sorgu.bindValue(2, value["ad"].toString());
-                sorgu.bindValue(3, value["birim"].toString());
+                //sorgu.bindValue(3, value["birim"].toString());
+                sorgu.bindValue(3, value["birim"].toInt());
                 if(ui->miktarcheckBox->isChecked()){// seçili ise miktarları 10000 adet/kg/metre girer.
                     sorgu.bindValue(4, 10000);
                 }
                 else{
                     sorgu.bindValue(4, value["miktar"].toVariant().value<float>());
                 }
-                sorgu.bindValue(5, value["grup"].toString());
+                sorgu.bindValue(5, value["grup"].toInt());
                 if(ui->fiyatcheckBox->isChecked()){// seçili ise fiyatları 0 TL girer.
                     sorgu.bindValue(6, 0);
                     sorgu.bindValue(7, 0);
@@ -78,6 +79,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
                 sorgu.bindValue(9, value["kdvdahil"].toBool());
                 sorgu.bindValue(10, value["otv"].toInt());
                 sorgu.bindValue(11, value["otvdahil"].toBool());
+                QDateTime zaman = value["tarih"].toVariant().value<QDateTime>();
                 sorgu.bindValue(12, value["tarih"].toVariant().value<QDateTime>());
                 sorgu.bindValue(13, value["uretici"].toInt());
                 sorgu.bindValue(14, QVariant(QString()));

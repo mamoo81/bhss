@@ -51,6 +51,7 @@ public slots:
     QSqlQueryModel* getStokKartlari();
     QSqlQueryModel* getStokKartlari(QString query);
     QStringList stokGruplariGetir();
+    int getGrupID(QString pGrup);
     double getKasadakiPara();
     Sepet getSatis(QString _faturaNo);
     void kasadanParaCek(double _cekilecekTutar, User _kullanici);
@@ -77,6 +78,7 @@ public slots:
     QSqlQueryModel *getStokHareketleri(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih);
     void stokHareketiEkle(User _kullanici, QString _barkod, QString _islem, float _miktar);
     QStringList getStokBirimleri();
+    int getBirimID(QString pBirim);
     QSqlQueryModel *getCariHareketleri(QString _cariID);
     double getCariToplamAlacak(QString _cariID);
     double getCariToplamBorc(QString _cariID);

@@ -9,6 +9,7 @@
 
 class Sepet
 {
+
 private:
     QString ad;
     double odenenTutar;

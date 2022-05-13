@@ -36,6 +36,8 @@ SatisForm::SatisForm(QWidget *parent) :
 {
     ui->setupUi(this);
     formLoad();
+
+    setlocale(LC_ALL, "Turkish");
 }
 
 SatisForm::~SatisForm()
@@ -122,19 +124,31 @@ void SatisForm::formLoad()
 
 void SatisForm::on_StokKartlariBtn_clicked()
 {
-    if(kullanici.getStokYetki()){
-        StokFrom *stokKartiFormu = new StokFrom(this);
-        stokKartiFormu->setUser(kullanici);
-        stokKartiFormu->exec();
-        delete stokKartiFormu;
-        hizliUrunButonlariAyarla();
+    if(sepet[0].sepetBosmu() && sepet[1].sepetBosmu() && sepet[2].sepetBosmu() &&  sepet[3].sepetBosmu()){
+        if(kullanici.getStokYetki()){
+            StokFrom *stokKartiFormu = new StokFrom(this);
+            stokKartiFormu->setUser(kullanici);
+            stokKartiFormu->exec();
+            delete stokKartiFormu;
+            hizliUrunButonlariAyarla();
+        }
+        else{
+            uyariSesi.play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Stok işlemleri yapmaya yetkiniz yoktur.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
     else{
         uyariSesi.play();
         QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
+        msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Warning);
-        msg.setText("Stok işlemleri yapmaya yetkiniz yoktur.");
+        msg.setText("Satışı yapılmamış sepetiniz var stok kartları sayfasını açamazsınız.");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
@@ -335,11 +349,11 @@ void SatisForm::sepeteEkle()
     if(vt->barkodVarmi(ui->barkodLineEdit->text())){
         stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
         if(stokKarti.getMiktar() > 0){
-            if(stokKarti.getBirim() == "ADET"){
+            if(stokKarti.getBirim() == 1){
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
             }
-            else if(stokKarti.getBirim() == "KİLOGRAM"){
+            else if(stokKarti.getBirim() == 2){
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setModal(true);
                 kgformu->exec();
@@ -349,7 +363,7 @@ void SatisForm::sepeteEkle()
                 }
                 delete kgformu;
             }
-            else if(stokKarti.getBirim() == "METRE"){
+            else if(stokKarti.getBirim() == 6){
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setWindowTitle("Metre Girişi");
                 kgformu->setBirimi("METRE");
@@ -419,7 +433,36 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat(), 'f', 2)));
-            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+//            ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+            switch (p_StokKarti.getBirim()) {
+            case 1:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("ADET"));
+                break;
+            case 2:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KİLOGRAM"));
+                break;
+            case 3:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KOLİ"));
+                break;
+            case 4:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PALET"));
+                break;
+            case 5:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PAKET"));
+                break;
+            case 6:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METRE"));
+                break;
+            case 7:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKARE"));
+                break;
+            case 8:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            default:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
+                break;
+            }
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
             ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat() * _miktar, 'f', 2)));
             ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
@@ -443,7 +486,36 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat(), 'f', 2)));
-            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+//            ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+            switch (p_StokKarti.getBirim()) {
+            case 1:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("ADET"));
+                break;
+            case 2:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KİLOGRAM"));
+                break;
+            case 3:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KOLİ"));
+                break;
+            case 4:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PALET"));
+                break;
+            case 5:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PAKET"));
+                break;
+            case 6:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METRE"));
+                break;
+            case 7:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKARE"));
+                break;
+            case 8:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            default:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
+                break;
+            }
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
             ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat() * _miktar, 'f', 2)));
             ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
@@ -467,7 +539,36 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat(), 'f', 2)));
-            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+//            ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+            switch (p_StokKarti.getBirim()) {
+            case 1:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("ADET"));
+                break;
+            case 2:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KİLOGRAM"));
+                break;
+            case 3:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KOLİ"));
+                break;
+            case 4:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PALET"));
+                break;
+            case 5:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PAKET"));
+                break;
+            case 6:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METRE"));
+                break;
+            case 7:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKARE"));
+                break;
+            case 8:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            default:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
+                break;
+            }
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
             ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat() * _miktar, 'f', 2)));
             ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
@@ -491,7 +592,36 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 0, new QTableWidgetItem(p_StokKarti.getBarkod()));
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 1, new QTableWidgetItem(p_StokKarti.getAd()));
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat(), 'f', 2)));
-            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+//            ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem(p_StokKarti.getBirim()));
+            switch (p_StokKarti.getBirim()) {
+            case 1:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("ADET"));
+                break;
+            case 2:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KİLOGRAM"));
+                break;
+            case 3:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("KOLİ"));
+                break;
+            case 4:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PALET"));
+                break;
+            case 5:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("PAKET"));
+                break;
+            case 6:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METRE"));
+                break;
+            case 7:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKARE"));
+                break;
+            case 8:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            default:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
+                break;
+            }
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 4, new QTableWidgetItem(QString::number(_miktar)));
             ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 5, new QTableWidgetItem(QString::number(p_StokKarti.getSFiyat() * _miktar, 'f', 2)));
             ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);

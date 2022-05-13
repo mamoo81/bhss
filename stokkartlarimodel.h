@@ -1,6 +1,5 @@
 #ifndef STOKKARTLARIMODEL_H
 #define STOKKARTLARIMODEL_H
-#include "stokkarti.h"
 #include "veritabani.h"
 //*******************************
 #include <QObject>
@@ -19,18 +18,16 @@ class StokKartlariModel : public QAbstractItemModel
 public:
     explicit StokKartlariModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QModelIndex parent(const QModelIndex &child) const;
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
-
+    QModelIndex parent(const QModelIndex &child) const;
 
     //veritabanı metodları
     Veritabani *vt = new Veritabani();
-    QSqlQueryModel *_QueryModel;
-    QVector<StokKarti> _kartlar;
+    QSqlQueryModel *_QueryModel= new QSqlQueryModel();
 
     double _stokUyariMiktari = 0;
     bool _takipAktifMi = false;

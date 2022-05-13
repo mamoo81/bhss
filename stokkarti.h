@@ -11,6 +11,7 @@
 
 class StokKarti
 {
+
 public:
     StokKarti();
 
@@ -23,14 +24,14 @@ public:
     const QString &getAd() const;
     void setAd(const QString &newAd);
 
-    const QString &getBirim() const;
-    void setBirim(const QString &newBirim);
+    const int &getBirim() const;
+    void setBirim(const int &newBirim);
 
     float getMiktar() const;
     void setMiktar(float newMiktar);
 
-    const QString &getGrup() const;
-    void setGrup(const QString &newGrup);
+    const int &getGrup() const;
+    void setGrup(const int &newGrup);
 
     double getAFiyat() const;
     void setAFiyat(double newAFiyat);
@@ -73,9 +74,9 @@ private:
     QString kod;
     QString barkod;
     QString ad;
-    QString birim;
+    int birim;
     float miktar;
-    QString grup;
+    int grup;
     double aFiyat;
     double sFiyat;
     int kdv;

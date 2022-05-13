@@ -158,7 +158,7 @@ void Terazi::run()
         if(this->stop) break;
         mutex.unlock();
         if(!serial.waitForReadyRead(-1)){ //block until new data arrives
-            qDebug() << "error: " << serial.errorString();
+            qDebug() << "Seriport hatası: " << serial.errorString();
             break;
         }
         else{
