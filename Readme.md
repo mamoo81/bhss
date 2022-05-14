@@ -84,3 +84,4 @@ kullanıcı: admin
 | Tuş   |     | Tuş    | İşlevi                            |
 | :---  | :-: | :----: | ---:                              |
 | F     |     |        | Fiş yazdırma aktif/pasif          |
+| Enter |     |        | Satış yapar                       |
