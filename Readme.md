@@ -60,22 +60,27 @@ kullanıcı: admin
 
 #### Ana ekran klavye kısayolları
 
-| Tuş      | Tuş | İşlevi     |
-| :---        |    :----:   |          ---: |
-| ![Enter](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/enter-key.png)|        | Satış ekranını açar   |
-| Paragraph   | Text        | And more      |
-* [F9]    -> Stok kartları sayfasını açar
-* [F3]    -> Sepetten kalem siler
-* [F5]    -> Sepeti siler
-* [F11]   -> Kasa ekranını açar
-* [ENTER] -> Sepetin satış ekranını açar
-* [F]     -> Ürünün fiyatını görme
-* [+]     -> Sepette ki ürünün adetini artırır
-* [-]     -> Sepette ki ürünün adetini azaltır
-* [*]     -> Sepette ki ürünün adetini girilen değer kadar artırır.
-* [sol ve sağ yön tuşu] -> Sepetler arası geçiş yapar
-* [yukarı ve aşağı yön tuşu] -> Sepette seçili ürünü değiştirir.
+| Tuş   |     | Tuş    | İşlevi                            |
+| :---  | :-: | :----: | ---:                              |
+| Enter |     |        | Satış ekranını açar               |
+| Esc   |     |        | Satış ekranını kapatır            |
+| Ctrl  | +   | F      | Ürün ara ve sepete ekle           |
+| F     |     |        | Ürünün fiyatını gösterir          |
+| +     |     |        | Sepetteki ürünün adetini artırır  |
+| -     |     |        | Sepetteki ürünün adetini azaltır  |
+| *     |     |        | Sepetteki ürünün adetini çarpar   |
+| F3    |     |        | Sepetten ürün siler               |
+| F5    |     |        | Seçili sepeti siler               |
+| F9    |     |        | Stok kartları ekranını açar       |
+| F10   |     |        | Cari kartlar ekranını açar        |
+| F11   |     |        | Kasa ekranını açar                |
+| F12   |     |        | Ayarlar ekranını açar             |
+| ← →   |     |        | Sepetler arası geçiş yapar        |
+| ↑ ↓   |     |        | Sepetteki seçili ürünü değiştirir |
+
 
 #### Satış ekranı klavye kısayolları
 
-* [F]     -> Bilgi Fişi yazdır/yazdırma
+| Tuş   |     | Tuş    | İşlevi                            |
+| :---  | :-: | :----: | ---:                              |
+| F     |     |        | Fiş yazdırma aktif/pasif          |
