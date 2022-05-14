@@ -62,8 +62,6 @@ private slots:
 
     void on_StokBirimBtn_clicked();
 
-    void on_SatisGrafikBtn_clicked();
-
     void on_StokGirBtn_clicked();
 
     void on_StokCikBtn_clicked();

@@ -42,18 +42,15 @@ void SatisGrafigiForm::FormLoad()
 
     QBarCategoryAxis *categoryaxis = new QBarCategoryAxis();
     categoryaxis->append(aylar);
+
     chart->createDefaultAxes();
     chart->setAxisX(categoryaxis, barSeries);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
 
+
     QChartView *chartview = new QChartView(chart);
     chartview->setRenderHint(QPainter::Antialiasing);
-
-    QPalette qpalette = qApp->palette();
-    qpalette.setColor(QPalette::Window, QRgb(0xffffff));
-    qpalette.setColor(QPalette::WindowText, QRgb(0x404040));
-    qApp->setPalette(qpalette);
 
     chartview->setParent(ui->horizontalFrame);
 }

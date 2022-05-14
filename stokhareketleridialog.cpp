@@ -1,5 +1,6 @@
 #include "stokhareketleridialog.h"
 #include "ui_stokhareketleridialog.h"
+#include "satisgrafigiform.h"
 //***************************************
 #include <QMessageBox>
 
@@ -74,3 +75,11 @@ void StokHareketleriDialog::getHareketler(QString _barkod, QDateTime _baslangicT
     ui->stokhareketleritableView->resizeColumnsToContents();
     ui->stokhareketleritableView->clearSelection();
 }
+
+void StokHareketleriDialog::on_pushButton_clicked()
+{
+    SatisGrafigiForm *grafik = new SatisGrafigiForm(this);
+    grafik->exec();
+    delete grafik;
+}
+

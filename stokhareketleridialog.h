@@ -26,6 +26,8 @@ private slots:
     void on_baslangicdateEdit_dateTimeChanged(const QDateTime &dateTime);
 
     void getHareketler(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih);
+    void on_pushButton_clicked();
+
 private:
     Ui::StokHareketleriDialog *ui;
 

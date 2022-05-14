@@ -784,46 +784,11 @@
     <string>Stok kodunda</string>
    </property>
   </widget>
-  <widget class="QToolButton" name="SatisGrafikBtn">
-   <property name="geometry">
-    <rect>
-     <x>1050</x>
-     <y>120</y>
-     <width>291</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="text">
-    <string>Satış Grafiği</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/chart-100.png</normaloff>:/images/ui/chart-100.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
   <widget class="QToolButton" name="StokGirBtn">
    <property name="geometry">
     <rect>
      <x>1050</x>
-     <y>160</y>
+     <y>70</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -855,7 +820,7 @@
    <property name="geometry">
     <rect>
      <x>1200</x>
-     <y>160</y>
+     <y>70</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -887,7 +852,7 @@
    <property name="geometry">
     <rect>
      <x>1050</x>
-     <y>240</y>
+     <y>150</y>
      <width>291</width>
      <height>31</height>
     </rect>
@@ -1052,7 +1017,7 @@
    <property name="geometry">
     <rect>
      <x>1050</x>
-     <y>201</y>
+     <y>111</y>
      <width>291</width>
      <height>31</height>
     </rect>
@@ -1103,7 +1068,6 @@
   <tabstop>AciklamaLnEdit</tabstop>
   <tabstop>StokGrupBtn</tabstop>
   <tabstop>adRadioButton</tabstop>
-  <tabstop>SatisGrafikBtn</tabstop>
   <tabstop>SurekliYenicheckBox</tabstop>
   <tabstop>StokBirimBtn</tabstop>
   <tabstop>BarkodOlusturBtn</tabstop>

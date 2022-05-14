@@ -4,7 +4,6 @@
 #include "veritabani.h"
 #include "user.h"
 #include "birimekleform.h"
-#include "satisgrafigiform.h"
 #include "stokgircikdialog.h"
 #include "toplustokyukledialog.h"
 #include "stokhareketleridialog.h"
@@ -509,14 +508,6 @@ void StokFrom::on_StokBirimBtn_clicked()
     BirimekleForm *birimForm = new BirimekleForm(this);
     birimForm->exec();
 }
-
-
-void StokFrom::on_SatisGrafikBtn_clicked()
-{
-    SatisGrafigiForm *grafikForm = new SatisGrafigiForm(this);
-    grafikForm->exec();
-}
-
 
 
 void StokFrom::on_StokGirBtn_clicked()
