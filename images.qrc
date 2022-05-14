@@ -37,6 +37,27 @@
         <file>images/ui/delete.png</file>
         <file>images/ui/label-printer.png</file>
         <file>images/ui/search.png</file>
+        <file>images/ui/ctrl-key.png</file>
+        <file>images/ui/alt-key.png</file>
+        <file>images/ui/asterisk-key.png</file>
+        <file>images/ui/minus-key.png</file>
+        <file>images/ui/enter-key.png</file>
+        <file>images/ui/f-key.png</file>
+        <file>images/ui/f12-key.png</file>
+        <file>images/ui/f11-key.png</file>
+        <file>images/ui/f10-key.png</file>
+        <file>images/ui/f9-key.png</file>
+        <file>images/ui/f3-key.png</file>
+        <file>images/ui/f2-key.png</file>
+        <file>images/ui/f1-key.png</file>
+        <file>images/ui/shift-key.png</file>
+        <file>images/ui/plus-key.png</file>
+        <file>images/ui/f5-key.png</file>
+        <file>images/ui/up-arrow-key.png</file>
+        <file>images/ui/right-arrow-key.png</file>
+        <file>images/ui/left-arrow-key.png</file>
+        <file>images/ui/down-arrow-key.png</file>
+        <file>images/ui/esc-key.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>

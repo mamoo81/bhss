@@ -60,6 +60,10 @@ kullanıcı: admin
 
 #### Ana ekran klavye kısayolları
 
+| Tuş      | Tuş | İşlevi     |
+| :---        |    :----:   |          ---: |
+| ![Enter](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/enter-key.png)|        | Satış ekranını açar   |
+| Paragraph   | Text        | And more      |
 * [F9]    -> Stok kartları sayfasını açar
 * [F3]    -> Sepetten kalem siler
 * [F5]    -> Sepeti siler
