@@ -44,11 +44,36 @@ private slots:
 
     void keyPressEvent(QKeyEvent *e);
     bool eventFilter(QObject *filtrelenecekObje, QEvent *event);
+    void on_toolButton200TL_clicked();
+
+    void on_toolButton100TL_clicked();
+
+    void on_toolButton50TL_clicked();
+
+    void on_toolButton20TL_clicked();
+
+    void on_toolButton10TL_clicked();
+
+    void on_toolButton5TL_clicked();
+
+    void on_toolButton1TL_clicked();
+
+    void on_toolButton50krs_clicked();
+
+    void on_toolButton25krs_clicked();
+
+    void on_toolButton10krs_clicked();
+
+    void on_toolButton5krs_clicked();
+
+    void on_toolButton1krs_clicked();
+
 private:
     Ui::SatisYapForm *ui;
 
     Sepet satilacakSepet;
     User kullanici;
+    bool butonilkBasma = true;
 };
 
 #endif // SATISYAPFORM_H

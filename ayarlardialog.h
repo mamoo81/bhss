@@ -69,6 +69,8 @@ private slots:
 
     void on_SekmeVarsayilanpushButton_clicked();
 
+    void on_StokTakibicheckBox_stateChanged(int arg1);
+
 private:
     Ui::AyarlarDialog *ui;
 

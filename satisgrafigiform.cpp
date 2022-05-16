@@ -53,6 +53,7 @@ void SatisGrafigiForm::FormLoad()
     chartview->setRenderHint(QPainter::Antialiasing);
 
     chartview->setParent(ui->horizontalFrame);
+    chartview->setFixedSize(ui->horizontalFrame->size());
 }
 
 SatisGrafigiForm::~SatisGrafigiForm()

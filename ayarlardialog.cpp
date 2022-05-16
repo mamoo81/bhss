@@ -748,6 +748,19 @@ void AyarlarDialog::on_SekmeVarsayilanpushButton_clicked()
     ui->sayfalineEdit3->setText("HIRDAVAT");
     ui->sayfalineEdit4->setText("KASAP");
     ui->sayfalineEdit5->setText("GENEL");
+}
 
+
+void AyarlarDialog::on_StokTakibicheckBox_stateChanged(int arg1)
+{
+    Q_UNUSED(arg1);
+    if(ui->StokTakibicheckBox->isChecked()){
+        ui->StokMiktarspinBox->setEnabled(true);
+        ui->labelStokMiktar->setEnabled(true);
+    }
+    else{
+        ui->StokMiktarspinBox->setEnabled(false);
+        ui->labelStokMiktar->setEnabled(false);
+    }
 }
 

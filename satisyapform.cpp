@@ -140,3 +140,171 @@ void SatisYapForm::setKullanici(const User &newKullanici)
     kullanici = newKullanici;
 }
 
+
+void SatisYapForm::on_toolButton200TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(200);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 200);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton100TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(100);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 100);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton50TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(50);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 50);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton20TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(20);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 20);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton10TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(10);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 10);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton5TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(5);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 5);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton1TL_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(1);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 1);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton50krs_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(0.50);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 0.50);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton25krs_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(0.25);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 0.25);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton10krs_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(0.10);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 0.10);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton5krs_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(0.05);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 0.05);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_toolButton1krs_clicked()
+{
+    if(butonilkBasma){
+        ui->OdenendoubleSpinBox->setValue(0.01);
+    }
+    else{
+        ui->OdenendoubleSpinBox->setValue(ui->OdenendoubleSpinBox->value() + 0.01);
+    }
+    ui->OdenendoubleSpinBox->setFocus();
+    ui->OdenendoubleSpinBox->selectAll();
+    butonilkBasma = false;
+}
+

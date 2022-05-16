@@ -58,6 +58,18 @@
         <file>images/ui/left-arrow-key.png</file>
         <file>images/ui/down-arrow-key.png</file>
         <file>images/ui/esc-key.png</file>
+        <file>images/ui/5-TL-banknot.png</file>
+        <file>images/ui/10-TL-banknot.png</file>
+        <file>images/ui/20-TL-banknot.png</file>
+        <file>images/ui/50-TL-banknot.png</file>
+        <file>images/ui/100-TL-banknot.png</file>
+        <file>images/ui/200-TL-banknot.png</file>
+        <file>images/ui/1-TL.svg</file>
+        <file>images/ui/50-krs.svg</file>
+        <file>images/ui/1-krs.svg</file>
+        <file>images/ui/5-krs.svg</file>
+        <file>images/ui/10-krs.svg</file>
+        <file>images/ui/25-krs.svg</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>
