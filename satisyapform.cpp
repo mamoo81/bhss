@@ -103,6 +103,7 @@ void SatisYapForm::keyPressEvent(QKeyEvent *e)
 }
 
 bool SatisYapForm::eventFilter(QObject *filtrelenecekObje, QEvent *event){
+
     if(filtrelenecekObje == ui->OdenendoubleSpinBox && event->type() == QEvent::KeyPress){
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if(keyEvent->key() == Qt::Key_F){

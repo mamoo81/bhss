@@ -6,8 +6,7 @@
 #include "stokkartlarimodel.h"
 //************************
 #include <QDialog>
-
-
+#include <QPixmap>
 
 namespace Ui {
 class StokFrom;
@@ -25,7 +24,6 @@ public:
     bool yeniKayit = false;
 
     StokKartlariModel *_stokKartlariTableModel;
-
 
 public slots:
     void setUser(User user);
@@ -75,6 +73,8 @@ private slots:
     void on_ResimEkleBtn_clicked();
 
     void on_ResimSilBtn_clicked();
+
+    void urunResmiKaydet(QPixmap urunResmi, QString urunBarkod);
 
 private:
     Ui::StokFrom *ui;

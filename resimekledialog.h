@@ -17,6 +17,7 @@ public:
     ~ResimEkleDialog();
 
     QFile *resim;
+    QString resimlerDizini;
 
     void setUrunBarkod(const QString &newUrunBarkod);
 

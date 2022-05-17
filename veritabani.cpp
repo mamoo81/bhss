@@ -387,10 +387,12 @@ void Veritabani::setHizliButon(StokKarti _stokKarti)
     QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     foreach (QString buttonName, hizliButonBarkodlar.childGroups()) {
         hizliButonBarkodlar.beginGroup(buttonName);
-        QString duzenlenecekStokID = hizliButonBarkodlar.value("stokid").toString();
-        if(duzenlenecekStokID == _stokKarti.getId()){
+        QString duzenlenecekStokBarkod = hizliButonBarkodlar.value("barkod").toString();
+        if(duzenlenecekStokBarkod == _stokKarti.getBarkod()){
             hizliButonBarkodlar.setValue("barkod", _stokKarti.getBarkod());
             hizliButonBarkodlar.setValue("ad", _stokKarti.getAd());
+            hizliButonBarkodlar.endGroup();
+            return;
         }
         hizliButonBarkodlar.endGroup();
     }
@@ -1139,7 +1141,7 @@ bool Veritabani::setStokMiktari(User _kullanici, QString _stokKartiID, QString _
     }
 }
 
-void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
+QSqlError Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
 {
     sorgu.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, uretici, tedarikci, aciklama) "
                     "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -1160,26 +1162,27 @@ void Veritabani::yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici)
     sorgu.bindValue(14, _StokKarti.getTedarikci().toInt());
     sorgu.bindValue(15, _StokKarti.getAciklama() + " [" + _Kullanici->getUserName() + "]");
     if(sorgu.exec()){
-        QMessageBox *msg = new QMessageBox(0);
-        msg->setIcon(QMessageBox::Information);
-        msg->setWindowTitle("Başarılı");
-        msg->setText("Yeni stok kartı oluşturuldu.");
-        msg->setStandardButtons(QMessageBox::Ok);
-        msg->setDefaultButton(QMessageBox::Ok);
-        msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->exec();
+        return sorgu.lastError();
+//        QMessageBox *msg = new QMessageBox(0);
+//        msg->setIcon(QMessageBox::Information);
+//        msg->setWindowTitle("Başarılı");
+//        msg->setText("Yeni stok kartı oluşturuldu.");
+//        msg->setStandardButtons(QMessageBox::Ok);
+//        msg->setDefaultButton(QMessageBox::Ok);
+//        msg->setButtonText(QMessageBox::Ok, "Tamam");
+//        msg->exec();
     }
-    else{
-        QMessageBox *msg = new QMessageBox(0);
-        msg->setIcon(QMessageBox::Critical);
-        msg->setWindowTitle("Hata");
-        msg->setText("Yeni stok kartı oluşturulamadı.");
-        msg->setInformativeText(qPrintable(sorgu.lastError().text()));
-        msg->setStandardButtons(QMessageBox::Ok);
-        msg->setDefaultButton(QMessageBox::Ok);
-        msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->exec();
-    }
+//    else{
+//        QMessageBox *msg = new QMessageBox(0);
+//        msg->setIcon(QMessageBox::Critical);
+//        msg->setWindowTitle("Hata");
+//        msg->setText("Yeni stok kartı oluşturulamadı.");
+//        msg->setInformativeText(qPrintable(sorgu.lastError().text()));
+//        msg->setStandardButtons(QMessageBox::Ok);
+//        msg->setDefaultButton(QMessageBox::Ok);
+//        msg->setButtonText(QMessageBox::Ok, "Tamam");
+//        msg->exec();
+//    }
 }
 
 void Veritabani::stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici)

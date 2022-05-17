@@ -127,6 +127,7 @@ void StokFrom::on_YeniBtn_clicked()
         ui->OTVcheckbox->setEnabled(true);
         ui->ResimEkleBtn->setEnabled(true);
         ui->ResimSilBtn->setEnabled(true);
+        ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
         ui->SurekliYenicheckBox->setEnabled(true);
         ui->KaydetBtn->setEnabled(true);
         ui->IptalBtn->setEnabled(true);
@@ -222,6 +223,7 @@ void StokFrom::on_IptalBtn_clicked()
     ui->OTVcheckbox->setEnabled(false);
     ui->ResimEkleBtn->setEnabled(false);
     ui->ResimSilBtn->setEnabled(false);
+    ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
     ui->SurekliYenicheckBox->setEnabled(false);
     ui->KaydetBtn->setEnabled(false);
     ui->IptalBtn->setEnabled(false);
@@ -239,6 +241,7 @@ void StokFrom::alanlariTemizle()
     ui->SFiyatdoubleSpinBox->setValue(0);
     ui->KDVspinBox->setValue(0);
     ui->AciklamaLnEdit->clear();
+    ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
 }
 
 
@@ -362,7 +365,30 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setUretici(QString::number(vt->getUreticiID(ui->ureticicomboBox->currentText())));
             yeniStokKarti.setTedarikci(QString::number(vt->getTedarikciID(ui->tedarikcicomboBox->currentText())));
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
-            vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
+            QSqlError hataMesajı = vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
+            if(!hataMesajı.isValid()){
+                uyariSes.play();
+                QMessageBox *msg = new QMessageBox(this);
+                msg->setIcon(QMessageBox::Information);
+                msg->setWindowTitle("Başarılı");
+                msg->setText("Yeni stok kartı oluşturuldu.");
+                msg->setStandardButtons(QMessageBox::Ok);
+                msg->setDefaultButton(QMessageBox::Ok);
+                msg->setButtonText(QMessageBox::Ok, "Tamam");
+                msg->exec();
+            }
+            else{
+                uyariSes.play();
+                QMessageBox *msg = new QMessageBox(this);
+                msg->setIcon(QMessageBox::Critical);
+                msg->setWindowTitle("Hata");
+                msg->setText("Yeni stok kartı oluşturulamadı.");
+                msg->setInformativeText(qPrintable(hataMesajı.text()));
+                msg->setStandardButtons(QMessageBox::Ok);
+                msg->setDefaultButton(QMessageBox::Ok);
+                msg->setButtonText(QMessageBox::Ok, "Tamam");
+                msg->exec();
+            }
 
             alanlariTemizle();
             stokKartlariniListele();
@@ -373,6 +399,7 @@ void StokFrom::on_KaydetBtn_clicked()
             emit on_IptalBtn_clicked();
         }
         else{
+            uyariSes.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Warning);
@@ -579,7 +606,7 @@ void StokFrom::on_ResimEkleBtn_clicked()
     ResimEkleDialog *resimEkleForm = new ResimEkleDialog(this);
     resimEkleForm->setUrunBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
     resimEkleForm->exec();
-    ui->UrunResimlabel->setPixmap(vt->getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
+    ui->UrunResimlabel->setPixmap(vt->getStokKarti(ui->BarkodLnEdit->text()).getResim());
 }
 
 void StokFrom::on_ResimSilBtn_clicked()
@@ -596,7 +623,7 @@ void StokFrom::on_ResimSilBtn_clicked()
         msg.setDefaultButton(QMessageBox::Yes);
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
-            QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString() + ".jpg");
+            QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString() + ".png");
             if(resimDosya.remove()){
                 uyariSes.play();
                 QMessageBox msg(this);
@@ -622,3 +649,25 @@ void StokFrom::on_ResimSilBtn_clicked()
     }
 }
 
+void StokFrom::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
+{
+    auto resimlerDizini = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/";
+    if(!QFileInfo::exists(resimlerDizini)){
+        QDir().mkdir(resimlerDizini);
+    }
+    // YENİ RESİM KAYDETME
+    QFile yeniResim(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + urunBarkod + ".png");
+    yeniResim.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    urunResmi.save(&yeniResim, "PNG");
+    yeniResim.close();
+
+    if(!QFileInfo(yeniResim).exists()){
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Resim kaydedilemedi.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+}

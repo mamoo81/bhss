@@ -20,8 +20,14 @@ ResimEkleDialog::~ResimEkleDialog()
 
 void ResimEkleDialog::on_kaydetpushButton_clicked()
 {
+    resimlerDizini = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/";
+    if(!QFileInfo::exists(resimlerDizini)){
+        QDir().mkdir(resimlerDizini);
+    }
+
     QFile yeniResim(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + urunBarkod + "." + QFileInfo(resim->fileName()).completeSuffix());
     resim->copy(resim->fileName(), yeniResim.fileName());
+
     if(QFileInfo(yeniResim).exists()){
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
@@ -50,7 +56,7 @@ void ResimEkleDialog::on_secpushButton_clicked()
     dialog.setWindowTitle("Resim dosyasını seçiniz");
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Resim dosyası (*.png *.jpg *.jpeg)"));
+    dialog.setNameFilter(tr("Resim dosyası (*.png)"));
     dialog.setLabelText(QFileDialog::Accept, tr("Seç"));
     dialog.setLabelText(QFileDialog::Reject, tr("Vazgeç"));
     dialog.setLabelText(QFileDialog::FileName, tr("Dosya"));

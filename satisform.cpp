@@ -2387,8 +2387,8 @@ void SatisForm::hizliUrunButonlariAyarla()
             hizliButonBarkodlar.beginGroup(butonName);
             btn->setText(hizliButonBarkodlar.value("ad").toString());
             btn->setWhatsThis(hizliButonBarkodlar.value("barkod").toString());
-            if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg").exists()){
-                btn->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg"));
+            if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".png").exists()){
+                btn->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".png"));
             }
             else{
                 btn->setIcon(QIcon(":/images/ui/box.png"));
@@ -2409,13 +2409,23 @@ void SatisForm::hizliUrunButonlariAyarla()
 void SatisForm::hizliUrunSayfaAyarla()
 {
     QSettings hizliButonSayfaAdlari(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-    hizliButonSayfaAdlari.beginGroup("hizlisayfa");
-    ui->HizliUrunlertabWidget->setTabText(0, hizliButonSayfaAdlari.value("0").toString());
-    ui->HizliUrunlertabWidget->setTabText(1, hizliButonSayfaAdlari.value("1").toString());
-    ui->HizliUrunlertabWidget->setTabText(2, hizliButonSayfaAdlari.value("2").toString());
-    ui->HizliUrunlertabWidget->setTabText(3, hizliButonSayfaAdlari.value("3").toString());
-    ui->HizliUrunlertabWidget->setTabText(4, hizliButonSayfaAdlari.value("4").toString());
-    hizliButonSayfaAdlari.endGroup();
+
+    if(hizliButonSayfaAdlari.contains("hizlisayfa")){
+        hizliButonSayfaAdlari.beginGroup("hizlisayfa");
+        ui->HizliUrunlertabWidget->setTabText(0, hizliButonSayfaAdlari.value("0").toString());
+        ui->HizliUrunlertabWidget->setTabText(1, hizliButonSayfaAdlari.value("1").toString());
+        ui->HizliUrunlertabWidget->setTabText(2, hizliButonSayfaAdlari.value("2").toString());
+        ui->HizliUrunlertabWidget->setTabText(3, hizliButonSayfaAdlari.value("3").toString());
+        ui->HizliUrunlertabWidget->setTabText(4, hizliButonSayfaAdlari.value("4").toString());
+        hizliButonSayfaAdlari.endGroup();
+    }
+    else{
+        ui->HizliUrunlertabWidget->setTabText(0, "BARKODSUZ");
+        ui->HizliUrunlertabWidget->setTabText(1, "MANAV");
+        ui->HizliUrunlertabWidget->setTabText(2, "HIRDAVAT");
+        ui->HizliUrunlertabWidget->setTabText(3, "KASAP");
+        ui->HizliUrunlertabWidget->setTabText(4, "GENEL");
+    }
 }
 
 void SatisForm::ekleAction()
@@ -2432,8 +2442,8 @@ void SatisForm::ekleAction()
         // static_cast edilmiş butonun textini ve whatthis değiştirme başlangıcı.
         hizliEklenecekButon->setText(hizliDialog->hizliUrunAd);
         hizliEklenecekButon->setWhatsThis(hizliDialog->hizliUrunBarkod);
-        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg").exists()){
-            hizliEklenecekButon->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".jpg"));
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".png").exists()){
+            hizliEklenecekButon->setIcon(QIcon(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + hizliButonBarkodlar.value("barkod").toString() + ".png"));
         }
         else{
             hizliEklenecekButon->setIcon(QIcon(":/images/ui/box.png"));

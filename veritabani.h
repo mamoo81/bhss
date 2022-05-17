@@ -45,7 +45,7 @@ public slots:
     void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
     QStringList getSonIslemler();
     bool veritabaniVarmi();
-    void yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici);
+    QSqlError yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici);
     void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici);
     void stokKartiSil(QString _StokKartiID);
     QSqlQueryModel* getStokKartlari();

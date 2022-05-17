@@ -7,9 +7,9 @@
 #include <QDirIterator>
 #include <QTextStream>
 #include <QFile>
-#include <QFileInfo>
 #include <QDebug>
 #include <QThread>
+#include <QFileInfo>
 
 LoginForm::LoginForm(QWidget *parent)
     : QMainWindow(parent)

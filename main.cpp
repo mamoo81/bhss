@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QFileInfo>
@@ -12,6 +13,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName("mhss");
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
@@ -48,9 +50,11 @@ int main(int argc, char *argv[])
         db.close();
         db.setDatabaseName("mhss_data");
         db.open();
+        if(db.lastError().isValid()){
+            qWarning(qPrintable(db.lastError().text()));
+        }
 
-        a.setApplicationName("mhss");
-        // ./home/user/.config/ altında mhss klasörü varmı kontrol
+        // (/home/user/.config/) altında mhss klasörü varmı kontrol
         auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();
         if(!QFileInfo::exists(dizin)){
             QDir().mkdir(dizin);// mhss klasörünü oluşturma.
@@ -75,6 +79,11 @@ int main(int argc, char *argv[])
                 ayarlarini.open(QIODevice::ReadWrite);
             }
         }
+        // (/home/user/.local/) altında mhss klasörü varmı kontrol ve ekleme
+        if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation))){
+            QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        }
+
         LoginForm w;
         w.show();
         return a.exec();
@@ -88,6 +97,5 @@ int main(int argc, char *argv[])
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
-        exit(0);
     }
 }

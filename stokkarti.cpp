@@ -23,7 +23,7 @@ const QString &StokKarti::getBarkod() const
 void StokKarti::setBarkod(const QString &newBarkod)
 {
     barkod = newBarkod;
-    QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mhss/urunler-image/" + barkod + ".jpg");
+    QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + barkod + ".png");
     if(resimDosya.exists()){
         QImage img(QFileInfo(resimDosya).absoluteFilePath());
         setResim(QPixmap::fromImage(img));
