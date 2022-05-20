@@ -126,4 +126,5 @@ RESOURCES += \
     images.qrc
 
 DISTFILES += \
+    LICENCE \
     Readme.md
