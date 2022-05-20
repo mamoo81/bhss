@@ -40,6 +40,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QToolButton>
 #include <QShortcut>
 #include <QSound>
+#include <QTableWidgetItem>
 
 namespace Ui {
 class SatisForm;
@@ -53,6 +54,7 @@ public:
     explicit SatisForm(QWidget *parent = nullptr);
     ~SatisForm();
 
+    QTableWidgetItem *yeniSatir;
     QToolButton *hizliEklenecekButon;
     Veritabani *vt = new Veritabani();
     StokKarti stokKarti = StokKarti();
@@ -435,6 +437,9 @@ private slots:
 
 private:
     Ui::SatisForm *ui;
+
+    Sepet sepet[4];
+    int sepetMevcutUrunIndexi = 0;
 
     QShortcut *CTRL_F;
     QShortcut *RETURN;

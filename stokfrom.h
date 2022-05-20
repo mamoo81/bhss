@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QPixmap>
 #include <QShortcut>
 #include <QSound>
+#include <QItemSelectionModel>
 
 namespace Ui {
 class StokFrom;
@@ -112,6 +113,10 @@ private slots:
 
     void key_F3_Slot();
 
+    void key_F4_Slot();
+
+    void key_F5_Slot();
+
 private:
     Ui::StokFrom *ui;
 
@@ -120,10 +125,15 @@ private:
     QItemSelectionModel *selectionModel = new QItemSelectionModel();
     QSortFilterProxyModel *sortModel = new QSortFilterProxyModel();
 
+    int seciliSatirIndex;
+    QItemSelectionModel *seciliSatirModel;
+
     QShortcut *CTRL_F;
     QShortcut *key_F1;
     QShortcut *key_F2;
     QShortcut *key_F3;
+    QShortcut *key_F4;
+    QShortcut *key_F5;
     QShortcut *key_Down;
     QShortcut *key_DownArrow;
     QShortcut *key_Up;

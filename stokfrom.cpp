@@ -43,8 +43,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QRandomGenerator>
 #include <QString>
 
-QItemSelectionModel *seciliSatirModel;
-int seciliSatirIndex;
+//QItemSelectionModel *seciliSatirModel;
+//int seciliSatirIndex;
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -114,6 +114,14 @@ void StokFrom::formLoad()
     key_F3 = new QShortcut(this);
     key_F3->setKey(Qt::Key_F3);
     connect(key_F3, SIGNAL(activated()), this, SLOT(key_F3_Slot()));
+
+    key_F4 = new QShortcut(this);
+    key_F4->setKey(Qt::Key_F4);
+    connect(key_F4, SIGNAL(activated()), this, SLOT(key_F4_Slot()));
+
+    key_F5 = new QShortcut(this);
+    key_F5->setKey(Qt::Key_F5);
+    connect(key_F5, SIGNAL(activated()), this, SLOT(key_F5_Slot()));
 
     ui->AraLineEdit->setFocus();
 }
@@ -779,4 +787,14 @@ void StokFrom::key_F2_Slot()
 void StokFrom::key_F3_Slot()
 {
     on_SilBtn_clicked();
+}
+
+void StokFrom::key_F4_Slot()
+{
+    on_StokGirBtn_clicked();
+}
+
+void StokFrom::key_F5_Slot()
+{
+    on_StokCikBtn_clicked();
 }

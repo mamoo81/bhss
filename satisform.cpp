@@ -46,9 +46,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QStandardPaths>
 #include <QFileInfo>
 
-Sepet sepet[4];
-QTableWidgetItem *yeniSatir;
-int sepetMevcutUrunIndexi = 0;
+//Sepet sepet[4];
+//QTableWidgetItem *yeniSatir;
+//int sepetMevcutUrunIndexi = 0;
 
 
 SatisForm::SatisForm(QWidget *parent) :
