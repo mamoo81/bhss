@@ -64,17 +64,19 @@ void StokGrupForm::on_SilBtn_clicked()
 {
     if(ui->gruplarlistWidget->selectedItems().size() != 0 )
     {
-        vt_grup->stokGrupSil(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->gruplarlistWidget->currentItem()->text()));
-        QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
-        delete silinecek_item;
-        QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("Stok gurubu silindi.");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-        stokGruplariGetir();
+        if(ui->gruplarlistWidget->currentRow() != 0){
+            vt_grup->stokGrupSil(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->gruplarlistWidget->currentItem()->text()));
+            QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
+            delete silinecek_item;
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Stok gurubu silindi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            stokGruplariGetir();
+        }
     }
     else
     {

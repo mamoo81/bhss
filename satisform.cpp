@@ -11,6 +11,7 @@
 #include "adetdialogform.h"
 #include "kasadialogform.h"
 #include "yazici.h"
+#include "gecmissatislardialog.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -22,12 +23,11 @@
 #include <QAction>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QSound>
+#include <QFileInfo>
 
 Sepet sepet[4];
 QTableWidgetItem *yeniSatir;
 int sepetMevcutUrunIndexi = 0;
-QSound uyariSesi(":/sounds/sounds/warning-sound.wav");
 
 
 SatisForm::SatisForm(QWidget *parent) :
@@ -61,11 +61,10 @@ void SatisForm::formLoad()
     ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
-    getSonSatislar();
     hizliUrunButonlariAyarla();
     hizliUrunSayfaAyarla();
     ui->barkodLineEdit->setFocus();
-    uyariSesi.setLoops(0);
+    uyariSesi->setLoops(0);
 
     // klavye kısayol tanımlamaları
     CTRL_F = new QShortcut(this);
@@ -120,6 +119,14 @@ void SatisForm::formLoad()
     key_DownArrow->setKey(Qt::DownArrow);
     connect(key_DownArrow, SIGNAL(activated()), this, SLOT(key_Down_Slot()));
 
+    key_Up = new QShortcut(this);
+    key_Up->setKey(Qt::Key_Up);
+    connect(key_Up, SIGNAL(activated()), this, SLOT(key_UP_Slot()));
+
+    key_UpArrow = new QShortcut(this);
+    key_UpArrow->setKey(Qt::UpArrow);
+    connect(key_UpArrow, SIGNAL(activated()), this, SLOT(key_UP_Slot()));
+
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
@@ -133,7 +140,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
             hizliUrunButonlariAyarla();
         }
         else{
-            uyariSesi.play();
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Warning);
@@ -144,7 +151,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
         }
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Warning);
@@ -381,7 +388,7 @@ void SatisForm::sepeteEkle()
             sepetTabIconlariAyarla();
         }
         else{
-            uyariSesi.play();
+            uyariSesi->play();
             QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
             MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
             MsgBox.exec();
@@ -389,7 +396,7 @@ void SatisForm::sepeteEkle()
         }
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün bulunamadı!"), QMessageBox::Ok, this);
         MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
         MsgBox.exec();
@@ -404,6 +411,23 @@ void SatisForm::on_SepetlertabWidget_currentChanged(int index)
     Q_UNUSED(index);// warning uyarısını kapatmak için
     sepetToplaminiYaz();
     butonDurumlariniAyarla();
+
+    // sepet değiştiğinde sepetteki seçili ürünün resmini getirmek için
+    switch (index) {
+    case 0:
+        on_sepet1TableWidget_itemSelectionChanged();
+        break;
+    case 1:
+        on_sepet2TableWidget_itemSelectionChanged();
+        break;
+    case 2:
+        on_sepet3TableWidget_itemSelectionChanged();
+        break;
+    case 3:
+        on_sepet4TableWidget_itemSelectionChanged();
+        break;
+    }
+
     ui->barkodLineEdit->setFocus();
 }
 
@@ -628,13 +652,15 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
         }
         break;
     }
+
+    ui->urunResmilabel->setPixmap(p_StokKarti.getResim());
     butonDurumlariniAyarla();
 }
 
 void SatisForm::closeEvent(QCloseEvent *event)
 {
     if(ui->sepet1TableWidget->rowCount() > 0 || ui->sepet2TableWidget->rowCount() > 0 || ui->sepet3TableWidget->rowCount() > 0 || ui->sepet4TableWidget->rowCount() > 0){
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox closingMsgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYine de çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
         closingMsgBox.setButtonText(QMessageBox::Yes, "Evet");
         closingMsgBox.setButtonText(QMessageBox::No, "Hayır");
@@ -642,7 +668,7 @@ void SatisForm::closeEvent(QCloseEvent *event)
         int cevap = closingMsgBox.exec();
         switch (cevap) {
         case QMessageBox::Yes: {
-                uyariSesi.play();
+                uyariSesi->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Kasa uyarısı");
                 msg.setIcon(QMessageBox::Question);
@@ -684,7 +710,7 @@ void SatisForm::closeEvent(QCloseEvent *event)
         }
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Kasa uyarısı");
         msg.setIcon(QMessageBox::Question);
@@ -741,7 +767,7 @@ void SatisForm::adetCarp()
                 ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[0].urunler[ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 0).data().toString()].toplam, 'f', 2)));
             }
             else{
-                uyariSesi.play();
+                uyariSesi->play();
                 msg.exec();
             }
         }
@@ -758,7 +784,7 @@ void SatisForm::adetCarp()
                 ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[1].urunler[ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentIndex().row(), 0).data().toString()].toplam, 'f', 2)));
             }
             else{
-                uyariSesi.play();
+                uyariSesi->play();
                 msg.exec();
             }
         }
@@ -775,7 +801,7 @@ void SatisForm::adetCarp()
                 ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[2].urunler[ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentIndex().row(), 0).data().toString()].toplam, 'f', 2)));
             }
             else{
-                uyariSesi.play();
+                uyariSesi->play();
                 msg.exec();
             }
         }
@@ -792,7 +818,7 @@ void SatisForm::adetCarp()
                 ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->currentIndex().row(), 5, new QTableWidgetItem(QString::number(sepet[3].urunler[ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentIndex().row(), 0).data().toString()].toplam, 'f', 2)));
             }
             else{
-                uyariSesi.play();
+                uyariSesi->play();
                 msg.exec();
             }
         }
@@ -2341,13 +2367,13 @@ bool SatisForm::eventFilter(QObject *filtrelenecekObject, QEvent *event){
     return SatisForm::eventFilter(filtrelenecekObject, event);
 }
 
-void SatisForm::getSonSatislar()
-{
+//void SatisForm::getSonSatislar()
+//{
 //    Veritabani *vt_satis = new Veritabani();
-    ui->SonSatislarlistWidget->clear();
-    ui->SonSatislarlistWidget->addItems(vt->getSonIslemler());
-    ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
-}
+//    ui->SonSatislarlistWidget->clear();
+//    ui->SonSatislarlistWidget->addItems(vt->getSonIslemler());
+//    ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
+//}
 
 void SatisForm::slotCustomContextMenuRequested(QPoint position)
 {
@@ -2723,7 +2749,7 @@ void SatisForm::on_azaltBtn_clicked()
 
 void SatisForm::on_satirSilBtn_clicked()
 {
-    uyariSesi.play();
+    uyariSesi->play();
     QMessageBox msgBox(this);
     msgBox.setWindowTitle("Dikkat");
     msgBox.setIcon(QMessageBox::Question);
@@ -2803,7 +2829,7 @@ void SatisForm::on_satirSilBtn_clicked()
 
 void SatisForm::on_sepetSilBtn_clicked()
 {
-    uyariSesi.play();
+    uyariSesi->play();
     QMessageBox sepetSilMsgBox(this);
     sepetSilMsgBox.setWindowTitle("Dikkat");
     sepetSilMsgBox.setIcon(QMessageBox::Question);
@@ -2956,7 +2982,6 @@ void SatisForm::on_satisYapBtn_clicked()
         }
         butonDurumlariniAyarla();
         sepetToplaminiYaz();
-        getSonSatislar();
         sepetTabIconlariAyarla();
         ui->barkodLineEdit->setFocus();
     }
@@ -4565,16 +4590,6 @@ void SatisForm::on_HizliUrunlertabWidget_currentChanged(int index)
 }
 
 
-void SatisForm::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item)
-{
-    QString gosterilecekSatis = item->text();
-    satisGosterForm->setSatisFaturaNo(gosterilecekSatis);
-    satisGosterForm->sepetiCek();
-    satisGosterForm->exec();
-    ui->barkodLineEdit->setFocus();
-}
-
-
 void SatisForm::on_CikisToolBtn_clicked()
 {   
     this->close();
@@ -4610,7 +4625,7 @@ void SatisForm::on_iadeAlBtn_clicked()
 {
     if(kullanici.getIadeYetki()){
         if(!sepet[ui->SepetlertabWidget->currentIndex()].sepetBosmu()){
-            uyariSesi.play();
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Question);
@@ -4647,11 +4662,10 @@ void SatisForm::on_iadeAlBtn_clicked()
                     }
                     butonDurumlariniAyarla();
                     sepetToplaminiYaz();
-                    getSonSatislar();
                     sepetTabIconlariAyarla();
                 }
                 else{
-                    uyariSesi.play();
+                    uyariSesi->play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Dikkat");
                     msg.setIcon(QMessageBox::Warning);
@@ -4664,7 +4678,7 @@ void SatisForm::on_iadeAlBtn_clicked()
         }
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Warning);
@@ -4693,10 +4707,9 @@ void SatisForm::on_AyarlarBtn_clicked()
         // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
         hizliUrunButonlariAyarla();
         hizliUrunSayfaAyarla();
-        getSonSatislar();
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -4717,7 +4730,7 @@ void SatisForm::on_CariKartlarBtn_clicked()
         cariForm->exec();
     }
     else{
-        uyariSesi.play();
+        uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -4727,11 +4740,6 @@ void SatisForm::on_CariKartlarBtn_clicked()
         msg.exec();
     }
     ui->barkodLineEdit->setFocus();
-}
-
-void SatisForm::KasadanParaCek()
-{
-
 }
 
 
@@ -4746,5 +4754,77 @@ void SatisForm::on_KartAratoolButton_clicked()
         }
     }
     ui->barkodLineEdit->setFocus();
+}
+
+
+void SatisForm::on_sepet1TableWidget_itemSelectionChanged()
+{
+    if(ui->sepet1TableWidget->rowCount() > 0){
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentRow(), 0).data().toString() + ".png").exists()){
+            ui->urunResmilabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentRow(), 0).data().toString() + ".png"));
+        }
+        else{
+            ui->urunResmilabel->setPixmap(QPixmap());
+        }
+    }
+    else{
+        ui->urunResmilabel->setPixmap(QPixmap());
+    }
+}
+
+
+void SatisForm::on_sepet2TableWidget_itemSelectionChanged()
+{
+    if(ui->sepet2TableWidget->rowCount() > 0){
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentRow(), 0).data().toString() + ".png").exists()){
+            ui->urunResmilabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet2TableWidget->model()->index(ui->sepet2TableWidget->currentRow(), 0).data().toString() + ".png"));
+        }
+        else{
+            ui->urunResmilabel->setPixmap(QPixmap());
+        }
+    }
+    else{
+        ui->urunResmilabel->setPixmap(QPixmap());
+    }
+}
+
+
+void SatisForm::on_sepet3TableWidget_itemSelectionChanged()
+{
+    if(ui->sepet3TableWidget->rowCount() > 0){
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentRow(), 0).data().toString() + ".png").exists()){
+            ui->urunResmilabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet3TableWidget->model()->index(ui->sepet3TableWidget->currentRow(), 0).data().toString() + ".png"));
+        }
+        else{
+            ui->urunResmilabel->setPixmap(QPixmap());
+        }
+    }
+    else{
+        ui->urunResmilabel->setPixmap(QPixmap());
+    }
+}
+
+
+void SatisForm::on_sepet4TableWidget_itemSelectionChanged()
+{
+    if(ui->sepet4TableWidget->rowCount() > 0){
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentRow(), 0).data().toString() + ".png").exists()){
+            ui->urunResmilabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->sepet4TableWidget->model()->index(ui->sepet4TableWidget->currentRow(), 0).data().toString() + ".png"));
+        }
+        else{
+            ui->urunResmilabel->setPixmap(QPixmap());
+        }
+    }
+    else{
+        ui->urunResmilabel->setPixmap(QPixmap());
+    }
+}
+
+
+void SatisForm::on_GecmisSatislartoolButton_clicked()
+{
+    GecmisSatislarDialog *gecmisSatisForm = new GecmisSatislarDialog(this);
+    gecmisSatisForm->exec();
+    delete gecmisSatisForm;
 }
 

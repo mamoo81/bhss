@@ -117,6 +117,12 @@ void AyarlarDialog::formLoad()
     genelAyarlar.endGroup();
     //stok takibi ayarı okuma
 
+    // uyari sesleri ayarları okuma başlangıç
+    genelAyarlar.beginGroup("uyari-sesleri");
+    ui->checkBoxSatisSesUyari->setChecked(genelAyarlar.value("odeme-alindi").toBool());
+    genelAyarlar.endGroup();
+    // uyarı sesleri okuma bitiş
+
     //yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
@@ -271,6 +277,12 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("uyarimiktar", ui->StokMiktarspinBox->value());
     genelAyarlar.endGroup();
     //stok takibi ayarı okuma bitiş
+
+    // uyari sesleri kayıt başlangıç
+    genelAyarlar.beginGroup("uyari-sesleri");
+    genelAyarlar.setValue("odeme-alindi", ui->checkBoxSatisSesUyari->isChecked());
+    genelAyarlar.endGroup();
+    // uyari sesleri kayıt bitiş
 
     // hizli ürün sayfa adları kayıt başlangıç
     genelAyarlar.beginGroup("hizlisayfa");

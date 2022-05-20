@@ -206,19 +206,19 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>231</width>
+       <width>391</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Başlangıçta otomatik başlat</string>
+      <string>Sistem başlangıcında otomatik başlat</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="StokTakibicheckBox">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>50</y>
        <width>211</width>
        <height>21</height>
       </rect>
@@ -240,7 +240,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>70</y>
        <width>181</width>
        <height>28</height>
       </rect>
@@ -267,6 +267,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QCheckBox" name="checkBoxSatisSesUyari">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>231</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Satış yapıldığında ses çal</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tabKullanicilar">

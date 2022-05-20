@@ -18,7 +18,6 @@ FiyatGorForm::~FiyatGorForm()
     delete ui;
 }
 
-
 void FiyatGorForm::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
@@ -27,6 +26,7 @@ void FiyatGorForm::keyPressEvent(QKeyEvent *event)
             StokKarti kart = vt->getStokKarti(ui->BarkodlineEdit->text());
             ui->urunAdiLabel->setText(kart.getAd());
             ui->fiyatLabel->setText("₺" + QString::number(kart.getSFiyat(), 'f', 2));
+            ui->urunResmilabel->setPixmap(kart.getResim());
             QTimer::singleShot(1500, this, &FiyatGorForm::slotTimer);
             delete vt;
         }

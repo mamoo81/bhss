@@ -2,6 +2,8 @@
 #define HIZLIURUNEKLEFORMDIALOG_H
 
 #include <QDialog>
+#include <QShortcut>
+#include <QList>
 
 namespace Ui {
 class HizliUrunEkleFormDialog;
@@ -32,8 +34,22 @@ private slots:
 
     void on_lineEdit_textChanged(const QString &arg1);
 
+    void key_Down_Slot();
+    void key_UP_Slot();
+
+    void on_StokKartlaritableView_clicked(const QModelIndex &index);
+
 private:
     Ui::HizliUrunEkleFormDialog *ui;
+
+    QShortcut *key_Down;
+    QShortcut *key_DownArrow;
+    QShortcut *key_Up;
+    QShortcut *key_UpArrow;
+
+    QList<int> gosterilenSatirlar;
+    int sonSecilenGosterilenSatirIndexi = 0;
+    int secilecekIndex;
 };
 
 #endif // HIZLIURUNEKLEFORMDIALOG_H

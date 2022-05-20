@@ -73,6 +73,7 @@
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>
+        <file>sounds/odeme-alindi.wav</file>
     </qresource>
     <qresource prefix="/dosyalar">
         <file>dosyalar/mhss_data.sql</file>

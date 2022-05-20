@@ -7,6 +7,8 @@
 //************************
 #include <QDialog>
 #include <QPixmap>
+#include <QShortcut>
+#include <QSound>
 
 namespace Ui {
 class StokFrom;
@@ -20,6 +22,7 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
+    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
     int seciliIndex;
     bool yeniKayit = false;
 
@@ -76,6 +79,18 @@ private slots:
 
     void urunResmiKaydet(QPixmap urunResmi, QString urunBarkod);
 
+    void CTRL_F_Slot();
+
+    void key_Down_Slot();
+
+    void key_UP_Slot();
+
+    void key_F1_Slot();
+
+    void key_F2_Slot();
+
+    void key_F3_Slot();
+
 private:
     Ui::StokFrom *ui;
 
@@ -83,6 +98,18 @@ private:
     Veritabani *vt = new Veritabani();
     QItemSelectionModel *selectionModel = new QItemSelectionModel();
     QSortFilterProxyModel *sortModel = new QSortFilterProxyModel();
+
+    QShortcut *CTRL_F;
+    QShortcut *key_F1;
+    QShortcut *key_F2;
+    QShortcut *key_F3;
+    QShortcut *key_Down;
+    QShortcut *key_DownArrow;
+    QShortcut *key_Up;
+    QShortcut *key_UpArrow;
+
+    QList<int> gosterilenSatirlar;
+    int sonSecilenGosterilenSatirIndexi = 0;
 };
 
 #endif // STOKFROM_H

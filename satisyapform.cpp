@@ -9,6 +9,9 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QKeyEvent>
+#include <QSound>
+
+QSound odemeAlindi(":/sounds/sounds/odeme-alindi.wav");
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -26,6 +29,7 @@ SatisYapForm::~SatisYapForm()
 
 void SatisYapForm::formLoad()
 {
+    odemeAlindi.setLoops(0);
     satisYapildimi = false;
     cariKartlar = vt_satisFormu.getCariKartlar();
     foreach (auto cari, cariKartlar) {
@@ -53,6 +57,8 @@ void SatisYapForm::formLoad()
 
 void SatisYapForm::on_satBtn_clicked()
 {
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+
     if(cariAdlari.contains(ui->CariLineEdit->text())){
         int index = cariAdlari.indexOf(ui->CariLineEdit->text());
         //veritabani clasına satiş gönderme
@@ -63,6 +69,13 @@ void SatisYapForm::on_satBtn_clicked()
             QString sonIslemNo = vt_satisFormu.sonIslemNumarasi();
             fisYazici.fisBas(sonIslemNo, satilacakSepet);
         }
+        // ödeme alındı sesi çalınsın mı.
+        genelAyarlar.beginGroup("uyari-sesleri");
+        if(genelAyarlar.value("odeme-alindi").toBool()){
+            odemeAlindi.play();
+        }
+        genelAyarlar.endGroup();
+
         ui->OdenendoubleSpinBox->setValue(0);
         ui->toplamLBL->setText(0);
         satisYapildimi = true;

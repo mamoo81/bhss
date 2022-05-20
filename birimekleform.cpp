@@ -48,19 +48,21 @@ void BirimekleForm::on_eklepushButton_clicked()
 
 void BirimekleForm::on_silpushButton_clicked()
 {
-    QMessageBox msg(this);
-    msg.setWindowTitle("Dikkat");
-    msg.setIcon(QMessageBox::Question);
-    msg.setText("Silmek istediğinize emin misiniz?");
-    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
-    msg.setDefaultButton(QMessageBox::Yes);
-    msg.exec();
-    if(QMessageBox::Yes == msg.result())
-    {
-        vt_birim->stokBirimSil(ui->listWidget->currentItem()->text());
-        delete ui->listWidget->currentItem();
+    if(ui->listWidget->currentRow() != 0){
+        QMessageBox msg(this);
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setText("Silmek istediğinize emin misiniz?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::Yes);
+        msg.exec();
+        if(QMessageBox::Yes == msg.result())
+        {
+            vt_birim->stokBirimSil(ui->listWidget->currentItem()->text());
+            delete ui->listWidget->currentItem();
+        }
     }
 }
 

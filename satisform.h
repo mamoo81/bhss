@@ -18,6 +18,7 @@
 #include <QList>
 #include <QToolButton>
 #include <QShortcut>
+#include <QSound>
 
 namespace Ui {
 class SatisForm;
@@ -34,11 +35,11 @@ public:
     QToolButton *hizliEklenecekButon;
     Veritabani *vt = new Veritabani();
     StokKarti stokKarti = StokKarti();
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     void setUser(User user);
     void formLoad();
     bool eventFilter(QObject *watched, QEvent *event);
-    void getSonSatislar();
 
 public slots:
     void hizliButonConnects();
@@ -48,7 +49,6 @@ public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
     void sepetTabIconlariAyarla();
     void hizliUrunButonlariAyarla();
-    //    void getCiro();
     void hizliUrunSayfaAyarla();
 private slots:
     void on_StokKartlariBtn_clicked();
@@ -385,8 +385,6 @@ private slots:
 
     void on_HizliUrunlertabWidget_currentChanged(int index);
 
-    void on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item);
-
     void on_CikisToolBtn_clicked();
 
     void on_sepet1TableWidget_clicked(const QModelIndex &index);
@@ -402,9 +400,17 @@ private slots:
 
     void on_CariKartlarBtn_clicked();
 
-    void KasadanParaCek();
-
     void on_KartAratoolButton_clicked();
+
+    void on_sepet1TableWidget_itemSelectionChanged();
+
+    void on_sepet2TableWidget_itemSelectionChanged();
+
+    void on_sepet3TableWidget_itemSelectionChanged();
+
+    void on_sepet4TableWidget_itemSelectionChanged();
+
+    void on_GecmisSatislartoolButton_clicked();
 
 private:
     Ui::SatisForm *ui;
@@ -424,7 +430,6 @@ private:
     QShortcut *key_DownArrow;
     QShortcut *key_Up;
     QShortcut *key_UpArrow;
-
 
     User kullanici;
 

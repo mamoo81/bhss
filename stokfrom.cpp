@@ -17,7 +17,6 @@
 #include <QKeyEvent>
 #include <QDateTime>
 #include <QModelIndex>
-#include <QSound>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QRandomGenerator>
@@ -25,7 +24,6 @@
 
 QItemSelectionModel *seciliSatirModel;
 int seciliSatirIndex;
-QSound uyariSes(":/sounds/sounds/warning-sound.wav");
 
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
@@ -40,7 +38,6 @@ StokFrom::~StokFrom()
 {
     delete ui;
 }
-
 
 void StokFrom::on_StokGrupBtn_clicked()
 {
@@ -63,6 +60,39 @@ void StokFrom::formLoad()
 
     QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
+
+    // klavye kısayol tanımlamaları
+    CTRL_F = new QShortcut(this);
+    CTRL_F->setKey(Qt::CTRL + Qt::Key_F);
+    connect(CTRL_F, SIGNAL(activated()), this, SLOT(CTRL_F_Slot()));
+
+    key_Down = new QShortcut(this);
+    key_Down->setKey(Qt::Key_Down);
+    connect(key_Down, SIGNAL(activated()), this, SLOT(key_Down_Slot()));
+
+    key_DownArrow = new QShortcut(this);
+    key_DownArrow->setKey(Qt::DownArrow);
+    connect(key_DownArrow, SIGNAL(activated()), this, SLOT(key_Down_Slot()));
+
+    key_Up = new QShortcut(this);
+    key_Up->setKey(Qt::Key_Up);
+    connect(key_Up, SIGNAL(activated()), this, SLOT(key_UP_Slot()));
+
+    key_UpArrow = new QShortcut(this);
+    key_UpArrow->setKey(Qt::UpArrow);
+    connect(key_UpArrow, SIGNAL(activated()), this, SLOT(key_UP_Slot()));
+
+    key_F1 = new QShortcut(this);
+    key_F1->setKey(Qt::Key_F1);
+    connect(key_F1, SIGNAL(activated()), this, SLOT(key_F1_Slot()));
+
+    key_F2 = new QShortcut(this);
+    key_F2->setKey(Qt::Key_F2);
+    connect(key_F2, SIGNAL(activated()), this, SLOT(key_F2_Slot()));
+
+    key_F3 = new QShortcut(this);
+    key_F3->setKey(Qt::Key_F3);
+    connect(key_F3, SIGNAL(activated()), this, SLOT(key_F3_Slot()));
 
     ui->AraLineEdit->setFocus();
 }
@@ -178,7 +208,7 @@ void StokFrom::on_DuzenleBtn_clicked()
     }
     else
     {
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -227,6 +257,7 @@ void StokFrom::on_IptalBtn_clicked()
     ui->SurekliYenicheckBox->setEnabled(false);
     ui->KaydetBtn->setEnabled(false);
     ui->IptalBtn->setEnabled(false);
+    ui->AraLineEdit->setFocus();
     alanlariDoldur();
 }
 
@@ -302,18 +333,18 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape){
         if(ui->KaydetBtn->isEnabled() && ui->IptalBtn->isEnabled()){
-            uyariSes.play();
+            uyariSes->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Question);
-            msg.setText("Stok kartını düzenlemeyi bitirmediniz.\nYinede çıkmak istiyor musunuz?");
+            msg.setText("Stok kartını düzenlemeyi bitirmediniz.\nYinede bitirmek istiyor musunuz?");
             msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
             msg.setDefaultButton(QMessageBox::Yes);
             msg.setButtonText(QMessageBox::Yes, "Evet");
             msg.setButtonText(QMessageBox::No, "Hayır");
             int cevap = msg.exec();
             if(QMessageBox::Yes == cevap){
-                this->close();
+                on_IptalBtn_clicked();
             }
         }
         else{
@@ -321,11 +352,8 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
         }
     }
     else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-//        if(ui->stokKartBilGroupBox->isEnabled()){
-//            emit on_KaydetBtn_clicked();
-//        }
         if(ui->AraLineEdit->isEnabled()){
-            emit on_araBtn_clicked();
+            on_araBtn_clicked();
         }
     }
 }
@@ -334,7 +362,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 void StokFrom::on_KaydetBtn_clicked()
 {
     if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -367,7 +395,7 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
             QSqlError hataMesajı = vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
             if(!hataMesajı.isValid()){
-                uyariSes.play();
+                uyariSes->play();
                 QMessageBox *msg = new QMessageBox(this);
                 msg->setIcon(QMessageBox::Information);
                 msg->setWindowTitle("Başarılı");
@@ -378,7 +406,7 @@ void StokFrom::on_KaydetBtn_clicked()
                 msg->exec();
             }
             else{
-                uyariSes.play();
+                uyariSes->play();
                 QMessageBox *msg = new QMessageBox(this);
                 msg->setIcon(QMessageBox::Critical);
                 msg->setWindowTitle("Hata");
@@ -399,7 +427,7 @@ void StokFrom::on_KaydetBtn_clicked()
             emit on_IptalBtn_clicked();
         }
         else{
-            uyariSes.play();
+            uyariSes->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Warning);
@@ -453,11 +481,11 @@ void StokFrom::on_SilBtn_clicked()
     if(ui->StokKartlaritableView->currentIndex().row() != -1){
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
-        msg.setText(QString("%1 barkod numaralı \n%2 isimli stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).arg(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString()));
+        msg.setText(QString("%1 barkod numaralı \n%2 isimli stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).arg(seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString()));
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setButtonText(QMessageBox::Yes, "Evet");
         msg.setButtonText(QMessageBox::No, "Hayır");
@@ -470,7 +498,7 @@ void StokFrom::on_SilBtn_clicked()
         }
     }
     else{
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -497,7 +525,7 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
     }
 
     if(!varmi){
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -589,13 +617,26 @@ void StokFrom::on_BarkodOlusturBtn_clicked()
 void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 {
     if(ui->adRadioButton->isChecked()){
+
+        gosterilenSatirlar.clear();
+        ui->StokKartlaritableView->clearSelection();
         for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
             if(!ui->StokKartlaritableView->model()->index(i, 3).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
                 ui->StokKartlaritableView->hideRow(i);
             }
             else{
                 ui->StokKartlaritableView->showRow(i);
+                gosterilenSatirlar.append(i);// aşağı/yukarı yön tuşları ile seçim yaparken gizlenen satırları es geçmek için gösterilen satırların indexini atıyorum.
             }
+        }
+
+        if(gosterilenSatirlar.count() > 0){
+            ui->StokKartlaritableView->selectRow(gosterilenSatirlar.first());// gösterilen satırlardan ilk indexi seçiyorum.
+        }
+
+        if(arg1.count() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
+            ui->StokKartlaritableView->selectRow(0);
+            sonSecilenGosterilenSatirIndexi = 0;
         }
     }
 }
@@ -604,15 +645,20 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 void StokFrom::on_ResimEkleBtn_clicked()
 {
     ResimEkleDialog *resimEkleForm = new ResimEkleDialog(this);
-    resimEkleForm->setUrunBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
+    resimEkleForm->setUrunBarkod(ui->BarkodLnEdit->text());
     resimEkleForm->exec();
-    ui->UrunResimlabel->setPixmap(vt->getStokKarti(ui->BarkodLnEdit->text()).getResim());
+    if(QFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->BarkodLnEdit->text() + ".png").exists()){
+        ui->UrunResimlabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->BarkodLnEdit->text() + ".png"));
+    }
+    else{
+        ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
+    }
 }
 
 void StokFrom::on_ResimSilBtn_clicked()
 {
     if(!vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim().isNull()){
-        uyariSes.play();
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -625,7 +671,7 @@ void StokFrom::on_ResimSilBtn_clicked()
         if(cevap == QMessageBox::Yes){
             QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString() + ".png");
             if(resimDosya.remove()){
-                uyariSes.play();
+                uyariSes->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Information);
@@ -636,7 +682,7 @@ void StokFrom::on_ResimSilBtn_clicked()
                 ui->UrunResimlabel->setPixmap(vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim());
             }
             else{
-                uyariSes.play();
+                uyariSes->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Warning);
@@ -670,4 +716,46 @@ void StokFrom::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
+}
+
+void StokFrom::CTRL_F_Slot()
+{
+    if(!ui->AraLineEdit->isEnabled()){
+        ui->AraLineEdit->selectAll();
+        ui->AraLineEdit->setFocus();
+    }
+}
+
+void StokFrom::key_Down_Slot()
+{
+    // gizlenen satırları seçim yapmasın diye satırı bu şekilde seçtiriyorum
+    if(sonSecilenGosterilenSatirIndexi < (gosterilenSatirlar.count() - 1)){
+        ui->StokKartlaritableView->selectRow(gosterilenSatirlar.at(sonSecilenGosterilenSatirIndexi + 1));
+        sonSecilenGosterilenSatirIndexi++;
+    }
+    ui->AraLineEdit->setFocus();
+}
+
+void StokFrom::key_UP_Slot()
+{
+    if(sonSecilenGosterilenSatirIndexi > 0){
+        ui->StokKartlaritableView->selectRow(gosterilenSatirlar.at(sonSecilenGosterilenSatirIndexi - 1));
+        sonSecilenGosterilenSatirIndexi--;
+    }
+    ui->AraLineEdit->setFocus();
+}
+
+void StokFrom::key_F1_Slot()
+{
+    on_YeniBtn_clicked();;
+}
+
+void StokFrom::key_F2_Slot()
+{
+    on_DuzenleBtn_clicked();
+}
+
+void StokFrom::key_F3_Slot()
+{
+    on_SilBtn_clicked();
 }
