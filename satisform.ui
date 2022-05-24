@@ -655,7 +655,7 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>380</y>
+     <y>420</y>
      <width>171</width>
      <height>51</height>
     </rect>
@@ -681,7 +681,7 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>440</y>
+     <y>480</y>
      <width>171</width>
      <height>51</height>
     </rect>
@@ -707,7 +707,7 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>500</y>
+     <y>540</y>
      <width>171</width>
      <height>51</height>
     </rect>
@@ -6424,10 +6424,10 @@ color: rgb(0, 255, 0);</string>
   <widget class="QLabel" name="urunResmilabel">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>700</x>
      <y>240</y>
-     <width>128</width>
-     <height>128</height>
+     <width>171</width>
+     <height>171</height>
     </rect>
    </property>
    <property name="font">
@@ -6453,9 +6453,9 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>660</y>
+     <y>650</y>
      <width>171</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -6466,9 +6466,9 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>620</y>
+     <y>600</y>
      <width>171</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">

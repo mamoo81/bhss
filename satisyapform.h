@@ -28,6 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "yazici.h"
 //******************
 #include <QDialog>
+#include <QSound>
 
 namespace Ui {
 class SatisYapForm;
@@ -41,6 +42,7 @@ public:
     explicit SatisYapForm(QWidget *parent = nullptr);
     ~SatisYapForm();
 
+    QSound *odemeAlindi = new QSound(":/sounds/sounds/odeme-alindi.wav");
     Veritabani vt_satisFormu;
     QList<QString> cariAdlari;
     QList<Cari> cariKartlar;
@@ -55,7 +57,6 @@ public slots:
     void formLoad();
 
 private slots:
-
 
     void on_satBtn_clicked();
 

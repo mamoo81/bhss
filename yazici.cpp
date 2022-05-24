@@ -129,7 +129,15 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     document.print(&printer);
 
     QProcess *processIslem = new QProcess();
-    yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-fis.pdf";
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-fis.pdf";
+    }
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        yazdirmaKomut = "lp -d " + yaziciModel + " /tmp/mhss-fis.pdf";
+    }
+    else{
+        qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
+    }
     processIslem->start(yazdirmaKomut);
 
 }
@@ -262,7 +270,15 @@ void Yazici::cikisRaporuBas(User _user)
         document.print(&printer);
 
         QProcess *processIslem = new QProcess();
-        yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-kasa-rapor.pdf";
+        if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+            yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-kasa-rapor.pdf";
+        }
+        else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+            yazdirmaKomut = "lp -d " + yaziciModel + " /tmp/mhss-kasa-rapor.pdf";
+        }
+        else{
+            qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
+        }
         processIslem->start(yazdirmaKomut);
     }
 
@@ -394,6 +410,14 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
     document.print(&printer);
 
     QProcess *processIslem = new QProcess();
-    yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-tahsilat-fis.pdf";
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        yazdirmaKomut = "lpr -P " + yaziciModel + " /tmp/mhss-tahsilat-fis.pdf";
+    }
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        yazdirmaKomut = "lp -d " + yaziciModel + " /tmp/mhss-tahsilat-fis.pdf";
+    }
+    else{
+        qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
+    }
     processIslem->start(yazdirmaKomut);
 }
