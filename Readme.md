@@ -28,8 +28,9 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 
 #### Tavsiye edilen sistem gereksinimleri
 * Milis Linux işletim sistemi
+* Pardus İşletim Sistemi (QT Dokunmatik desteği için)
 * 1 GB sistem belleği
-* Minimum 1366x768px çözünürlüğünde monitör (isteğe göre dokunmatik monitör)
+* Minimum 1366x768px çözünürlüğünde monitör
 
 #### Gerekler
 * Postgresql (çalışma gereği)
@@ -78,6 +79,16 @@ kullanıcı: admin
 | ← →   |     |        | Sepetler arası geçiş yapar        |
 | ↑ ↓   |     |        | Sepetteki seçili ürünü değiştirir |
 
+#### Stok ekranı klavye kısayolları
+
+| Tuş   |     | Tuş    | İşlevi                            |
+| :---  | :-: | :----: | ---:                              |
+| F1    |     |        | Yeni stok kartı açar              |
+| F2    |     |        | Tabloda ki seçili kartı düzenler  |
+| F3    |     |        | Tabloda ki seçili kartı siler     |
+| F4    |     |        | Tabloda ki seçili kartı stok ekler|
+| F5    |     |        | Tabloda ki seçili kartı stok düşer|
+| Esc   |     |        | Stok ekranını kapatır             |
 
 #### Satış ekranı klavye kısayolları
 
