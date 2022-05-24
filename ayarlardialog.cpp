@@ -565,13 +565,27 @@ void AyarlarDialog::cronJobKaydet()
     cronDosya.close();
 
     // cronjob dosyasını /var/spool/cron/ altına aktarma
-    QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
-    int exitCode = system(qPrintable(cmd));
-    if(exitCode == QProcess::NormalExit){
-        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+
+    //cronjob için pardus veya milis yetkili komut yürütme
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
+        int exitCode = system(qPrintable(cmd));
+        if(exitCode == QProcess::NormalExit){
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+        }
+        else{
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+        }
     }
-    else{
-        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/";
+        int exitCode = system(qPrintable(cmd));
+        if(exitCode == QProcess::NormalExit){
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+        }
+        else{
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+        }
     }
 }
 
@@ -628,14 +642,28 @@ void AyarlarDialog::cronJobSil()
         }
         cronDosya.close();
     }
+
     // cronjob dosyasını /var/spool/cron/ altına aktarma
-    QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
-    int exitCode = system(qPrintable(cmd));
-    if(exitCode == QProcess::NormalExit){
-        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+    //cronjob için pardus veya milis yetkili komut yürütme
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        QString cmd = "sudoui -c \"mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/\"";
+        int exitCode = system(qPrintable(cmd));
+        if(exitCode == QProcess::NormalExit){
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+        }
+        else{
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+        }
     }
-    else{
-        qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/";
+        int exitCode = system(qPrintable(cmd));
+        if(exitCode == QProcess::NormalExit){
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
+        }
+        else{
+            qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarılamadı";
+        }
     }
 }
 
