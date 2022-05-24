@@ -29,6 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDateTime>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QSysInfo>
 
 Yazici::Yazici()
 {

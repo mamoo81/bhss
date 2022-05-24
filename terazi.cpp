@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "terazi.h"
 
 #include <QDebug>
+#include <QSysInfo>
+#include <QMessageBox>
 
 Terazi::Terazi()
 {
@@ -168,10 +170,48 @@ void Terazi::run()
     genelAyarlar.endGroup();
     // seriport ayarlarının ini dosyasından okuma bitiş
 
-    if(!serial.open(QIODevice::ReadOnly))
+    if(!serial.open(QIODevice::ReadOnly)){
         qDebug() << serial.errorString();
+        // seriport okumayı kullanıcıya açma
+        QMessageBox msg(this);
+        msg.setWindowTitle("Dikkat");
+        msg.setWindowIcon(QMessageBox::Critical);
+        msg.setText("Seriport okuyabilmeniz için kullanıcı yetkilendirilmesi yapılmalı.\n\nYetkilendirmek istiyor musunuz?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::Yes);
+        int cevap = msg.exec();
+        if(cevap == QMessageBox::Yes){
+            if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+                QString cmd = "sudoui -c \"usermod -a -G dialout $USER\"";
+                int exitCode = system(qPrintable(cmd));
+                if(exitCode == QProcess::NormalExit){
+                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
+                }
+                else{
+                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
+                }
+            }
+            else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+                QString cmd = "pkexec sudo usermod -a -G dialout $USER";
+                int exitCode = system(qPrintable(cmd));
+                if(exitCode == QProcess::NormalExit){
+                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
+                }
+                else{
+                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
+                }
+            }
+            else{
+                qDebug() << "SeriPort okuma izni için İşletim Sistemi tespit edilemedi.";
+            }
+        }
+        else{
+            return;
+        }
+    }
 
-//    qDebug() << serial.bytesAvailable();
     while(serial.isOpen())
     {
         QMutex mutex;
@@ -183,7 +223,6 @@ void Terazi::run()
             break;
         }
         else{
-//            qDebug() << "New data available: " << serial.bytesAvailable();
             QString data = serial.readAll();
 
             if(data.size() >= 8){
