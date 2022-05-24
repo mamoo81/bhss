@@ -28,12 +28,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QStandardPaths>
 #include <QPrinterInfo>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QDebug>
 #include <QProcess>
 #include <QRegularExpression> // text dosyasında metin arama(karşılaştırma) için.
 #include <QDir>
 #include <QSerialPortInfo>
 #include <QSerialPort>
+#include <QSysInfo>
 
 AyarlarDialog::AyarlarDialog(QWidget *parent) :
     QDialog(parent),
@@ -51,16 +53,28 @@ AyarlarDialog::~AyarlarDialog()
 
 void AyarlarDialog::formLoad()
 {
-    // oto başlangıç wayfire.ini ayarlama
-    QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
-    wayfireini.beginGroup("autostart");
-    if(wayfireini.contains("mhss")){
-        ui->otoMhsscheckBox->setChecked(true);
+    // oto başlangıç okuma ayarını okuma
+    // oto başlangıç için İşletim sistemi belirleme
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        // milis oto başlangıç wayfire.ini ayarlama
+        QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
+        wayfireini.beginGroup("autostart");
+        if(wayfireini.contains("mhss")){
+            ui->otoMhsscheckBox->setChecked(true);
+        }
+        else{
+            ui->otoMhsscheckBox->setChecked(false);
+        }
+        wayfireini.endGroup();
     }
-    else{
-        ui->otoMhsscheckBox->setChecked(false);
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop").exists()){
+            ui->otoMhsscheckBox->setChecked(true);
+        }
+        else{
+            ui->otoMhsscheckBox->setChecked(false);
+        }
     }
-    wayfireini.endGroup();
 
     //terazileri markalarını getirme
     ui->TeraziMarkacomboBox->addItems(vt.getTeraziler());
@@ -256,16 +270,33 @@ void AyarlarDialog::on_SilPushButton_clicked()
 
 void AyarlarDialog::on_pushButton_clicked()
 {
-    // oto başlangıç wayfire.ini ayarlama
-    QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
-    wayfireini.beginGroup("autostart");
-    if(!wayfireini.contains("mhss") && ui->otoMhsscheckBox->isChecked()){
-        wayfireini.setValue("mhss", "mhss");
+    // oto başlama kayıt başlangıcı
+    // oto kayıt için milis veya pardus İşletim Sistemi tespiti
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        // oto başlangıç wayfire.ini ayarlama
+        QSettings wayfireini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/wayfire.ini", QSettings::IniFormat);
+        wayfireini.beginGroup("autostart");
+        if(!wayfireini.contains("mhss") && ui->otoMhsscheckBox->isChecked()){
+            wayfireini.setValue("mhss", "mhss");
+        }
+        else if(wayfireini.contains("mhss") && !ui->otoMhsscheckBox->isChecked()){
+            wayfireini.remove("mhss");
+        }
+        wayfireini.endGroup();
     }
-    else if(wayfireini.contains("mhss") && !ui->otoMhsscheckBox->isChecked()){
-        wayfireini.remove("mhss");
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        if(ui->otoMhsscheckBox->isChecked()){
+            if(!QFileInfo(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop").exists()){
+                QFile(":/dosyalar/mhss.desktop").copy(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop");
+            }
+        }
+        else{
+            if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop").exists()){
+                QFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop").remove();
+            }
+        }
     }
-    wayfireini.endGroup();
+
     // genel.ini dosyasına kayıt etme başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     // yazıcı ayarları kayıt başlangıç

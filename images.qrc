@@ -78,5 +78,6 @@
     </qresource>
     <qresource prefix="/dosyalar">
         <file>dosyalar/mhss_data.sql</file>
+        <file>mhss.desktop</file>
     </qresource>
 </RCC>
