@@ -173,9 +173,9 @@ void Terazi::run()
     if(!serial.open(QIODevice::ReadOnly)){
         qDebug() << serial.errorString();
         // seriport okumayı kullanıcıya açma
-        QMessageBox msg(this);
+        QMessageBox msg(0);
         msg.setWindowTitle("Dikkat");
-        msg.setWindowIcon(QMessageBox::Critical);
+        msg.setIcon(QMessageBox::Warning);
         msg.setText("Seriport okuyabilmeniz için kullanıcı yetkilendirilmesi yapılmalı.\n\nYetkilendirmek istiyor musunuz?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setButtonText(QMessageBox::Yes, "Evet");

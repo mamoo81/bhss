@@ -43,6 +43,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QRandomGenerator>
 #include <QString>
 
+#include <QScroller>
+
 //QItemSelectionModel *seciliSatirModel;
 //int seciliSatirIndex;
 
@@ -122,6 +124,9 @@ void StokFrom::formLoad()
     key_F5 = new QShortcut(this);
     key_F5->setKey(Qt::Key_F5);
     connect(key_F5, SIGNAL(activated()), this, SLOT(key_F5_Slot()));
+
+    QScroller::grabGesture(ui->StokKartlaritableView, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->ureticicomboBox, QScroller::LeftMouseButtonGesture);
 
     ui->AraLineEdit->setFocus();
 }

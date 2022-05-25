@@ -378,6 +378,7 @@ void AyarlarDialog::on_pushButton_clicked()
         cronJobSil();
         genelAyarlar.endGroup();
     }
+    genelAyarlar.endGroup();
     // genel.ini dosyasına kayıt etme bitiş.
     this->close();
 }
@@ -519,17 +520,23 @@ void AyarlarDialog::cronJobKaydet()
 
     // kullanıcı adını alma
     QString userName = qgetenv("USER");
-        if (userName.isEmpty()){
-            userName = qgetenv("USERNAME");
-        }
-    QFile cronMevcutDosya("/var/spool/cron/" + userName);
+    if (userName.isEmpty()){
+        userName = qgetenv("USERNAME");
+    }
+//    QFile cronMevcutDosya;
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        cronMevcutDosya = new QFile("/var/spool/cron/" + userName);
+    }
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        cronMevcutDosya = new QFile("/var/spool/cron/crontabs/" + userName);
+    }
     QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
     QFile cronGeciciDosya("/tmp/mhss-cronjob/" + userName);
 
     // crontab dosyası önceden oluşturulmuşsa /tmp/ altına al onu düzenle yoksa /tmp/ altında oluştur onu düzenle
-    if(cronMevcutDosya.exists()){
+    if(cronMevcutDosya->exists()){
         QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
-        cronMevcutDosya.copy("/tmp/mhss-cronjob/" + userName);
+        cronMevcutDosya->copy("/tmp/mhss-cronjob/" + userName);
     }
     else{
         cronGeciciDosya.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
@@ -609,7 +616,7 @@ void AyarlarDialog::cronJobKaydet()
         }
     }
     else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/";
+        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/crontabs/";
         int exitCode = system(qPrintable(cmd));
         if(exitCode == QProcess::NormalExit){
             qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";
@@ -624,14 +631,19 @@ void AyarlarDialog::cronJobSil()
 {
     // kullanıcı adını alma
     QString userName = qgetenv("USER");
-        if (userName.isEmpty()){
-            userName = qgetenv("USERNAME");
-        }
-    QFile cronMevcutDosya("/var/spool/cron/" + userName);
+    if (userName.isEmpty()){
+        userName = qgetenv("USERNAME");
+    }
+    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        cronMevcutDosya = new QFile("/var/spool/cron/" + userName);
+    }
+    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        cronMevcutDosya = new QFile("/var/spool/cron/crontabs/" + userName);
+    }
     // crontab dosyası önceden oluşturulmuşsa /tmp/ altına al onu düzenle yoksa /tmp/ altında oluştur onu düzenle
-    if(cronMevcutDosya.exists()){
+    if(cronMevcutDosya->exists()){
         QDir().mkdir("/tmp/mhss-cronjob/");// ilgili klasörün /tmp altına oluşturulması
-        cronMevcutDosya.copy("/tmp/mhss-cronjob/" + userName);
+        cronMevcutDosya->copy("/tmp/mhss-cronjob/" + userName);
     }
     // /tmp altına oluşturulan/kopyalanan crontab dosyasından varsa önceki görev silme
     QFile cronDosya("/tmp/mhss-cronjob/" + userName);
@@ -687,7 +699,7 @@ void AyarlarDialog::cronJobSil()
         }
     }
     else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/";
+        QString cmd = "pkexec sudo mv /tmp/mhss-cronjob/" + userName + " /var/spool/cron/crontabs/";
         int exitCode = system(qPrintable(cmd));
         if(exitCode == QProcess::NormalExit){
             qDebug() << Qt::endl << "Mesaj: cronjob /var/spool/cron/ altına aktarıldı";

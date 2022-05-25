@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 //****************************
 #include <QDialog>
+#include <QFile>
 
 namespace Ui {
 class AyarlarDialog;
@@ -95,6 +96,7 @@ private slots:
 private:
     Ui::AyarlarDialog *ui;
 
+    QFile *cronMevcutDosya = new QFile();
     User currentUser;
 };
 
