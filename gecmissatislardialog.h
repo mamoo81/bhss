@@ -44,6 +44,8 @@ public slots:
 private slots:
     void on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_KapatpushButton_clicked();
+
 private:
     Ui::GecmisSatislarDialog *ui;
 };

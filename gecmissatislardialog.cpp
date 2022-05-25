@@ -53,3 +53,8 @@ void GecmisSatislarDialog::on_SonSatislarlistWidget_itemDoubleClicked(QListWidge
     delete satisGosterForm;
 }
 
+
+void GecmisSatislarDialog::on_KapatpushButton_clicked()
+{
+    this->close();
+}
