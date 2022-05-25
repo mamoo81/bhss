@@ -376,7 +376,6 @@ void AyarlarDialog::on_pushButton_clicked()
         genelAyarlar.setValue("dakika", "");
         genelAyarlar.endGroup();
         cronJobSil();
-        genelAyarlar.endGroup();
     }
     genelAyarlar.endGroup();
     // genel.ini dosyasına kayıt etme bitiş.
@@ -506,17 +505,15 @@ void AyarlarDialog::cronJobKaydet()
 {
     //yedekleme betiği kontrol ve oluşturma
     QFile betik(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh");
-    if(!betik.exists()){
-        betik.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
-        betik.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
-        QTextStream betikYazilacak(&betik);
-        betikYazilacak << "#!/bin/bash" << Qt::endl;
-        betikYazilacak << "/usr/bin/pg_dump -Fc -U postgres mhss_data > " << ui->Konumlabel->text() << "/\"mhss-data-\"`date +\"%d-%m-%Y.sql\"`" << Qt::endl;
-        betik.close();
-        //betiğe çalıştırılabilir dosya izni verme
-        QString yetkilendirmeCMD = "chmod +x " + QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh";
-        system(qPrintable(yetkilendirmeCMD));
-    }
+    betik.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
+    betik.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);// truncate enumu dosyanın üzerine yazmak için. append dersen dosyaya ekler.
+    QTextStream betikYazilacak(&betik);
+    betikYazilacak << "#!/bin/bash" << Qt::endl;
+    betikYazilacak << "/usr/bin/pg_dump -Fc -U postgres mhss_data > " << ui->Konumlabel->text() << "/\"mhss-data-\"`date +\"%d-%m-%Y.sql\"`" << Qt::endl;
+    betik.close();
+    //betiğe çalıştırılabilir dosya izni verme
+    QString yetkilendirmeCMD = "chmod +x " + QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/yedekle-betik.sh";
+    system(qPrintable(yetkilendirmeCMD));
 
     // kullanıcı adını alma
     QString userName = qgetenv("USER");
