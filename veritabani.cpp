@@ -1340,7 +1340,7 @@ int Veritabani::getGrupID(QString pGrup)
 void Veritabani::stokGrupEkle(QString _eklenecekGrupAdi)
 {
     sorgu.prepare("INSERT INTO stokgruplari(id, grup) "
-                    "VALUES (nextval('stokgruplari_sequence'), ?)");
+                    "VALUES (nextval('stokgruplari_id_seq'), ?)");
     sorgu.bindValue(0, _eklenecekGrupAdi);
     sorgu.exec();
     if(sorgu.lastError().isValid()){
