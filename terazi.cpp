@@ -173,43 +173,43 @@ void Terazi::run()
     if(!serial.open(QIODevice::ReadOnly)){
         qDebug() << serial.errorString();
         // seriport okumayı kullanıcıya açma
-        QMessageBox msg(0);
-        msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("Seriport okuyabilmeniz için kullanıcı yetkilendirilmesi yapılmalı.\n\nYetkilendirmek istiyor musunuz?");
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
-        msg.setDefaultButton(QMessageBox::Yes);
-        int cevap = msg.exec();
-        if(cevap == QMessageBox::Yes){
-            if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
-                QString cmd = "sudoui -c \"usermod -a -G dialout $USER\"";
-                int exitCode = system(qPrintable(cmd));
-                if(exitCode == QProcess::NormalExit){
-                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
-                }
-                else{
-                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
-                }
-            }
-            else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-                QString cmd = "pkexec sudo usermod -a -G dialout $USER";
-                int exitCode = system(qPrintable(cmd));
-                if(exitCode == QProcess::NormalExit){
-                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
-                }
-                else{
-                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
-                }
-            }
-            else{
-                qDebug() << "SeriPort okuma izni için İşletim Sistemi tespit edilemedi.";
-            }
-        }
-        else{
-            return;
-        }
+//        QMessageBox msg(0);
+//        msg.setWindowTitle("Dikkat");
+//        msg.setIcon(QMessageBox::Warning);
+//        msg.setText("Seriport okuyabilmeniz için kullanıcı yetkilendirilmesi yapılmalı.\n\nYetkilendirmek istiyor musunuz?");
+//        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+//        msg.setButtonText(QMessageBox::Yes, "Evet");
+//        msg.setButtonText(QMessageBox::No, "Hayır");
+//        msg.setDefaultButton(QMessageBox::Yes);
+//        int cevap = msg.exec();
+//        if(cevap == QMessageBox::Yes){
+//            if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+//                QString cmd = "sudoui -c \"usermod -a -G dialout $USER\"";
+//                int exitCode = system(qPrintable(cmd));
+//                if(exitCode == QProcess::NormalExit){
+//                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
+//                }
+//                else{
+//                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
+//                }
+//            }
+//            else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+//                QString cmd = "pkexec sudo usermod -a -G dialout $USER";
+//                int exitCode = system(qPrintable(cmd));
+//                if(exitCode == QProcess::NormalExit){
+//                    qDebug() << Qt::endl << "Seriport yetkisi verildi";
+//                }
+//                else{
+//                    qDebug() << Qt::endl << "SeriPort yetkisi verilemedi. Şifre hatalı olabilir.";
+//                }
+//            }
+//            else{
+//                qDebug() << "SeriPort okuma izni için İşletim Sistemi tespit edilemedi.";
+//            }
+//        }
+//        else{
+//            return;
+//        }
     }
 
     while(serial.isOpen())

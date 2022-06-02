@@ -25,8 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "user.h"
 #include "cari.h"
 #include "veritabani.h"
+#include "stokkarti.h"
 //********************************
 #include <QString>
+#include <QPrinter>
 
 class Yazici
 {
@@ -39,7 +41,10 @@ public:
     QString sirketAdresi;
     QString yaziciModel;
     QString yazdirmaKomut;
+    QString etiketYazici;
     void setKullanici(const User &newKullanici);
+
+    void rafEtiketiBas(StokKarti kart);
 
 public slots:
     void cikisRaporuBas(User _user);
@@ -47,6 +52,7 @@ public slots:
 private:
 
     User kullanici;
+    QPrinter *printer = new QPrinter();
 };
 
 #endif // YAZICI_H

@@ -79,5 +79,6 @@
     <qresource prefix="/dosyalar">
         <file>dosyalar/mhss_data.sql</file>
         <file>mhss.desktop</file>
+        <file>dosyalar/yerli-uretim-logo.png</file>
     </qresource>
 </RCC>

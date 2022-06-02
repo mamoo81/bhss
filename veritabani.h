@@ -100,6 +100,7 @@ public slots:
     void stokHareketiEkle(User _kullanici, QString _barkod, QString _islem, float _miktar);
     QStringList getStokBirimleri();
     int getBirimID(QString pBirim);
+    QString getBirimAd(int birimID);
     QSqlQueryModel *getCariHareketleri(QString _cariID);
     double getCariToplamAlacak(QString _cariID);
     double getCariToplamBorc(QString _cariID);

@@ -31,6 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QStandardPaths>
 #include <QSysInfo>
 #include <QDebug>
+#include <QPainter>
 
 Yazici::Yazici()
 {
@@ -147,6 +148,57 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
 void Yazici::setKullanici(const User &newKullanici)
 {
     kullanici = newKullanici;
+}
+
+void Yazici::rafEtiketiBas(StokKarti kart)
+{
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    etiketYazici = genelAyarlar.value("yazici").toString();
+    genelAyarlar.endGroup();
+
+    // sayfa tanımlamaları
+    printer->setPrinterName(etiketYazici);
+    printer->setPageSizeMM(QSize(72,33));
+    printer->setPageMargins(0,4,0,6, QPrinter::Millimeter);
+    printer->setResolution(300);
+
+    QPainter painter(printer);
+    // ürün adı
+    QFont font("Halvetica", 7);
+    painter.setFont(font);
+    painter.drawText(QPoint(0,5), kart.getAd());
+
+    // urun barkod img
+    painter.drawImage(QPoint(0,25), kart.getBarkodImg(), QRect(0,0, 350,125));
+
+    // urun guncelleme tarihi
+    font = QFont("Halvetica", 4, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(300, 200), "Güncelleme: " + kart.getTarih().toString("dd.MM.yyyy"));
+
+    // ürün birimi
+    font = QFont("Halvetica", 5);
+    painter.setFont(font);
+    painter.drawText(QPoint(250, 50), ("1 x " + vt.getBirimAd(kart.getBirim()) + " ="));
+
+    // TL logosu
+    font = QFont("Halvetica", 14);
+    painter.setFont(font);
+    painter.drawText(QPoint(220, 140), QString("₺"));
+
+    // ürün fiyatı
+    font = QFont("Halvetica", 20, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(255, 140), QString::number(kart.getSFiyat(), 'f', 2));
+
+    // yerli ürün logosu
+    if(kart.getBarkod().front() == '8'){
+        painter.drawImage(QPoint(0, 150), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
+    }
+    painter.end();
 }
 
 void Yazici::cikisRaporuBas(User _user)

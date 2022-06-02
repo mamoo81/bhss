@@ -93,6 +93,7 @@ void AyarlarDialog::formLoad()
 
     // sistemdeki yazıcıların okunması
     ui->fisYazicisicomboBox->addItems(QPrinterInfo::availablePrinterNames());
+    ui->EtiketYazicicomboBox->addItems(QPrinterInfo::availablePrinterNames());
 
     //genel ayarların okunması başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
@@ -158,16 +159,22 @@ void AyarlarDialog::formLoad()
     genelAyarlar.endGroup();
     // uyarı sesleri okuma bitiş
 
-    //yazıcı ayarları okuma başlangıç
+    // fis yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     ui->herZamancheckBox->setChecked(genelAyarlar.value("herZaman").toBool());
     ui->herZamanKasacheckBox->setChecked(genelAyarlar.value("raporHerZaman").toBool());
-    int yaziciIndexi = ui->fisYazicisicomboBox->findText(genelAyarlar.value("yazici").toString());
-    ui->fisYazicisicomboBox->setCurrentIndex(yaziciIndexi);
+    ui->fisYazicisicomboBox->setCurrentIndex(ui->fisYazicisicomboBox->findText(genelAyarlar.value("yazici").toString()));
     ui->SirketAdilineEdit->setText(genelAyarlar.value("sirketAdi").toString());
     ui->SirketAdreslineEdit->setText((genelAyarlar.value("sirketAdres").toString()));
     genelAyarlar.endGroup();
-    //yazici ayarlari okuma bitiş
+    // fis yazici ayarlari okuma bitiş
+
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    ui->EtiketYazicicomboBox->setCurrentIndex(ui->EtiketYazicicomboBox->findText(genelAyarlar.value("yazici").toString()));
+    genelAyarlar.endGroup();
+    // etiket yazıcı ayarları okuma bitiş
+
     // terazi ayarları okuma başlangıç
     genelAyarlar.beginGroup("terazi");
     ui->TeraziMarkacomboBox->setCurrentText(genelAyarlar.value("marka").toString());
@@ -299,7 +306,7 @@ void AyarlarDialog::on_pushButton_clicked()
 
     // genel.ini dosyasına kayıt etme başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-    // yazıcı ayarları kayıt başlangıç
+    // fiş yazıcı ayarları kayıt başlangıç
     genelAyarlar.beginGroup("fis-yazici");
     genelAyarlar.setValue("herZaman", ui->herZamancheckBox->isChecked());
     genelAyarlar.setValue("raporHerZaman", ui->herZamanKasacheckBox->isChecked());
@@ -307,7 +314,13 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("sirketAdi", ui->SirketAdilineEdit->text());
     genelAyarlar.setValue("sirketAdres", ui->SirketAdreslineEdit->text());
     genelAyarlar.endGroup();
-    // yazıcı ayarları kayıt bitiş.
+    // fiş yazıcı ayarları kayıt bitiş.
+
+    // etiket yazıcı ayarkarı kayıt başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    genelAyarlar.setValue("yazici", ui->EtiketYazicicomboBox->currentText());
+    genelAyarlar.endGroup();
+    // etiket yazıcı ayarları kayıt bitiş.
 
     // terazi ayarları kayıt başlangıç
     genelAyarlar.beginGroup("terazi");

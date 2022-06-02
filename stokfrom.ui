@@ -57,6 +57,9 @@
      <height>371</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="alternatingRowColors">
     <bool>true</bool>
    </property>
@@ -995,6 +998,9 @@
      <family>Monospace</family>
      <pointsize>12</pointsize>
     </font>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
    </property>
    <property name="text">
     <string>Sil</string>

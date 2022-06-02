@@ -21,6 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #include "stokkarti.h"
 
+#include <QProcess>
+#include <QDebug>
 StokKarti::StokKarti()
 {
 
@@ -213,4 +215,20 @@ const QPixmap &StokKarti::getResim() const
 void StokKarti::setResim(const QPixmap &newResim)
 {
     resim = newResim;
+}
+
+QImage StokKarti::getBarkodImg() const
+{
+    QFile barkodImgDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/" + getBarkod() + ".svg");
+    if(!QFileInfo(barkodImgDosya).exists()){
+        //barkod image oluşturma
+        QString kirpilmisBarkod = QString(getBarkod().left(getBarkod().count() - 1));// barkodun son hanesi doğrulama hanesi olduğu için zint kendi veriyor. kırpıyorum.
+        // zint ile EAN-8 veya EAN-13(TR DE KULLANILAN BARKOD TİPİ) barkod resmini oluşturma
+        QString zintKomut("zint -b 13 -o " + QFileInfo(barkodImgDosya).absoluteFilePath() + " -d \"" + kirpilmisBarkod + "\"");
+        int exitCode = system(qPrintable(zintKomut));
+        if(!exitCode == QProcess::NormalExit){
+            qDebug() << "barkodIMG oluşturulamadı";
+        }
+    }
+    return QImage(QFileInfo(barkodImgDosya).absoluteFilePath());
 }

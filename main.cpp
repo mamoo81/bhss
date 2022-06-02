@@ -104,6 +104,10 @@ int main(int argc, char *argv[])
         if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation))){
             QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
         }
+        // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
+        if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/mhss/barkodlar/")){
+            QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/mhss/barkodlar/");
+        }
 
         LoginForm w;
         w.show();

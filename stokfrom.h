@@ -52,6 +52,11 @@ public:
 
 public slots:
     void setUser(User user);
+
+    void customMenuRequested(QPoint pos);
+
+    void tekRafEtiketiYazdir();
+
 private slots:
     void on_StokGrupBtn_clicked();
 
@@ -117,6 +122,8 @@ private slots:
 
     void key_F5_Slot();
 
+    void key_F6_Slot();
+
 private:
     Ui::StokFrom *ui;
 
@@ -134,6 +141,7 @@ private:
     QShortcut *key_F3;
     QShortcut *key_F4;
     QShortcut *key_F5;
+    QShortcut *key_F6;
     QShortcut *key_Down;
     QShortcut *key_DownArrow;
     QShortcut *key_Up;

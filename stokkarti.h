@@ -29,6 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QImage>
 #include <QFile>
 #include <QFileInfo>
+#include <QImage>
 
 class StokKarti
 {
@@ -89,6 +90,8 @@ public:
 
     const QPixmap &getResim() const;
     void setResim(const QPixmap &newResim);
+
+    QImage getBarkodImg() const;
 
 private:
     QString id;

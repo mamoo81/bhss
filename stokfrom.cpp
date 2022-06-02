@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "stokhareketleridialog.h"
 #include "resimekledialog.h"
 #include "stokkartlarimodel.h"
+#include "yazici.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -42,6 +43,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QStandardPaths>
 #include <QRandomGenerator>
 #include <QString>
+#include <QMenu>
 
 #include <QScroller>
 
@@ -125,6 +127,10 @@ void StokFrom::formLoad()
     key_F5->setKey(Qt::Key_F5);
     connect(key_F5, SIGNAL(activated()), this, SLOT(key_F5_Slot()));
 
+    key_F6 = new QShortcut(this);
+    key_F6->setKey(Qt::Key_F5);
+    connect(key_F6, SIGNAL(activated()), this, SLOT(key_F6_Slot()));
+
     QScroller::grabGesture(ui->StokKartlaritableView, QScroller::LeftMouseButtonGesture);
     QScroller::grabGesture(ui->ureticicomboBox, QScroller::LeftMouseButtonGesture);
 
@@ -135,6 +141,62 @@ void StokFrom::setUser(User user)
 {
     kullanici = user;
     this->setWindowTitle("STOK KARTLARI - " + kullanici.getUserName());
+}
+
+void StokFrom::customMenuRequested(QPoint pos)
+{
+    QModelIndex index = ui->StokKartlaritableView->indexAt(pos);
+
+    QMenu *menu = new QMenu(this);
+
+    QAction *etiketYazdirAction = new QAction(this);
+    etiketYazdirAction->setIcon(QIcon(":/images/ui/label-printer.png"));
+    etiketYazdirAction->setFont(QFont("Monospace", 12));
+    etiketYazdirAction->setText("Raf etiketi yazdır");
+    etiketYazdirAction->setShortcut(QKeySequence(Qt::Key_F6));
+    connect(etiketYazdirAction, SIGNAL(triggered()), this, SLOT(tekRafEtiketiYazdir()));
+    menu->addAction(etiketYazdirAction);
+
+    QAction *duzenleAction = new QAction(this);
+    duzenleAction->setIcon(QIcon(":/images/ui/edit-property-100.png"));
+    duzenleAction->setFont(QFont("Monospace", 12));
+    duzenleAction->setText("Düzenle");
+    duzenleAction->setShortcut(QKeySequence(Qt::Key_F2));
+    connect(duzenleAction, SIGNAL(triggered()), this, SLOT(key_F2_Slot()));
+    menu->addAction(duzenleAction);
+
+    QAction *silAction = new QAction(this);
+    silAction->setIcon(QIcon(":/images/ui/delete-document-100.png"));
+    silAction->setFont(QFont("Monospace", 12));
+    silAction->setText("Sil");
+    silAction->setShortcut(QKeySequence(Qt::Key_F3));
+    connect(silAction, SIGNAL(triggered(bool)), this, SLOT(key_F3_Slot()));
+    menu->addAction(silAction);
+
+    QAction *stokGirAction = new QAction(this);
+    stokGirAction->setIcon(QIcon(":/images/ui/plus.png"));
+    stokGirAction->setFont(QFont("Monospace", 12));
+    stokGirAction->setText("Stok Gir");
+    stokGirAction->setShortcut(QKeySequence(Qt::Key_F4));
+    connect(stokGirAction, SIGNAL(triggered(bool)), this, SLOT(on_StokGirBtn_clicked()));
+    menu->addAction(stokGirAction);
+
+    QAction *stokCikAction = new QAction(this);
+    stokCikAction->setIcon(QIcon(":/images/ui/negative.png"));
+    stokCikAction->setFont(QFont("Monospace", 12));
+    stokCikAction->setText("Stok Çık");
+    stokCikAction->setShortcut(QKeySequence(Qt::Key_F5));
+    connect(stokCikAction, SIGNAL(triggered(bool)), this, SLOT(on_StokCikBtn_clicked()));
+    menu->addAction(stokCikAction);
+
+    menu->popup(ui->StokKartlaritableView->viewport()->mapToGlobal(pos));
+}
+
+void StokFrom::tekRafEtiketiYazdir()
+{
+    Yazici *yazici = new Yazici();
+    yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()));
+    delete yazici;
 }
 
 void StokFrom::grupComboboxDoldur()
@@ -156,7 +218,7 @@ void StokFrom::stokKartlariniListele()
     ui->StokKartlaritableView->resizeColumnsToContents();
     ui->StokKartlaritableView->setSortingEnabled(true);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
-
+    connect(ui->StokKartlaritableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
 }
 
@@ -641,7 +703,7 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 
 void StokFrom::on_BarkodOlusturBtn_clicked()
 {
-    QString uretilenBarkod(QString::number(QRandomGenerator::global()->generate()));
+    QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(80000000, 89999999)));
     if(!vt->barkodVarmi(uretilenBarkod)){
         ui->BarkodLnEdit->setText(uretilenBarkod);
     }
@@ -802,4 +864,9 @@ void StokFrom::key_F4_Slot()
 void StokFrom::key_F5_Slot()
 {
     on_StokCikBtn_clicked();
+}
+
+void StokFrom::key_F6_Slot()
+{
+
 }

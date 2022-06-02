@@ -1443,6 +1443,20 @@ int Veritabani::getBirimID(QString pBirim)
     return 0;
 }
 
+QString Veritabani::getBirimAd(int birimID)
+{
+    sorgu.prepare("SELECT birim FROM stokbirimleri WHERE id = ?");
+    sorgu.bindValue(0, birimID);
+    sorgu.exec();
+    if(sorgu.next()){
+        return sorgu.value(0).toString();
+    }
+    else{
+        qWarning(qPrintable(sorgu.lastError().text()));
+    }
+    return QString();
+}
+
 Sepet Veritabani::getSatis(QString _faturaNo)
 {
     Sepet satilmisSepet;
