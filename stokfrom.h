@@ -55,7 +55,7 @@ public slots:
 
     void customMenuRequested(QPoint pos);
 
-    void tekRafEtiketiYazdir();
+    void hizliRafEtiketiYazdir();
 
 private slots:
     void on_StokGrupBtn_clicked();

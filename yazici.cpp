@@ -175,7 +175,7 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     painter.drawImage(QPoint(0,25), kart.getBarkodImg(), QRect(0,0, 350,125));
 
     // urun guncelleme tarihi
-    font = QFont("Halvetica", 4, QFont::Bold);
+    font = QFont("Halvetica", 5, QFont::Bold);
     painter.setFont(font);
     painter.drawText(QPoint(300, 200), "Güncelleme: " + kart.getTarih().toString("dd.MM.yyyy"));
 

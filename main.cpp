@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QStandardPaths>
 #include <QFileInfo>
 #include <QDir>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -105,8 +106,10 @@ int main(int argc, char *argv[])
             QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
         }
         // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
-        if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/mhss/barkodlar/")){
-            QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/mhss/barkodlar/");
+        auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/";
+        qDebug() << barkodlarDizin;
+        if(!QFileInfo::exists(barkodlarDizin)){
+            QDir().mkdir(barkodlarDizin);
         }
 
         LoginForm w;

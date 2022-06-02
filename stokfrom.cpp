@@ -128,7 +128,7 @@ void StokFrom::formLoad()
     connect(key_F5, SIGNAL(activated()), this, SLOT(key_F5_Slot()));
 
     key_F6 = new QShortcut(this);
-    key_F6->setKey(Qt::Key_F5);
+    key_F6->setKey(Qt::Key_F6);
     connect(key_F6, SIGNAL(activated()), this, SLOT(key_F6_Slot()));
 
     QScroller::grabGesture(ui->StokKartlaritableView, QScroller::LeftMouseButtonGesture);
@@ -145,7 +145,8 @@ void StokFrom::setUser(User user)
 
 void StokFrom::customMenuRequested(QPoint pos)
 {
-    QModelIndex index = ui->StokKartlaritableView->indexAt(pos);
+    // satırı böyle bu void içinde de alabilirsin.
+    //QModelIndex index = ui->StokKartlaritableView->indexAt(pos);
 
     QMenu *menu = new QMenu(this);
 
@@ -154,7 +155,7 @@ void StokFrom::customMenuRequested(QPoint pos)
     etiketYazdirAction->setFont(QFont("Monospace", 12));
     etiketYazdirAction->setText("Raf etiketi yazdır");
     etiketYazdirAction->setShortcut(QKeySequence(Qt::Key_F6));
-    connect(etiketYazdirAction, SIGNAL(triggered()), this, SLOT(tekRafEtiketiYazdir()));
+    connect(etiketYazdirAction, SIGNAL(triggered(bool)), this, SLOT(hizliRafEtiketiYazdir()));
     menu->addAction(etiketYazdirAction);
 
     QAction *duzenleAction = new QAction(this);
@@ -162,7 +163,7 @@ void StokFrom::customMenuRequested(QPoint pos)
     duzenleAction->setFont(QFont("Monospace", 12));
     duzenleAction->setText("Düzenle");
     duzenleAction->setShortcut(QKeySequence(Qt::Key_F2));
-    connect(duzenleAction, SIGNAL(triggered()), this, SLOT(key_F2_Slot()));
+    connect(duzenleAction, SIGNAL(triggered(bool)), this, SLOT(key_F2_Slot()));
     menu->addAction(duzenleAction);
 
     QAction *silAction = new QAction(this);
@@ -192,7 +193,7 @@ void StokFrom::customMenuRequested(QPoint pos)
     menu->popup(ui->StokKartlaritableView->viewport()->mapToGlobal(pos));
 }
 
-void StokFrom::tekRafEtiketiYazdir()
+void StokFrom::hizliRafEtiketiYazdir()
 {
     Yazici *yazici = new Yazici();
     yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()));
@@ -868,5 +869,7 @@ void StokFrom::key_F5_Slot()
 
 void StokFrom::key_F6_Slot()
 {
-
+    if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
+        hizliRafEtiketiYazdir();
+    }
 }
