@@ -352,6 +352,15 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     db.setDatabaseName("postgres");
     //veritabanını silme
     db.open();
+
+    // başka bir yerde bağlantı açıksa veya açık kaldıysa mhss_data veritabanına açık tüm bağlantıları sonlandırma.
+    QSqlQuery vtTumBaglantiKesmeSorgu = QSqlQuery(db);
+    vtTumBaglantiKesmeSorgu.exec("SELECT pg_terminate_backend(pg_stat_activity.pid) "
+                                 "FROM pg_stat_activity "
+                                 "WHERE pg_stat_activity.datname = 'mhss_data'"
+                                 "AND pid <> pg_backend_pid()");
+    qWarning(qPrintable(vtTumBaglantiKesmeSorgu.lastError().text()));
+
     QSqlQuery yedekSorgu = QSqlQuery(db);
     yedekSorgu.exec("DROP DATABASE mhss_data");
     if(!QString(yedekSorgu.lastError().text()).isEmpty()){
@@ -367,6 +376,7 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     db.open();
     QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data < " + _dosyaYolu;
     int exitCode = system(qPrintable(geriYuklemeKomutu));
+    QFile(_dosyaYolu).remove();
     if(exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut süreci normal olarak bittiyse
         // komut başarılı
         return true;

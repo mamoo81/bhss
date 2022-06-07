@@ -4720,24 +4720,36 @@ void SatisForm::on_CarpBtn_clicked()
 
 void SatisForm::on_AyarlarBtn_clicked()
 {
-    if(kullanici.getAyaryetki()){
-        AyarlarDialog *ayarForm = new AyarlarDialog(this);
-        ayarForm->setCurrentUser(kullanici);
-        ayarForm->exec();
-        delete ayarForm;
-        // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
-        hizliUrunButonlariAyarla();
-        hizliUrunSayfaAyarla();
-    }
-    else{
+    if(!sepet[0].sepetBosmu() || !sepet[1].sepetBosmu() || !sepet[2].sepetBosmu() || !sepet[3].sepetBosmu()){
         uyariSesi->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
-        msg.setText("Ayarlara erişim ve düzenleme yetkiniz yoktur.");
+        msg.setText("Satışı yapılmamış sepetiniz varken ayarları açamassınız!");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
+    }
+    else{
+        if(kullanici.getAyaryetki()){
+            AyarlarDialog *ayarForm = new AyarlarDialog(this);
+            ayarForm->setCurrentUser(kullanici);
+            ayarForm->exec();
+            delete ayarForm;
+            // veritabanı sıfırlandıysa hızlı butonları sıfırlasın/ayarlasın.
+            hizliUrunButonlariAyarla();
+            hizliUrunSayfaAyarla();
+        }
+        else{
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Ayarlara erişim ve düzenleme yetkiniz yoktur.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
     ui->barkodLineEdit->setFocus();
 }

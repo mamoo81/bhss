@@ -107,7 +107,6 @@ int main(int argc, char *argv[])
         }
         // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
         auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/";
-        qDebug() << barkodlarDizin;
         if(!QFileInfo::exists(barkodlarDizin)){
             QDir().mkdir(barkodlarDizin);
         }

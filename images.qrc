@@ -77,8 +77,8 @@
         <file>sounds/odeme-alindi.wav</file>
     </qresource>
     <qresource prefix="/dosyalar">
-        <file>dosyalar/mhss_data.sql</file>
         <file>mhss.desktop</file>
         <file>dosyalar/yerli-uretim-logo.png</file>
+        <file>dosyalar/mhss_data.sql</file>
     </qresource>
 </RCC>

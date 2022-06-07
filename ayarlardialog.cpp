@@ -438,7 +438,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
         QFileDialog dialog(this);
         dialog.setWindowTitle("Veritabanı yedeğini seçiniz");
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-        dialog.setNameFilter(tr("Veritabanı dump dosyası (*.sql)"));
+        dialog.setNameFilter(tr("Veritabanı sql dosyası (*.sql)"));
         dialog.setLabelText(QFileDialog::Accept, tr("Seç"));
         dialog.setLabelText(QFileDialog::Reject, tr("Vazgeç"));
         dialog.setLabelText(QFileDialog::FileName, tr("Dosya"));
