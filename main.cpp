@@ -118,7 +118,14 @@ int main(int argc, char *argv[])
     else{
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisini kontrol edin. Konsola sırasıyla uygulayın;\n\nsudo servis ekle postgresql\nsudo servis aktif postgresql\nsudo servis kos postgresql");
+        msg.setText("PostgreSQL servisini kontrol edin. İşletim sisteminize göre konsola sırasıyla uygulayın;\n"
+                    "MİLİS LİNUX;"
+                    "\n\n   sudo servis ekle postgresql"
+                    "\n   sudo servis aktif postgresql"
+                    "\n   sudo servis kos postgresql"
+                    "\n"
+                    "PARDUS;"
+                    "\n\n   sudo apt-get install postgresql-13");
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Ok);
