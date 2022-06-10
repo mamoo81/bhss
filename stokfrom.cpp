@@ -641,6 +641,8 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
 void StokFrom::on_araBtn_clicked()
 {
     stokKartiAra(ui->AraLineEdit->text());
+    ui->AraLineEdit->setFocus();
+    ui->AraLineEdit->selectAll();
 }
 
 
@@ -872,4 +874,10 @@ void StokFrom::key_F6_Slot()
     if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
         hizliRafEtiketiYazdir();
     }
+}
+
+void StokFrom::on_barkodRadioButton_clicked()
+{
+    ui->AraLineEdit->setFocus();
+    ui->AraLineEdit->selectAll();
 }

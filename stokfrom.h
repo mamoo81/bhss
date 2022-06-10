@@ -124,6 +124,8 @@ private slots:
 
     void key_F6_Slot();
 
+    void on_barkodRadioButton_clicked();
+
 private:
     Ui::StokFrom *ui;
 
