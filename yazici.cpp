@@ -166,6 +166,7 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     printer->setResolution(300);
 
     QPainter painter(printer);
+
     // ürün adı
     QFont font("Halvetica", 7);
     painter.setFont(font);

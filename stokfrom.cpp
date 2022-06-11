@@ -31,6 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "resimekledialog.h"
 #include "stokkartlarimodel.h"
 #include "yazici.h"
+#include "rafetiketidialog.h"
 //***************************
 #include <QSqlQueryModel>
 #include <QDebug>
@@ -807,6 +808,7 @@ void StokFrom::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
     yeniResim.close();
 
     if(!QFileInfo(yeniResim).exists()){
+        uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Information);
@@ -880,4 +882,11 @@ void StokFrom::on_barkodRadioButton_clicked()
 {
     ui->AraLineEdit->setFocus();
     ui->AraLineEdit->selectAll();
+}
+
+void StokFrom::on_toolButton_clicked()
+{
+    RafEtiketiDialog *rafEtiketForm = new RafEtiketiDialog(this);
+    rafEtiketForm->exec();
+    delete rafEtiketForm;
 }

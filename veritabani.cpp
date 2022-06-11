@@ -1325,6 +1325,21 @@ QSqlQueryModel *Veritabani::getStokKartlari(QString query)
     return stokKartlariModel;
 }
 
+QSqlQueryModel *Veritabani::getStokKartlariEtiket()
+{
+    sorgu.prepare("SELECT barkod, ad, sfiyat, tarih FROM stokkartlari ORDER BY tarih DESC");
+    sorgu.exec();
+    stokKartlariModel->setQuery(sorgu);
+    stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Barkod");
+    stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Ürün Adı");
+    stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Satış Fiyatı");
+    stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Güncelleme Tarihi");
+    if(stokKartlariModel->lastError().isValid()){
+        qWarning(qPrintable(stokKartlariModel->lastError().text()));
+    }
+    return stokKartlariModel;
+}
+
 QStringList Veritabani::stokGruplariGetir()
 {
     sorgu.exec("SELECT grup FROM stokgruplari");

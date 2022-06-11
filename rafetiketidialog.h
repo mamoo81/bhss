@@ -21,8 +21,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef RAFETIKETIDIALOG_H
 #define RAFETIKETIDIALOG_H
+#include "veritabani.h"
+#include "yazici.h"
 
 #include <QDialog>
+#include <QSound>
+#include <QKeyEvent>
 
 namespace Ui {
 class RafEtiketiDialog;
@@ -36,8 +40,52 @@ public:
     explicit RafEtiketiDialog(QWidget *parent = nullptr);
     ~RafEtiketiDialog();
 
+    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
+
+public slots:
+
+    void stokKartlaricustomContextMenuRequested(QPoint pos);
+
+    void yazdirilacaklarcustomContextMenuRequested(QPoint pos);
+
+    void stokKartlariniListele();
+
+    void ListeyeEkle();
+
+    void ListedenCikar();
+
+    void ButonDurumlariniAyarla();
+
+    void keyPressEvent(QKeyEvent *event);
+
+    void stokKartiAra(QString aranacakMetin);
+private slots:
+    void on_eklepushButton_clicked();
+
+    void on_cikarpushButton_clicked();
+
+    void on_yazdirtoolButton_clicked();
+
+    void on_hepsiStokkartlaricheckBox_clicked();
+
+    void on_HepsiYazdirilacakcheckBox_clicked();
+
+    void on_DurdurtoolButton_clicked();
+
+    void on_arapushButton_clicked();
+
+    void on_aralineEdit_textChanged(const QString &arg1);
+
+    void on_adindaradioButton_clicked();
+
+    void on_barkodradioButton_clicked();
+
 private:
     Ui::RafEtiketiDialog *ui;
+
+    Veritabani *vtEtiket = new Veritabani();
+    Yazici *yaziciEtiket = new Yazici();
+
 };
 
 #endif // RAFETIKETIDIALOG_H

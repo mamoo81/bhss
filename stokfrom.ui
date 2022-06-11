@@ -762,7 +762,7 @@
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
-     <normaloff>:/images/ui/search-100.png</normaloff>:/images/ui/search-100.png</iconset>
+     <normaloff>:/images/ui/search.png</normaloff>:/images/ui/search.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1029,7 +1029,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Raf etiketi yazdır</string>
+    <string>Toplu raf etiketi yazdır</string>
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
