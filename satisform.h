@@ -435,6 +435,8 @@ private slots:
 
     void on_GecmisSatislartoolButton_clicked();
 
+    void on_BildirimlertoolButton_clicked();
+
 private:
     Ui::SatisForm *ui;
 

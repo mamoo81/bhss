@@ -4859,5 +4859,12 @@ void SatisForm::on_GecmisSatislartoolButton_clicked()
     GecmisSatislarDialog *gecmisSatisForm = new GecmisSatislarDialog(this);
     gecmisSatisForm->exec();
     delete gecmisSatisForm;
+
+    ui->barkodLineEdit->setFocus();
 }
 
+
+void SatisForm::on_BildirimlertoolButton_clicked()
+{
+    ui->barkodLineEdit->setFocus();
+}

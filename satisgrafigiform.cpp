@@ -81,3 +81,8 @@ SatisGrafigiForm::~SatisGrafigiForm()
 {
     delete ui;
 }
+
+void SatisGrafigiForm::AralıkBelirle(QDate baslangicTarih, QDate bitisTarih)
+{
+
+}

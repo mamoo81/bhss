@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define SATISGRAFIGIFORM_H
 
 #include <QDialog>
+#include <QDate>
 
 namespace Ui {
 class SatisGrafigiForm;
@@ -32,12 +33,23 @@ class SatisGrafigiForm : public QDialog
 {
     Q_OBJECT
 
+    enum aralik{
+        Gunluk = 0,
+        Haftalik = 1,
+        Aylik = 2,
+        Yillik = 3
+    };
+
 public:
     explicit SatisGrafigiForm(QWidget *parent = nullptr);
     ~SatisGrafigiForm();
 
+    void AralıkBelirle(QDate baslangicTarih, QDate bitisTarih);
+
+
 private slots:
     void FormLoad();
+
 private:
     Ui::SatisGrafigiForm *ui;
 };
