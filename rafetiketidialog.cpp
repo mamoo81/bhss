@@ -40,6 +40,16 @@ RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
     // barkodda ara aktif olduğu için ilk etapta textchanged sinyalini iptal ediyorum. adında ara seçeneğine basınca connect ediyorum.
     disconnect(ui->aralineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_aralineEdit_textChanged(QString)));
 
+    key_left = new QShortcut(this);
+    key_left->setKey(Qt::Key_Left);
+    connect(key_left, SIGNAL(activated()), this, SLOT(ListedenCikar()));
+
+    key_right = new QShortcut(this);
+    key_right->setKey(Qt::Key_Right);
+    connect(key_right, SIGNAL(activated()), this, SLOT(ListeyeEkle()));
+
+
+
 }
 
 RafEtiketiDialog::~RafEtiketiDialog()
@@ -121,6 +131,7 @@ void RafEtiketiDialog::ListeyeEkle()
     ui->yazdirilacaklartableWidget->selectRow(ui->yazdirilacaklartableWidget->rowCount() -1);
     ui->yazdirilacakAdetlabel->setText(QString::number(ui->yazdirilacaklartableWidget->rowCount()));
     ui->yazdirilacaklartableWidget->resizeColumnsToContents();
+    ui->yazdirilacaklartableWidget->sortByColumn(1, Qt::AscendingOrder);
     ButonDurumlariniAyarla();
 }
 
@@ -322,4 +333,10 @@ void RafEtiketiDialog::on_barkodradioButton_clicked()
     ui->aralineEdit->setFocus();
     ui->aralineEdit->selectAll();
     disconnect(ui->aralineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_aralineEdit_textChanged(QString)));
+}
+
+void RafEtiketiDialog::on_TemizletoolButton_clicked()
+{
+    ui->yazdirilacaklartableWidget->model()->removeRows(0, ui->yazdirilacaklartableWidget->rowCount());
+    ui->yazdirilacakAdetlabel->setText(QString::number(ui->yazdirilacaklartableWidget->rowCount()));
 }

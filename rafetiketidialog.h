@@ -27,6 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDialog>
 #include <QSound>
 #include <QKeyEvent>
+#include <QShortcut>
 
 namespace Ui {
 class RafEtiketiDialog;
@@ -80,11 +81,16 @@ private slots:
 
     void on_barkodradioButton_clicked();
 
+    void on_TemizletoolButton_clicked();
+
 private:
     Ui::RafEtiketiDialog *ui;
 
     Veritabani *vtEtiket = new Veritabani();
     Yazici *yaziciEtiket = new Yazici();
+
+    QShortcut *key_left;
+    QShortcut *key_right;
 
 };
 

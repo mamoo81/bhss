@@ -31,11 +31,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
+#include <QSplashScreen>
+#include <QPixmap>
+#include <QTimer>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("mhss");
+
+    QPixmap splashscreenimage(":/images/ui/splash-screen.png");
+
+    QSplashScreen splash(splashscreenimage);// png yerine bir form class tasarlayıp onu da gösterebilirsin.
+    splash.show();
+//    splash.showMessage("Uygulama başlatılıyor...", Qt::AlignVCenter);
+    a.processEvents();
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
@@ -112,7 +122,12 @@ int main(int argc, char *argv[])
         }
 
         LoginForm w;
-        w.show();
+
+        QTimer::singleShot(2500, &splash, SLOT(close()));
+        QTimer::singleShot(2500, &w, SLOT(show()));
+
+//        w.show();
+//        splash.finish(&w); QTimer ile kapatacağım için buna gerek yok.
         return a.exec();
     }
     else{
