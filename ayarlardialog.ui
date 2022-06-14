@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -659,7 +659,7 @@
      <property name="title">
       <string>Etiket Yazıcı Ayarları</string>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>
@@ -2482,7 +2482,7 @@
       <item row="0" column="1" colspan="2">
        <widget class="QLabel" name="label_36">
         <property name="text">
-         <string>0.1.6</string>
+         <string>0.1.7</string>
         </property>
        </widget>
       </item>
