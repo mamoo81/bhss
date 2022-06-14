@@ -54,6 +54,28 @@ sudo servis kos postgresql
 sudo servis aktif postgresql
 ```
 
+#### Pardus GNU/Linux
+Güncellemerin kurulumu
+```
+sudo apt-get update
+sudo apt-get upgrade
+```
+Gereklerin kurulumu
+```
+sudo apt-get install postgresql-13 zint qt5-qmake qtdeclarative5-dev qttools5-dev libqt5serialport5-dev qtmultimedia5-dev libqt5charts5-dev libqt5sql5-psql
+```
+MHSS nin kaynaktan kurulumu
+```
+git clone https://mls.akdeniz.edu.tr/git/mamoo/mhss.git
+cd mhss && mkdir build && cd build
+qmake ../mhss.pro
+make
+sudo make install
+```
+
+MHSS nin çalıştırılması.
+terminalden ```mhss```
+
 #### MHSS Giriş bilgileri
 ```
 kullanıcı: admin
