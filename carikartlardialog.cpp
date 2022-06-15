@@ -109,6 +109,12 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariyeStokluSatistoolButton->setEnabled(true);
         ui->CariyeStoksuzSatistoolButton->setEnabled(true);
     }
+
+    double carilerToplamBorc = vt.getcarilerToplamBorc();
+    double carilerToplamAlacak = vt.getCarilerToplamAlacak();
+    ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
+    ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
+    ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
 }
 
 void CariKartlarDialog::cariHareketleriTableSelectionChanged()

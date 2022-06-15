@@ -976,6 +976,50 @@ double Veritabani::getCariToplamBorc(QString _cariID)
     }
 }
 
+double Veritabani::getCarilerToplamAlacak()
+{
+    double kalanTutar, odenenTutar;
+    sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 1");
+    sorgu.exec();
+    if(sorgu.next()){
+        kalanTutar = sorgu.value(0).toDouble();
+    }
+    else{
+        kalanTutar = 0;
+    }
+    sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 4");
+    sorgu.exec();
+    if(sorgu.next()){
+        odenenTutar = sorgu.value(0).toDouble();
+    }
+    else{
+        odenenTutar = 0;
+    }
+    return kalanTutar - odenenTutar;
+}
+
+double Veritabani::getcarilerToplamBorc()
+{
+    double kalanTutar, odenenTutar;
+    sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1000')  AND tipi = 2"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+    sorgu.exec();
+    if(sorgu.next()){
+        kalanTutar = sorgu.value(0).toDouble();
+    }
+    else{
+        kalanTutar = 0;
+    }
+    sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 5"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+    sorgu.exec();
+    if(sorgu.next()){
+        odenenTutar = sorgu.value(0).toDouble();
+    }
+    else{
+        odenenTutar = 0;
+    }
+    return kalanTutar - odenenTutar;
+}
+
 void Veritabani::yeniCariKart(Cari _cariKart)
 {
     sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "

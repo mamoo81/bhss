@@ -533,7 +533,7 @@ color: rgb(0, 0, 0);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -557,7 +557,7 @@ color: rgb(0, 0, 0);</string>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="CarilerToplamBorclabel">
        <property name="font">
         <font>
          <family>Monospace</family>
@@ -586,7 +586,7 @@ color: rgb(0, 0, 0);</string>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label_10">
+      <widget class="QLabel" name="CarilerToplamAlacaklabel">
        <property name="font">
         <font>
          <family>Monospace</family>
@@ -603,7 +603,7 @@ color: rgb(0, 0, 0);</string>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -615,16 +615,19 @@ color: rgb(0, 0, 0);</string>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label_8">
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="text">
         <string>Bakiye</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_11">
+      <widget class="QLabel" name="CarilerBakiyelabel">
        <property name="font">
         <font>
          <family>Monospace</family>
@@ -764,7 +767,7 @@ color: rgb(0, 0, 0);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
