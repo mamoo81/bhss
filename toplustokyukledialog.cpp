@@ -30,6 +30,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 TopluStokYukleDialog::TopluStokYukleDialog(QWidget *parent) :
     QDialog(parent),
@@ -64,6 +66,8 @@ void TopluStokYukleDialog::on_SecpushButton_clicked()
         QJsonObject object =document.object();
         ui->Bilgilabel->setText("Toplam: " + QString::number(object.keys().count()) + " adet stok kartı var");
         ui->progressBar->setMaximum(object.keys().count());
+
+        ui->groupBox->setEnabled(true);
     }
     // dosya csv ise içindeki stok kartı sayısını labele yazma.
     if(dosyaBilgisi.suffix().contains("csv", Qt::CaseInsensitive)){
@@ -82,6 +86,8 @@ void TopluStokYukleDialog::on_SecpushButton_clicked()
             stokkartiSayisi++;
         }
         dosya.close();
+
+        ui->groupBox->setEnabled(false);
 
         ui->Bilgilabel->setText("Toplam: " + QString::number(stokkartiSayisi - 1) + " adet stok kartı var");
         ui->progressBar->setMaximum(stokkartiSayisi - 1);
@@ -276,4 +282,29 @@ void TopluStokYukleDialog::csvdenYukle()
 void TopluStokYukleDialog::on_KapatpushButton_clicked()
 {
     this->close();
+}
+
+void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
+{
+    QFileDialog dialog(this);
+    QString dizin = dialog.getExistingDirectory(this, tr("Kayıt yeri seçin."), QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+
+    if(!QFileInfo(dizin + "/" + "stok-kartlari.csv").exists()){
+        QFile(":/dosyalar/dosyalar/stok-kartlari.csv").copy(dizin + "/stok-kartlari.csv");
+    }
+    else{
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Dosya zaten mevcut üzerine yazayım mı?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        int cevap = msg.exec();
+        if(cevap == QMessageBox::Yes){
+            QFile(dizin + "/" + "stok-kartlari.csv").remove();
+            QFile(":/dosyalar/dosyalar/stok-kartlari.csv").copy(dizin + "/stok-kartlari.csv");
+        }
+    }
 }

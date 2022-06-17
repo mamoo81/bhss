@@ -66,6 +66,8 @@ private slots:
 
     void on_KapatpushButton_clicked();
 
+    void on_CsvDosyaCikartButton_clicked();
+
 private:
     Ui::TopluStokYukleDialog *ui;
 
