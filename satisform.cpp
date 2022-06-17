@@ -376,12 +376,25 @@ void SatisForm::sepeteEkle()
 {
     if(vt->barkodVarmi(ui->barkodLineEdit->text())){
         stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
-        if(stokKarti.getMiktar() > 0){
-            if(stokKarti.getBirim() == 1){
+
+        // stokkartinda miktar 0'a eşitse veya düşükse sepete eklemeden çık.
+        if(stokKarti.getMiktar() <= 0){
+            uyariSesi->play();
+            QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
+            MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
+            MsgBox.exec();
+            ui->barkodLineEdit->clear();
+            return;
+        }
+
+        // stokkartı birimine göre sepete ve tabloya ekleme
+        switch (stokKarti.getBirim()) {
+            case StokKarti::Birimler::Adet:{
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                break;
             }
-            else if(stokKarti.getBirim() == 2){
+            case StokKarti::Birimler::Kilogram:{
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setModal(true);
                 kgformu->exec();
@@ -390,8 +403,24 @@ void SatisForm::sepeteEkle()
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
                 }
                 delete kgformu;
+                break;
             }
-            else if(stokKarti.getBirim() == 6){
+            case StokKarti::Birimler::Koli:{
+                tableWidgetEkle(stokKarti, 1);
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                break;
+            }
+            case StokKarti::Birimler::Palet:{
+                tableWidgetEkle(stokKarti, 1);
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                break;
+            }
+            case StokKarti::Birimler::Paket:{
+                tableWidgetEkle(stokKarti, 1);
+                sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                break;
+            }
+            case StokKarti::Birimler::Metre:{
                 KgForm *kgformu = new KgForm(this);
                 kgformu->setWindowTitle("Metre Girişi");
                 kgformu->setBirimi("METRE");
@@ -402,19 +431,52 @@ void SatisForm::sepeteEkle()
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
                 }
                 delete kgformu;
+                break;
             }
-            ui->barkodLineEdit->clear();
-            sepetToplaminiYaz();
-            butonDurumlariniAyarla();
-            sepetTabIconlariAyarla();
+            case StokKarti::Birimler::Metrekare:{
+                KgForm *kgformu = new KgForm(this);
+                kgformu->setWindowTitle("Metrekare Girişi");
+                kgformu->setBirimi("METREKARE");
+                kgformu->setModal(true);
+                kgformu->exec();
+                if(kgformu->getGirilenKg() != 0){
+                    tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                }
+                delete kgformu;
+                break;
+            }
+            case StokKarti::Birimler::Metreküp:{
+                KgForm *kgformu = new KgForm(this);
+                kgformu->setWindowTitle("Metreküp Girişi");
+                kgformu->setBirimi("METREKÜP");
+                kgformu->setModal(true);
+                kgformu->exec();
+                if(kgformu->getGirilenKg() != 0){
+                    tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                }
+                delete kgformu;
+                break;
+            }
+            case StokKarti::Birimler::Litre:{
+                KgForm *kgformu = new KgForm(this);
+                kgformu->setWindowTitle("Litre Girişi");
+                kgformu->setBirimi("LİTRE");
+                kgformu->setModal(true);
+                kgformu->exec();
+                if(kgformu->getGirilenKg() != 0){
+                    tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
+                    sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                }
+                delete kgformu;
+                break;
+            }
         }
-        else{
-            uyariSesi->play();
-            QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
-            MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
-            MsgBox.exec();
-            ui->barkodLineEdit->clear();
-        }
+        ui->barkodLineEdit->clear();
+        sepetToplaminiYaz();
+        butonDurumlariniAyarla();
+        sepetTabIconlariAyarla();
     }
     else{
         uyariSesi->play();

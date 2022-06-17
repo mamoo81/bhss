@@ -22,11 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef TOPLUSTOKYUKLEDIALOG_H
 #define TOPLUSTOKYUKLEDIALOG_H
 #include "veritabani.h"
+#include "stokkarti.h"
 //*****************************
 #include <QDialog>
 #include <QFileDialog>
 #include <QFile>
 #include <QFileInfo>
+#include <QSound>
+#include <QVector>
 
 namespace Ui {
 class TopluStokYukleDialog;
@@ -48,14 +51,25 @@ public:
     int yuklenen = 0;
     int esGecilen = 0;
     int basarisiz = 0;
+    QStringList mevcutBarkodlar;
+
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+
+    void jsondanYukle();
+
+    void csvdenYukle();
 
 private slots:
     void on_SecpushButton_clicked();
 
     void on_YuklepushButton_clicked();
 
+    void on_KapatpushButton_clicked();
+
 private:
     Ui::TopluStokYukleDialog *ui;
+
+    QVector<StokKarti> kartlar;
 };
 
 #endif // TOPLUSTOKYUKLEDIALOG_H

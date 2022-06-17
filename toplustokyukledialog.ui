@@ -157,6 +157,22 @@
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="KapatpushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(224, 27, 36);</string>
+   </property>
+   <property name="text">
+    <string>Kapat</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

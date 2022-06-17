@@ -37,6 +37,18 @@ class StokKarti
 public:
     StokKarti();
 
+    enum Birimler{
+        Adet = 1,
+        Kilogram = 2,
+        Koli = 3,
+        Palet = 4,
+        Paket = 5,
+        Metre = 6,
+        Metrekare = 7,
+        Metreküp = 8,
+        Litre = 9
+    };
+
     const QString &getId() const;
     void setId(const QString &newId);
 
