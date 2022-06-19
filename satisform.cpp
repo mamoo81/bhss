@@ -4720,7 +4720,7 @@ void SatisForm::on_iadeAlBtn_clicked()
             msg.setButtonText(QMessageBox::No, "Hayır");
             int cvp = msg.exec();
             if(cvp == QMessageBox::Yes){
-                if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() < vt->getKasadakiPara()){
+                if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() <= vt->getKasadakiPara()){
                     // iade işlemleri başlangıcı.
                     vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
                     // sepet silme başlangıcı
@@ -4919,7 +4919,9 @@ void SatisForm::on_sepet4TableWidget_itemSelectionChanged()
 void SatisForm::on_GecmisSatislartoolButton_clicked()
 {
     GecmisSatislarDialog *gecmisSatisForm = new GecmisSatislarDialog(this);
+    gecmisSatisForm->setKullanici(kullanici);
     gecmisSatisForm->exec();
+
     delete gecmisSatisForm;
 
     ui->barkodLineEdit->setFocus();

@@ -128,6 +128,12 @@ private slots:
 
     void on_toolButton_clicked();
 
+    void on_StokKartlaritableView_clicked(const QModelIndex &index);
+
+    void on_adRadioButton_clicked();
+
+    void on_kodRadioButton_clicked();
+
 private:
     Ui::StokFrom *ui;
 

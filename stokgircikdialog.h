@@ -49,6 +49,8 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_iptalpushButton_clicked();
+
 private:
     Ui::StokGirCikDialog *ui;
 

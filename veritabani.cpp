@@ -45,11 +45,7 @@ Veritabani::~Veritabani()
 {
 
 }
-/**
- * @brief Veritabani::barkodVarmi varkod var ise true döner yok ise false
- * @param _Barkod kontrol edilecek barkod parametresi
- * @return
- */
+
 bool Veritabani::barkodVarmi(QString _Barkod)
 {
     sorgu.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
@@ -90,17 +86,11 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
  */
 void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID)
 {
-    //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    QString FaturaNo = yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(0, FaturaNo);
     sorgu.bindValue(1, _satisYapilanCariID);
     sorgu.bindValue(2, 2);// 2 = satış faturası (veritabanında faturatipleri.tip)
     sorgu.bindValue(3, QDateTime::currentDateTime());
@@ -117,7 +107,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     KasaHareketiEkle(_satisYapanKullanici,
                      "GİRİŞ",
                      _satilacakSepet.sepetToplamTutari(),
-                     "SATIŞ FAT.NO:" + yeniFaturaNo,
+                     "SATIŞ FAT.NO:" + FaturaNo,
                      QDateTime::currentDateTime(),
                      _satilacakSepet.getSepettekiKazanc());
     //sepetteki ürünlerin stok hareketlerine girişi
@@ -125,7 +115,7 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?)");
         sorgu.bindValue(0, urun.barkod);
-        sorgu.bindValue(1, yeniFaturaNo);
+        sorgu.bindValue(1, FaturaNo);
         sorgu.bindValue(2, "SATIŞ");
         sorgu.bindValue(3, urun.miktar);
         sorgu.bindValue(4, QDateTime::currentDateTime());
@@ -146,6 +136,28 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
             qDebug() << sorgu.lastError().text();
         }
     }
+}
+
+QString Veritabani::yeniFaturaNo()
+{
+    sorgu.exec("SELECT * FROM faturalar");
+    // ilk fatura girişi ise faturalar_sequence değerini gönder.
+    if(!sorgu.next()){
+        //yeni fatura numarası için faturalar_sequence'den son değeri alma
+        sorgu.exec("SELECT last_value FROM faturalar_sequence");
+        sorgu.next();
+        if(sorgu.lastError().isValid()){
+            qDebug() << sorgu.lastError().text();
+        }
+        return QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt());
+    }
+    //yeni fatura numarası için faturalar_sequence'den son değeri alma
+    sorgu.exec("SELECT last_value FROM faturalar_sequence");
+    sorgu.next();
+    if(sorgu.lastError().isValid()){
+        qDebug() << sorgu.lastError().text();
+    }
+    return QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
 }
 
 QStringList Veritabani::getSonIslemler()
@@ -717,17 +729,11 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
         cariyiAlacaklandır(_cariID, (odenenTutar - guncelBorc), _tarih, 1, _odemeTipi, _islemYapanKullanici, _evrakNo, _aciklama);
         _tutar = guncelBorc;
     }
-    //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    QString FaturaNo = yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(0, FaturaNo);
     sorgu.bindValue(1, _cariID);
     sorgu.bindValue(2, _faturaTipi);
     _tarih.setTime(QTime::currentTime());
@@ -754,17 +760,11 @@ void Veritabani::cariyeOdemeYap(QString _cariID,
                                     QString _evrakNo,
                                     QString _aciklama)
 {
-    //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    QString FaturaNo = yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(0, FaturaNo);
     sorgu.bindValue(1, _cariID);
     sorgu.bindValue(2, _faturaTipi);
     _tarih.setTime(QTime::currentTime());
@@ -784,17 +784,11 @@ void Veritabani::cariyeOdemeYap(QString _cariID,
 
 void Veritabani::cariyiAlacaklandır(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama)
 {
-    //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    QString FaturaNo = yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(0, FaturaNo);
     sorgu.bindValue(1, _cariID);
     sorgu.bindValue(2, _faturaTipi);
     _tarih.setTime(QTime::currentTime());
@@ -814,17 +808,11 @@ void Veritabani::cariyiAlacaklandır(QString _cariID, double _tutar, QDateTime _
 
 void Veritabani::cariyiBorclandir(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama)
 {
-    //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString yeniFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    QString FaturaNo = yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, yeniFaturaNo);
+    sorgu.bindValue(0, FaturaNo);
     sorgu.bindValue(1, _cariID);
     sorgu.bindValue(2, _faturaTipi);
     _tarih.setTime(QTime::currentTime());
@@ -1588,18 +1576,12 @@ double Veritabani::getGunlukCiro()
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 {
-    // iade faturano alımı ve yeni oluşturma.
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qFatal(qPrintable(sorgu.lastError().text()));
-    }
-    sorgu.next();
-    QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
+    QString iadeFaturaNo = yeniFaturaNo();
     // faturalar tablosuna iade fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, iadeFaturaNo);
-    sorgu.bindValue(1, 1000);// DİREKT cari id
+    sorgu.bindValue(1, 1);// DİREKT cari id
     sorgu.bindValue(2, 3);// 3 = iade
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, _kullanici.getUserID());
@@ -1631,7 +1613,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
         sorgu.bindValue(3, urun.miktar);
         sorgu.bindValue(4, QDateTime::currentDateTime());
         sorgu.bindValue(5, _kullanici.getUserID());
-        sorgu.bindValue(6, "İADE");
+        sorgu.bindValue(6, "İADE FATURA NO:" + iadeFaturaNo);
         sorgu.exec();
         if(sorgu.lastError().isValid()){
             qDebug() << sorgu.lastError().text();
@@ -1651,19 +1633,13 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
 
 void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
 {
-    // iade faturano alımı ve yeni oluşturma.
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
-    sorgu.next();
-    QString iadeFaturaNo = QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);;
+    QString iadeFaturaNo = yeniFaturaNo();
     // iade fatura bilgisi girme başlangıcı
     sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, iadeFaturaNo);
     sorgu.bindValue(1, _iadeCari.getId());
-    sorgu.bindValue(2, "İADE");
+    sorgu.bindValue(2, 3);// iade fatura tipi
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, _kullanici.getUserID());
     sorgu.bindValue(5, _iadeSepet.sepetToplamTutari());
@@ -1683,14 +1659,18 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
         qDebug() << sorgu.lastError().text();
     }
     //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?)");
+    sorgu.clear();
+    sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, kar, tarih, aciklama) "
+                  "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, _iadeSepet.sepetToplamTutari());
     sorgu.bindValue(1, _iadeCari.getId());
     sorgu.bindValue(2, "İADE");
-    sorgu.bindValue(3, QDateTime::currentDateTime());
+    sorgu.bindValue(3, (_iadeSepet.getSepettekiKazanc() * -1));
+    sorgu.bindValue(4, QDateTime::currentDateTime());
+    sorgu.bindValue(5, "İADE FAT.NO:" + iadeFaturaNo);
     sorgu.exec();
     if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
+        qWarning(qPrintable(sorgu.lastError().text()));
     }
     //sepetteki iade ürünlerin stok hareketlerine girişi
     foreach (auto urun, _iadeSepet.urunler) {
@@ -1718,6 +1698,18 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
             qWarning() << "iade ürün stoğa geri ekleme hatası: " << sorgu.lastError().text();
         }
     }
+}
+
+bool Veritabani::iadeAlinmismi(QString FaturaNo)
+{
+    sorgu.prepare("SELECT * FROM faturalar WHERE fatura_no = ? AND tipi = 3");
+    sorgu.bindValue(0, FaturaNo);
+    sorgu.exec();
+    // satışı yapılmış fatura no sunun iade faturası da varsa true döndürür
+    if(sorgu.next()){
+        return true;
+    }
+    return false;
 }
 
 int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QString _aciklama, QDateTime _tarih, QString _evrakno, double _netKar)

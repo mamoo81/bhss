@@ -453,6 +453,9 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
         if(ui->AraLineEdit->isEnabled()){
             on_araBtn_clicked();
         }
+        else if(ui->KaydetBtn->isEnabled()){
+            on_KaydetBtn_clicked();
+        }
     }
 }
 
@@ -668,30 +671,56 @@ void StokFrom::on_StokBirimBtn_clicked()
 void StokFrom::on_StokGirBtn_clicked()
 {
     int seciliStokIndex = ui->StokKartlaritableView->currentIndex().row();
-    StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
-    stokMiktarigirForm->setKullanici(kullanici);
-    stokMiktarigirForm->setWindowTitle("Stok Gir");
-    stokMiktarigirForm->setIslem("GİRİŞ");
-    stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
-    stokMiktarigirForm->exec();
-    stokKartlariniListele();
-    delete stokMiktarigirForm;
-    ui->StokKartlaritableView->selectRow(seciliStokIndex);
+
+    if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
+        StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+        stokMiktarigirForm->setKullanici(kullanici);
+        stokMiktarigirForm->setWindowTitle("Stok Gir");
+        stokMiktarigirForm->setIslem("GİRİŞ");
+        stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
+        stokMiktarigirForm->exec();
+        stokKartlariniListele();
+        delete stokMiktarigirForm;
+        ui->StokKartlaritableView->selectRow(seciliStokIndex);
+    }
+    else{
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Stok kartı seçiniz!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Evet");
+        msg.exec();
+    }
 }
 
 
 void StokFrom::on_StokCikBtn_clicked()
 {
     int seciliStokIndex = ui->StokKartlaritableView->currentIndex().row();
-    StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
-    stokMiktarigirForm->setKullanici(kullanici);
-    stokMiktarigirForm->setWindowTitle("Stok Çık");
-    stokMiktarigirForm->setIslem("ÇIKIŞ");
-    stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
-    stokMiktarigirForm->exec();
-    stokKartlariniListele();
-    delete stokMiktarigirForm;
-    ui->StokKartlaritableView->selectRow(seciliStokIndex);
+
+    if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
+        StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+        stokMiktarigirForm->setKullanici(kullanici);
+        stokMiktarigirForm->setWindowTitle("Stok Çık");
+        stokMiktarigirForm->setIslem("ÇIKIŞ");
+        stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
+        stokMiktarigirForm->exec();
+        stokKartlariniListele();
+        delete stokMiktarigirForm;
+        ui->StokKartlaritableView->selectRow(seciliStokIndex);
+    }
+    else{
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Stok kartı seçiniz!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Evet");
+        msg.exec();
+    }
 }
 
 
@@ -889,4 +918,26 @@ void StokFrom::on_toolButton_clicked()
     RafEtiketiDialog *rafEtiketForm = new RafEtiketiDialog(this);
     rafEtiketForm->exec();
     delete rafEtiketForm;
+}
+
+void StokFrom::on_StokKartlaritableView_clicked(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    if(ui->barkodRadioButton->isChecked()){
+        ui->AraLineEdit->selectAll();
+        ui->AraLineEdit->setFocus();
+    }
+    else if(ui->adRadioButton->isChecked()){
+        ui->AraLineEdit->setFocus();
+    }
+}
+
+void StokFrom::on_adRadioButton_clicked()
+{
+    ui->AraLineEdit->setFocus();
+}
+
+void StokFrom::on_kodRadioButton_clicked()
+{
+    ui->AraLineEdit->setFocus();
 }

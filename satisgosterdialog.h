@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cari.h"
 //*****************************
 #include <QDialog>
+#include <QSound>
 
 namespace Ui {
 class SatisGosterDialog;
@@ -42,7 +43,12 @@ public:
     Sepet satilmisSepet;
     Yazici fis = Yazici();
 
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+
     void setSatisFaturaNo(const QString &newSatisFaturaNo);
+
+
+    void setKullanici(const User &value);
 
 public slots:
     void sepetiCek();
@@ -64,6 +70,8 @@ private:
     QSqlQuery qr;
 
     Cari cari;
+
+    User kullanici;
 };
 
 #endif // SATISGOSTERDIALOG_H

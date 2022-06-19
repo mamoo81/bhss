@@ -84,6 +84,14 @@ void SatisGosterDialog::sepetiCek()
         ui->sepetTableWidget->setItem(satirIndex, 5, new QTableWidgetItem(QString::number(urun.toplam, 'f', 2)));
         satirIndex++;
     }
+
+    // satışı yapılmış faturano iade alınmışsa iade al butonunu ona göre ayarlama
+    if(vt->iadeAlinmismi(satisFaturaNo)){
+        ui->iadepushButton->setEnabled(false);
+    }
+    else{
+        ui->iadepushButton->setEnabled(true);
+    }
 }
 
 void SatisGosterDialog::setSatisFaturaNo(const QString &newSatisFaturaNo)
@@ -101,6 +109,7 @@ void SatisGosterDialog::on_kapatpushButton_clicked()
 void SatisGosterDialog::on_FisYazdirpushButton_clicked()
 {
     fis.fisBas(satisFaturaNo, satilmisSepet);
+    uyariSesi->play();
     QMessageBox msg(this);
     msg.setWindowTitle("Bilgi");
     msg.setIcon(QMessageBox::Information);
@@ -114,6 +123,33 @@ void SatisGosterDialog::on_FisYazdirpushButton_clicked()
 
 void SatisGosterDialog::on_iadepushButton_clicked()
 {
+    uyariSesi->play();
+    QMessageBox msg(this);
+    msg.setWindowTitle("Uyarı");
+    msg.setIcon(QMessageBox::Question);
+    msg.setText("Geçmiş satışı iade almak istediğinize emin misiniz?");
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setButtonText(QMessageBox::Yes, "Evet");
+    msg.setButtonText(QMessageBox::No, "Hayır");
+    msg.setDefaultButton(QMessageBox::No);
+    int cevap = msg.exec();
+    if(cevap == QMessageBox::Yes){
 
+        vt->iadeAl(satilmisSepet, kullanici, cari);
+
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Geçmiş satış iade alındı.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+}
+
+void SatisGosterDialog::setKullanici(const User &value)
+{
+    kullanici = value;
 }
 

@@ -42,6 +42,17 @@ void GecmisSatislarDialog::FormLoad()
     ui->SonSatislarlistWidget->clear();
     ui->SonSatislarlistWidget->addItems(vt.getSonIslemler());
     ui->IslemSayisilabel->setText(QString::number(ui->SonSatislarlistWidget->count()));
+
+    iadeleriRenklendir();
+}
+
+void GecmisSatislarDialog::iadeleriRenklendir()
+{
+    for (int var = 0; var < ui->SonSatislarlistWidget->count(); ++var) {
+        if(vt.iadeAlinmismi(ui->SonSatislarlistWidget->item(var)->text().split(' ').first())){
+            ui->SonSatislarlistWidget->item(var)->setBackgroundColor(Qt::yellow);
+        }
+    }
 }
 
 void GecmisSatislarDialog::on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item)
@@ -49,12 +60,20 @@ void GecmisSatislarDialog::on_SonSatislarlistWidget_itemDoubleClicked(QListWidge
     SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
     satisGosterForm->setSatisFaturaNo(item->text());
     satisGosterForm->sepetiCek();
+    satisGosterForm->setKullanici(kullanici);
     satisGosterForm->exec();
     delete satisGosterForm;
+
+    iadeleriRenklendir();
 }
 
 
 void GecmisSatislarDialog::on_KapatpushButton_clicked()
 {
     this->close();
+}
+
+void GecmisSatislarDialog::setKullanici(const User &value)
+{
+    kullanici = value;
 }

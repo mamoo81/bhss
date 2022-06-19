@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
+    <width>300</width>
     <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>250</width>
+    <width>300</width>
     <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>250</width>
+    <width>300</width>
     <height>500</height>
    </size>
   </property>
@@ -36,21 +36,21 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>231</width>
+     <width>281</width>
      <height>441</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
-     <pointsize>10</pointsize>
+     <family>Bitstream Vera Sans Mono</family>
+     <pointsize>14</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QPushButton" name="KapatpushButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>210</x>
      <y>462</y>
      <width>81</width>
      <height>31</height>
@@ -69,14 +69,14 @@
     <rect>
      <x>10</x>
      <y>470</y>
-     <width>41</width>
+     <width>61</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
-     <pointsize>10</pointsize>
+     <family>Bitstream Vera Sans Mono</family>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">
@@ -86,16 +86,16 @@
   <widget class="QLabel" name="IslemSayisilabel">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>70</x>
      <y>470</y>
-     <width>61</width>
+     <width>71</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
-     <pointsize>12</pointsize>
+     <family>Bitstream Vera Sans Mono</family>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="layoutDirection">
@@ -108,7 +108,7 @@
     <string>0</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

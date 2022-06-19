@@ -64,3 +64,8 @@ void StokGirCikDialog::setStokKartiID(const QString &newStokKartiID)
     stokKartiID = newStokKartiID;
 }
 
+
+void StokGirCikDialog::on_iptalpushButton_clicked()
+{
+    this->close();
+}

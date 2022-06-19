@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef GECMISSATISLARDIALOG_H
 #define GECMISSATISLARDIALOG_H
 #include "veritabani.h"
+#include "user.h"
 
 #include <QDialog>
 
@@ -38,8 +39,12 @@ public:
     ~GecmisSatislarDialog();
     Veritabani vt = Veritabani();
 
+    void setKullanici(const User &value);
+
 public slots:
     void FormLoad();
+
+    void iadeleriRenklendir();
 
 private slots:
     void on_SonSatislarlistWidget_itemDoubleClicked(QListWidgetItem *item);
@@ -48,6 +53,8 @@ private slots:
 
 private:
     Ui::GecmisSatislarDialog *ui;
+
+    User kullanici;
 };
 
 #endif // GECMISSATISLARDIALOG_H

@@ -27,6 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 //********************
 #include <QMessageBox>
 #include <QSqlDatabase>
+#include <QSqlTableModel>
 
 class Sepet
 {
@@ -56,6 +57,7 @@ public:
     void setOdenenTutar(double newOdenenTutar);
     double getKalanTutar() const;
     void setKalanTutar(double newKalanTutar);
+
 public slots:
     double getSepettekiKazanc();
 };

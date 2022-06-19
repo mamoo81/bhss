@@ -64,6 +64,7 @@ public slots:
     Cari getCariKart(QString _cariID);
     bool loginControl(QString _UserName, QString _Password);
     void satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int _satisYapilanCariID);
+    QString yeniFaturaNo();
     QStringList getSonIslemler();
     bool veritabaniVarmi();
     QSqlError yeniStokKartiOlustur(StokKarti _StokKarti, User *_Kullanici);
@@ -80,6 +81,7 @@ public slots:
     double getGunlukCiro();
     void iadeAl(Sepet _iadeSepet, User _kullanici);
     void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
+    bool iadeAlinmismi(QString FaturaNo);
     QSqlQuery getIslemInfo(QString _faturaNo);
     void CreateNewUser(User _NewUser);
     void updateUser(User _NewUserInfos);
