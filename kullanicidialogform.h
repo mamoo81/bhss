@@ -25,6 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "user.h"
 //*****************************
 #include <QDialog>
+#include <QValidator>
+#include <QRegExp>
+#include <QSound>
 
 namespace Ui {
 class KullaniciDialogForm;
@@ -40,6 +43,7 @@ public:
 
     Veritabani vt = Veritabani();
 
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     void setYeniMi(bool newYeniMi);
 
@@ -51,11 +55,23 @@ private slots:
     void formLoad();
     void on_pushButton_2_clicked();
 
+    void on_UserNamelineEdit_textChanged(const QString &arg1);
+
+    void on_PasswordlineEdit_textChanged(const QString &arg1);
+
+    void on_PasswordlineEdit_2_textChanged(const QString &arg1);
+
+    void on_CepNolineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::KullaniciDialogForm *ui;
 
     bool yeniMi;
     QString duzenlenecekUserName;
+    QRegExp regEXPTelefon;
+    QRegExp regEXPkullaniciAdi;
+    QRegExp regEXPpassword;
+
 };
 
 #endif // KULLANICIDIALOGFORM_H

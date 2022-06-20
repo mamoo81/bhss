@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>630</width>
-    <height>420</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>630</width>
-    <height>420</height>
+    <height>440</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>630</width>
-    <height>420</height>
+    <height>440</height>
    </size>
   </property>
   <property name="font">
@@ -50,16 +50,16 @@
     <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
       <rect>
-       <x>410</x>
-       <y>0</y>
-       <width>211</width>
-       <height>251</height>
+       <x>390</x>
+       <y>10</y>
+       <width>231</width>
+       <height>351</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Monospace</family>
-       <pointsize>8</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="title">
@@ -70,13 +70,19 @@
        <rect>
         <x>10</x>
         <y>25</y>
-        <width>191</width>
-        <height>141</height>
+        <width>211</width>
+        <height>161</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Sayfa 1</string>
          </property>
@@ -84,6 +90,12 @@
        </item>
        <item row="0" column="1">
         <widget class="QLineEdit" name="sayfalineEdit1">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>BARKODSUZ</string>
          </property>
@@ -94,6 +106,12 @@
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_22">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Sayfa 2</string>
          </property>
@@ -101,6 +119,12 @@
        </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="sayfalineEdit2">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>MANAV</string>
          </property>
@@ -111,6 +135,12 @@
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_23">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Sayfa 3</string>
          </property>
@@ -118,6 +148,12 @@
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="sayfalineEdit3">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>HIRDAVAT</string>
          </property>
@@ -128,6 +164,12 @@
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_24">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Sayfa 4</string>
          </property>
@@ -135,6 +177,12 @@
        </item>
        <item row="3" column="1">
         <widget class="QLineEdit" name="sayfalineEdit4">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>KASAP</string>
          </property>
@@ -145,6 +193,12 @@
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_25">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Sayfa 5</string>
          </property>
@@ -152,6 +206,12 @@
        </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="sayfalineEdit5">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>GENEL</string>
          </property>
@@ -166,8 +226,8 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
-        <width>191</width>
+        <y>190</y>
+        <width>211</width>
         <height>31</height>
        </rect>
       </property>
@@ -185,8 +245,8 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>210</y>
-        <width>191</width>
+        <y>230</y>
+        <width>211</width>
         <height>31</height>
        </rect>
       </property>
@@ -206,9 +266,15 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>391</width>
+       <width>371</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Sistem başlangıcında otomatik başlat</string>
@@ -218,15 +284,15 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>211</width>
+       <y>70</y>
+       <width>351</width>
        <height>21</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Monospace</family>
-       <pointsize>9</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">
@@ -240,14 +306,20 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
-       <width>181</width>
-       <height>28</height>
+       <y>100</y>
+       <width>201</width>
+       <height>30</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QLabel" name="labelStokMiktar">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Stok Miktarı</string>
         </property>
@@ -255,6 +327,12 @@
       </item>
       <item>
        <widget class="QSpinBox" name="StokMiktarspinBox">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -272,10 +350,16 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
-       <width>231</width>
+       <y>40</y>
+       <width>351</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Satış yapıldığında ses çal</string>
@@ -308,7 +392,7 @@
        <x>180</x>
        <y>30</y>
        <width>80</width>
-       <height>23</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -319,9 +403,9 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>60</y>
+       <y>70</y>
        <width>80</width>
-       <height>23</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -332,9 +416,9 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>90</y>
+       <y>110</y>
        <width>80</width>
-       <height>23</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -347,7 +431,7 @@
        <x>270</x>
        <y>10</y>
        <width>351</width>
-       <height>331</height>
+       <height>341</height>
       </rect>
      </property>
      <property name="title">
@@ -370,7 +454,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>50</y>
+        <y>60</y>
         <width>321</width>
         <height>21</height>
        </rect>
@@ -383,7 +467,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>90</y>
         <width>321</width>
         <height>21</height>
        </rect>
@@ -396,7 +480,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>120</y>
         <width>321</width>
         <height>21</height>
        </rect>
@@ -409,7 +493,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
+        <y>150</y>
         <width>321</width>
         <height>21</height>
        </rect>
@@ -425,7 +509,7 @@
        <x>10</x>
        <y>30</y>
        <width>161</width>
-       <height>311</height>
+       <height>321</height>
       </rect>
      </property>
     </widget>
@@ -2537,10 +2621,16 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>390</y>
+     <y>400</y>
      <width>101</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Kaydet</string>
@@ -2549,15 +2639,27 @@
     <iconset resource="images.qrc">
      <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
   </widget>
   <widget class="QPushButton" name="kapatpushButton">
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>390</y>
+     <y>400</y>
      <width>101</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Kapat</string>
@@ -2566,14 +2668,20 @@
     <iconset resource="images.qrc">
      <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
   </widget>
   <widget class="QLabel" name="label_34">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>395</y>
+     <y>400</y>
      <width>391</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -2587,6 +2695,9 @@
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
    <property name="openExternalLinks">
     <bool>true</bool>

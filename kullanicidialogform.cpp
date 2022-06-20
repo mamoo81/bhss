@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "kullanicidialogform.h"
 #include "ui_kullanicidialogform.h"
 
+#include <QDebug>
+
 KullaniciDialogForm::KullaniciDialogForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::KullaniciDialogForm)
@@ -37,6 +39,20 @@ KullaniciDialogForm::~KullaniciDialogForm()
 
 void KullaniciDialogForm::formLoad()
 {
+    regEXPTelefon = QRegExp("[0-9]\\d{10}");
+    regEXPTelefon.setCaseSensitivity(Qt::CaseInsensitive);
+    regEXPTelefon.setPatternSyntax(QRegExp::RegExp);
+    ui->CepNolineEdit->setValidator(new QRegExpValidator(regEXPTelefon, this));
+
+    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ.0-9]{6,16}");
+    regEXPkullaniciAdi.setCaseSensitivity(Qt::CaseInsensitive);
+    ui->UserNamelineEdit->setValidator(new QRegExpValidator(regEXPkullaniciAdi, this));
+
+    regEXPpassword = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ.0-9]{4,16}");
+    regEXPpassword.setCaseSensitivity(Qt::CaseInsensitive);
+    ui->PasswordlineEdit->setValidator(new QRegExpValidator(regEXPpassword, this));
+    ui->PasswordlineEdit_2->setValidator(new QRegExpValidator(regEXPpassword, this));
+
     if(yeniMi){
         this->setWindowTitle("Yeni kullanıcı oluştur");
     }
@@ -71,6 +87,26 @@ void KullaniciDialogForm::setYeniMi(bool newYeniMi)
 
 void KullaniciDialogForm::on_pushButton_clicked()
 {
+    QMessageBox msg(this);
+    msg.setWindowTitle("Uyarı");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setText("Kırmızı renkli alanları kontrol edin!");
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.setButtonText(QMessageBox::Ok, "Tamam");
+
+    if(!regEXPkullaniciAdi.exactMatch(ui->UserNamelineEdit->text()))
+        uyariSesi->play();
+            msg.exec();
+                return;
+    if(!regEXPpassword.exactMatch(ui->PasswordlineEdit->text()) && !regEXPpassword.exactMatch(ui->PasswordlineEdit_2->text()))
+        uyariSesi->play();
+            msg.exec();
+                return;
+    if(!regEXPTelefon.exactMatch(ui->CepNolineEdit->text()))
+        uyariSesi->play();
+            msg.exec();
+                return;
+
     if(yeniMi){
         User NewUser;
         NewUser.setUserName(ui->UserNamelineEdit->text());
@@ -96,3 +132,52 @@ void KullaniciDialogForm::on_pushButton_2_clicked()
     this->close();
 }
 
+
+void KullaniciDialogForm::on_UserNamelineEdit_textChanged(const QString &arg1)
+{
+    if(regEXPkullaniciAdi.exactMatch(arg1)){
+        ui->UserNamelineEdit->setStyleSheet("color: black;");
+    }
+    else{
+        ui->UserNamelineEdit->setStyleSheet("color: red;");
+    }
+}
+
+void KullaniciDialogForm::on_PasswordlineEdit_textChanged(const QString &arg1)
+{
+    if(regEXPpassword.exactMatch(arg1)){
+        ui->PasswordlineEdit->setStyleSheet("color: black;");
+    }
+    else{
+        ui->PasswordlineEdit->setStyleSheet("color: red;");
+    }
+}
+
+void KullaniciDialogForm::on_PasswordlineEdit_2_textChanged(const QString &arg1)
+{
+    if(regEXPpassword.exactMatch(arg1)){
+        ui->PasswordlineEdit_2->setStyleSheet("color: black;");
+    }
+    else{
+        ui->PasswordlineEdit_2->setStyleSheet("color: red;");
+    }
+
+    if(ui->PasswordlineEdit->text() == ui->PasswordlineEdit_2->text()){
+        ui->PasswordlineEdit->setStyleSheet("color: black;");
+        ui->PasswordlineEdit_2->setStyleSheet("color: black;");
+    }
+    else{
+        ui->PasswordlineEdit->setStyleSheet("color: red;");
+        ui->PasswordlineEdit_2->setStyleSheet("color: red;");
+    }
+}
+
+void KullaniciDialogForm::on_CepNolineEdit_textChanged(const QString &arg1)
+{
+    if(regEXPTelefon.exactMatch(arg1)){
+        ui->CepNolineEdit->setStyleSheet("color: black;");
+    }
+    else{
+        ui->CepNolineEdit->setStyleSheet("color: red;");
+    }
+}
