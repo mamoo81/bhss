@@ -552,9 +552,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>30</y>
       <width>391</width>
-      <height>251</height>
+      <height>241</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -570,6 +570,12 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -583,11 +589,11 @@
        <property name="font">
         <font>
          <family>Monospace</family>
-         <pointsize>10</pointsize>
+         <pointsize>13</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Barkod Oluştur</string>
+        <string>Oluştur</string>
        </property>
        <property name="iconSize">
         <size>
@@ -607,16 +613,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="StokKoduLnEdit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
@@ -628,6 +624,12 @@
       <widget class="QLineEdit" name="StokAdiLnEdit">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
        </property>
        <property name="text">
         <string/>
@@ -646,6 +648,12 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
       </widget>
      </item>
      <item row="4" column="0">
@@ -659,6 +667,12 @@
       <widget class="QComboBox" name="BirimiComboBox">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
        </property>
        <item>
         <property name="text">
@@ -677,28 +691,6 @@
        </item>
       </widget>
      </item>
-     <item row="4" column="2">
-      <widget class="QToolButton" name="StokBirimBtn">
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Stok Birimleri</string>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>64</width>
-         <height>64</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
@@ -711,8 +703,27 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="StokKoduLnEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>0</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -1022,7 +1033,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton">
+  <widget class="QToolButton" name="TopluEtikettoolButton">
    <property name="geometry">
     <rect>
      <x>1050</x>
@@ -1078,12 +1089,11 @@
   <tabstop>StokGrupBtn</tabstop>
   <tabstop>adRadioButton</tabstop>
   <tabstop>SurekliYenicheckBox</tabstop>
-  <tabstop>StokBirimBtn</tabstop>
   <tabstop>BarkodOlusturBtn</tabstop>
   <tabstop>ResimEkleBtn</tabstop>
   <tabstop>ResimSilBtn</tabstop>
   <tabstop>barkodRadioButton</tabstop>
-  <tabstop>toolButton</tabstop>
+  <tabstop>TopluEtikettoolButton</tabstop>
   <tabstop>SilBtn</tabstop>
   <tabstop>DuzenleBtn</tabstop>
  </tabstops>

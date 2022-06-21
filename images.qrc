@@ -80,8 +80,8 @@
     <qresource prefix="/dosyalar">
         <file>mhss.desktop</file>
         <file>dosyalar/yerli-uretim-logo.png</file>
-        <file>dosyalar/mhss_data-eski.sql</file>
         <file>dosyalar/stok-kartlari.csv</file>
+        <file>dosyalar/mhss_data_eski.sql</file>
         <file>dosyalar/mhss_data.sql</file>
     </qresource>
 </RCC>

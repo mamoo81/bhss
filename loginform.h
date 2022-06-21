@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 //**********************
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QShortcut>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginForm; }

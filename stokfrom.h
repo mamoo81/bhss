@@ -31,6 +31,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QShortcut>
 #include <QSound>
 #include <QItemSelectionModel>
+#include <QRegExp>
+#include <QDoubleValidator>
 
 namespace Ui {
 class StokFrom;
@@ -86,9 +88,8 @@ private slots:
     void stokKartiAra(QString aranacakMetin);
 
     void on_araBtn_clicked();
-    void on_dosyadanToolButton_clicked();
 
-    void on_StokBirimBtn_clicked();
+    void on_dosyadanToolButton_clicked();
 
     void on_StokGirBtn_clicked();
 
@@ -126,13 +127,25 @@ private slots:
 
     void on_barkodRadioButton_clicked();
 
-    void on_toolButton_clicked();
-
     void on_StokKartlaritableView_clicked(const QModelIndex &index);
 
     void on_adRadioButton_clicked();
 
     void on_kodRadioButton_clicked();
+
+    void on_BarkodLnEdit_textChanged(const QString &arg1);
+
+    void on_StokKoduLnEdit_textChanged(const QString &arg1);
+
+    void on_StokAdiLnEdit_textChanged(const QString &arg1);
+
+    void on_MiktarLnEdit_textChanged(const QString &arg1);
+
+    void on_SFiyatdoubleSpinBox_valueChanged(double arg1);
+
+    void on_AFiyatdoubleSpinBox_valueChanged(double arg1);
+
+    void on_TopluEtikettoolButton_clicked();
 
 private:
     Ui::StokFrom *ui;
@@ -159,6 +172,14 @@ private:
 
     QList<int> gosterilenSatirlar;
     int sonSecilenGosterilenSatirIndexi = 0;
+
+    QPalette TextColorPaletteRed;
+    QPalette TextColorPaletteDefault;
+
+    QRegExp regEXPbarkod;
+    QRegExp regEXPstokKod;
+    QRegExp regEXPstokAd;
+    QDoubleValidator *regEXPstokMiktar;
 };
 
 #endif // STOKFROM_H

@@ -84,9 +84,6 @@ void StokFrom::formLoad()
     // tedarikçileri getirme
     ui->tedarikcicomboBox->addItems(vt->getTedarikciler());
 
-    QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
-    ui->BarkodLnEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
-
     // klavye kısayol tanımlamaları
     CTRL_F = new QShortcut(this);
     CTRL_F->setKey(Qt::CTRL + Qt::Key_F);
@@ -134,6 +131,26 @@ void StokFrom::formLoad()
 
     QScroller::grabGesture(ui->StokKartlaritableView, QScroller::LeftMouseButtonGesture);
     QScroller::grabGesture(ui->ureticicomboBox, QScroller::LeftMouseButtonGesture);
+
+    regEXPbarkod = QRegExp("[0-9]{8,13}");
+    ui->BarkodLnEdit->setValidator(new QRegExpValidator(regEXPbarkod, this));
+
+    regEXPstokKod = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9]{3,}");
+    ui->StokKoduLnEdit->setValidator(new QRegExpValidator(regEXPstokKod, this));
+
+    regEXPstokAd = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9]{3,}");
+    ui->StokAdiLnEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
+
+    regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
+    regEXPstokMiktar->setNotation(QDoubleValidator::StandardNotation);
+    regEXPstokMiktar->setLocale(QLocale::C);
+    ui->MiktarLnEdit->setValidator(regEXPstokMiktar);
+
+    TextColorPaletteDefault = ui->BarkodLnEdit->style()->standardPalette();
+
+    TextColorPaletteRed = QPalette();
+    TextColorPaletteRed.setColor(QPalette::Base, Qt::red);
+    TextColorPaletteRed.setColor(QPalette::Text, Qt::black);
 
     ui->AraLineEdit->setFocus();
 }
@@ -362,12 +379,19 @@ void StokFrom::on_IptalBtn_clicked()
 void StokFrom::alanlariTemizle()
 {
     ui->BarkodLnEdit->clear();
+    ui->BarkodLnEdit->setPalette(TextColorPaletteDefault);
+    ui->StokKoduLnEdit->clear();
+    ui->StokKoduLnEdit->setPalette(TextColorPaletteDefault);
     ui->StokAdiLnEdit->clear();
+    ui->StokAdiLnEdit->setPalette(TextColorPaletteDefault);
     ui->BirimiComboBox->setCurrentIndex(0);
     ui->MiktarLnEdit->clear();
-    ui->StokGrubuComboBox->setCurrentIndex(-1);
+    ui->MiktarLnEdit->setPalette(TextColorPaletteDefault);
+    ui->StokGrubuComboBox->setCurrentIndex(0);
     ui->AFiyatdoubleSpinBox->setValue(0);
+    ui->AFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
     ui->SFiyatdoubleSpinBox->setValue(0);
+    ui->SFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
     ui->KDVspinBox->setValue(0);
     ui->AciklamaLnEdit->clear();
     ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
@@ -462,17 +486,30 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 
 void StokFrom::on_KaydetBtn_clicked()
 {
+    QMessageBox msg(this);
+    msg.setWindowTitle("Uyarı");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setText("Kırmızı renkli alanları kontrol ederek düzeltin/doldurun.");
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.setButtonText(QMessageBox::Ok, "Tamam");
     if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
         uyariSes->play();
-        QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("Satış fiyatı alış fiyatından düşük olamaz");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
-        ui->SFiyatdoubleSpinBox->setFocus();
-        ui->SFiyatdoubleSpinBox->selectAll();
+        return;
+    }
+    if(!regEXPbarkod.exactMatch(ui->BarkodLnEdit->text())){
+        uyariSes->play();
+        msg.exec();
+        return;
+    }
+    if(!regEXPstokAd.exactMatch(ui->StokKoduLnEdit->text())){
+        uyariSes->play();
+        msg.exec();
+        return;
+    }
+    if(!regEXPstokAd.exactMatch(ui->StokAdiLnEdit->text())){
+        uyariSes->play();
+        msg.exec();
         return;
     }
     if(yeniKayit){// true ise yeni stok kartı kaydı oluşturur.
@@ -658,13 +695,6 @@ void StokFrom::on_dosyadanToolButton_clicked()
     stokYukleForm->exec();
     stokKartlariniListele();
     delete stokYukleForm;
-}
-
-
-void StokFrom::on_StokBirimBtn_clicked()
-{
-    BirimekleForm *birimForm = new BirimekleForm(this);
-    birimForm->exec();
 }
 
 
@@ -913,13 +943,6 @@ void StokFrom::on_barkodRadioButton_clicked()
     ui->AraLineEdit->selectAll();
 }
 
-void StokFrom::on_toolButton_clicked()
-{
-    RafEtiketiDialog *rafEtiketForm = new RafEtiketiDialog(this);
-    rafEtiketForm->exec();
-    delete rafEtiketForm;
-}
-
 void StokFrom::on_StokKartlaritableView_clicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
@@ -940,4 +963,80 @@ void StokFrom::on_adRadioButton_clicked()
 void StokFrom::on_kodRadioButton_clicked()
 {
     ui->AraLineEdit->setFocus();
+}
+
+void StokFrom::on_BarkodLnEdit_textChanged(const QString &arg1)
+{
+    if(regEXPbarkod.exactMatch(arg1)){
+        ui->BarkodLnEdit->setPalette(TextColorPaletteDefault);
+    }
+    else{
+        ui->BarkodLnEdit->setPalette(TextColorPaletteRed);
+    }
+}
+
+void StokFrom::on_StokKoduLnEdit_textChanged(const QString &arg1)
+{
+    if(regEXPstokKod.exactMatch(arg1)){
+        ui->StokKoduLnEdit->setPalette(TextColorPaletteDefault);
+    }
+    else{
+        ui->StokKoduLnEdit->setPalette(TextColorPaletteRed);
+    }
+}
+
+void StokFrom::on_StokAdiLnEdit_textChanged(const QString &arg1)
+{
+    if(regEXPstokAd.exactMatch(arg1)){
+        ui->StokAdiLnEdit->setPalette(TextColorPaletteDefault);
+    }
+    else{
+        ui->StokAdiLnEdit->setPalette(TextColorPaletteRed);
+    }
+}
+
+void StokFrom::on_MiktarLnEdit_textChanged(const QString &arg1)
+{
+    QString str = arg1;
+    int i = 0;
+    QValidator::State st = regEXPstokMiktar->validate(str, i);
+
+    if(st == QValidator::Acceptable){
+        ui->MiktarLnEdit->setPalette(TextColorPaletteDefault);
+    }
+    else{
+        ui->MiktarLnEdit->setPalette(TextColorPaletteRed);
+    }
+}
+
+void StokFrom::on_SFiyatdoubleSpinBox_valueChanged(double arg1)
+{
+    Q_UNUSED(arg1);
+    if(ui->SFiyatdoubleSpinBox->value() > ui->AFiyatdoubleSpinBox->value()){
+        ui->SFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
+        ui->AFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
+    }
+    else{
+        ui->SFiyatdoubleSpinBox->setPalette(TextColorPaletteRed);
+    }
+}
+
+void StokFrom::on_AFiyatdoubleSpinBox_valueChanged(double arg1)
+{
+    Q_UNUSED(arg1);
+    if(ui->AFiyatdoubleSpinBox->value() > ui->SFiyatdoubleSpinBox->value()){
+        ui->AFiyatdoubleSpinBox->setPalette(TextColorPaletteRed);
+    }
+    else{
+        ui->AFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
+    }
+}
+
+void StokFrom::on_TopluEtikettoolButton_clicked()
+{
+    //etiket basımını arkaplana atabilsin diye open() diyorum.
+    RafEtiketiDialog *rafEtiketForm = new RafEtiketiDialog();
+    rafEtiketForm->setWindowIcon(QIcon(":/images/ui/mhss.png"));
+    rafEtiketForm->open();
+//    delete rafEtiketForm;
 }

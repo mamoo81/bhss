@@ -29,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Toplu Raf Etiketi Yazdırma</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
