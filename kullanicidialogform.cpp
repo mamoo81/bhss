@@ -44,11 +44,11 @@ void KullaniciDialogForm::formLoad()
     regEXPTelefon.setPatternSyntax(QRegExp::RegExp);
     ui->CepNolineEdit->setValidator(new QRegExpValidator(regEXPTelefon, this));
 
-    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ.0-9]{6,16}");
+    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{6,16}");
     regEXPkullaniciAdi.setCaseSensitivity(Qt::CaseInsensitive);
     ui->UserNamelineEdit->setValidator(new QRegExpValidator(regEXPkullaniciAdi, this));
 
-    regEXPpassword = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ.0-9]{4,16}");
+    regEXPpassword = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{4,16}");
     regEXPpassword.setCaseSensitivity(Qt::CaseInsensitive);
     ui->PasswordlineEdit->setValidator(new QRegExpValidator(regEXPpassword, this));
     ui->PasswordlineEdit_2->setValidator(new QRegExpValidator(regEXPpassword, this));
@@ -90,22 +90,35 @@ void KullaniciDialogForm::on_pushButton_clicked()
     QMessageBox msg(this);
     msg.setWindowTitle("Uyarı");
     msg.setIcon(QMessageBox::Warning);
-    msg.setText("Kırmızı renkli alanları kontrol edin!");
+    msg.setText("Tüm alanları doldurunuz veya Kırmızı renkli alanları kontrol edin!");
     msg.setStandardButtons(QMessageBox::Ok);
     msg.setButtonText(QMessageBox::Ok, "Tamam");
 
-    if(!regEXPkullaniciAdi.exactMatch(ui->UserNamelineEdit->text()))
+    if(!regEXPkullaniciAdi.exactMatch(ui->UserNamelineEdit->text())){
         uyariSesi->play();
-            msg.exec();
-                return;
-    if(!regEXPpassword.exactMatch(ui->PasswordlineEdit->text()) && !regEXPpassword.exactMatch(ui->PasswordlineEdit_2->text()))
+        msg.exec();
+        return;
+    }
+    if(!regEXPpassword.exactMatch(ui->PasswordlineEdit->text()) && !regEXPpassword.exactMatch(ui->PasswordlineEdit_2->text())){
         uyariSesi->play();
-            msg.exec();
-                return;
-    if(!regEXPTelefon.exactMatch(ui->CepNolineEdit->text()))
+        msg.exec();
+        return;
+    }
+    if(!regEXPTelefon.exactMatch(ui->CepNolineEdit->text())){
         uyariSesi->play();
-            msg.exec();
-                return;
+        msg.exec();
+        return;
+    }
+    if(ui->AdlineEdit->text().isEmpty()){
+        uyariSesi->play();
+        msg.exec();
+        return;
+    }
+    if(ui->SoyadlineEdit->text().isEmpty()){
+        uyariSesi->play();
+        msg.exec();
+        return;
+    }
 
     if(yeniMi){
         User NewUser;
@@ -121,8 +134,27 @@ void KullaniciDialogForm::on_pushButton_clicked()
         NewUser.setCariyetki(ui->CaricheckBox->isChecked());
         NewUser.setCariyetki(ui->CaricheckBox->isChecked());
         NewUser.setAyaryetki(ui->AyarcheckBox->isChecked());
-        vt.CreateNewUser(NewUser);
-        this->close();
+        if(vt.CreateNewUser(NewUser)){
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Information);
+            msg.setWindowTitle("Başarılı");
+            msg.setText("Yeni kullanıcı oluşturuldu.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+            this->close();
+        }
+        else{
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Information);
+            msg.setWindowTitle("Hata");
+            msg.setText("HATA:\n\nYeni kullanıcı oluşturulamadı!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
 }
 

@@ -83,7 +83,7 @@ public slots:
     void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
     bool iadeAlinmismi(QString FaturaNo);
     QSqlQuery getIslemInfo(QString _faturaNo);
-    void CreateNewUser(User _NewUser);
+    bool CreateNewUser(User _NewUser);
     void updateUser(User _NewUserInfos);
     void deleteUser(QString _DeletedUserName);
     QString sonIslemNumarasi();

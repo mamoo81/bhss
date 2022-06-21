@@ -605,7 +605,7 @@ void Veritabani::updateUser(User _NewUserInfos)
     }
 }
 
-void Veritabani::CreateNewUser(User _NewUser)
+bool Veritabani::CreateNewUser(User _NewUser)
 {
     sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki)"
                     " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -621,28 +621,12 @@ void Veritabani::CreateNewUser(User _NewUser)
     sorgu.bindValue(9, _NewUser.getAyaryetki());
     sorgu.bindValue(10, _NewUser.getCariyetki());
     if(sorgu.exec()){
-        QMessageBox *msg = new QMessageBox(0);
-        msg->setIcon(QMessageBox::Information);
-        msg->setWindowTitle("Başarılı");
-        msg->setText("Yeni kullanıcı oluşturuldu.");
-        msg->setStandardButtons(QMessageBox::Ok);
-        msg->setDefaultButton(QMessageBox::Ok);
-        msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->exec();
+        return true;
     }
     else{
-        if(sorgu.lastError().isValid()){
-            QMessageBox *msg = new QMessageBox(0);
-            msg->setIcon(QMessageBox::Information);
-            msg->setWindowTitle("Hata");
-            msg->setText("Yeni kullanıcı oluşturulamadı!");
-            msg->setInformativeText(sorgu.lastError().text());
-            msg->setStandardButtons(QMessageBox::Ok);
-            msg->setDefaultButton(QMessageBox::Ok);
-            msg->setButtonText(QMessageBox::Ok, "Tamam");
-            msg->exec();
-        }
+        qWarning(qPrintable(sorgu.lastError().text()));
     }
+    return false;
 }
 
 void Veritabani::deleteUser(QString _DeletedUserName)

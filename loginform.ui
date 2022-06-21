@@ -59,9 +59,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>230</y>
       <width>211</width>
-      <height>112</height>
+      <height>120</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -73,7 +73,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="CmBoxUserName"/>
+      <widget class="QComboBox" name="CmBoxUserName">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_3">
@@ -84,6 +91,12 @@
      </item>
      <item>
       <widget class="QLineEdit" name="LeditPass">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
@@ -98,20 +111,38 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>350</y>
       <width>231</width>
-      <height>41</height>
+      <height>62</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="KapatBtn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Kapat</string>
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
          <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
        <property name="shortcut">
         <string>Esc</string>
@@ -120,12 +151,30 @@
      </item>
      <item>
       <widget class="QPushButton" name="GirisBtn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Giriş</string>
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
          <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
        <property name="shortcut">
         <string>Return</string>
@@ -167,7 +216,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>340</y>
+      <y>320</y>
       <width>16</width>
       <height>16</height>
      </rect>
