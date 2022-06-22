@@ -54,7 +54,28 @@ void YeniCariKartDialog::FormLoad()
     ui->VergiDairesilineEdit->setCompleter(tamamlayici);
     //
     ui->ilcomboBox->addItems(vt->getIller());
-    ui->CariAdilineEdit->setFocus();
+    ui->CariTipicomboBox->setFocus();
+
+    LineEditBackColorPaletteDefault = ui->CariAdilineEdit->style()->standardPalette();
+    LineEditBackColorPaletteRed = QPalette();
+    LineEditBackColorPaletteRed.setColor(QPalette::Base, Qt::red);
+    LineEditBackColorPaletteRed.setColor(QPalette::Text, Qt::black);
+
+    RegEXPcariAdi = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9]{5,}");
+    ui->CariAdilineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
+    ui->YetkililineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
+
+    RegEXPVergiNo = QRegExp("[0-9]{11}");
+    ui->VergiNolineEdit->setValidator(new QRegExpValidator(RegEXPVergiNo, this));
+
+    RegEXPmail = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    RegEXPmail.setCaseSensitivity(Qt::CaseInsensitive);
+    ui->MaillineEdit->setValidator(new QRegExpValidator(RegEXPmail, this));
+
+    RegEXPtelefon = QRegExp("[0-9]{11}");
+    RegEXPtelefon.setCaseSensitivity(Qt::CaseInsensitive);
+    RegEXPtelefon.setPatternSyntax(QRegExp::RegExp);
+    ui->TelefonlineEdit->setValidator(new QRegExpValidator(RegEXPtelefon, this));
 }
 
 void YeniCariKartDialog::on_iptalpushButton_clicked()
@@ -67,11 +88,89 @@ void YeniCariKartDialog::on_ilcomboBox_currentIndexChanged(int index)
 {
     ui->ilcecomboBox->clear();
     ui->ilcecomboBox->addItems(vt->getIlceler(index));
+
+    if(index <= 0){
+        ui->ilcomboBox->setPalette(LineEditBackColorPaletteRed);
+    }
+    else{
+        ui->ilcomboBox->setPalette(LineEditBackColorPaletteDefault);
+    }
 }
 
 
 void YeniCariKartDialog::on_KaydetpushButton_clicked()
 {
+    QMessageBox msg(this);
+    msg.setWindowTitle("Uyarı");
+    msg.setIcon(QMessageBox::Warning);
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.setButtonText(QMessageBox::Ok, "Tamam");
+
+    if(ui->CariAdilineEdit->text().isEmpty()){
+        uyariSes->play();
+        msg.setText("Cari adını giriniz.");
+        msg.exec();
+        return;
+    }
+    if(!RegEXPcariAdi.exactMatch(ui->CariAdilineEdit->text())){
+        uyariSes->play();
+        msg.setText("Cari adı uygun formatta olmalı");
+        msg.exec();
+        return;
+    }
+    if(!ui->YetkililineEdit->text().isEmpty()){
+        if(!RegEXPcariAdi.exactMatch(ui->YetkililineEdit->text())){
+            uyariSes->play();
+            msg.setText("Cari yetkili adı uygun formatta olmalı");
+            msg.exec();
+            return;
+        }
+    }
+    if(!ui->VergiNolineEdit->text().isEmpty()){
+        if(!RegEXPVergiNo.exactMatch(ui->VergiNolineEdit->text())){
+            uyariSes->play();
+            msg.setText("Cari vergi numarası uygun formatta olmalı");
+            msg.exec();
+            return;
+        }
+    }
+    if(!ui->VergiNolineEdit->text().isEmpty()){
+        if(!RegEXPcariAdi.exactMatch(ui->VergiDairesilineEdit->text())){
+            uyariSes->play();
+            msg.setText("Cari vergi dairesi adı uygun formatta olmalı");
+            msg.exec();
+            return;
+        }
+    }
+    if(!ui->MaillineEdit->text().isEmpty()){
+        if(!RegEXPmail.exactMatch(ui->MaillineEdit->text())){
+            uyariSes->play();
+            msg.setText("Cari mail adresi uygun formatta olmalı");
+            msg.exec();
+            return;
+        }
+    }
+    if(!ui->TelefonlineEdit->text().isEmpty()){
+        if(!RegEXPtelefon.exactMatch(ui->TelefonlineEdit->text())){
+            uyariSes->play();
+            msg.setText("Cari telefon numarası uygun formatta olmalı");
+            msg.exec();
+            return;
+        }
+    }
+    if(ui->ilcomboBox->currentIndex() <= 0){
+        uyariSes->play();
+        msg.setText("Cari ilini seçin");
+        msg.exec();
+        return;
+    }
+    if(ui->ilcecomboBox->currentIndex() <= 0){
+        uyariSes->play();
+        msg.setText("Cari ilçesini seçin");
+        msg.exec();
+        return;
+    }
+
     QLocale turkce(QLocale::Turkish, QLocale::Turkey);
     if(duzenle){
         duzenlenecekCariKart.setAd(turkce.toUpper(ui->CariAdilineEdit->text()));
@@ -145,3 +244,62 @@ void YeniCariKartDialog::setDuzenlenecekCariID(const QString &newDuzenlenecekCar
 }
 
 
+void YeniCariKartDialog::on_CariAdilineEdit_textChanged(const QString &arg1)
+{
+    if(RegEXPcariAdi.exactMatch(arg1)){
+        ui->CariAdilineEdit->setPalette(LineEditBackColorPaletteDefault);
+    }
+    else{
+        ui->CariAdilineEdit->setPalette(LineEditBackColorPaletteRed);
+    }
+}
+
+void YeniCariKartDialog::on_YetkililineEdit_textChanged(const QString &arg1)
+{
+    if(RegEXPcariAdi.exactMatch(arg1)){
+        ui->YetkililineEdit->setPalette(LineEditBackColorPaletteDefault);
+    }
+    else{
+        ui->YetkililineEdit->setPalette(LineEditBackColorPaletteRed);
+    }
+}
+
+void YeniCariKartDialog::on_VergiNolineEdit_textChanged(const QString &arg1)
+{
+    if(RegEXPVergiNo.exactMatch(arg1)){
+        ui->VergiNolineEdit->setPalette(LineEditBackColorPaletteDefault);
+    }
+    else{
+        ui->VergiNolineEdit->setPalette(LineEditBackColorPaletteRed);
+    }
+}
+
+void YeniCariKartDialog::on_MaillineEdit_textChanged(const QString &arg1)
+{
+    if(RegEXPmail.exactMatch(arg1)){
+        ui->MaillineEdit->setPalette(LineEditBackColorPaletteDefault);
+    }
+    else{
+        ui->MaillineEdit->setPalette(LineEditBackColorPaletteRed);
+    }
+}
+
+void YeniCariKartDialog::on_TelefonlineEdit_textChanged(const QString &arg1)
+{
+    if(RegEXPtelefon.exactMatch(arg1)){
+        ui->TelefonlineEdit->setPalette(LineEditBackColorPaletteDefault);
+    }
+    else{
+        ui->TelefonlineEdit->setPalette(LineEditBackColorPaletteRed);
+    }
+}
+
+void YeniCariKartDialog::on_ilcecomboBox_currentIndexChanged(int index)
+{
+    if(index <= 0){
+        ui->ilcecomboBox->setPalette(LineEditBackColorPaletteRed);
+    }
+    else{
+        ui->ilcecomboBox->setPalette(LineEditBackColorPaletteDefault);
+    }
+}

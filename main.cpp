@@ -34,11 +34,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QTimer>
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("mhss");
+
+    // uygulama içindeki sağ klik menüleri türkçe olması için.
+    QTranslator *tr_translator = new QTranslator();
+    tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(tr_translator);
 
     QPixmap splashscreenimage(":/images/ui/splash-screen.png");
 

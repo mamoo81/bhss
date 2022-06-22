@@ -494,21 +494,37 @@ void StokFrom::on_KaydetBtn_clicked()
     msg.setButtonText(QMessageBox::Ok, "Tamam");
     if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
         uyariSes->play();
+        msg.setInformativeText("\n\nSatış fiyatı alış fiyatından düşük olamaz.");
         msg.exec();
         return;
     }
     if(!regEXPbarkod.exactMatch(ui->BarkodLnEdit->text())){
         uyariSes->play();
+        msg.setInformativeText("\n\nBarkod numarası uygun formatta değil.");
         msg.exec();
         return;
     }
     if(!regEXPstokAd.exactMatch(ui->StokKoduLnEdit->text())){
         uyariSes->play();
+        msg.setInformativeText("\n\nStok adı uygun formatta değil.");
         msg.exec();
         return;
     }
     if(!regEXPstokAd.exactMatch(ui->StokAdiLnEdit->text())){
         uyariSes->play();
+        msg.setInformativeText("\n\nStok kodu uygun formatta değil.");
+        msg.exec();
+        return;
+    }
+    if(ui->BirimiComboBox->currentIndex() <= 0){
+        uyariSes->play();
+        msg.setInformativeText("\n\nStok birimini seçiniz.");
+        msg.exec();
+        return;
+    }
+    if(ui->StokGrubuComboBox->currentIndex() <= 0){
+        uyariSes->play();
+        msg.setInformativeText("\n\nStok gurubunu seçiniz.");
         msg.exec();
         return;
     }

@@ -24,6 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 //**************************
 #include <QDialog>
+#include <QRegExp>
+#include <QPalette>
+#include <QSound>
 
 namespace Ui {
 class YeniCariKartDialog;
@@ -36,6 +39,8 @@ class YeniCariKartDialog : public QDialog
 public:
     explicit YeniCariKartDialog(QWidget *parent = nullptr);
     ~YeniCariKartDialog();
+
+    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     Veritabani *vt = new Veritabani();
 
@@ -51,12 +56,32 @@ private slots:
 
     void on_KaydetpushButton_clicked();
 
+    void on_CariAdilineEdit_textChanged(const QString &arg1);
+
+    void on_YetkililineEdit_textChanged(const QString &arg1);
+
+    void on_VergiNolineEdit_textChanged(const QString &arg1);
+
+    void on_MaillineEdit_textChanged(const QString &arg1);
+
+    void on_TelefonlineEdit_textChanged(const QString &arg1);
+
+    void on_ilcecomboBox_currentIndexChanged(int index);
+
 private:
     Ui::YeniCariKartDialog *ui;
 
     bool duzenle;
     QString duzenlenecekCariID;
     Cari duzenlenecekCariKart;
+
+    QPalette LineEditBackColorPaletteRed;
+    QPalette LineEditBackColorPaletteDefault;
+
+    QRegExp RegEXPcariAdi;
+    QRegExp RegEXPVergiNo;
+    QRegExp RegEXPtelefon;
+    QRegExp RegEXPmail;
 };
 
 #endif // YENICARIKARTDIALOG_H
