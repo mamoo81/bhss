@@ -288,7 +288,10 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
 {
     QFileDialog dialog(this);
     QString dizin = dialog.getExistingDirectory(this, tr("Kayıt yeri seçin."), QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-
+    // kullanıcı iptal derse
+    if(dizin.isEmpty()){
+        return;
+    }
     QString yeniKopyalanacakKonum = dizin + "/stok-kartlari.csv";
 
     // dosya mevcutmu ve mevcutsa sor değilse direkt kopyala

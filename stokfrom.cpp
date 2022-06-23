@@ -504,11 +504,13 @@ void StokFrom::on_KaydetBtn_clicked()
         msg.exec();
         return;
     }
-    if(!regEXPstokAd.exactMatch(ui->StokKoduLnEdit->text())){
-        uyariSes->play();
-        msg.setInformativeText("\n\nStok adı uygun formatta değil.");
-        msg.exec();
-        return;
+    if(!ui->StokKoduLnEdit->text().isEmpty()){
+        if(!regEXPstokAd.exactMatch(ui->StokKoduLnEdit->text())){
+            uyariSes->play();
+            msg.setInformativeText("\n\nStok kodu uygun formatta değil.");
+            msg.exec();
+            return;
+        }
     }
     if(!regEXPstokAd.exactMatch(ui->StokAdiLnEdit->text())){
         uyariSes->play();
