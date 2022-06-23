@@ -175,10 +175,15 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     // urun barkod img
     painter.drawImage(QPoint(0,25), kart.getBarkodImg(), QRect(0,0, 350,125));
 
-    // urun guncelleme tarihi
+    // urun fiyat değişim tarihi
     font = QFont("Halvetica", 5, QFont::Bold);
     painter.setFont(font);
-    painter.drawText(QPoint(300, 200), "Güncelleme: " + kart.getTarih().toString("dd.MM.yyyy"));
+    painter.drawText(QPoint(300, 190), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
+
+    // etiket basım tarihi
+    font = QFont("Halvetica", 5, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(300, 200), "E.B.T: " + QDate::currentDate().toString("dd.MM.yyyy"));
 
     // ürün birimi
     font = QFont("Halvetica", 5);
