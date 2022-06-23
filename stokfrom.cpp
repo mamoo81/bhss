@@ -138,7 +138,7 @@ void StokFrom::formLoad()
     regEXPstokKod = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9]{3,}");
     ui->StokKoduLnEdit->setValidator(new QRegExpValidator(regEXPstokKod, this));
 
-    regEXPstokAd = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9]{3,}");
+    regEXPstokAd = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9.]{3,}");
     ui->StokAdiLnEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
 
     regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
@@ -505,7 +505,7 @@ void StokFrom::on_KaydetBtn_clicked()
         return;
     }
     if(!ui->StokKoduLnEdit->text().isEmpty()){
-        if(!regEXPstokAd.exactMatch(ui->StokKoduLnEdit->text())){
+        if(!regEXPstokKod.exactMatch(ui->StokKoduLnEdit->text())){
             uyariSes->play();
             msg.setInformativeText("\n\nStok kodu uygun formatta değil.");
             msg.exec();
@@ -514,7 +514,7 @@ void StokFrom::on_KaydetBtn_clicked()
     }
     if(!regEXPstokAd.exactMatch(ui->StokAdiLnEdit->text())){
         uyariSes->play();
-        msg.setInformativeText("\n\nStok kodu uygun formatta değil.");
+        msg.setInformativeText("\n\nStok adı uygun formatta değil.");
         msg.exec();
         return;
     }
