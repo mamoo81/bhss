@@ -31,6 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDebug>
 #include <QThread>
 #include <QFileInfo>
+#include <QProcess>
 
 LoginForm::LoginForm(QWidget *parent)
     : QMainWindow(parent)
@@ -118,4 +119,12 @@ bool LoginForm::getCapslockState()
 void LoginForm::setCapsLockFilePath(const QString &newCapsLockFilePath)
 {
     capsLockFilePath = newCapsLockFilePath;
+}
+
+void LoginForm::on_toolButton_clicked()
+{
+    QProcess *systemCommand = new QProcess();
+    if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        systemCommand->start("onboard", QIODevice::ReadWrite);
+    }
 }

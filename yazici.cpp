@@ -178,7 +178,7 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     // urun fiyat değişim tarihi
     font = QFont("Halvetica", 5, QFont::Bold);
     painter.setFont(font);
-    painter.drawText(QPoint(300, 190), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
+    painter.drawText(QPoint(300, 180), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
 
     // etiket basım tarihi
     font = QFont("Halvetica", 5, QFont::Bold);

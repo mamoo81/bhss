@@ -54,6 +54,8 @@ private slots:
 
     void keyPressEvent(QKeyEvent *event);
     bool getCapslockState();
+    void on_toolButton_clicked();
+
 private:
     Ui::LoginForm *ui;
 
