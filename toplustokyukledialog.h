@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QFileInfo>
 #include <QSound>
 #include <QVector>
+#include <QLocale>
 
 namespace Ui {
 class TopluStokYukleDialog;
@@ -54,6 +55,7 @@ public:
     QStringList mevcutBarkodlar;
 
     QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QLocale turkce = QLocale(QLocale::Turkish, QLocale::Turkey);
 
     void jsondanYukle();
 
