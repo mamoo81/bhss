@@ -44,7 +44,6 @@ SOURCES += \
     user.cpp \
     veritabani.cpp \
     yazici.cpp \
-    yenicariform.cpp \
     yenicarikartdialog.cpp
 
 HEADERS += \
@@ -82,7 +81,6 @@ HEADERS += \
     user.h \
     veritabani.h \
     yazici.h \
-    yenicariform.h \
     yenicarikartdialog.h
 
 FORMS += \
@@ -111,7 +109,6 @@ FORMS += \
     stokgrupform.ui \
     stokhareketleridialog.ui \
     toplustokyukledialog.ui \
-    yenicariform.ui \
     yenicarikartdialog.ui
 
 CONFIG += lrelease

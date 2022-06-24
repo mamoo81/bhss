@@ -73,8 +73,6 @@ void YeniCariKartDialog::FormLoad()
     ui->MaillineEdit->setValidator(new QRegExpValidator(RegEXPmail, this));
 
     RegEXPtelefon = QRegExp("[0-9]{11}");
-    RegEXPtelefon.setCaseSensitivity(Qt::CaseInsensitive);
-    RegEXPtelefon.setPatternSyntax(QRegExp::RegExp);
     ui->TelefonlineEdit->setValidator(new QRegExpValidator(RegEXPtelefon, this));
 }
 
@@ -186,6 +184,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         duzenlenecekCariKart.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
         bool sonuc = vt->cariKartDuzenle(duzenlenecekCariKart);
         if(sonuc){
+            uyariSes->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Information);
@@ -196,6 +195,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
             this->close();
         }
         else{
+            uyariSes->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Information);
@@ -219,7 +219,27 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         yeniCari.setMail(ui->MaillineEdit->text());
         yeniCari.setTelefon(ui->TelefonlineEdit->text());
         yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));
-        vt->yeniCariKart(yeniCari);
+
+        if(vt->yeniCariKart(yeniCari)){
+            uyariSes->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Yeni cari kart oluşturuldu.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+        else{
+            uyariSes->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Yeni cari kart oluşturulamadı!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
     }
     this->close();
 }

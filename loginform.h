@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QShortcut>
+#include <QSound>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginForm; }
@@ -40,6 +41,8 @@ public:
     ~LoginForm();
 
     Veritabani vt = Veritabani();
+
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     void formLoad();
 

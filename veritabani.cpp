@@ -69,12 +69,10 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
             return true;
         }
         else{
-            QMessageBox::warning(0, "Uyarı", "Şifre hatalı", QMessageBox::Ok);
             return false;
         }
     }
     else{
-        QMessageBox::warning(0, "Uyarı", "Böyle bir kullanıcı yok", QMessageBox::Ok);
         return false;
     }
 }
@@ -992,7 +990,7 @@ double Veritabani::getcarilerToplamBorc()
     return kalanTutar - odenenTutar;
 }
 
-void Veritabani::yeniCariKart(Cari _cariKart)
+bool Veritabani::yeniCariKart(Cari _cariKart)
 {
     sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
                   "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -1011,17 +1009,9 @@ void Veritabani::yeniCariKart(Cari _cariKart)
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qWarning(qPrintable(sorgu.lastError().text()));
+        return false;
     }
-    else{
-        QMessageBox msg;
-        msg.setWindowTitle("Bilgi");
-        msg.setIcon(QMessageBox::Information);
-        msg.setText("Yeni cari kart oluşturuldu.");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setDefaultButton(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-    }
+    return true;
 }
 
 bool Veritabani::cariKartDuzenle(Cari _cariKart)

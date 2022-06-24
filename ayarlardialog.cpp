@@ -53,6 +53,8 @@ AyarlarDialog::~AyarlarDialog()
 
 void AyarlarDialog::formLoad()
 {
+    ui->labelVersion->setText(QApplication::applicationVersion());
+
     // oto başlangıç okuma ayarını okuma
     // oto başlangıç için İşletim sistemi belirleme
     if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
@@ -68,6 +70,7 @@ void AyarlarDialog::formLoad()
         wayfireini.endGroup();
     }
     else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        // pardus oto başlangıç için desktop dosyasının autostart dizini altına alınması
         if(QFileInfo(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/autostart/mhss.desktop").exists()){
             ui->otoMhsscheckBox->setChecked(true);
         }
@@ -244,7 +247,8 @@ void AyarlarDialog::on_DuzenlePushButton_clicked()
         getUsers();
     }
     else{
-        QMessageBox msg;
+        uyariSesi->play();
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
         msg.setText("Listeden bir kullanıcı seçin.");
@@ -263,7 +267,8 @@ void AyarlarDialog::on_SilPushButton_clicked()
         getUsers();
     }
     else{
-        QMessageBox msg;
+        uyariSesi->play();
+        QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
         msg.setText("Listeden bir kullanıcı seçin.");
@@ -369,6 +374,7 @@ void AyarlarDialog::on_pushButton_clicked()
             genelAyarlar.endGroup();
         }
         else{
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Warning);
@@ -400,8 +406,8 @@ void AyarlarDialog::on_YedeklepushButton_clicked()
 {
     QString dosyaYolu = QFileDialog::getSaveFileName(this, "Kayt Yeri Seçiniz", QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     if(!dosyaYolu.isEmpty()){
-        bool ok = vt.veritabaniYedekle(dosyaYolu);
-        if(ok){
+        if(vt.veritabaniYedekle(dosyaYolu)){
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
@@ -411,6 +417,7 @@ void AyarlarDialog::on_YedeklepushButton_clicked()
             msg.exec();
         }
         else{
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Warning);
@@ -433,6 +440,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
     msg.setButtonText(QMessageBox::Yes, "Evet");
     msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
+    uyariSesi->play();
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
         QFileDialog dialog(this);
@@ -446,8 +454,8 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
         dialog.exec();
         QString dosyaYolu = dialog.selectedFiles().first();
         if(dosyaYolu.contains(".sql")){
-            bool ok = vt.veritabaniYedektenGeriYukle(dosyaYolu);
-            if(ok){
+            if(vt.veritabaniYedektenGeriYukle(dosyaYolu)){
+                uyariSesi->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Bilgi");
                 msg.setIcon(QMessageBox::Information);
@@ -457,6 +465,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
                 msg.exec();
             }
             else{
+                uyariSesi->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Warning);
@@ -467,6 +476,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
             }
         }
         else{
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
@@ -742,6 +752,7 @@ void AyarlarDialog::on_dakikacomboBox_currentIndexChanged(int index)
 
 void AyarlarDialog::on_SifirlapushButton_clicked()
 {
+    uyariSesi->play();
     QMessageBox msg(this);
     msg.setWindowTitle("Dikkat");
     msg.setIcon(QMessageBox::Warning);
@@ -757,8 +768,8 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
     msg.setDefaultButton(QMessageBox::No);
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
-        bool ok = vt.veritabaniSifirla();
-        if(ok){
+        if(vt.veritabaniSifirla()){
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
@@ -768,6 +779,7 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
             msg.exec();
         }
         else{
+            uyariSesi->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Warning);
@@ -796,6 +808,7 @@ void AyarlarDialog::on_hizliButtonSifirlapushButton_clicked()
     msg.setButtonText(QMessageBox::Yes, "Evet");
     msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
+    uyariSesi->play();
     int ret = msg.exec();
     if(ret == QMessageBox::Yes){
         QSettings hizlibutonlarini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);

@@ -131,7 +131,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="labelVersion">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -157,7 +157,7 @@
      <string>Versiyon:</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -171,16 +171,6 @@
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Kullanıcı adı</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="CmBoxUserName">
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
        </property>
       </widget>
      </item>
@@ -261,6 +251,16 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QComboBox" name="CmBoxUserName">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -270,6 +270,7 @@
   <tabstop>LeditPass</tabstop>
   <tabstop>GirisBtn</tabstop>
   <tabstop>KapatBtn</tabstop>
+  <tabstop>toolButton</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

@@ -68,18 +68,28 @@ void LoginForm::formLoad()
     }
     ui->CmBoxUserName->addItems(vt.GetUsers());
     ui->label_6->setVisible(getCapslockState());
+    ui->CmBoxUserName->setFocus();
+
+    ui->labelVersion->setText(QApplication::applicationVersion());
 }
 
 void LoginForm::on_GirisBtn_clicked()
 {
     if(vt.loginControl(ui->CmBoxUserName->currentText(), ui->LeditPass->text())){
-//        User u = vt.GetUserInfos(ui->CmBoxUserName->currentText());
         SatisForm *satis = new SatisForm();
         satis->setUser(vt.GetUserInfos(ui->CmBoxUserName->currentText()));
         satis->show();
         this->close();
     }
     else{
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Hata");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Şifre hatalı!");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
         ui->LeditPass->clear();
         ui->LeditPass->setFocus();
     }

@@ -88,7 +88,7 @@ public slots:
     void deleteUser(QString _DeletedUserName);
     QString sonIslemNumarasi();
     QSqlQueryModel *getCariKartIsimleri();
-    void yeniCariKart(Cari _cariKart);
+    bool yeniCariKart(Cari _cariKart);
     bool cariKartDuzenle(Cari _cariKart);
     QStringList getCariTipleri();
     QStringList getIller();

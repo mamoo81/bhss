@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     QTranslator *tr_translator = new QTranslator();
     tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(tr_translator);
+    a.setApplicationVersion(QString("0.1.8"));
 
     QPixmap splashscreenimage(":/images/ui/splash-screen.png");
 
