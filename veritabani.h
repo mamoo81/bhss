@@ -80,7 +80,7 @@ public slots:
     void kasadanParaCek(double _cekilecekTutar, User _kullanici);
     double getGunlukCiro();
     void iadeAl(Sepet _iadeSepet, User _kullanici);
-    void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari);
+    void iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari, QString _faturaNo);
     bool iadeAlinmismi(QString FaturaNo);
     QSqlQuery getIslemInfo(QString _faturaNo);
     bool CreateNewUser(User _NewUser);

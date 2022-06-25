@@ -79,7 +79,36 @@ void SatisGosterDialog::sepetiCek()
         ui->sepetTableWidget->setItem(satirIndex, 0, new QTableWidgetItem(urun.barkod));
         ui->sepetTableWidget->setItem(satirIndex, 1, new QTableWidgetItem(urun.ad));
         ui->sepetTableWidget->setItem(satirIndex, 2, new QTableWidgetItem(QString::number(urun.birimFiyat, 'f', 2)));
-        ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem(urun.birim));
+        switch (urun.birim) {
+        case StokKarti::Birimler::Adet:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("ADET"));
+            break;
+        case StokKarti::Birimler::Kilogram:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("KİLOGRAM"));
+            break;
+        case StokKarti::Birimler::Koli:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("KOLİ"));
+            break;
+        case StokKarti::Birimler::Palet:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("PALET"));
+            break;
+        case StokKarti::Birimler::Paket:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("PAKET"));
+            break;
+        case StokKarti::Birimler::Metre:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("METRE"));
+            break;
+        case StokKarti::Birimler::Metrekare:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("METREKARE"));
+            break;
+        case StokKarti::Birimler::Metreküp:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("METREKÜP"));
+            break;
+        case StokKarti::Birimler::Litre:
+            ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("LİTRE"));
+            break;
+        }
+
         ui->sepetTableWidget->setItem(satirIndex, 4, new QTableWidgetItem(QString::number(urun.miktar)));
         ui->sepetTableWidget->setItem(satirIndex, 5, new QTableWidgetItem(QString::number(urun.toplam, 'f', 2)));
         satirIndex++;
@@ -135,7 +164,9 @@ void SatisGosterDialog::on_iadepushButton_clicked()
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
 
-        vt->iadeAl(satilmisSepet, kullanici, cari);
+        //iade miktarı için ödenen tutarı form açılırken ki çalıştırdığım sorgudan alıyorum.
+        satilmisSepet.setOdenenTutar(qr.value(5).toDouble());
+        vt->iadeAl(satilmisSepet, kullanici, cari, satisFaturaNo);
 
         uyariSesi->play();
         QMessageBox msg(this);

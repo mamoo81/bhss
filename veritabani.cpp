@@ -101,13 +101,28 @@ void Veritabani::satisYap(Sepet _satilacakSepet, User _satisYapanKullanici, int 
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
     }
-    //kasa hareketi girme ve kasaya para giriş/çıkış
-    KasaHareketiEkle(_satisYapanKullanici,
-                     "GİRİŞ",
-                     _satilacakSepet.sepetToplamTutari(),
-                     "SATIŞ FAT.NO:" + FaturaNo,
-                     QDateTime::currentDateTime(),
-                     _satilacakSepet.getSepettekiKazanc());
+    //kasa hareketi girme ve kasaya ödenen para kadar giriş
+    if(_satilacakSepet.getOdenenTutar() > 0){// kasanın tutması için. cariye veresiye kaydedecekse odenen tutar 0 dan büyükse
+        // odenen para büyük veya eşitse sepettoplamtutarina sepetin tamamı ödendi demek.
+        if(_satilacakSepet.getOdenenTutar() >= _satilacakSepet.sepetToplamTutari()){
+            KasaHareketiEkle(_satisYapanKullanici,
+                             "GİRİŞ",
+                             _satilacakSepet.sepetToplamTutari(),
+                             "SATIŞ FAT.NO:" + FaturaNo,
+                             QDateTime::currentDateTime(),
+                             _satilacakSepet.getSepettekiKazanc());
+        }
+        // odenen para küçükse sepettoplamtutarindan sepet eksik veya veresiye ödendi.
+        if(_satilacakSepet.getOdenenTutar() < _satilacakSepet.sepetToplamTutari()){
+            KasaHareketiEkle(_satisYapanKullanici,
+                             "GİRİŞ",
+                             _satilacakSepet.getOdenenTutar(),
+                             "SATIŞ FAT.NO:" + FaturaNo,
+                             QDateTime::currentDateTime(),
+                             _satilacakSepet.getSepettekiKazanc());// veresiye veya eksik ödediği için kar olarak eklemiyorum.
+        }
+    }
+
     //sepetteki ürünlerin stok hareketlerine girişi
     foreach (auto urun, _satilacakSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
@@ -1605,18 +1620,19 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici)
     }
 }
 
-void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
+void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari, QString _faturaNo)
 {
     QString iadeFaturaNo = yeniFaturaNo();
     // iade fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, evrakno) "
+                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, iadeFaturaNo);
     sorgu.bindValue(1, _iadeCari.getId());
     sorgu.bindValue(2, 3);// iade fatura tipi
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, _kullanici.getUserID());
     sorgu.bindValue(5, _iadeSepet.sepetToplamTutari());
+    sorgu.bindValue(6, _faturaNo);
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << sorgu.lastError().text();
@@ -1625,7 +1641,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
     sorgu.exec("SELECT * FROM kasa");
     sorgu.next();
     double suankiPara = sorgu.value(1).toDouble();
-    double guncelKasaPara = suankiPara - _iadeSepet.sepetToplamTutari();
+    double guncelKasaPara = suankiPara - _iadeSepet.getOdenenTutar();
     sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
     sorgu.bindValue(0, guncelKasaPara);
     sorgu.exec();
@@ -1636,12 +1652,12 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
     sorgu.clear();
     sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, kar, tarih, aciklama) "
                   "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, _iadeSepet.sepetToplamTutari());
-    sorgu.bindValue(1, _iadeCari.getId());
+    sorgu.bindValue(0, _iadeSepet.getOdenenTutar());
+    sorgu.bindValue(1, _kullanici.getUserID());
     sorgu.bindValue(2, "İADE");
     sorgu.bindValue(3, (_iadeSepet.getSepettekiKazanc() * -1));
     sorgu.bindValue(4, QDateTime::currentDateTime());
-    sorgu.bindValue(5, "İADE FAT.NO:" + iadeFaturaNo);
+    sorgu.bindValue(5, "İADESİ YAPILAN FAT.NO:" + _faturaNo);
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qWarning(qPrintable(sorgu.lastError().text()));
@@ -1676,7 +1692,7 @@ void Veritabani::iadeAl(Sepet _iadeSepet, User _kullanici, Cari _iadeCari)
 
 bool Veritabani::iadeAlinmismi(QString FaturaNo)
 {
-    sorgu.prepare("SELECT * FROM faturalar WHERE fatura_no = ? AND tipi = 3");
+    sorgu.prepare("SELECT * FROM faturalar WHERE evrakno = ? AND tipi = 3");
     sorgu.bindValue(0, FaturaNo);
     sorgu.exec();
     // satışı yapılmış fatura no sunun iade faturası da varsa true döndürür

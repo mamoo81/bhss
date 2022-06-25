@@ -586,9 +586,9 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>790</x>
-     <y>160</y>
+     <y>190</y>
      <width>81</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -608,10 +608,10 @@ color: rgb(0, 255, 0);</string>
   <widget class="QPushButton" name="artirBtn">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>160</y>
+     <x>790</x>
+     <y>140</y>
      <width>81</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -632,9 +632,9 @@ color: rgb(0, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>700</x>
-     <y>200</y>
+     <y>190</y>
      <width>81</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -6378,10 +6378,10 @@ color: rgb(0, 255, 0);</string>
   <widget class="QPushButton" name="CarpBtn">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>200</y>
+     <x>700</x>
+     <y>140</y>
      <width>81</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">

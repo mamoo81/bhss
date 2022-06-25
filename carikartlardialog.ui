@@ -539,7 +539,7 @@ color: rgb(0, 0, 0);</string>
       <x>10</x>
       <y>30</y>
       <width>230</width>
-      <height>46</height>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
@@ -609,7 +609,7 @@ color: rgb(0, 0, 0);</string>
       <x>250</x>
       <y>30</y>
       <width>101</width>
-      <height>46</height>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -773,7 +773,7 @@ color: rgb(0, 0, 0);</string>
       <x>10</x>
       <y>30</y>
       <width>241</width>
-      <height>46</height>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">

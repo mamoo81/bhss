@@ -78,8 +78,14 @@ void SatisYapForm::on_satBtn_clicked()
 
     if(cariAdlari.contains(ui->CariLineEdit->text())){
         int index = cariAdlari.indexOf(ui->CariLineEdit->text());
+        // satış yapılan cari DİREKT ise ödenen tutarı sepet toplam tutarı olarak al. değilse kullanıcının girdiği tutarı baz al.
+        if(ui->CariLineEdit->text().contains("DİREKT", Qt::CaseInsensitive)){
+            satilacakSepet.setOdenenTutar(satilacakSepet.sepetToplamTutari());
+        }
+        else{
+            satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
+        }
         //veritabani clasına satiş gönderme
-        satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
         vt_satisFormu.satisYap(satilacakSepet, kullanici, cariKartlar.at(index).getId());
         // fiş yazdırma
         if(ui->fischeckBox->isChecked()){
