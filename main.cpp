@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     a.installTranslator(tr_translator);
     a.setApplicationVersion(QString("0.1.8"));
 
-    QPixmap splashscreenimage(":/images/ui/splash-screen.png");
+    QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
     QSplashScreen splash(splashscreenimage);// png yerine bir form class tasarlayıp onu da gösterebilirsin.
     splash.show();

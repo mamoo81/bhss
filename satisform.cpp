@@ -2519,7 +2519,7 @@ void SatisForm::hizliUrunSayfaAyarla()
 {
     QSettings hizliButonSayfaAdlari(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
 
-    if(hizliButonSayfaAdlari.contains("hizlisayfa")){
+    if(hizliButonSayfaAdlari.childGroups().contains("hizlisayfa")){
         hizliButonSayfaAdlari.beginGroup("hizlisayfa");
         ui->HizliUrunlertabWidget->setTabText(0, hizliButonSayfaAdlari.value("0").toString());
         ui->HizliUrunlertabWidget->setTabText(1, hizliButonSayfaAdlari.value("1").toString());

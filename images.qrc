@@ -71,8 +71,8 @@
         <file>images/ui/10-krs.svg</file>
         <file>images/ui/25-krs.svg</file>
         <file>images/ui/f4-key.png</file>
-        <file>images/ui/splash-screen.png</file>
         <file>images/ui/keyboard.png</file>
+        <file>images/ui/basat-splash-screen.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/warning-sound.wav</file>
