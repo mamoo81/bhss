@@ -120,6 +120,8 @@ void CariKartlarDialog::cariHareketleriListele()
 void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 {
     if(ui->CariKartHareketleritableView->currentIndex().row() > -1){
+        ui->CariislemsiltoolButton->setEnabled(true);
+
         if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "ÖDEME"){
             ui->OdemeMakbuzuBastoolButton->setEnabled(true);
             ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
@@ -132,6 +134,9 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
             ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
             ui->OdemeMakbuzuBastoolButton->setEnabled(false);
         }
+    }
+    else{
+        ui->CariislemsiltoolButton->setEnabled(false);
     }
 }
 
