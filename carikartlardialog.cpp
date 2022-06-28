@@ -293,3 +293,29 @@ void CariKartlarDialog::on_TahsilatMakbuzuBastoolButton_clicked()
     }
 }
 
+
+void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
+{
+    if(ui->CariKartHareketleritableView->selectionModel()->hasSelection()){
+
+        QString hareketTipi = ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString();
+
+        if(hareketTipi == "SATIŞ"){
+            QString silinecekCariHareketFaturaNo = ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 0).data().toString();
+
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Dikkat");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText(QString("%1 nolu satış faturası silinecek\nSatılan ürünler stoğa geri eklenecek\nKasadan fatura turarı ve kar düşülecek.\n\n"
+                                "İşlemi yapmak istediğinize emin misiniz?").arg(silinecekCariHareketFaturaNo));
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::No);
+            if(msg.exec() == QMessageBox::Yes){
+                Cari cari = vt.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+                vt.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari);
+            }
+        }
+        cariHareketleriListele();
+    }
+}

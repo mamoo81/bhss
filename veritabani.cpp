@@ -173,6 +173,23 @@ QString Veritabani::yeniFaturaNo()
     return QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
 }
 
+//sadece faturayı siler para iadeleri ve stok giriş/çıkış ve hareketleri etkilemez.
+bool Veritabani::faturayiSil(QString _faturaNo)
+{
+    if(!iadeAlinmismi(_faturaNo)){
+        sorgu.prepare("DELETE FROM faturalar WHERE fatura_no = ?");
+        sorgu.bindValue(0, _faturaNo);
+        if(sorgu.exec()){
+            return true;
+        }
+        else{
+            return false;
+            qWarning(qPrintable(sorgu.lastError().text()));
+        }
+    }
+    return false;
+}
+
 QStringList Veritabani::getSonIslemler()
 {
     QStringList islemler;
@@ -1005,6 +1022,29 @@ double Veritabani::getcarilerToplamBorc()
     return kalanTutar - odenenTutar;
 }
 
+void Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)
+{
+//    3 ana adım
+//    faturanın silinmesi
+//    sepetteki ürünlerin stoğa geri eklenmesi
+//    kasa hareketlerine girilmesi
+
+    //satış faturası iade alınmamışsa
+    if(!iadeAlinmismi(_faturaNo)){
+        //faturanın silinmesi
+        faturayiSil(_faturaNo);
+
+        // faturadaki ürünlerin stoğa geri eklenmesi
+        Sepet sepet = getSatis(_faturaNo);
+        //satılan sepetteki ürünleri stoğa geri ekle
+        foreach (auto urun, sepet.urunler) {
+            setStokMiktari(_kullanici, urun.ID, "GİRİŞ", urun.miktar);// stok hareketlerine de ekliyor.
+        }
+        // kasahareketine - para girişi
+        KasaHareketiEkle(_kullanici, "ÇIKIŞ", sepet.sepetToplamTutari(), QString("cari hareket silme:%1").arg(_cari.getId()), QDateTime::currentDateTime(), sepet.getSepettekiKazanc());// kasaya para giriş/çıkış da yapar.
+    }
+}
+
 bool Veritabani::yeniCariKart(Cari _cariKart)
 {
     sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
@@ -1788,6 +1828,15 @@ int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QS
                 qDebug() << "kasahareketiekle() hata:\n" << sorgu.lastError().text();
             }
         }
+        else if(_hareket == "ÇIKIŞ"){
+            sonPara = mevcutPara - _tutar;
+            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
+            sorgu.bindValue(0, sonPara);
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qDebug() << "kasahareketiekle() hata:\n" << sorgu.lastError().text();
+            }
+        }
         //HAREKET EKLEME BAŞLANGICI
         sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
                         "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
@@ -1795,7 +1844,12 @@ int Veritabani::KasaHareketiEkle(User _user, QString _hareket, double _tutar, QS
         sorgu.bindValue(1, _user.getUserID().toInt());
         sorgu.bindValue(2, _hareket);
         sorgu.bindValue(3, _tarih);
-        sorgu.bindValue(4, _netKar);
+        if(_hareket == "GİRİŞ"){
+            sorgu.bindValue(4, _netKar);
+        }
+        else if(_hareket == "ÇIKIŞ"){
+            sorgu.bindValue(4, (_netKar * -1));
+        }
         sorgu.bindValue(5, _aciklama);
         sorgu.exec();
         if(sorgu.lastError().isValid()){

@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "yazici.h"
 //**************************
 #include <QDialog>
+#include <QSound>
 
 namespace Ui {
 class CariKartlarDialog;
@@ -49,6 +50,8 @@ public:
         tahsilat = 5
     };
     Q_ENUM(FaturaTipi)
+
+    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     void setVergiDaireleri(const QStringList &newVergiDaireleri);
 
@@ -75,6 +78,8 @@ private slots:
     void on_CariKartHareketleritableView_doubleClicked(const QModelIndex &index);
 
     void on_TahsilatMakbuzuBastoolButton_clicked();
+
+    void on_CariislemsiltoolButton_clicked();
 
 private:
     Ui::CariKartlarDialog *ui;

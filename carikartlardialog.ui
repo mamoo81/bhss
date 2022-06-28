@@ -864,7 +864,7 @@ color: rgb(0, 0, 0);</string>
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="CariBankatoolButton_3">
+  <widget class="QToolButton" name="CariislemsiltoolButton">
    <property name="geometry">
     <rect>
      <x>740</x>

@@ -93,6 +93,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
     if(!urunler.contains(_StokKarti.getBarkod())){ //arrayda yok ise
         if(_StokKarti.getBirim() == 1){
             Urun urun;
+            urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
@@ -105,6 +106,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
         }
         else if(_StokKarti.getBirim() == 2){
             Urun urun;
+            urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
@@ -117,6 +119,7 @@ void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
         }
         else if(_StokKarti.getBirim() == 6){
             Urun urun;
+            urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();

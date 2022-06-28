@@ -29,6 +29,7 @@ class Urun
 public:
     Urun();
 
+    QString ID;
     QString barkod;
     QString ad;
     double alisFiyat;
