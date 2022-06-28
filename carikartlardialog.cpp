@@ -109,6 +109,7 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariyeStokluSatistoolButton->setEnabled(true);
         ui->CariyeStoksuzSatistoolButton->setEnabled(true);
     }
+    ui->CariislemsiltoolButton->setEnabled(false);
 
     double carilerToplamBorc = vt.getcarilerToplamBorc();
     double carilerToplamAlacak = vt.getCarilerToplamAlacak();
@@ -119,7 +120,7 @@ void CariKartlarDialog::cariHareketleriListele()
 
 void CariKartlarDialog::cariHareketleriTableSelectionChanged()
 {
-    if(ui->CariKartHareketleritableView->currentIndex().row() > -1){
+    if(ui->CariKartHareketleritableView->selectionModel()->hasSelection()){
         ui->CariislemsiltoolButton->setEnabled(true);
 
         if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "ÖDEME"){
@@ -134,9 +135,6 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
             ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
             ui->OdemeMakbuzuBastoolButton->setEnabled(false);
         }
-    }
-    else{
-        ui->CariislemsiltoolButton->setEnabled(false);
     }
 }
 
@@ -318,7 +316,24 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
             msg.setDefaultButton(QMessageBox::No);
             if(msg.exec() == QMessageBox::Yes){
                 Cari cari = vt.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
-                vt.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari);
+                if(vt.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari)){
+                    uyariSesi->play();
+                    QMessageBox msg(this);
+                    msg.setWindowTitle("Bilgi");
+                    msg.setIcon(QMessageBox::Information);
+                    msg.setText("Cari hareket silindi.");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    msg.exec();
+                }
+                else{
+                    uyariSesi->play();
+                    QMessageBox msg(this);
+                    msg.setWindowTitle("Bilgi");
+                    msg.setIcon(QMessageBox::Information);
+                    msg.setText("Cari hareket silinemedi.\n\nDaha önceden iade alınmış olabilir.");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    msg.exec();
+                }
             }
         }
         cariHareketleriListele();

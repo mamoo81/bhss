@@ -1022,7 +1022,7 @@ double Veritabani::getcarilerToplamBorc()
     return kalanTutar - odenenTutar;
 }
 
-void Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)
+bool Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)
 {
 //    3 ana adım
 //    faturanın silinmesi
@@ -1031,9 +1031,6 @@ void Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)
 
     //satış faturası iade alınmamışsa
     if(!iadeAlinmismi(_faturaNo)){
-        //faturanın silinmesi
-        faturayiSil(_faturaNo);
-
         // faturadaki ürünlerin stoğa geri eklenmesi
         Sepet sepet = getSatis(_faturaNo);
         //satılan sepetteki ürünleri stoğa geri ekle
@@ -1041,8 +1038,12 @@ void Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)
             setStokMiktari(_kullanici, urun.ID, "GİRİŞ", urun.miktar);// stok hareketlerine de ekliyor.
         }
         // kasahareketine - para girişi
-        KasaHareketiEkle(_kullanici, "ÇIKIŞ", sepet.sepetToplamTutari(), QString("cari hareket silme:%1").arg(_cari.getId()), QDateTime::currentDateTime(), sepet.getSepettekiKazanc());// kasaya para giriş/çıkış da yapar.
+        KasaHareketiEkle(_kullanici, "ÇIKIŞ", sepet.getOdenenTutar(), QString("cari hareket silme:%1").arg(_cari.getId()), QDateTime::currentDateTime(), sepet.getSepettekiKazanc());// kasaya para giriş/çıkış da yapar.
+        //faturanın silinmesi
+        faturayiSil(_faturaNo);
+        return true;
     }
+    return false;
 }
 
 bool Veritabani::yeniCariKart(Cari _cariKart)
@@ -1554,6 +1555,11 @@ Sepet Veritabani::getSatis(QString _faturaNo)
         StokKarti sk = getStokKarti(satisSorgu.value(0).toString());
         satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat());
     }
+    // faturanın ödenen ve kalan tutar bilgisini alma.
+    QSqlQuery islem = getIslemInfo(_faturaNo);
+    satilmisSepet.setOdenenTutar(islem.value(5).toDouble());
+    satilmisSepet.setKalanTutar(islem.value(6).toDouble());
+
     return satilmisSepet;
 }
 

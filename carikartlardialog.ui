@@ -839,6 +839,9 @@ color: rgb(0, 0, 0);</string>
    </widget>
   </widget>
   <widget class="QToolButton" name="CariBankatoolButton_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>740</x>
@@ -865,6 +868,9 @@ color: rgb(0, 0, 0);</string>
    </property>
   </widget>
   <widget class="QToolButton" name="CariislemsiltoolButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>740</x>

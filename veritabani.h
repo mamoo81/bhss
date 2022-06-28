@@ -110,7 +110,7 @@ public slots:
     double getCariToplamBorc(QString _cariID);
     double getCarilerToplamAlacak();
     double getcarilerToplamBorc();
-    void cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari);
+    bool cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari);
     QStringList getOdemeTipleri();
     void caridenTahsilatYap(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
     void cariKartSil(QString _cariID);
