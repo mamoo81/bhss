@@ -232,7 +232,7 @@ void AyarlarDialog::on_KullanicilarlistWidget_itemSelectionChanged()
     ui->KasacheckBox->setChecked(u.getKasaYetki());
     ui->IadecheckBox->setChecked(u.getIadeYetki());
     ui->StokcheckBox->setChecked(u.getStokYetki());
-    ui->KasacheckBox->setChecked(u.getKasaYetki());
+    ui->CaricheckBox->setChecked(u.getCariyetki());
     ui->AyarcheckBox->setChecked(u.getAyaryetki());
 }
 

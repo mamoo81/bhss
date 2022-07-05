@@ -85,7 +85,7 @@ public slots:
     bool iadeAlinmismi(QString FaturaNo);
     QSqlQuery getIslemInfo(QString _faturaNo);
     bool CreateNewUser(User _NewUser);
-    void updateUser(User _NewUserInfos);
+    bool updateUser(User _NewUserInfos);
     void deleteUser(QString _DeletedUserName);
     QString sonIslemNumarasi();
     QSqlQueryModel *getCariKartIsimleri();

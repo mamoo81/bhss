@@ -596,9 +596,10 @@ User Veritabani::GetUserInfos(QString _UserName)
     return u;
 }
 
-void Veritabani::updateUser(User _NewUserInfos)
+bool Veritabani::updateUser(User _NewUserInfos)
 {
-    sorgu.prepare("UPDATE kullanicilar SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ?, ayaryetki = ?, cariyetki = ? "
+    sorgu.prepare("UPDATE kullanicilar "
+                    "SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ?, ayaryetki = ?, cariyetki = ? "
                     "WHERE id = ?");
     sorgu.bindValue(0, _NewUserInfos.getPassWord());
     sorgu.bindValue(1, _NewUserInfos.getAd());
@@ -610,30 +611,13 @@ void Veritabani::updateUser(User _NewUserInfos)
     sorgu.bindValue(7, _NewUserInfos.getStokYetki());
     sorgu.bindValue(8, _NewUserInfos.getAyaryetki());
     sorgu.bindValue(9, _NewUserInfos.getCariyetki());
-    sorgu.bindValue(8, _NewUserInfos.getUserID());
-    if(sorgu.exec()){
-        QMessageBox *msg = new QMessageBox(0);
-        msg->setIcon(QMessageBox::Information);
-        msg->setWindowTitle("Başarılı");
-        msg->setText("Kullanıcı güncellendi.");
-        msg->setStandardButtons(QMessageBox::Ok);
-        msg->setDefaultButton(QMessageBox::Ok);
-        msg->setButtonText(QMessageBox::Ok, "Tamam");
-        msg->exec();
+    sorgu.bindValue(10, _NewUserInfos.getUserID());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning(qPrintable(sorgu.lastError().text()));
+        return false;
     }
-    else{
-        if(sorgu.lastError().isValid()){
-            QMessageBox *msg = new QMessageBox(0);
-            msg->setIcon(QMessageBox::Information);
-            msg->setWindowTitle("Hata");
-            msg->setText("Güncelleme Başarısız!");
-            msg->setInformativeText(sorgu.lastError().text());
-            msg->setStandardButtons(QMessageBox::Ok);
-            msg->setDefaultButton(QMessageBox::Ok);
-            msg->setButtonText(QMessageBox::Ok, "Tamam");
-            msg->exec();
-        }
-    }
+    return true;
 }
 
 bool Veritabani::CreateNewUser(User _NewUser)

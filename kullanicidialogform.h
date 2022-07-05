@@ -42,6 +42,7 @@ public:
     ~KullaniciDialogForm();
 
     Veritabani vt = Veritabani();
+    User u;
 
     QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 

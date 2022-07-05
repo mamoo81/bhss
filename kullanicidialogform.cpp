@@ -44,7 +44,7 @@ void KullaniciDialogForm::formLoad()
     regEXPTelefon.setPatternSyntax(QRegExp::RegExp);
     ui->CepNolineEdit->setValidator(new QRegExpValidator(regEXPTelefon, this));
 
-    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{6,16}");
+    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{5,16}");
     regEXPkullaniciAdi.setCaseSensitivity(Qt::CaseInsensitive);
     ui->UserNamelineEdit->setValidator(new QRegExpValidator(regEXPkullaniciAdi, this));
 
@@ -65,7 +65,7 @@ void KullaniciDialogForm::formLoad()
 void KullaniciDialogForm::setDuzenlenecekUser(const QString &newDuzenlenecekUserName)
 {
     if(!yeniMi){
-        User u = vt.GetUserInfos(newDuzenlenecekUserName);
+        u = vt.GetUserInfos(newDuzenlenecekUserName);
         ui->UserNamelineEdit->setText(u.getUserName());
         ui->PasswordlineEdit->setText(u.getPassWord());
         ui->AdlineEdit->setText(u.getAd());
@@ -120,20 +120,21 @@ void KullaniciDialogForm::on_pushButton_clicked()
         return;
     }
 
+    User NewUser;
+    NewUser.setUserName(ui->UserNamelineEdit->text());
+    NewUser.setPassWord(ui->PasswordlineEdit->text());
+    NewUser.setAd(ui->AdlineEdit->text());
+    NewUser.setSoyad(ui->SoyadlineEdit->text());
+    NewUser.setCepNo(ui->CepNolineEdit->text());
+    NewUser.setTarih(QDateTime::currentDateTime());
+    NewUser.setKasaYetki(ui->KasacheckBox->isChecked());
+    NewUser.setIadeYetki(ui->IadecheckBox->isChecked());
+    NewUser.setStokYetki(ui->StokcheckBox->isChecked());
+    NewUser.setCariyetki(ui->CaricheckBox->isChecked());
+    NewUser.setCariyetki(ui->CaricheckBox->isChecked());
+    NewUser.setAyaryetki(ui->AyarcheckBox->isChecked());
+
     if(yeniMi){
-        User NewUser;
-        NewUser.setUserName(ui->UserNamelineEdit->text());
-        NewUser.setPassWord(ui->PasswordlineEdit->text());
-        NewUser.setAd(ui->AdlineEdit->text());
-        NewUser.setSoyad(ui->SoyadlineEdit->text());
-        NewUser.setCepNo(ui->CepNolineEdit->text());
-        NewUser.setTarih(QDateTime::currentDateTime());
-        NewUser.setKasaYetki(ui->KasacheckBox->isChecked());
-        NewUser.setIadeYetki(ui->IadecheckBox->isChecked());
-        NewUser.setStokYetki(ui->StokcheckBox->isChecked());
-        NewUser.setCariyetki(ui->CaricheckBox->isChecked());
-        NewUser.setCariyetki(ui->CaricheckBox->isChecked());
-        NewUser.setAyaryetki(ui->AyarcheckBox->isChecked());
         if(vt.CreateNewUser(NewUser)){
             uyariSesi->play();
             QMessageBox msg(this);
@@ -153,6 +154,29 @@ void KullaniciDialogForm::on_pushButton_clicked()
             msg.setText("HATA:\n\nYeni kullanıcı oluşturulamadı!");
             msg.setStandardButtons(QMessageBox::Ok);
             msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.exec();
+        }
+    }
+    else{
+        NewUser.setUserID(u.getUserID());
+        if(vt.updateUser(NewUser)){
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Information);
+            msg.setWindowTitle("Başarılı");
+            msg.setText("Kullanıcı güncellendi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setDefaultButton(QMessageBox::Ok);
+            msg.exec();
+            this->close();
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Information);
+            msg.setWindowTitle("Hata");
+            msg.setText("Güncelleme Başarısız!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setDefaultButton(QMessageBox::Ok);
             msg.exec();
         }
     }
