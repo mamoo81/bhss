@@ -35,6 +35,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QFileInfo>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QHash>
 
 Veritabani::Veritabani()
 {
@@ -1892,4 +1893,25 @@ QStringList Veritabani::getTeraziModeller(QString Marka)
         modeller.append(sorgu.value(0).toString());
     }
     return modeller;
+}
+
+QHash<QString, float> Veritabani::getgunlukAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
+{
+    sonTarih = sonTarih.addDays(1);// bir gün eklemezsem saati 00:00:00 aldığı için 1 gün eksik hesaplıyor.
+
+    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('day', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+                  "GROUP BY DATE_TRUNC('day', tarih::timestamp) ORDER BY DATE_TRUNC('day', tarih::timestamp)");
+    sorgu.bindValue(0, ilkTarih);
+    sorgu.bindValue(1, sonTarih);
+    sorgu.bindValue(2, kart.getBarkod());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning(qPrintable(sorgu.lastError().text()));
+    }
+    QHash<QString, float> adetler;
+    while (sorgu.next()) {
+        adetler.insert(sorgu.value(1).toDate().toString(), sorgu.value(0).toFloat());
+    }
+    return adetler;
 }

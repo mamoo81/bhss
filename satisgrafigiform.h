@@ -21,9 +21,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef SATISGRAFIGIFORM_H
 #define SATISGRAFIGIFORM_H
-
+#include "stokkarti.h"
+#include "veritabani.h"
+//***********************
 #include <QDialog>
 #include <QDate>
+// chart ile ilgili
+
+
+#include <QtCharts>
+// veya alttaki flagı kullanabilirsin.
+//QT_CHARTS_USE_NAMESPACE
 
 namespace Ui {
 class SatisGrafigiForm;
@@ -44,14 +52,32 @@ public:
     explicit SatisGrafigiForm(QWidget *parent = nullptr);
     ~SatisGrafigiForm();
 
-    void AralıkBelirle(QDate baslangicTarih, QDate bitisTarih);
+    Veritabani vt = Veritabani();
 
+    QChart *chart = new QChart();
+    QChartView *chartview = new QChartView(chart);
+
+    void AralıkBelirle();
+
+    void setStokKarti(StokKarti gosterilecekKart);
 
 private slots:
     void FormLoad();
 
+    void on_gunlukradioButton_clicked();
+
+    void on_aylikradioButton_clicked();
+
+    void on_bitisdateEdit_dateChanged(const QDate &date);
+
+    void on_yillikradioButton_clicked();
+
+    void on_gosterpushButton_clicked();
+
 private:
     Ui::SatisGrafigiForm *ui;
+
+    StokKarti kart;
 };
 
 #endif // SATISGRAFIGIFORM_H

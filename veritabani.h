@@ -138,6 +138,7 @@ public slots:
     int getTedarikciID(QString _tedarikciAd);
     QStringList getTeraziler();
     QStringList getTeraziModeller(QString Marka);
+    QHash<QString, float> getgunlukAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart);
 };
 
 #endif // VERITABANI_H

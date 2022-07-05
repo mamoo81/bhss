@@ -44,7 +44,7 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 Terminalden Milis Hızlı Satış Sistemi kurulumu
 ```
 sudo mps gun
-sudo mps kur mhss
+sudo mps kur mhss postgresql
 ```
 
 Postgresql servisinin kurulumu ve aktifleştirilmesi

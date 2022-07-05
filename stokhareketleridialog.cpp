@@ -80,9 +80,10 @@ void StokHareketleriDialog::on_baslangicdateEdit_dateTimeChanged(const QDateTime
     }
 }
 
-void StokHareketleriDialog::setStokBarkod(const QString &newStokBarkod)
+void StokHareketleriDialog::setStokKarti(const StokKarti &newStokKarti)
 {
-    stokKartiBarkod = newStokBarkod;
+    kart = newStokKarti;
+    stokKartiBarkod = newStokKarti.getBarkod();
     ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
     ui->baslangicdateEdit->setDate(QDate(2022, 1, 1));
     ui->baslangicdateEdit->setTime(QTime());//boş Qtime atayınca saati 00:00:00 yapar
@@ -100,6 +101,7 @@ void StokHareketleriDialog::getHareketler(QString _barkod, QDateTime _baslangicT
 void StokHareketleriDialog::on_pushButton_clicked()
 {
     SatisGrafigiForm *grafik = new SatisGrafigiForm(this);
+    grafik->setStokKarti(kart);
     grafik->exec();
     delete grafik;
 }

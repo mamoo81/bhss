@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef STOKHAREKETLERIDIALOG_H
 #define STOKHAREKETLERIDIALOG_H
 #include "veritabani.h"
+#include "stokkarti.h"
 //*******************************
 #include <QDialog>
 
@@ -39,7 +40,7 @@ public:
 
     Veritabani vt = Veritabani();
 
-    void setStokBarkod(const QString &newStokBarkod);
+    void setStokKarti(const StokKarti &newStokKarti);
 
 private slots:
     void on_bitisdateEdit_dateTimeChanged(const QDateTime &dateTime);
@@ -53,6 +54,7 @@ private:
     Ui::StokHareketleriDialog *ui;
 
     QString stokKartiBarkod;
+    StokKarti kart;
 };
 
 #endif // STOKHAREKETLERIDIALOG_H

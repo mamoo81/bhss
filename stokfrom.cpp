@@ -776,7 +776,7 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
     StokHareketleriDialog *hareketlerForm = new StokHareketleriDialog(this);
-    hareketlerForm->setStokBarkod(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
+    hareketlerForm->setStokKarti(vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()));
     hareketlerForm->exec();
     delete hareketlerForm;
 }
