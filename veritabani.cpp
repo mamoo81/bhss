@@ -1915,3 +1915,45 @@ QHash<QString, float> Veritabani::getgunlukAdetler(QDate ilkTarih, QDate sonTari
     }
     return adetler;
 }
+
+QHash<QString, float> Veritabani::getAylikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
+{
+    sonTarih = sonTarih.addMonths(1);// bir ay eklemezsem saati 00:00:00 aldığı için 1 ay eksik hesaplıyor.
+
+    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('month', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+                  "GROUP BY DATE_TRUNC('month', tarih::timestamp) ORDER BY DATE_TRUNC('month', tarih::timestamp)");
+    sorgu.bindValue(0, ilkTarih);
+    sorgu.bindValue(1, sonTarih);
+    sorgu.bindValue(2, kart.getBarkod());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning(qPrintable(sorgu.lastError().text()));
+    }
+    QHash<QString, float> adetler;
+    while (sorgu.next()) {
+        adetler.insert(sorgu.value(1).toDate().toString("MM.yyyy MMMM"), sorgu.value(0).toFloat());
+    }
+    return adetler;
+}
+
+QHash<QString, float> Veritabani::getYillikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
+{
+    sonTarih = sonTarih.addYears(1);// bir yıl eklemezsem saati 00:00:00 aldığı için 1 yıl eksik hesaplıyor.
+
+    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('year', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+                  "GROUP BY DATE_TRUNC('year', tarih::timestamp) ORDER BY DATE_TRUNC('year', tarih::timestamp)");
+    sorgu.bindValue(0, ilkTarih);
+    sorgu.bindValue(1, sonTarih);
+    sorgu.bindValue(2, kart.getBarkod());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qWarning(qPrintable(sorgu.lastError().text()));
+    }
+    QHash<QString, float> adetler;
+    while (sorgu.next()) {
+        adetler.insert(sorgu.value(1).toDate().toString("yyyy"), sorgu.value(0).toFloat());
+    }
+    return adetler;
+}
