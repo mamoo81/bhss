@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>5</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -2334,11 +2334,11 @@
         <x>10</x>
         <y>30</y>
         <width>611</width>
-        <height>51</height>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
-       <string>Bu **BASAT YAZILIM ve BİLGİSAYAR SİSTEMLERİ** 'nin Açık Kaynak olarak geliştirdiği bir yazılımdır.  Sorun, öneri ve ek geliştirme istekleriniz için aşağıda yer alan adreslerimizden bizimle iletişime geçebilirsiniz.</string>
+       <string>Bu **BASAT YAZILIM ve BİLGİSAYAR SİSTEMLERİ** 'nin Açık Kaynak olarak geliştirdiği bir yazılımdır.  Sorun, öneri ve ek geliştirme istekleriniz için aşağıda yer alan adreslerimizden bizimle iletişime geçebilirsiniz. Milis Linux üzerinde geliştirilmiştir.</string>
       </property>
       <property name="textFormat">
        <enum>Qt::MarkdownText</enum>

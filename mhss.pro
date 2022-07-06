@@ -15,6 +15,7 @@ SOURCES += \
     cari.cpp \
     carihareketiekleform.cpp \
     carikartlardialog.cpp \
+    etiketthread.cpp \
     fiyatgorform.cpp \
     gecmissatislardialog.cpp \
     hizliurunekleformdialog.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     cari.h \
     carihareketiekleform.h \
     carikartlardialog.h \
+    etiketthread.h \
     fiyatgorform.h \
     gecmissatislardialog.h \
     hizliurunekleformdialog.h \

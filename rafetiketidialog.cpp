@@ -48,7 +48,7 @@ RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
     key_right->setKey(Qt::Key_Right);
     connect(key_right, SIGNAL(activated()), this, SLOT(ListeyeEkle()));
 
-
+    ui->progressBar->setVisible(false);
 
 }
 
