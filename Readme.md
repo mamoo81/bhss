@@ -28,8 +28,7 @@ Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış 
 ![kasa](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-kasa.png)
 
 #### Tavsiye edilen sistem gereksinimleri
-* Milis Linux işletim sistemi
-* Pardus İşletim Sistemi (QT Dokunmatik desteği için)
+* Milis Linux işletim sistemi (Dokunmatik kullanım isteniyorsa Pardus GNU/Linux kullanılabilir)
 * 1 GB sistem belleği
 * Minimum 1366x768px çözünürlüğünde monitör
 
