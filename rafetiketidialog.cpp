@@ -207,6 +207,10 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
     if(cevap == QMessageBox::Yes){
         ui->progressBar->setVisible(true);
         ui->DurdurtoolButton->setEnabled(true);
+        ui->eklepushButton->setEnabled(false);
+        ui->cikarpushButton->setEnabled(false);
+        ui->HepsiYazdirilacakcheckBox->setEnabled(false);
+        ui->yazdirilacaklartableWidget->setEnabled(false);
         ui->progressBar->setMaximum(ui->yazdirilacaklartableWidget->rowCount());
         ui->progressBar->setFormat("Gönderiliyor %p%");
         for (int var = 0; var < ui->yazdirilacaklartableWidget->rowCount(); ++var) {
@@ -368,5 +372,9 @@ void RafEtiketiDialog::yazdirmaBittiSinyaliAlininca()
     qDebug() << "etiket yazdırma bitti";
     ui->DurdurtoolButton->setEnabled(false);
     ui->progressBar->setVisible(false);
+    ui->eklepushButton->setEnabled(true);
+    ui->cikarpushButton->setEnabled(true);
+    ui->HepsiYazdirilacakcheckBox->setEnabled(true);
+    ui->yazdirilacaklartableWidget->setEnabled(true);
     disconnect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
 }
