@@ -161,6 +161,7 @@ void Yazici::rafEtiketiBas(StokKarti kart)
 
     // sayfa tanımlamaları
     printer->setPrinterName(etiketYazici);
+    printer->setPaperName("mhss");
     printer->setPageSizeMM(QSize(72,33));
     printer->setPageMargins(0,4,0,6, QPrinter::Millimeter);
     printer->setResolution(300);
@@ -205,6 +206,12 @@ void Yazici::rafEtiketiBas(StokKarti kart)
         painter.drawImage(QPoint(0, 150), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
     }
     painter.end();
+    emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
+}
+
+void Yazici::yazdirildi(QString _barkod)
+{
+
 }
 
 void Yazici::cikisRaporuBas(User _user)

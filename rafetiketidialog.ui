@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>1300</width>
     <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1100</width>
+    <width>1300</width>
     <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1100</width>
+    <width>1300</width>
     <height>700</height>
    </size>
   </property>
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1100</width>
+     <width>1301</width>
      <height>700</height>
     </rect>
    </property>
@@ -52,7 +52,7 @@
       <rect>
        <x>10</x>
        <y>90</y>
-       <width>701</width>
+       <width>761</width>
        <height>571</height>
       </rect>
      </property>
@@ -78,7 +78,7 @@
     <widget class="QPushButton" name="eklepushButton">
      <property name="geometry">
       <rect>
-       <x>720</x>
+       <x>780</x>
        <y>90</y>
        <width>51</width>
        <height>41</height>
@@ -101,7 +101,7 @@
     <widget class="QPushButton" name="cikarpushButton">
      <property name="geometry">
       <rect>
-       <x>720</x>
+       <x>780</x>
        <y>140</y>
        <width>51</width>
        <height>41</height>
@@ -124,9 +124,9 @@
     <widget class="QTableWidget" name="yazdirilacaklartableWidget">
      <property name="geometry">
       <rect>
-       <x>780</x>
+       <x>840</x>
        <y>90</y>
-       <width>311</width>
+       <width>451</width>
        <height>571</height>
       </rect>
      </property>
@@ -165,7 +165,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>988</x>
+       <x>1188</x>
        <y>10</y>
        <width>101</width>
        <height>41</height>
@@ -191,7 +191,7 @@
     <widget class="QLabel" name="yazdirilacakAdetlabel">
      <property name="geometry">
       <rect>
-       <x>1020</x>
+       <x>1220</x>
        <y>56</y>
        <width>71</width>
        <height>31</height>
@@ -216,7 +216,7 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>960</x>
+       <x>1160</x>
        <y>60</y>
        <width>61</width>
        <height>21</height>
@@ -256,7 +256,7 @@
     <widget class="QCheckBox" name="hepsiStokkartlaricheckBox">
      <property name="geometry">
       <rect>
-       <x>580</x>
+       <x>640</x>
        <y>60</y>
        <width>131</width>
        <height>23</height>
@@ -272,7 +272,7 @@
     <widget class="QCheckBox" name="HepsiYazdirilacakcheckBox">
      <property name="geometry">
       <rect>
-       <x>780</x>
+       <x>840</x>
        <y>60</y>
        <width>131</width>
        <height>23</height>
@@ -283,9 +283,12 @@
      </property>
     </widget>
     <widget class="QToolButton" name="DurdurtoolButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
-       <x>880</x>
+       <x>1080</x>
        <y>10</y>
        <width>101</width>
        <height>41</height>
@@ -340,7 +343,7 @@
     <widget class="QToolButton" name="TemizletoolButton">
      <property name="geometry">
       <rect>
-       <x>780</x>
+       <x>980</x>
        <y>10</y>
        <width>91</width>
        <height>41</height>
@@ -362,14 +365,17 @@
     <widget class="QProgressBar" name="progressBar">
      <property name="geometry">
       <rect>
-       <x>780</x>
+       <x>840</x>
        <y>320</y>
-       <width>311</width>
-       <height>23</height>
+       <width>451</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="value">
       <number>24</number>
+     </property>
+     <property name="format">
+      <string>%p%</string>
      </property>
     </widget>
    </widget>

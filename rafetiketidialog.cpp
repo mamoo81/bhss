@@ -169,10 +169,8 @@ void RafEtiketiDialog::ButonDurumlariniAyarla()
 {
     if(ui->yazdirilacaklartableWidget->rowCount() != 0){
         ui->yazdirtoolButton->setEnabled(true);
-        ui->DurdurtoolButton->setEnabled(true);
     }
     else{
-        ui->yazdirtoolButton->setEnabled(false);
         ui->yazdirtoolButton->setEnabled(false);
     }
 }
@@ -207,9 +205,20 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
     msg.setButtonText(QMessageBox::No, "Hayır");
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
+        ui->progressBar->setVisible(true);
+        ui->DurdurtoolButton->setEnabled(true);
+        ui->progressBar->setMaximum(ui->yazdirilacaklartableWidget->rowCount());
+        ui->progressBar->setFormat("Gönderiliyor %p%");
         for (int var = 0; var < ui->yazdirilacaklartableWidget->rowCount(); ++var) {
-            yaziciEtiket->rafEtiketiBas(vtEtiket->getStokKarti(ui->yazdirilacaklartableWidget->model()->index(var, 0).data().toString()));
+            kartlar.append(vtEtiket->getStokKarti(ui->yazdirilacaklartableWidget->model()->index(var, 0).data().toString()));
+            ui->progressBar->setValue(ui->progressBar->value() + 1);
         }
+        etiketTHRD = new EtiketThread();
+        connect(etiketTHRD, SIGNAL(yazdirilinca(int, QString)), this, SLOT(yazdirmaSinyaliAlininca(int, QString)));
+        connect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
+        etiketTHRD->setKartlar(kartlar);
+        etiketTHRD->start();
+        kartlar.clear();
     }
 }
 
@@ -242,6 +251,13 @@ void RafEtiketiDialog::on_DurdurtoolButton_clicked()
     QString etiketYazici = genelAyarlar.value("yazici").toString();
     genelAyarlar.endGroup();
 
+    etiketTHRD->quit();
+    etiketTHRD->stop = true;
+    ui->progressBar->setVisible(false);
+    ui->DurdurtoolButton->setEnabled(false);
+    ui->progressBar->setValue(0);
+    ui->progressBar->setFormat("Gönderiliyor %p%");
+    disconnect(etiketTHRD, SIGNAL(yazdirilinca(int, QString)), this, SLOT(yazdirmaSinyaliAlininca(int, QString)));
 
     QString yazdirmaKomut;
     QProcess *processIslem = new QProcess();
@@ -252,7 +268,7 @@ void RafEtiketiDialog::on_DurdurtoolButton_clicked()
         yazdirmaKomut = "cancel -a " + etiketYazici;
     }
     else{
-        qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
+        qDebug() << "Yazdırmayı Durdurmak için İşletim Sistemi tespit edilemedi.";
     }
     processIslem->start(yazdirmaKomut);
 }
@@ -339,4 +355,18 @@ void RafEtiketiDialog::on_TemizletoolButton_clicked()
 {
     ui->yazdirilacaklartableWidget->model()->removeRows(0, ui->yazdirilacaklartableWidget->rowCount());
     ui->yazdirilacakAdetlabel->setText(QString::number(ui->yazdirilacaklartableWidget->rowCount()));
+}
+
+void RafEtiketiDialog::yazdirmaSinyaliAlininca(int value, QString barkod)
+{
+    ui->progressBar->setValue(ui->progressBar->value() + value);
+    ui->progressBar->setFormat("Yazdiriliyor %p%");
+}
+
+void RafEtiketiDialog::yazdirmaBittiSinyaliAlininca()
+{
+    qDebug() << "etiket yazdırma bitti";
+    ui->DurdurtoolButton->setEnabled(false);
+    ui->progressBar->setVisible(false);
+    disconnect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
 }

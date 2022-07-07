@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define RAFETIKETIDIALOG_H
 #include "veritabani.h"
 #include "yazici.h"
+#include "etiketthread.h"
 
 #include <QDialog>
 #include <QSound>
@@ -83,11 +84,17 @@ private slots:
 
     void on_TemizletoolButton_clicked();
 
+    void yazdirmaSinyaliAlininca(int value, QString barkod);
+    void yazdirmaBittiSinyaliAlininca();
+
 private:
     Ui::RafEtiketiDialog *ui;
 
     Veritabani *vtEtiket = new Veritabani();
     Yazici *yaziciEtiket = new Yazici();
+    EtiketThread *etiketTHRD;
+
+    QList<StokKarti> kartlar;
 
     QShortcut *key_left;
     QShortcut *key_right;

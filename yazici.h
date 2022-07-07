@@ -49,6 +49,9 @@ public:
 public slots:
     void cikisRaporuBas(User _user);
     void tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QString _islemNo, QDateTime _islemTarihi, QString _aciklama);
+
+signals:
+    void yazdirildi(QString _barkod);
 private:
 
     User kullanici;
