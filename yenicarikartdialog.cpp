@@ -61,7 +61,7 @@ void YeniCariKartDialog::FormLoad()
     LineEditBackColorPaletteRed.setColor(QPalette::Base, Qt::red);
     LineEditBackColorPaletteRed.setColor(QPalette::Text, Qt::black);
 
-    RegEXPcariAdi = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9]{5,}");
+    RegEXPcariAdi = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9]{5,}");
     ui->CariAdilineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
     ui->YetkililineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
 

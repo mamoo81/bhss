@@ -135,10 +135,10 @@ void StokFrom::formLoad()
     regEXPbarkod = QRegExp("[0-9]{8,13}");
     ui->BarkodLnEdit->setValidator(new QRegExpValidator(regEXPbarkod, this));
 
-    regEXPstokKod = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9]{3,}");
+    regEXPstokKod = QRegExp("[a-zöçşıiğüA-ZÖÇŞIİĞÜ0-9]{3,}");
     ui->StokKoduLnEdit->setValidator(new QRegExpValidator(regEXPstokKod, this));
 
-    regEXPstokAd = QRegExp("[a-zöçşiğü A-ZÖÇŞİĞÜ 0-9.]{3,}");
+    regEXPstokAd = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9.]{3,}");
     ui->StokAdiLnEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
 
     regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
