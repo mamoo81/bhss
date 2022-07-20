@@ -61,6 +61,9 @@ public:
 
     void csvdenYukle();
 
+    void stokKartiSayisiYaz(QString dosyaURL);
+
+    bool check();
 private slots:
     void on_SecpushButton_clicked();
 
@@ -69,6 +72,8 @@ private slots:
     void on_KapatpushButton_clicked();
 
     void on_CsvDosyaCikartButton_clicked();
+
+    void on_sunucudanpushButton_clicked();
 
 private:
     Ui::TopluStokYukleDialog *ui;

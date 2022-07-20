@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>280</height>
+    <width>450</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>280</height>
+    <height>380</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
-    <height>280</height>
+    <width>450</width>
+    <height>380</height>
    </size>
   </property>
   <property name="font">
@@ -35,8 +35,8 @@
    <property name="geometry">
     <rect>
      <x>11</x>
-     <y>90</y>
-     <width>381</width>
+     <y>140</y>
+     <width>431</width>
      <height>27</height>
     </rect>
    </property>
@@ -47,22 +47,22 @@
   <widget class="QPushButton" name="SecpushButton">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>230</x>
      <y>10</y>
-     <width>91</width>
+     <width>211</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Dosya Seç</string>
+    <string>JSON/CSV Dosya Seç</string>
    </property>
   </widget>
   <widget class="QLabel" name="Bilgilabel">
    <property name="geometry">
     <rect>
      <x>11</x>
-     <y>123</y>
-     <width>381</width>
+     <y>173</y>
+     <width>431</width>
      <height>19</height>
     </rect>
    </property>
@@ -77,7 +77,7 @@
    <property name="geometry">
     <rect>
      <x>12</x>
-     <y>50</y>
+     <y>80</y>
      <width>58</width>
      <height>31</height>
     </rect>
@@ -89,10 +89,10 @@
   <widget class="QLabel" name="DosyaAdilabel">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>50</y>
-     <width>321</width>
-     <height>31</height>
+     <x>10</x>
+     <y>110</y>
+     <width>431</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -108,11 +108,20 @@
   <widget class="QPushButton" name="YuklepushButton">
    <property name="geometry">
     <rect>
-     <x>317</x>
-     <y>240</y>
-     <width>71</width>
+     <x>320</x>
+     <y>340</y>
+     <width>121</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(38, 162, 105);</string>
    </property>
    <property name="text">
     <string>Yükle</string>
@@ -125,9 +134,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>149</y>
-     <width>381</width>
-     <height>81</height>
+     <y>199</y>
+     <width>431</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="title">
@@ -137,7 +146,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>60</y>
       <width>361</width>
       <height>21</height>
      </rect>
@@ -151,7 +160,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>361</width>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
@@ -159,15 +168,44 @@
      <string>Miktarları 10000 adet/kg gir</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>30</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>30</y>
+      <width>141</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adet/KG gir</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="KapatpushButton">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
-     <width>71</width>
+     <y>340</y>
+     <width>121</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(224, 27, 36);</string>
@@ -181,12 +219,44 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>191</width>
+     <width>201</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>CSV şablon çıkart</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="fiyatcheckBox_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>421</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string>Kontrol ederek yükle</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sunucudanpushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Git sunucusundan çeker</string>
+   </property>
+   <property name="text">
+    <string>Sunucudan çek</string>
    </property>
   </widget>
  </widget>

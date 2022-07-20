@@ -32,6 +32,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSqlError>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QProcess>
+#include <QTcpSocket>
 
 TopluStokYukleDialog::TopluStokYukleDialog(QWidget *parent) :
     QDialog(parent),
@@ -52,46 +54,7 @@ void TopluStokYukleDialog::on_SecpushButton_clicked()
                                          QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
                                          tr("JSON Dosyası (stok-kartlari.json);; CSV Dosyası (stok-kartlari.csv)"));
 
-    dosya.setFileName(dosyaYolu);
-    QFileInfo dosyaBilgisi(dosya);
-    ui->DosyaAdilabel->setText(dosyaBilgisi.fileName());
-
-    // dosya json ise içindeki stok kartı sayısını labele yazma.
-    if(dosyaBilgisi.suffix().contains("json", Qt::CaseInsensitive)){
-        dosya.open(QIODevice::ReadOnly | QIODevice::Text);
-        QString string = dosya.readAll();
-        dosya.close();
-
-        QJsonDocument document = QJsonDocument::fromJson(string.toUtf8());
-        QJsonObject object =document.object();
-        ui->Bilgilabel->setText("Toplam: " + QString::number(object.keys().count()) + " adet stok kartı var");
-        ui->progressBar->setMaximum(object.keys().count());
-
-        ui->groupBox->setEnabled(true);
-    }
-    // dosya csv ise içindeki stok kartı sayısını labele yazma.
-    if(dosyaBilgisi.suffix().contains("csv", Qt::CaseInsensitive)){
-        if(!dosya.open(QIODevice::ReadOnly)){
-            uyariSesi->play();
-            QMessageBox::information(this, "Hata", tr("seçilen csv dosyası açılamadı\n\nHata mesajı:\n").arg(dosya.errorString()), QMessageBox::Ok);
-        }
-
-        int stokkartiSayisi = 0;
-
-        QTextStream stream(&dosya);
-        while(!stream.atEnd()){
-            // satırı okuyup sonrakine geçsin diye
-            stream.readLine();
-
-            stokkartiSayisi++;
-        }
-        dosya.close();
-
-        ui->groupBox->setEnabled(false);
-
-        ui->Bilgilabel->setText("Toplam: " + QString::number(stokkartiSayisi - 1) + " adet stok kartı var");
-        ui->progressBar->setMaximum(stokkartiSayisi - 1);
-    }
+    stokKartiSayisiYaz(dosyaYolu);
 }
 
 void TopluStokYukleDialog::on_YuklepushButton_clicked()
@@ -278,6 +241,50 @@ void TopluStokYukleDialog::csvdenYukle()
     }
 }
 
+void TopluStokYukleDialog::stokKartiSayisiYaz(QString dosyaURL)
+{
+    dosya.setFileName(dosyaURL);
+    QFileInfo dosyaBilgisi(dosya);
+    ui->DosyaAdilabel->setText(dosyaBilgisi.absoluteFilePath());
+
+    // dosya json ise içindeki stok kartı sayısını labele yazma.
+    if(dosyaBilgisi.suffix().contains("json", Qt::CaseInsensitive)){
+        dosya.open(QIODevice::ReadOnly | QIODevice::Text);
+        QString string = dosya.readAll();
+        dosya.close();
+
+        QJsonDocument document = QJsonDocument::fromJson(string.toUtf8());
+        QJsonObject object =document.object();
+        ui->Bilgilabel->setText("Toplam: " + QString::number(object.keys().count()) + " adet stok kartı var");
+        ui->progressBar->setMaximum(object.keys().count());
+
+        ui->groupBox->setEnabled(true);
+    }
+    // dosya csv ise içindeki stok kartı sayısını labele yazma.
+    if(dosyaBilgisi.suffix().contains("csv", Qt::CaseInsensitive)){
+        if(!dosya.open(QIODevice::ReadOnly)){
+            uyariSesi->play();
+            QMessageBox::information(this, "Hata", tr("seçilen csv dosyası açılamadı\n\nHata mesajı:\n").arg(dosya.errorString()), QMessageBox::Ok);
+        }
+
+        int stokkartiSayisi = 0;
+
+        QTextStream stream(&dosya);
+        while(!stream.atEnd()){
+            // satırı okuyup sonrakine geçsin diye
+            stream.readLine();
+
+            stokkartiSayisi++;
+        }
+        dosya.close();
+
+        ui->groupBox->setEnabled(false);
+
+        ui->Bilgilabel->setText("Toplam: " + QString::number(stokkartiSayisi - 1) + " adet stok kartı var");
+        ui->progressBar->setMaximum(stokkartiSayisi - 1);
+    }
+}
+
 
 void TopluStokYukleDialog::on_KapatpushButton_clicked()
 {
@@ -326,4 +333,90 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
             bosCSV.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser);
         }
     }
+}
+
+void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
+{
+    //internet bağlantı kontrolü
+    if(check()){
+        QProcess process;
+        QDir kartlarDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/kartlar");
+        if(!kartlarDir.exists()){
+            ui->Bilgilabel->setText("Sunucudan klonlanıyor...");
+            QDir().mkpath(kartlarDir.absolutePath());
+            process.start("git", QStringList() << "clone" << "https://mls.akdeniz.edu.tr/git/mamoo/kartlar.git" << kartlarDir.absolutePath());
+            process.waitForFinished();
+            qDebug() << "git kartlar sunucudan klonlandı.\n" << process.readAll();
+            stokKartiSayisiYaz(kartlarDir.absolutePath() + "/stok-kartlari.json");
+            ui->Bilgilabel->setText("sunucudan klonlama bitti");
+        }
+        else{
+            ui->Bilgilabel->setText("uzak sunucudan güncelleniyor...");
+            process.start("git", QStringList() << "-C" << kartlarDir.absolutePath() << "fetch");
+            process.waitForFinished();
+            process.start("git", QStringList() << "-C" << kartlarDir.absolutePath() << "status");
+            process.waitForFinished();
+            QString str = process.readAll();
+            if(str.contains("güncel.")){
+                ui->Bilgilabel->setText("uzak sunucudan güncellendi");
+                uyariSesi->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText("Yereldeki kartlar deposu zaten sunucu ile aynı.");
+                msg.setInformativeText(str);
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+            }
+            else{
+                uyariSesi->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setIcon(QMessageBox::Question);
+                msg.setText("Sunucuya yeni stok kartları eklenmiş. Yerel depoyu sunucu ile eşitlemek istiyor musunuz?");
+                msg.setInformativeText(str);
+                msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                msg.setDefaultButton(QMessageBox::Yes);
+                int cvp = msg.exec();
+                if(cvp == QMessageBox::Yes){
+                    ui->Bilgilabel->setText("Yeni kartlar indiriliyor...");
+                    process.start("git", QStringList() << "-C" << kartlarDir.absolutePath() << "pull");
+                    process.waitForFinished();
+                    uyariSesi->play();
+                    QMessageBox msg(this);
+                    msg.setWindowTitle("Bilgi");
+                    msg.setIcon(QMessageBox::Information);
+                    msg.setText("Yeni stok kartları yerel depoya eklendi.");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    ui->Bilgilabel->setText("Yeni kartlar indirildi");
+                    msg.exec();
+                }
+            }
+            stokKartiSayisiYaz(kartlarDir.absolutePath() + "/stok-kartlari.json");
+        }
+    }
+    else{// bağlantı yok ise
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Bu işlem için internete bağlı olmalısınız.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+    }
+}
+
+bool TopluStokYukleDialog::check()
+{
+    QTcpSocket *sock = new QTcpSocket(this);
+    sock->connectToHost("www.google.com", 80);
+    bool connected = sock->waitForConnected(30000);//ms
+
+    if (!connected)
+    {
+        sock->abort();
+        return false;
+    }
+    sock->close();
+    return true;
 }
