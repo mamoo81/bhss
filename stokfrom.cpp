@@ -163,7 +163,7 @@ void StokFrom::setUser(User user)
 
 void StokFrom::customMenuRequested(QPoint pos)
 {
-    // satırı böyle bu void içinde de alabilirsin.
+    // tablo satırı böyle bu void içinde de alabilirsin.
     //QModelIndex index = ui->StokKartlaritableView->indexAt(pos);
 
     QMenu *menu = new QMenu(this);
@@ -580,7 +580,7 @@ void StokFrom::on_KaydetBtn_clicked()
             ui->StokKartlaritableView->selectRow(seciliIndex);
             ui->AraLineEdit->setFocus();
             ui->AraLineEdit->selectAll();
-            emit on_IptalBtn_clicked();
+            on_IptalBtn_clicked();
         }
         else{
             uyariSes->play();
@@ -627,7 +627,7 @@ void StokFrom::on_KaydetBtn_clicked()
         ui->StokKartlaritableView->selectRow(seciliIndex);
         ui->AraLineEdit->setFocus();
         ui->AraLineEdit->selectAll();
-        emit on_IptalBtn_clicked();
+        on_IptalBtn_clicked();
     }
 }
 
@@ -650,7 +650,7 @@ void StokFrom::on_SilBtn_clicked()
         if(cevap == QMessageBox::Yes){
             vt->stokKartiSil(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
             stokKartlariniListele();
-            emit on_IptalBtn_clicked();
+            on_IptalBtn_clicked();
         }
     }
     else{
@@ -710,6 +710,7 @@ void StokFrom::on_araBtn_clicked()
 void StokFrom::on_dosyadanToolButton_clicked()
 {
     TopluStokYukleDialog *stokYukleForm = new TopluStokYukleDialog(this);
+    stokYukleForm->setKullanici(kullanici);
     stokYukleForm->exec();
     stokKartlariniListele();
     delete stokYukleForm;
@@ -1055,6 +1056,6 @@ void StokFrom::on_TopluEtikettoolButton_clicked()
     //etiket basımını arkaplana atabilsin diye open() diyorum.
     RafEtiketiDialog *rafEtiketForm = new RafEtiketiDialog();
     rafEtiketForm->setWindowIcon(QIcon(":/images/ui/mhss.png"));
-    rafEtiketForm->open();
-//    delete rafEtiketForm;
+    this->close();
+    rafEtiketForm->show();
 }

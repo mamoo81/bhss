@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define TOPLUSTOKYUKLEDIALOG_H
 #include "veritabani.h"
 #include "stokkarti.h"
+#include "user.h"
 //*****************************
 #include <QDialog>
 #include <QFileDialog>
@@ -64,6 +65,8 @@ public:
     void stokKartiSayisiYaz(QString dosyaURL);
 
     bool check();
+    void setKullanici(const User &newKullanici);
+
 private slots:
     void on_SecpushButton_clicked();
 
@@ -75,10 +78,14 @@ private slots:
 
     void on_sunucudanpushButton_clicked();
 
+    void on_kontrolEderekcheckBox_clicked();
+
 private:
     Ui::TopluStokYukleDialog *ui;
 
     QVector<StokKarti> kartlar;
+    User kullanici;
+
 };
 
 #endif // TOPLUSTOKYUKLEDIALOG_H

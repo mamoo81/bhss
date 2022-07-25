@@ -134,6 +134,7 @@ public slots:
     void oturumSonlandir();
     QStringList getUreticiler();
     int getUreticiID(QString _ureticiAd);
+    QString getUreticiAD(int ID);
     QStringList getTedarikciler();
     int getTedarikciID(QString _tedarikciAd);
     QStringList getTeraziler();

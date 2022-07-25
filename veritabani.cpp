@@ -536,6 +536,17 @@ int Veritabani::getUreticiID(QString _ureticiAd)
     return sorgu.value(0).toInt();
 }
 
+QString Veritabani::getUreticiAD(int ID)
+{
+    sorgu.prepare("SELECT ad FROM ureticiler WHERE id = ?");
+    sorgu.bindValue(0, ID);
+    sorgu.exec();
+    if(sorgu.lastError().isValid() || !sorgu.next()){
+        return 0;
+    }
+    return sorgu.value(0).toString();
+}
+
 QStringList Veritabani::getTedarikciler()
 {
     QStringList liste;

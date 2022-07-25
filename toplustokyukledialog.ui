@@ -127,7 +127,7 @@
     <string>Yükle</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="AyarlargroupBox">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -146,8 +146,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
-      <width>361</width>
+      <y>70</y>
+      <width>411</width>
       <height>21</height>
      </rect>
     </property>
@@ -160,35 +160,44 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>121</width>
-      <height>21</height>
+      <width>122</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Miktarları 10000 adet/kg gir</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>30</y>
-      <width>81</width>
-      <height>23</height>
-     </rect>
+     <string>Miktarları</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>240</x>
       <y>30</y>
-      <width>141</width>
-      <height>19</height>
+      <width>181</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>Adet/KG gir</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="doubleSpinBoxMiktar">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>101</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="decimals">
+     <number>2</number>
+    </property>
+    <property name="maximum">
+     <double>99999999.989999994635582</double>
+    </property>
+    <property name="value">
+     <double>1000.000000000000000</double>
     </property>
    </widget>
   </widget>
@@ -227,7 +236,7 @@
     <string>CSV şablon çıkart</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="fiyatcheckBox_2">
+  <widget class="QCheckBox" name="kontrolEderekcheckBox">
    <property name="geometry">
     <rect>
      <x>20</x>

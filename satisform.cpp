@@ -33,6 +33,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "kasadialogform.h"
 #include "yazici.h"
 #include "gecmissatislardialog.h"
+#include "stokkartiform.h"
 //*****************************
 #include <QRegExp>
 #include <QDebug>
@@ -45,11 +46,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QStandardPaths>
 #include <QFileInfo>
-
-//Sepet sepet[4];
-//QTableWidgetItem *yeniSatir;
-//int sepetMevcutUrunIndexi = 0;
-
 
 SatisForm::SatisForm(QWidget *parent) :
     QWidget(parent),
@@ -377,6 +373,36 @@ void SatisForm::sepeteEkle()
     if(vt->barkodVarmi(ui->barkodLineEdit->text())){
         stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
 
+        // ürün fiyatı 0 tl ise fiyat girilsin mi diye sorsun.
+        if(stokKarti.getSFiyat() == 0){
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Warning);
+            msg.setWindowTitle("Dikkat");
+            msg.setText("Bu ürün için fiyat bilgisi bulunmuyor. Stok kartına fiyat girmek istiyor musunuz?");
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::Yes);
+            int cevap = msg.exec();
+            if(cevap == QMessageBox::Yes){
+                StokKartiForm *stokKartiForm =  new StokKartiForm(this);
+                stokKartiForm->setWindowTitle("Stok Kartı Fiyat Güncelle");
+                stokKartiForm->yeniKart = false;
+                stokKartiForm->FormLoad();
+                stokKartiForm->setKart(stokKarti);
+                stokKartiForm->fiyatGuncelle = true;
+                stokKartiForm->exec();
+
+                // stokkartini tekrar alıyorum ki güncel fiyatları alsın.
+                stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
+
+                if(!stokKartiForm->fiyatGuncellendi || stokKarti.getSFiyat() == 0){// fiyat güncellenmedi ve halen 0 TL ise
+                    return;
+                }
+            }
+            else{
+                return;
+            }
+        }
         // stokkartinda miktar 0'a eşitse veya düşükse sepete eklemeden çık.
         if(stokKarti.getMiktar() <= 0){
             uyariSesi->play();

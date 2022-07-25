@@ -30,7 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QAction>
 
 RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::RafEtiketiDialog)
 {
     ui->setupUi(this);

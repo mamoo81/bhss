@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #include "toplustokyukledialog.h"
 #include "ui_toplustokyukledialog.h"
+#include "stokkartiform.h"
 //*****************************************
 #include <QStandardPaths>
 #include <QJsonArray>
@@ -103,51 +104,104 @@ void TopluStokYukleDialog::jsondanYukle()
     QJsonDocument document = QJsonDocument::fromJson(string.toUtf8());
     QJsonObject object =document.object();
 
+    float ozelMiktar = ui->doubleSpinBoxMiktar->value();
+
     foreach (QString barkod, object.keys()) {
         if(!vt.barkodVarmi(barkod)){
             QJsonValue value = object.value(barkod);
-            sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci, aciklama) "
-                            "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            sorgu.bindValue(0, barkod);
-            sorgu.bindValue(1, value["kod"].toString());
-            sorgu.bindValue(2, value["ad"].toString());
-            //sorgu.bindValue(3, value["birim"].toString());
-            sorgu.bindValue(3, value["birim"].toInt());
-            if(ui->miktarcheckBox->isChecked()){// seçili ise miktarları 10000 adet/kg/metre girer.
-                sorgu.bindValue(4, 10000);
+
+            if(ui->kontrolEderekcheckBox->isChecked()){
+                StokKarti yKart;
+                yKart.setBarkod(barkod);
+                yKart.setKod(value["kod"].toString());
+                yKart.setAd(value["ad"].toString());
+                yKart.setBirim(value["birim"].toInt());
+                if(ui->miktarcheckBox->isChecked()){
+                    yKart.setMiktar(ozelMiktar);
+                }
+                else{
+                    yKart.setMiktar(value["miktar"].toVariant().value<float>());
+                }
+                yKart.setGrup(value["birim"].toInt());
+                yKart.setAFiyat(value["afiyat"].toDouble());
+                yKart.setSFiyat(value["sfiyat"].toDouble());
+                yKart.setKdv(value["kdv"].toInt());
+                yKart.setKdvdahil(value["kdvdahil"].toBool());
+                yKart.setOtv(value["otv"].toInt());
+                yKart.setOtvdahil(value["otvdahil"].toBool());
+                yKart.setTarih(value["tarih"].toVariant().value<QDateTime>());
+                yKart.setUretici(vt.getUreticiAD(value["uretici"].toInt()));
+                yKart.setAciklama(value["aciklama"].toString());
+                StokKartiForm *stokKartiForm =  new StokKartiForm(this);
+                stokKartiForm->setKullanici(kullanici);
+                stokKartiForm->setWindowTitle("Kontrollü Toplu Stok Kartı Girişi");
+                stokKartiForm->toplustokkarti = true;
+                stokKartiForm->FormLoad();
+                stokKartiForm->setKart(yKart);
+                stokKartiForm->exec();
+
+                if(stokKartiForm->toplustokkartiIptal){
+                    uyariSesi->play();
+                    QMessageBox msg(this);
+                    msg.setWindowTitle("Uyarı");
+                    msg.setIcon(QMessageBox::Warning);
+                    msg.setText("Toplu stok kartı aktarımı iptal edildi.");
+                    msg.setStandardButtons(QMessageBox::Ok);
+                    msg.setButtonText(QMessageBox::Ok, "Tamam");
+                    msg.exec();
+                    return;
+                }
+                if(stokKartiForm->kayitBasarilimi){
+                    yuklenen++;
+                }
+                else{
+                    basarisiz++;
+                }
+                delete stokKartiForm;
             }
             else{
-                sorgu.bindValue(4, value["miktar"].toVariant().value<float>());
+                sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci, aciklama) "
+                                "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                sorgu.bindValue(0, barkod);
+                sorgu.bindValue(1, value["kod"].toString());
+                sorgu.bindValue(2, value["ad"].toString());
+                //sorgu.bindValue(3, value["birim"].toString());
+                sorgu.bindValue(3, value["birim"].toInt());
+                if(ui->miktarcheckBox->isChecked()){// seçili ise miktarları özelmiktar adet/kg/metre girer.
+                    sorgu.bindValue(4, ozelMiktar);
+                }
+                else{
+                    sorgu.bindValue(4, value["miktar"].toVariant().value<float>());
+                }
+                sorgu.bindValue(5, value["grup"].toInt());
+                if(ui->fiyatcheckBox->isChecked()){// seçili ise fiyatları 0 TL girer.
+                    sorgu.bindValue(6, 0);
+                    sorgu.bindValue(7, 0);
+                }
+                else{
+                    sorgu.bindValue(6, value["afiyat"].toDouble());
+                    sorgu.bindValue(7, value["sfiyat"].toDouble());
+                }
+                sorgu.bindValue(8, value["kdv"].toInt());
+                sorgu.bindValue(9, value["kdvdahil"].toBool());
+                sorgu.bindValue(10, value["otv"].toInt());
+                sorgu.bindValue(11, value["otvdahil"].toBool());
+                QDateTime zaman = value["tarih"].toVariant().value<QDateTime>();
+                sorgu.bindValue(12, value["tarih"].toVariant().value<QDateTime>());
+                sorgu.bindValue(13, value["uretici"].toInt());
+                sorgu.bindValue(14, QVariant(QString()));
+                sorgu.bindValue(15, value["aciklama"].toString());
+                sorgu.exec();
+                if(sorgu.lastError().isValid()){
+                    qCritical(qPrintable(sorgu.lastError().text()));
+                    basarisiz++;
+                }
+                yuklenen++;
             }
-            sorgu.bindValue(5, value["grup"].toInt());
-            if(ui->fiyatcheckBox->isChecked()){// seçili ise fiyatları 0 TL girer.
-                sorgu.bindValue(6, 0);
-                sorgu.bindValue(7, 0);
-            }
-            else{
-                sorgu.bindValue(6, value["afiyat"].toDouble());
-                sorgu.bindValue(7, value["sfiyat"].toDouble());
-            }
-            sorgu.bindValue(8, value["kdv"].toInt());
-            sorgu.bindValue(9, value["kdvdahil"].toBool());
-            sorgu.bindValue(10, value["otv"].toInt());
-            sorgu.bindValue(11, value["otvdahil"].toBool());
-            QDateTime zaman = value["tarih"].toVariant().value<QDateTime>();
-            sorgu.bindValue(12, value["tarih"].toVariant().value<QDateTime>());
-            sorgu.bindValue(13, value["uretici"].toInt());
-            sorgu.bindValue(14, QVariant(QString()));
-            sorgu.bindValue(15, value["aciklama"].toString());
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qCritical(qPrintable(sorgu.lastError().text()));
-                basarisiz++;
-            }
-            yuklenen++;
         }
         else{
             esGecilen++;
         }
-
         ui->progressBar->setValue(ui->progressBar->value() + 1);
     }
 }
@@ -258,7 +312,7 @@ void TopluStokYukleDialog::stokKartiSayisiYaz(QString dosyaURL)
         ui->Bilgilabel->setText("Toplam: " + QString::number(object.keys().count()) + " adet stok kartı var");
         ui->progressBar->setMaximum(object.keys().count());
 
-        ui->groupBox->setEnabled(true);
+        ui->AyarlargroupBox->setEnabled(true);
     }
     // dosya csv ise içindeki stok kartı sayısını labele yazma.
     if(dosyaBilgisi.suffix().contains("csv", Qt::CaseInsensitive)){
@@ -278,7 +332,7 @@ void TopluStokYukleDialog::stokKartiSayisiYaz(QString dosyaURL)
         }
         dosya.close();
 
-        ui->groupBox->setEnabled(false);
+        ui->AyarlargroupBox->setEnabled(false);
 
         ui->Bilgilabel->setText("Toplam: " + QString::number(stokkartiSayisi - 1) + " adet stok kartı var");
         ui->progressBar->setMaximum(stokkartiSayisi - 1);
@@ -420,3 +474,23 @@ bool TopluStokYukleDialog::check()
     sock->close();
     return true;
 }
+
+void TopluStokYukleDialog::on_kontrolEderekcheckBox_clicked()
+{
+    if(ui->kontrolEderekcheckBox->isChecked()){
+        ui->miktarcheckBox->setChecked(false);
+        ui->fiyatcheckBox->setChecked(false);
+        ui->AyarlargroupBox->setEnabled(false);
+    }
+    else{
+        ui->miktarcheckBox->setChecked(true);
+        ui->fiyatcheckBox->setChecked(true);
+        ui->AyarlargroupBox->setEnabled(true);
+    }
+}
+
+void TopluStokYukleDialog::setKullanici(const User &newKullanici)
+{
+    kullanici = newKullanici;
+}
+

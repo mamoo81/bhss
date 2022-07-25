@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "yazici.h"
 #include "etiketthread.h"
 
-#include <QDialog>
+#include <QWidget>
 #include <QSound>
 #include <QKeyEvent>
 #include <QShortcut>
@@ -34,7 +34,7 @@ namespace Ui {
 class RafEtiketiDialog;
 }
 
-class RafEtiketiDialog : public QDialog
+class RafEtiketiDialog : public QWidget
 {
     Q_OBJECT
 
