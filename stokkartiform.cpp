@@ -74,7 +74,7 @@ void StokKartiForm::FormLoad()
     regEXPstokKod = QRegExp("[a-zöçşıiğüA-ZÖÇŞIİĞÜ0-9]{3,}");
     ui->StokKodlineEdit->setValidator(new QRegExpValidator(regEXPstokKod, this));
 
-    regEXPstokAd = QRegExp("[a-zöçşıiğü- A-ZÖÇŞIİĞÜ- 0-9.]{3,}");
+    regEXPstokAd = QRegExp("[a-zöçşıiğü- A-ZÖÇŞIİĞÜ 0-9.*',+-]{3,}");
     ui->AdlineEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
 
     regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);

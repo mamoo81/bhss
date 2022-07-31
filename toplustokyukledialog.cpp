@@ -255,6 +255,8 @@ void TopluStokYukleDialog::csvdenYukle()
             else{
                 kart.setOtvdahil(false);
             }
+            kart.setUretici(NULL);
+            kart.setTedarikci(NULL);
             kartlar.append(kart);
         }
         ilksatir = false;
@@ -264,8 +266,8 @@ void TopluStokYukleDialog::csvdenYukle()
 
     foreach (StokKarti kart, kartlar) {
         if(!vt.barkodVarmi(kart.getBarkod())){
-            sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih) "
-                          "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci) "
+                          "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             sorgu.bindValue(0, kart.getBarkod());
             sorgu.bindValue(1, kart.getKod());
             sorgu.bindValue(2, kart.getAd());
@@ -279,6 +281,8 @@ void TopluStokYukleDialog::csvdenYukle()
             sorgu.bindValue(10, kart.getOtv());
             sorgu.bindValue(11, kart.getOtvdahil());
             sorgu.bindValue(12, QDateTime::currentDateTime());
+            sorgu.bindValue(13, kart.getUretici());
+            sorgu.bindValue(14, kart.getTedarikci());
             sorgu.exec();
             if(sorgu.lastError().isValid()){
                 basarisiz++;
