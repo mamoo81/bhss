@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef STOKKARTI_H
 #define STOKKARTI_H
-
+//****************************
 #include <QString>
 #include <QPixmap>
 #include <QDateTime>
@@ -106,6 +106,7 @@ public:
     QImage getBarkodImg() const;
 
 private:
+
     QString id;
     QString kod;
     QString barkod;

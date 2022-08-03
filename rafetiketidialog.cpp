@@ -363,6 +363,7 @@ void RafEtiketiDialog::on_TemizletoolButton_clicked()
 
 void RafEtiketiDialog::yazdirmaSinyaliAlininca(int value, QString barkod)
 {
+    Q_UNUSED(barkod);
     ui->progressBar->setValue(ui->progressBar->value() + value);
     ui->progressBar->setFormat("Yazdiriliyor %p%");
 }

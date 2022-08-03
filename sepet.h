@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef SEPET_H
 #define SEPET_H
-
 #include "stokkarti.h"
 #include "urun.h"
 //********************
