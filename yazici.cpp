@@ -209,6 +209,73 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
 }
 
+void Yazici::rafEtiketiBas(StokKarti kart, YONELIM kagitYonu)
+{
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    etiketYazici = genelAyarlar.value("yazici").toString();
+    genelAyarlar.endGroup();
+
+    // sayfa tanımlamaları
+    printer->setPrinterName(etiketYazici);
+    printer->setPaperName("mhss");
+    switch (kagitYonu) {
+    case YONELIM::YATAY:
+        printer->setPageSizeMM(QSize(72,33));
+        printer->setPageMargins(0,4,0,6, QPrinter::Millimeter);
+        break;
+    case YONELIM::DIKEY:
+        printer->setPageSizeMM(QSize(38,88));
+        printer->setPageMargins(0,1,0,0, QPrinter::Millimeter);
+        break;
+    }
+    printer->setResolution(300);
+
+    QPainter painter(printer);
+    painter.rotate(90);
+    // ürün adı
+    QFont font("Halvetica", 7);
+    painter.setFont(font);
+    painter.drawText(QPoint(0,-240), kart.getAd());
+
+    // urun barkod img
+    painter.drawImage(QPoint(0,-220), kart.getBarkodImg(), QRect(0,70, 350,125));
+
+    // urun fiyat değişim tarihi
+    font = QFont("Halvetica", 5, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(300, -65), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
+
+    // etiket basım tarihi
+    font = QFont("Halvetica", 5, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(300, -45), "E.B.T: " + QDate::currentDate().toString("dd.MM.yyyy"));
+
+    // ürün birimi
+    font = QFont("Halvetica", 5);
+    painter.setFont(font);
+    painter.drawText(QPoint(250, -195), ("1 x " + vt.getBirimAd(kart.getBirim()) + " ="));
+
+    // TL logosu
+    font = QFont("Halvetica", 14);
+    painter.setFont(font);
+    painter.drawText(QPoint(220, -105), QString("₺"));
+
+    // ürün fiyatı
+    font = QFont("Halvetica", 20, QFont::Bold);
+    painter.setFont(font);
+    painter.drawText(QPoint(255, -105), QString::number(kart.getSFiyat(), 'f', 2));
+
+    // yerli ürün logosu
+    if(kart.getBarkod().front() == '8'){
+        painter.drawImage(QPoint(0, -105), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
+    }
+    painter.end();
+    emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
+}
+
 void Yazici::yazdirildi(QString _barkod)
 {
 

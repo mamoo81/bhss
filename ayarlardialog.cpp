@@ -891,3 +891,17 @@ void AyarlarDialog::on_StokTakibicheckBox_stateChanged(int arg1)
     }
 }
 
+
+void AyarlarDialog::on_YonelimcomboBox_currentIndexChanged(int index)
+{
+    ui->VarsayilanKagitcomboBox->clear();
+    switch (index) {
+    case 0:
+        ui->VarsayilanKagitcomboBox->addItem("38x80mm Termal Karton Etiket");
+        break;
+    case 1:
+        ui->VarsayilanKagitcomboBox->addItem("38x100mm Termal Karton Etiket");
+        break;
+    }
+}
+

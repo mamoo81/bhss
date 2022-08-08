@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tabGenel">
     <attribute name="title">
@@ -623,7 +623,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>240</y>
        <width>611</width>
        <height>121</height>
       </rect>
@@ -635,7 +635,7 @@
       <property name="geometry">
        <rect>
         <x>11</x>
-        <y>29</y>
+        <y>30</y>
         <width>591</width>
         <height>89</height>
        </rect>
@@ -737,7 +737,7 @@
        <x>10</x>
        <y>120</y>
        <width>611</width>
-       <height>111</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="title">
@@ -748,8 +748,8 @@
        <rect>
         <x>11</x>
         <y>31</y>
-        <width>221</width>
-        <height>27</height>
+        <width>351</width>
+        <height>86</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_3">
@@ -762,6 +762,37 @@
        </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="EtiketYazicicomboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Kağıt yönelimi</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="YonelimcomboBox">
+         <item>
+          <property name="text">
+           <string>DİKEY</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>YATAY</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_36">
+         <property name="text">
+          <string>Varsayılan Kağıt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="VarsayilanKagitcomboBox"/>
        </item>
       </layout>
      </widget>

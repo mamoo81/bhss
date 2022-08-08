@@ -42,9 +42,21 @@ public:
     QString yaziciModel;
     QString yazdirmaKomut;
     QString etiketYazici;
+
+    enum YONELIM {
+        DIKEY = 0,
+        YATAY = 1
+    };
+
+    enum KAGIT {
+        YATAY_80mm33mm = 0,
+        DIKEY_88mm38mm = 1
+    };
+
     void setKullanici(const User &newKullanici);
 
     void rafEtiketiBas(StokKarti kart);
+    void rafEtiketiBas(StokKarti kart, YONELIM kagitYonu);
 
 public slots:
     void cikisRaporuBas(User _user);

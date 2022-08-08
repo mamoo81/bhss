@@ -96,6 +96,8 @@ private slots:
 
     void on_StokTakibicheckBox_stateChanged(int arg1);
 
+    void on_YonelimcomboBox_currentIndexChanged(int index);
+
 private:
     Ui::AyarlarDialog *ui;
 

@@ -214,7 +214,7 @@ void StokFrom::customMenuRequested(QPoint pos)
 void StokFrom::hizliRafEtiketiYazdir()
 {
     Yazici *yazici = new Yazici();
-    yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()));
+    yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::DIKEY);
     delete yazici;
 }
 
