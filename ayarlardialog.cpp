@@ -175,6 +175,7 @@ void AyarlarDialog::formLoad()
     // etiket yazıcı ayarları okuma başlangıç
     genelAyarlar.beginGroup("etiket-yazici");
     ui->EtiketYazicicomboBox->setCurrentIndex(ui->EtiketYazicicomboBox->findText(genelAyarlar.value("yazici").toString()));
+    ui->VarsayilanKagitcomboBox->setCurrentIndex(genelAyarlar.value("kagit").toInt());
     genelAyarlar.endGroup();
     // etiket yazıcı ayarları okuma bitiş
 
@@ -324,6 +325,7 @@ void AyarlarDialog::on_pushButton_clicked()
     // etiket yazıcı ayarkarı kayıt başlangıç
     genelAyarlar.beginGroup("etiket-yazici");
     genelAyarlar.setValue("yazici", ui->EtiketYazicicomboBox->currentText());
+    genelAyarlar.setValue("kagit", ui->VarsayilanKagitcomboBox->currentIndex());
     genelAyarlar.endGroup();
     // etiket yazıcı ayarları kayıt bitiş.
 

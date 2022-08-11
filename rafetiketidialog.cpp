@@ -28,6 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QMenu>
 #include <QAction>
+#include <QSettings>
 
 RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
     QWidget(parent),
@@ -50,6 +51,12 @@ RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
 
     ui->progressBar->setVisible(false);
 
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    ui->VarsayilanKagitcomboBox->setCurrentIndex(genelAyarlar.value("kagit").toInt());
+    genelAyarlar.endGroup();
 }
 
 RafEtiketiDialog::~RafEtiketiDialog()
@@ -220,8 +227,33 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
         etiketTHRD = new EtiketThread();
         connect(etiketTHRD, SIGNAL(yazdirilinca(int, QString)), this, SLOT(yazdirmaSinyaliAlininca(int, QString)));
         connect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
+
+        // yazıdırılacak kartların set edilmesi
         etiketTHRD->setKartlar(kartlar);
+
+        //genel ayarlar
+        QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+        // etiket yazıcı ayarları okuma başlangıç
+        genelAyarlar.beginGroup("etiket-yazici");
+        if(genelAyarlar.value("kagit").isNull() || genelAyarlar.value("kagit").isValid()){
+            uyariSes->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Varsayılan kağıt ayarlardan okunamadı. \n\nÖnceden ayarlamamış olabilirsiniz.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            msg.setDefaultButton(QMessageBox::Ok);
+            msg.exec();
+        }
+        ui->VarsayilanKagitcomboBox->setCurrentIndex(genelAyarlar.value("kagit").toInt());
+        genelAyarlar.endGroup();
+
+        // yazdırma
+        etiketTHRD->setKagitTipi(ui->VarsayilanKagitcomboBox->currentIndex());
+
         etiketTHRD->start();
+
         kartlar.clear();
     }
 }

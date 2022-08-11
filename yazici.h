@@ -48,15 +48,15 @@ public:
         YATAY = 1
     };
 
-    enum KAGIT {
-        YATAY_80mm33mm = 0,
-        DIKEY_88mm38mm = 1
+    enum KAGIT: int {
+        YATAY_80mm38mm = 0, // 80mm X 33mm programdaki sayfa ölçüleri
+        DIKEY_100mm38mm = 1 // 88mm X 38mm programdaki sayfa ölçüleri
     };
 
     void setKullanici(const User &newKullanici);
 
     void rafEtiketiBas(StokKarti kart);
-    void rafEtiketiBas(StokKarti kart, YONELIM kagitYonu);
+    void rafEtiketiBas(StokKarti kart, int kagit);
 
 public slots:
     void cikisRaporuBas(User _user);

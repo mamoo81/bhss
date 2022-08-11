@@ -214,7 +214,22 @@ void StokFrom::customMenuRequested(QPoint pos)
 void StokFrom::hizliRafEtiketiYazdir()
 {
     Yazici *yazici = new Yazici();
-    yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::DIKEY);
+    //genel ayarların okunması başlangıcı
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    switch (genelAyarlar.value("kagit").toInt()) {
+    case 0:
+        // yazdırma
+        yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::YATAY_80mm38mm);
+        break;
+    case 1:
+        // yazdırma
+        yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::DIKEY_100mm38mm);
+        break;
+    }
+
+    genelAyarlar.endGroup();
     delete yazici;
 }
 

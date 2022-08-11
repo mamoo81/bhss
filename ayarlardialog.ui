@@ -748,8 +748,8 @@
        <rect>
         <x>11</x>
         <y>31</y>
-        <width>351</width>
-        <height>86</height>
+        <width>371</width>
+        <height>61</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_3">
@@ -764,35 +764,25 @@
         <widget class="QComboBox" name="EtiketYazicicomboBox"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Kağıt yönelimi</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="YonelimcomboBox">
-         <item>
-          <property name="text">
-           <string>DİKEY</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>YATAY</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="2" column="0">
         <widget class="QLabel" name="label_36">
          <property name="text">
           <string>Varsayılan Kağıt</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="VarsayilanKagitcomboBox"/>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="VarsayilanKagitcomboBox">
+         <item>
+          <property name="text">
+           <string>80x38mm Kenardan Çentikli</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>100x38mm Ortadan Çentikli</string>
+          </property>
+         </item>
+        </widget>
        </item>
       </layout>
      </widget>

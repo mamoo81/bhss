@@ -19,8 +19,11 @@ public:
     bool stop = false;
     void setKartlar(const QList<StokKarti> &value);
 
+    void setKagitTipi(int newKagitTipi);
+
 private:
     QList<StokKarti> kartlar;
+    int kagitTipi;
 
 signals:
     void yazdirilinca(int, QString);
