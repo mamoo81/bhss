@@ -57,6 +57,7 @@ StokFrom::StokFrom(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setlocale(LC_ALL, "Turkish");
     formLoad();
 }
 

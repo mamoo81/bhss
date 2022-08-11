@@ -144,6 +144,15 @@ void SatisForm::formLoad()
     key_UpArrow->setKey(Qt::UpArrow);
     connect(key_UpArrow, SIGNAL(activated()), this, SLOT(key_UP_Slot()));
 
+    // genel.ini dosyasından sepetleri kurtarma aktifmi alma
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    genelAyarlar.beginGroup("sepetKurtarma");
+    sepetKurtar = genelAyarlar.value("kurtar").toBool();
+    genelAyarlar.endGroup();
+
+    if(sepetKurtar){
+        sepetleriKurtar();
+    }
 }
 
 void SatisForm::on_StokKartlariBtn_clicked()
@@ -418,6 +427,10 @@ void SatisForm::sepeteEkle()
             case StokKarti::Birimler::Adet:{
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                //sepet yedeğine ekleme
+                if(sepetKurtar){
+                    sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                }
                 break;
             }
             case StokKarti::Birimler::Kilogram:{
@@ -427,6 +440,10 @@ void SatisForm::sepeteEkle()
                 if(kgformu->getGirilenKg() != 0){
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                    //sepet yedeğine ekleme
+                    if(sepetKurtar){
+                        sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                    }
                 }
                 delete kgformu;
                 break;
@@ -434,16 +451,28 @@ void SatisForm::sepeteEkle()
             case StokKarti::Birimler::Koli:{
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                //sepet yedeğine ekleme
+                if(sepetKurtar){
+                    sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                }
                 break;
             }
             case StokKarti::Birimler::Palet:{
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                //sepet yedeğine ekleme
+                if(sepetKurtar){
+                    sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                }
                 break;
             }
             case StokKarti::Birimler::Paket:{
                 tableWidgetEkle(stokKarti, 1);
                 sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, 1);
+                //sepet yedeğine ekleme
+                if(sepetKurtar){
+                    sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                }
                 break;
             }
             case StokKarti::Birimler::Metre:{
@@ -455,6 +484,10 @@ void SatisForm::sepeteEkle()
                 if(kgformu->getGirilenKg() != 0){
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                    //sepet yedeğine ekleme
+                    if(sepetKurtar){
+                        sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                    }
                 }
                 delete kgformu;
                 break;
@@ -468,6 +501,10 @@ void SatisForm::sepeteEkle()
                 if(kgformu->getGirilenKg() != 0){
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                    //sepet yedeğine ekleme
+                    if(sepetKurtar){
+                        sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                    }
                 }
                 delete kgformu;
                 break;
@@ -481,6 +518,10 @@ void SatisForm::sepeteEkle()
                 if(kgformu->getGirilenKg() != 0){
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                    //sepet yedeğine ekleme
+                    if(sepetKurtar){
+                        sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                    }
                 }
                 delete kgformu;
                 break;
@@ -494,6 +535,10 @@ void SatisForm::sepeteEkle()
                 if(kgformu->getGirilenKg() != 0){
                     tableWidgetEkle(stokKarti, kgformu->getGirilenKg());
                     sepet[ui->SepetlertabWidget->currentIndex()].urunEkle(stokKarti, kgformu->getGirilenKg());
+                    //sepet yedeğine ekleme
+                    if(sepetKurtar){
+                        sepetYedegineEkle(stokKarti.getBarkod(), sepet[ui->SepetlertabWidget->currentIndex()].urunler.value(stokKarti.getBarkod()).miktar);
+                    }
                 }
                 delete kgformu;
                 break;
@@ -809,6 +854,8 @@ void SatisForm::closeEvent(QCloseEvent *event)
                     LoginForm *lg = new LoginForm();
                     lg->show();
                 }
+                // düzgün çıkış yapıldığında sepet yedeklerini silsin.
+                sepetYedegiTemizle();
             }
             break;
         case QMessageBox::No: {
@@ -2600,6 +2647,75 @@ void SatisForm::silAction()
     ui->barkodLineEdit->setFocus();
 }
 
+void SatisForm::sepetleriKurtar()
+{
+    // sepetler.ini dosyasını tanımlama
+    QSettings sepetleriKurtarmaSetting(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/sepetler.ini", QSettings::IniFormat);
+
+    if(sepetleriKurtarmaSetting.childGroups().count() > 0){
+//        for (int var = 0; var < sepetleriKurtarmaSetting.childGroups().count(); ++var) {
+//            ui->SepetlertabWidget->setCurrentIndex(var);
+//            sepetleriKurtarmaSetting.beginGroup(QString::number(var));
+//            foreach (auto sepettekiBarkod, sepetleriKurtarmaSetting.childKeys()) {
+//                StokKarti kart = vt->getStokKarti(sepettekiBarkod);
+//                float miktar = sepetleriKurtarmaSetting.value(sepettekiBarkod).toFloat();
+//                tableWidgetEkle(kart, miktar);
+//                sepet[var].urunEkle(kart, miktar);
+//            }
+//            sepetleriKurtarmaSetting.endGroup();
+//            sepetToplaminiYaz();
+//            butonDurumlariniAyarla();
+//            sepetTabIconlariAyarla();
+//        }
+        foreach (auto var, sepetleriKurtarmaSetting.childGroups()) {
+            ui->SepetlertabWidget->setCurrentIndex(var.toInt());
+            sepetleriKurtarmaSetting.beginGroup(QString::number(var.toInt()));
+            foreach (auto sepettekiBarkod, sepetleriKurtarmaSetting.childKeys()) {
+                StokKarti kart = vt->getStokKarti(sepettekiBarkod);
+                float miktar = sepetleriKurtarmaSetting.value(sepettekiBarkod).toFloat();
+                tableWidgetEkle(kart, miktar);
+                sepet[var.toInt()].urunEkle(kart, miktar);
+            }
+            sepetleriKurtarmaSetting.endGroup();
+            sepetToplaminiYaz();
+            butonDurumlariniAyarla();
+            sepetTabIconlariAyarla();
+        }
+    }
+}
+
+void SatisForm::sepetYedegiTemizle()
+{
+    // sepetler.ini dosyasını tanımlama
+    QSettings sepetleriKurtarmaSetting(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/sepetler.ini", QSettings::IniFormat);
+    sepetleriKurtarmaSetting.clear();
+}
+
+void SatisForm::sepetyedegindenUrunSil(QString barkod, int sepet)
+{
+    // sepetler.ini dosyasını tanımlama
+    QSettings sepetleriKurtarmaSetting(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/sepetler.ini", QSettings::IniFormat);
+    sepetleriKurtarmaSetting.beginGroup(QString::number(sepet));
+    sepetleriKurtarmaSetting.remove(barkod);
+    sepetleriKurtarmaSetting.endGroup();
+}
+
+void SatisForm::sepetYedegindenSepetiSil(int sepet)
+{
+    // sepetler.ini dosyasını tanımlama
+    QSettings sepetleriKurtarmaSetting(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/sepetler.ini", QSettings::IniFormat);
+    sepetleriKurtarmaSetting.remove(QString::number(sepet));
+}
+
+void SatisForm::sepetYedegineEkle(QString barkod, float miktar)
+{
+    // sepetler.ini dosyasını tanımlama
+    QSettings sepetleriKurtarmaSetting(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/sepetler.ini", QSettings::IniFormat);
+    sepetleriKurtarmaSetting.beginGroup(QString::number(ui->SepetlertabWidget->currentIndex()));
+    sepetleriKurtarmaSetting.setValue(barkod, miktar);
+    sepetleriKurtarmaSetting.endGroup();
+}
+
 int SatisForm::getSeciliSatirIndexi()
 {
     int index = -1;
@@ -2876,6 +2992,8 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[0].urunSil(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet1TableWidget->removeRow(getSeciliSatirIndexi());
+                // sepet yedeğinden ürünü silme
+                sepetyedegindenUrunSil(ui->sepet1TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString(), 0);
                 if(ui->sepet1TableWidget->rowCount() != 0){
                     ui->sepet1TableWidget->selectRow(ui->sepet1TableWidget->rowCount() - 1);
                 }
@@ -2891,6 +3009,8 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[1].urunSil(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet2TableWidget->removeRow(getSeciliSatirIndexi());
+                // sepet yedeğinden ürünü silme
+                sepetyedegindenUrunSil(ui->sepet2TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString(), 1);
                 if(ui->sepet2TableWidget->rowCount() != 0){
                     ui->sepet2TableWidget->selectRow(ui->sepet2TableWidget->rowCount() - 1);
                 }
@@ -2906,6 +3026,8 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[2].urunSil(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet3TableWidget->removeRow(getSeciliSatirIndexi());
+                // sepet yedeğinden ürünü silme
+                sepetyedegindenUrunSil(ui->sepet3TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString(), 2);
                 if(ui->sepet3TableWidget->rowCount() != 0){
                     ui->sepet3TableWidget->selectRow(ui->sepet3TableWidget->rowCount() - 1);
                 }
@@ -2921,6 +3043,8 @@ void SatisForm::on_satirSilBtn_clicked()
             case QMessageBox::Yes:
                 sepet[3].urunSil(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString());
                 ui->sepet4TableWidget->removeRow(getSeciliSatirIndexi());
+                // sepet yedeğinden ürünü silme
+                sepetyedegindenUrunSil(ui->sepet4TableWidget->model()->index(getSeciliSatirIndexi(),0).data().toString(), 3);
                 if(ui->sepet4TableWidget->rowCount() != 0){
                     ui->sepet4TableWidget->selectRow(ui->sepet4TableWidget->rowCount() - 1);
                 }
@@ -2969,6 +3093,7 @@ void SatisForm::on_sepetSilBtn_clicked()
             break;
         }
         ui->ToplamTutarlcdNumber->display(0);
+        sepetYedegindenSepetiSil(ui->SepetlertabWidget->currentIndex());
     }
     sepetToplaminiYaz();
     butonDurumlariniAyarla();

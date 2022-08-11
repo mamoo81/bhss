@@ -41,6 +41,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QShortcut>
 #include <QSound>
 #include <QTableWidgetItem>
+#include <QSettings>
 
 namespace Ui {
 class SatisForm;
@@ -68,6 +69,12 @@ public slots:
     void hizliButonConnects();
     void ekleAction();
     void silAction();
+    void sepetleriKurtar();
+    void sepetYedegiTemizle();
+    void sepetyedegindenUrunSil(QString barkod, int sepet);
+    void sepetYedegindenSepetiSil(int sepet);
+    void sepetYedegineEkle(QString barkod, float miktar);
+
 public Q_SLOTS:
     void slotCustomContextMenuRequested(QPoint position);
     void sepetTabIconlariAyarla();
@@ -460,6 +467,7 @@ private:
     QShortcut *key_UpArrow;
 
     User kullanici;
+    bool sepetKurtar;
 
     SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
     AdetDialogForm *adetForm = new AdetDialogForm(this);

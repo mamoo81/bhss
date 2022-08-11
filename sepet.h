@@ -36,6 +36,8 @@ private:
     double odenenTutar;
     double kalanTutar;
 
+    bool sepetKurtar;
+
 public:
     Sepet();
 

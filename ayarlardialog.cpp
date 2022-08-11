@@ -149,6 +149,11 @@ void AyarlarDialog::formLoad()
     }
     genelAyarlar.endGroup();
 
+    //sepet kurtarma ayarları okuma başlangıç
+    genelAyarlar.beginGroup("sepetKurtarma");
+    ui->sepetKurtarmacheckBox->setChecked(genelAyarlar.value("kurtar").toBool());
+    genelAyarlar.endGroup();
+
     //stok takibi ayarı okuma başlangıç
     genelAyarlar.beginGroup("stok");
     ui->StokTakibicheckBox->setChecked(genelAyarlar.value("takip").toBool());
@@ -342,6 +347,11 @@ void AyarlarDialog::on_pushButton_clicked()
     genelAyarlar.setValue("flowcontrol", ui->FlowControlcomboBox->currentText());
     genelAyarlar.endGroup();
     // terazi ayarları kayıt bitiş.
+
+    // sepet kurtarma kayıt başlangıç
+    genelAyarlar.beginGroup("sepetKurtarma");
+    genelAyarlar.setValue("kurtar", ui->sepetKurtarmacheckBox->isChecked());
+    genelAyarlar.endGroup();
 
     //stok takibi ayarı kayıt başlangıç
     genelAyarlar.beginGroup("stok");
