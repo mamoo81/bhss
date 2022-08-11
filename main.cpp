@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(tr_translator);
 
-    a.setApplicationVersion(QString("0.2.0"));
+    a.setApplicationVersion(QString("0.2.1"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
