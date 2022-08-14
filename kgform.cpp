@@ -101,6 +101,15 @@ void KgForm::setBirimi(const QString &newBirimi)
     if(birimi == "METRE"){
         ui->label->setText("Metre giriniz");
     }
+    if(birimi == "METREKARE"){
+        ui->label->setText("Metrekare giriniz");
+    }
+    if(birimi == "METREKÜP"){
+        ui->label->setText("Metreküp giriniz");
+    }
+    if(birimi == "LİTRE"){
+        ui->label->setText("Litre giriniz");
+    }
 }
 
 void KgForm::on_pushButton_2_clicked()

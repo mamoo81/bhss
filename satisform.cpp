@@ -637,6 +637,9 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             case 8:
                 ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
                 break;
+            case 9:
+                ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("LİTRE"));
+                break;
             default:
                 ui->sepet1TableWidget->setItem(ui->sepet1TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
                 break;
@@ -689,6 +692,9 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
                 break;
             case 8:
                 ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            case 9:
+                ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("LİTRE"));
                 break;
             default:
                 ui->sepet2TableWidget->setItem(ui->sepet2TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
@@ -743,6 +749,9 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
             case 8:
                 ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
                 break;
+            case 9:
+                ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("LİTRE"));
+                break;
             default:
                 ui->sepet3TableWidget->setItem(ui->sepet3TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
                 break;
@@ -795,6 +804,9 @@ void SatisForm::tableWidgetEkle(StokKarti p_StokKarti, float _miktar)
                 break;
             case 8:
                 ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("METREKÜP"));
+                break;
+            case 9:
+                ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("LİTRE"));
                 break;
             default:
                 ui->sepet4TableWidget->setItem(ui->sepet4TableWidget->rowCount() - 1, 3, new QTableWidgetItem("BİLİNMİYOR"));
