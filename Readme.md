@@ -61,7 +61,7 @@ sudo apt-get upgrade
 ```
 Gereklerin kurulumu
 ```
-sudo apt-get install postgresql-13 zint qt5-qmake qtdeclarative5-dev qttools5-dev libqt5serialport5-dev qtmultimedia5-dev libqt5charts5-dev libqt5sql5-psql
+sudo apt-get install postgresql-13 zint qt5-qmake g++ git qtdeclarative5-dev qttools5-dev libqt5serialport5-dev qtmultimedia5-dev libqt5charts5-dev libqt5sql5-psql
 ```
 Postgresql'de ```postgres``` kullanıcısının localhost bağlantısına izin verilmeli.
 ```postgres``` kullanıcısının şifresi ```postgres``` olmalı.
