@@ -107,9 +107,9 @@ public slots:
     QString getBirimAd(int birimID);
     QSqlQueryModel *getCariHareketleri(QString _cariID);
     double getCariToplamAlacak(QString _cariID);
-    double getCariToplamBorc(QString _cariID);
+    double getCariToplamBorc(QString _cariID, bool guncel);
     double getCarilerToplamAlacak();
-    double getcarilerToplamBorc();
+    double getcarilerToplamBorc(bool guncel, QDateTime _startDate, QDateTime _endDate);
     bool cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari);
     QStringList getOdemeTipleri();
     void caridenTahsilatYap(QString _cariID, double _tutar, QDateTime _tarih, int _faturaTipi, int _odemeTipi, User _islemYapanKullanici, QString _evrakNo, QString _aciklama);
@@ -142,6 +142,7 @@ public slots:
     QHash<QString, float> getgunlukAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart);
     QHash<QString, float> getAylikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart);
     QHash<QString, float> getYillikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart);
+
 };
 
 #endif // VERITABANI_H

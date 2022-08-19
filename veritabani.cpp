@@ -733,7 +733,7 @@ void Veritabani::caridenTahsilatYap(QString _cariID,
                                     QString _evrakNo,
                                     QString _aciklama)
 {
-    double guncelBorc = getCariToplamBorc(_cariID);
+    double guncelBorc = getCariToplamBorc(_cariID, false);
     double odenenTutar = _tutar;
     if(guncelBorc < odenenTutar){// tahsilat _tutar'ı büyükse toplam borçtan. falza tutarı carinin alacağına ekle.
         cariyiAlacaklandır(_cariID, (odenenTutar - guncelBorc), _tarih, 1, _odemeTipi, _islemYapanKullanici, _evrakNo, _aciklama);
@@ -945,29 +945,70 @@ double Veritabani::getCariToplamAlacak(QString _cariID)
     }
 }
 
-double Veritabani::getCariToplamBorc(QString _cariID)
+double Veritabani::getCariToplamBorc(QString _cariID, bool guncel)
 {
     if(_cariID != "1000"){// DİREKT CARİSİ İSE ES GEÇSİN
+
         double kalanTutar, odenenTutar;
-        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
-        sorgu.bindValue(0, _cariID);
-        sorgu.exec();
-        if(sorgu.next()){
-            kalanTutar = sorgu.value(0).toDouble();
+
+        if(!guncel){
+            sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
+            sorgu.bindValue(0, _cariID);
+            sorgu.exec();
+            if(sorgu.next()){
+                kalanTutar = sorgu.value(0).toDouble();
+            }
+            else{
+                kalanTutar = 0;
+            }
+            sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
+            sorgu.bindValue(0, _cariID);
+            sorgu.exec();
+            if(sorgu.next()){
+                odenenTutar = sorgu.value(0).toDouble();
+            }
+            else{
+                odenenTutar = 0;
+            }
+            return kalanTutar - odenenTutar;
         }
         else{
-            kalanTutar = 0;
+            double guncelSepetToplamlari = 0;
+            // sepetlerin güncel tutarlarının alınması.
+            QSqlQuery sorguGuncelFiyat(db);
+            sorguGuncelFiyat.prepare("SELECT fatura_no FROM faturalar WHERE cari = ? AND tipi = 2");
+            sorguGuncelFiyat.bindValue(0, _cariID);
+            sorguGuncelFiyat.exec();
+            if(sorguGuncelFiyat.isSelect()){
+                while (sorguGuncelFiyat.next()) {
+                    guncelSepetToplamlari += getSatis(sorguGuncelFiyat.value(0).toString()).sepetToplamTutari();
+                }
+            }
+            else{
+                guncelSepetToplamlari = 0;
+            }
+
+            sorguGuncelFiyat.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
+            sorguGuncelFiyat.bindValue(0, _cariID);
+            sorguGuncelFiyat.exec();
+            if(sorguGuncelFiyat.next()){
+                kalanTutar = sorguGuncelFiyat.value(0).toDouble() + (guncelSepetToplamlari - sorguGuncelFiyat.value(0).toDouble());
+            }
+            else{
+                kalanTutar = 0;
+            }
+
+            sorguGuncelFiyat.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
+            sorguGuncelFiyat.bindValue(0, _cariID);
+            sorguGuncelFiyat.exec();
+            if(sorguGuncelFiyat.next()){
+                odenenTutar = sorguGuncelFiyat.value(0).toDouble();
+            }
+            else{
+                odenenTutar = 0;
+            }
+            return kalanTutar - odenenTutar;
         }
-        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
-        sorgu.bindValue(0, _cariID);
-        sorgu.exec();
-        if(sorgu.next()){
-            odenenTutar = sorgu.value(0).toDouble();
-        }
-        else{
-            odenenTutar = 0;
-        }
-        return kalanTutar - odenenTutar;
     }
     else{
         return 0;
@@ -996,26 +1037,75 @@ double Veritabani::getCarilerToplamAlacak()
     return kalanTutar - odenenTutar;
 }
 
-double Veritabani::getcarilerToplamBorc()
+double Veritabani::getcarilerToplamBorc(bool guncel, QDateTime _startDate, QDateTime _endDate)
 {
     double kalanTutar, odenenTutar;
-    sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1000')  AND tipi = 2"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
-    sorgu.exec();
-    if(sorgu.next()){
-        kalanTutar = sorgu.value(0).toDouble();
+    if(!guncel){
+        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1000')  AND tipi = 2 AND tarih BETWEEN ? AND ?"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+        sorgu.bindValue(0, _startDate);
+        sorgu.bindValue(1, _endDate);
+        sorgu.exec();
+        if(sorgu.next()){
+            kalanTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            kalanTutar = 0;
+        }
+        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 5 AND tarih BETWEEN ? AND ?"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+        sorgu.bindValue(0, _startDate);
+        sorgu.bindValue(1, _endDate);
+        sorgu.exec();
+        if(sorgu.next()){
+            odenenTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            odenenTutar = 0;
+        }
+        return kalanTutar - odenenTutar;
     }
-    else{
-        kalanTutar = 0;
+    else{               //********* sepetlerin güncel tutarlarının alınması. *************//
+        double guncelSepetToplamlari = 0;
+
+        QSqlQuery sorguGuncelFiyat(db);
+        sorguGuncelFiyat.prepare("SELECT fatura_no FROM faturalar WHERE cari NOT IN('1000') AND tipi = 2 AND kalantutar > 0 AND tarih BETWEEN ? AND ?");
+        sorguGuncelFiyat.bindValue(0, _startDate);
+        sorguGuncelFiyat.bindValue(1, _endDate);
+        sorguGuncelFiyat.exec();
+        if(sorguGuncelFiyat.isSelect()){
+
+            QStringList faturalar;
+            while (sorguGuncelFiyat.next()) {
+                faturalar.append(sorguGuncelFiyat.value(0).toString());
+            }
+
+            foreach (auto fatura, faturalar) {
+                guncelSepetToplamlari += getSatis(fatura).sepetToplamTutari();
+            }
+
+            sorguGuncelFiyat.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 2 AND kalantutar > 0 AND tarih BETWEEN ? AND ?");
+            sorguGuncelFiyat.bindValue(0, _startDate);
+            sorguGuncelFiyat.bindValue(1, _endDate);
+            sorguGuncelFiyat.exec();
+            if(sorguGuncelFiyat.next()){
+                kalanTutar = sorguGuncelFiyat.value(0).toDouble() + (guncelSepetToplamlari - sorguGuncelFiyat.value(0).toDouble());
+            }
+            else{
+                kalanTutar = 0;
+            }
+
+            sorguGuncelFiyat.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 5 AND kalantutar > 0 AND tarih BETWEEN ? AND ?");
+            sorguGuncelFiyat.bindValue(0, _startDate);
+            sorguGuncelFiyat.bindValue(1, _endDate);
+            sorguGuncelFiyat.exec();
+            if(sorguGuncelFiyat.next()){
+                odenenTutar = sorguGuncelFiyat.value(0).toDouble();
+            }
+            else{
+                odenenTutar = 0;
+            }
+            return kalanTutar - odenenTutar;
+        }
     }
-    sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1000') AND tipi = 5"); // cari 1000 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
-    sorgu.exec();
-    if(sorgu.next()){
-        odenenTutar = sorgu.value(0).toDouble();
-    }
-    else{
-        odenenTutar = 0;
-    }
-    return kalanTutar - odenenTutar;
 }
 
 bool Veritabani::cariHareketiSil(QString _faturaNo, User _kullanici, Cari _cari)

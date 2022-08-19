@@ -76,8 +76,14 @@ void CariKartlarDialog::cariHareketleriListele()
     ui->CariKartHareketleritableView->setModel(vt.getCariHareketleri(cariID));
     ui->CariKartHareketleritableView->resizeColumnsToContents();
     ui->CariKartHareketleritableView->setSortingEnabled(true);
-    ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
-    ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID), 'f', 2));
+    if(ui->guncelFiyatcheckBox->isChecked()){
+        ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
+        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, true), 'f', 2));
+    }
+    else{
+        ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
+        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, false), 'f', 2));
+    }
     // butonların aktif/pasif durumları ayarlama
     if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() == "1"){//direkt carisi ise
         ui->CaridenTahsilatYaptoolButton->setEnabled(false);
@@ -87,6 +93,7 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariBankatoolButton->setEnabled(false);
         ui->CariyeStokluSatistoolButton->setEnabled(false);
         ui->CariyeStoksuzSatistoolButton->setEnabled(false);
+        ui->guncelFiyatcheckBox->setEnabled(false);
     }
     else{
         // carinin borcu 0 veya düşükse tahsilat butonu pasif yap.
@@ -108,11 +115,20 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariBankatoolButton->setEnabled(true);
         ui->CariyeStokluSatistoolButton->setEnabled(true);
         ui->CariyeStoksuzSatistoolButton->setEnabled(true);
+        ui->guncelFiyatcheckBox->setEnabled(true);
     }
     ui->CariislemsiltoolButton->setEnabled(false);
 
-    double carilerToplamBorc = vt.getcarilerToplamBorc();
-    double carilerToplamAlacak = vt.getCarilerToplamAlacak();
+    double carilerToplamBorc = 0;
+    double carilerToplamAlacak = 0;
+    if(ui->guncelFiyatcheckBox->isChecked()){
+        carilerToplamBorc = vt.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+        carilerToplamAlacak = vt.getCarilerToplamAlacak();
+    }
+    else{
+        carilerToplamBorc = vt.getcarilerToplamBorc(false, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+        carilerToplamAlacak = vt.getCarilerToplamAlacak();
+    }
     ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
     ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
     ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
@@ -339,3 +355,17 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
         cariHareketleriListele();
     }
 }
+
+void CariKartlarDialog::on_guncelFiyatcheckBox_clicked()
+{
+    QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
+    if(ui->guncelFiyatcheckBox->isChecked()){
+        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, true), 'f', 2));
+        ui->CarilerToplamBorclabel->setText(QString::number(vt.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
+    }
+    else{
+        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, false), 'f', 2));
+        ui->CarilerToplamBorclabel->setText(QString::number(vt.getcarilerToplamBorc(false, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
+    }
+}
+

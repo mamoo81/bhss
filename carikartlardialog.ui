@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>1359</width>
     <height>700</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
     <rect>
      <x>10</x>
      <y>40</y>
-     <width>721</width>
+     <width>1081</width>
      <height>281</height>
     </rect>
    </property>
@@ -55,7 +55,7 @@
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>721</width>
+      <width>1081</width>
       <height>261</height>
      </rect>
     </property>
@@ -73,7 +73,7 @@
   <widget class="QToolButton" name="YenitoolButton">
    <property name="geometry">
     <rect>
-     <x>599</x>
+     <x>960</x>
      <y>10</y>
      <width>131</width>
      <height>40</height>
@@ -99,7 +99,7 @@
   <widget class="QToolButton" name="SiltoolButton">
    <property name="geometry">
     <rect>
-     <x>870</x>
+     <x>1231</x>
      <y>10</y>
      <width>120</width>
      <height>39</height>
@@ -125,7 +125,7 @@
   <widget class="QToolButton" name="DuzenletoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>10</y>
      <width>120</width>
      <height>40</height>
@@ -151,7 +151,7 @@
   <widget class="QToolButton" name="CariyeStoksuzSatistoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>60</y>
      <width>250</width>
      <height>40</height>
@@ -177,7 +177,7 @@
   <widget class="QToolButton" name="CariyeStokluSatistoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>110</y>
      <width>250</width>
      <height>40</height>
@@ -203,7 +203,7 @@
   <widget class="QToolButton" name="CaridenTahsilatYaptoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>160</y>
      <width>250</width>
      <height>40</height>
@@ -229,7 +229,7 @@
   <widget class="QToolButton" name="CariyeOdemeYaptoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>210</y>
      <width>250</width>
      <height>40</height>
@@ -255,7 +255,7 @@
   <widget class="QToolButton" name="CariyiAlacaklandirtoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>260</y>
      <width>250</width>
      <height>40</height>
@@ -281,7 +281,7 @@
   <widget class="QToolButton" name="CariyiBorclandirtoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>310</y>
      <width>250</width>
      <height>40</height>
@@ -310,7 +310,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>360</y>
      <width>250</width>
      <height>40</height>
@@ -339,7 +339,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>410</y>
      <width>250</width>
      <height>40</height>
@@ -365,7 +365,7 @@
   <widget class="QToolButton" name="CariBankatoolButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>460</y>
      <width>250</width>
      <height>41</height>
@@ -414,7 +414,7 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>1010</x>
      <y>600</y>
      <width>341</width>
      <height>91</height>
@@ -495,9 +495,9 @@ color: rgb(0, 0, 0);</string>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>670</x>
      <y>600</y>
-     <width>361</width>
+     <width>331</width>
      <height>91</height>
     </rect>
    </property>
@@ -512,7 +512,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>361</width>
+      <width>331</width>
       <height>21</height>
      </rect>
     </property>
@@ -538,7 +538,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>230</width>
+      <width>211</width>
       <height>51</height>
      </rect>
     </property>
@@ -552,7 +552,7 @@ color: rgb(0, 0, 0);</string>
         </font>
        </property>
        <property name="text">
-        <string>Toplam Borç  :</string>
+        <string>Top. Borç  :</string>
        </property>
       </widget>
      </item>
@@ -581,7 +581,7 @@ color: rgb(0, 0, 0);</string>
         </font>
        </property>
        <property name="text">
-        <string>Toplam Alacak:</string>
+        <string>Top. Alacak:</string>
        </property>
       </widget>
      </item>
@@ -606,7 +606,7 @@ color: rgb(0, 0, 0);</string>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>220</x>
       <y>30</y>
       <width>101</width>
       <height>51</height>
@@ -650,7 +650,7 @@ color: rgb(0, 0, 0);</string>
     <rect>
      <x>10</x>
      <y>320</y>
-     <width>721</width>
+     <width>1081</width>
      <height>271</height>
     </rect>
    </property>
@@ -665,7 +665,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>0</x>
       <y>50</y>
-      <width>721</width>
+      <width>1081</width>
       <height>221</height>
      </rect>
     </property>
@@ -723,9 +723,9 @@ color: rgb(0, 0, 0);</string>
   <widget class="QFrame" name="frame_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>420</x>
      <y>600</y>
-     <width>261</width>
+     <width>241</width>
      <height>91</height>
     </rect>
    </property>
@@ -746,7 +746,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>261</width>
+      <width>241</width>
       <height>21</height>
      </rect>
     </property>
@@ -772,7 +772,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>241</width>
+      <width>221</width>
       <height>51</height>
      </rect>
     </property>
@@ -786,7 +786,7 @@ color: rgb(0, 0, 0);</string>
         </font>
        </property>
        <property name="text">
-        <string>Toplam Borcu  :</string>
+        <string>Top. Borcu :</string>
        </property>
       </widget>
      </item>
@@ -815,7 +815,7 @@ color: rgb(0, 0, 0);</string>
         </font>
        </property>
        <property name="text">
-        <string>Toplam Alacağı:</string>
+        <string>Top. Alacak:</string>
        </property>
       </widget>
      </item>
@@ -844,7 +844,7 @@ color: rgb(0, 0, 0);</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>510</y>
      <width>250</width>
      <height>41</height>
@@ -873,7 +873,7 @@ color: rgb(0, 0, 0);</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>1101</x>
      <y>550</y>
      <width>250</width>
      <height>41</height>
@@ -894,6 +894,25 @@ color: rgb(0, 0, 0);</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="guncelFiyatcheckBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>600</y>
+     <width>401</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>Cari borçlarını güncel fiyattan hesapla</string>
    </property>
   </widget>
  </widget>

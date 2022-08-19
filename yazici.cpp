@@ -490,7 +490,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
         sirketAdresi = genelAyarlar.value("sirketAdres").toString();
     }
     QString tarih = QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy");
-    double cariToplamBorc = vt.getCariToplamBorc(QString::number(_cari.getId()));
+    double cariToplamBorc = vt.getCariToplamBorc(QString::number(_cari.getId()), false);
     QString html =
             "<html>"
             "<head>"

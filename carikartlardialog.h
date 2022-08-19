@@ -81,6 +81,8 @@ private slots:
 
     void on_CariislemsiltoolButton_clicked();
 
+    void on_guncelFiyatcheckBox_clicked();
+
 private:
     Ui::CariKartlarDialog *ui;
 
