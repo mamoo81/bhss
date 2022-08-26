@@ -76,14 +76,22 @@ void CariKartlarDialog::cariHareketleriListele()
     ui->CariKartHareketleritableView->setModel(vt.getCariHareketleri(cariID));
     ui->CariKartHareketleritableView->resizeColumnsToContents();
     ui->CariKartHareketleritableView->setSortingEnabled(true);
-    if(ui->guncelFiyatcheckBox->isChecked()){
-        ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
-        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, true), 'f', 2));
-    }
-    else{
-        ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
-        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, false), 'f', 2));
-    }
+
+    //carinin borcunu getirme
+    ui->cariToplamAlacaklabel->setText(QString::number(vt.getCariToplamAlacak(cariID), 'f', 2));
+    ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, ui->guncelFiyatcheckBox->isChecked()), 'f', 2));
+
+    // carilerin borcunu getirme
+    double carilerToplamBorc = 0;
+    double carilerToplamAlacak = 0;
+
+    carilerToplamBorc = vt.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+    carilerToplamAlacak = vt.getCarilerToplamAlacak();
+
+    ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
+    ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
+    ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
+
     // butonların aktif/pasif durumları ayarlama
     if(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString() == "1"){//direkt carisi ise
         ui->CaridenTahsilatYaptoolButton->setEnabled(false);
@@ -118,20 +126,6 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->guncelFiyatcheckBox->setEnabled(true);
     }
     ui->CariislemsiltoolButton->setEnabled(false);
-
-    double carilerToplamBorc = 0;
-    double carilerToplamAlacak = 0;
-    if(ui->guncelFiyatcheckBox->isChecked()){
-        carilerToplamBorc = vt.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
-        carilerToplamAlacak = vt.getCarilerToplamAlacak();
-    }
-    else{
-        carilerToplamBorc = vt.getcarilerToplamBorc(false, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
-        carilerToplamAlacak = vt.getCarilerToplamAlacak();
-    }
-    ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
-    ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
-    ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
 }
 
 void CariKartlarDialog::cariHareketleriTableSelectionChanged()
@@ -358,14 +352,21 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
 
 void CariKartlarDialog::on_guncelFiyatcheckBox_clicked()
 {
+    double carilerToplamBorc = 0;
+    double carilerToplamAlacak = 0;
+
     QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
-    if(ui->guncelFiyatcheckBox->isChecked()){
-        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, true), 'f', 2));
-        ui->CarilerToplamBorclabel->setText(QString::number(vt.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
-    }
-    else{
-        ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, false), 'f', 2));
-        ui->CarilerToplamBorclabel->setText(QString::number(vt.getcarilerToplamBorc(false, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
-    }
+
+    // carinin toplam alacak/borç
+    ui->cariToplamBorclabel->setText(QString::number(vt.getCariToplamBorc(cariID, ui->guncelFiyatcheckBox->isChecked()), 'f', 2));
+    ui->CarilerToplamBorclabel->setText(QString::number(vt.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
+
+    // carilerin toplam alacak/borç
+    carilerToplamBorc = vt.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+    carilerToplamAlacak = vt.getCarilerToplamAlacak();
+
+    ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
+    ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
+    ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
 }
 
