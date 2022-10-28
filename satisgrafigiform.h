@@ -27,7 +27,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDialog>
 #include <QDate>
 // chart ile ilgili
-
+#include <QBarSet>
+#include <QChart>
+#include <QBarCategoryAxis>
+#include <QBarSeries>
+#include <QChartView>
+#include <QCategoryAxis>
+#include <QHash>
 
 #include <QtCharts>
 // veya alttaki flagı kullanabilirsin.
@@ -52,14 +58,25 @@ public:
     explicit SatisGrafigiForm(QWidget *parent = nullptr);
     ~SatisGrafigiForm();
 
+    QBarSet *barset;
+    QBarSeries *barSeries;
+    QBarCategoryAxis *categoryaxis;
+
+    QStringList gunler;
+    QStringList gunlerTamFormat;
+    QStringList aylar;
+    QStringList aylarTamFormat;
+    QStringList yillar;
+    QStringList yillarTamFormat;
+
     Veritabani vt = Veritabani();
 
     QChart *chart = new QChart();
     QChartView *chartview = new QChartView(chart);
 
-    void AralıkBelirle();
-
     void setStokKarti(StokKarti gosterilecekKart);
+
+    void zamanAraligiAyarla();
 
 private slots:
     void FormLoad();
@@ -73,6 +90,8 @@ private slots:
     void on_yillikradioButton_clicked();
 
     void on_gosterpushButton_clicked();
+
+    void on_EklepushButton_clicked();
 
 private:
     Ui::SatisGrafigiForm *ui;

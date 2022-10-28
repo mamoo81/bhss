@@ -37,7 +37,7 @@ class StokKartlariModel : public QAbstractItemModel
 {
 
 public:
-    explicit StokKartlariModel(QObject *parent = nullptr);
+    explicit StokKartlariModel(QString grupAdi, QObject *parent = nullptr);
 
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;

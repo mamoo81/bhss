@@ -66,6 +66,8 @@ private slots:
 
     void grupComboboxDoldur();
 
+    void filtreGrupComboboxDoldur();
+
     void stokKartlariniListele();
 
     void on_YeniBtn_clicked();
@@ -146,6 +148,8 @@ private slots:
     void on_AFiyatdoubleSpinBox_valueChanged(double arg1);
 
     void on_TopluEtikettoolButton_clicked();
+
+    void on_grupFiltrecomboBox_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::StokFrom *ui;

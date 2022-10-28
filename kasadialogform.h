@@ -59,6 +59,8 @@ private slots:
 
     void on_KapatpushButton_clicked();
 
+    void on_RaporpushButton_clicked();
+
 private:
     Ui::KasaDialogForm *ui;
 

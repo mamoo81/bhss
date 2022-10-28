@@ -76,7 +76,8 @@ void StokFrom::on_StokGrupBtn_clicked()
 void StokFrom::formLoad()
 {
     grupComboboxDoldur();
-    stokKartlariniListele();
+    filtreGrupComboboxDoldur();
+//    stokKartlariniListele();  bunu artık on_grupFiltrecomboBox_currentIndexChanged() bu metod içerisinde yaptığım için buna gerek kalmadı.
     // stok birimlerini çekme
     ui->BirimiComboBox->clear();
     ui->BirimiComboBox->addItems(vt->getStokBirimleri());
@@ -237,16 +238,28 @@ void StokFrom::hizliRafEtiketiYazdir()
 void StokFrom::grupComboboxDoldur()
 {
     QStringList gruplar = vt->stokGruplariGetir();
+    ui->StokGrubuComboBox->addItem("Stok gurubu seçin");
     foreach (auto grup, gruplar) {
         ui->StokGrubuComboBox->addItem(grup);
     }
     ui->StokGrubuComboBox->setCurrentIndex(0);
 }
 
+void StokFrom::filtreGrupComboboxDoldur()
+{
+    ui->grupFiltrecomboBox->clear();
+    QStringList gruplar = vt->stokGruplariGetir();
+    ui->grupFiltrecomboBox->addItem("Hepsi");
+    foreach (auto grup, gruplar) {
+        ui->grupFiltrecomboBox->addItem(grup);
+    }
+    ui->grupFiltrecomboBox->setCurrentIndex(0);
+}
+
 
 void StokFrom::stokKartlariniListele()
 {
-    _stokKartlariTableModel = new StokKartlariModel();
+    _stokKartlariTableModel = new StokKartlariModel(ui->grupFiltrecomboBox->currentText());
     sortModel->setSourceModel(_stokKartlariTableModel);
     ui->StokKartlaritableView->setModel(sortModel);
     ui->StokKartlaritableView->sortByColumn(3, Qt::AscendingOrder);
@@ -801,7 +814,23 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 
 void StokFrom::on_BarkodOlusturBtn_clicked()
 {
-    QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(80000000, 89999999)));
+    // burası for döngüsüne alarak iyileştirilebilir.
+
+    QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(8000000, 8999999)));
+
+    int ciftSayilar = (uretilenBarkod.at(6).digitValue() + uretilenBarkod.at(4).digitValue() + uretilenBarkod.at(2).digitValue() + uretilenBarkod.at(0).digitValue()) * 3;
+    int tekSayilar = uretilenBarkod.at(5).digitValue() + uretilenBarkod.at(3).digitValue() + uretilenBarkod.at(1).digitValue();
+    int dogrulamaKodu = (((tekSayilar + ciftSayilar) % 10) - 10) % 10;
+
+    if(dogrulamaKodu < 0){// sayı negatif çıkarsa pozitife çevirmek için.
+        dogrulamaKodu = dogrulamaKodu * -1;
+    }
+
+//    qDebug() << "üretilen numara: " << uretilenNumara;
+//    qDebug() << "doğrulama kodu: " << dogrulamaKodu;
+    uretilenBarkod.append(QString::number(dogrulamaKodu));
+//    qDebug() << "tam barkod: " << uretilenNumara;
+
     if(!vt->barkodVarmi(uretilenBarkod)){
         ui->BarkodLnEdit->setText(uretilenBarkod);
     }
@@ -1075,3 +1104,10 @@ void StokFrom::on_TopluEtikettoolButton_clicked()
     this->close();
     rafEtiketForm->show();
 }
+
+void StokFrom::on_grupFiltrecomboBox_currentIndexChanged(const QString &arg1)
+{
+    Q_UNUSED(arg1);
+    stokKartlariniListele();
+}
+

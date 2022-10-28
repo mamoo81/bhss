@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDialog>
 #include <QShortcut>
 #include <QList>
+#include <QSqlDatabase>
 
 namespace Ui {
 class HizliUrunEkleFormDialog;
@@ -37,6 +38,8 @@ class HizliUrunEkleFormDialog : public QDialog
 public:
     explicit HizliUrunEkleFormDialog(QWidget *parent = nullptr);
     ~HizliUrunEkleFormDialog();
+
+    QSqlDatabase db = QSqlDatabase::database("mhss_data");
 
     QString hizliUrunBarkod;
     QString hizliUrunAd;

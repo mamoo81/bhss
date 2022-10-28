@@ -1463,9 +1463,54 @@ QSqlQueryModel *Veritabani::getStokKartlari()
     return stokKartlariModel;
 }
 
-QSqlQueryModel *Veritabani::getStokKartlari(QString query)
+QSqlQueryModel *Veritabani::getStokKartlari(QString grupAdi)
 {
-    stokKartlariModel->setQuery(query, db);
+     int grupID = getGrupID(grupAdi);
+
+     QSqlQuery ququ = QSqlQuery(db);
+     ququ.prepare("SELECT stokkartlari.id, barkod, kod, stokkartlari.ad, stokbirimleri.birim, miktar, stokgruplari.grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, stokkartlari.tarih, ureticiler.ad, carikartlar.ad, stokkartlari.aciklama FROM stokkartlari "
+                  "LEFT JOIN stokbirimleri ON stokkartlari.birim = stokbirimleri.id "
+                  "LEFT JOIN ureticiler ON stokkartlari.uretici = ureticiler.id "
+                  "LEFT JOIN carikartlar ON stokkartlari.tedarikci = carikartlar.id "
+                  "LEFT JOIN stokgruplari ON stokkartlari.grup = stokgruplari.id "
+                  "WHERE stokkartlari.grup = ? "
+                  "ORDER BY stokkartlari.ad ASC");
+     ququ.bindValue(0, grupID);
+     ququ.exec();
+     stokKartlariModel->setQuery(ququ);
+
+     // eski *****************************************
+//     stokKartlariModel->setQuery("SELECT stokkartlari.id, barkod, kod, stokkartlari.ad, stokbirimleri.birim, miktar, stokgruplari.grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, stokkartlari.tarih, ureticiler.ad, carikartlar.ad, stokkartlari.aciklama FROM stokkartlari "
+//                                "LEFT JOIN stokbirimleri ON stokkartlari.birim = stokbirimleri.id "
+//                                "LEFT JOIN ureticiler ON stokkartlari.uretici = ureticiler.id "
+//                                "LEFT JOIN carikartlar ON stokkartlari.tedarikci = carikartlar.id "
+//                                "LEFT JOIN stokgruplari ON stokkartlari.grup = stokgruplari.id "
+//                                "ORDER BY stokkartlari.ad ASC", db);
+     // eski *****************************************
+
+     stokKartlariModel->setHeaderData(0, Qt::Horizontal, "ID");
+     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
+     stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Stok Kodu");
+     stokKartlariModel->setHeaderData(3, Qt::Horizontal, "Adı");
+     stokKartlariModel->setHeaderData(4, Qt::Horizontal, "Birim");
+     stokKartlariModel->setHeaderData(5, Qt::Horizontal, "Miktar");
+     stokKartlariModel->setHeaderData(6, Qt::Horizontal, "Stok Grup");
+     stokKartlariModel->setHeaderData(7, Qt::Horizontal, "Alış Fiyat");
+     stokKartlariModel->setHeaderData(8, Qt::Horizontal, "Satış Fiyat");
+     stokKartlariModel->setHeaderData(9, Qt::Horizontal, "KDV");
+     stokKartlariModel->setHeaderData(10, Qt::Horizontal, "ÖTV");
+     stokKartlariModel->setHeaderData(11, Qt::Horizontal, "KDV dahil");
+     stokKartlariModel->setHeaderData(12, Qt::Horizontal, "ÖTV dahil");
+     stokKartlariModel->setHeaderData(13, Qt::Horizontal, "Gün. tarihi");
+     stokKartlariModel->setHeaderData(14, Qt::Horizontal, "Üretici");
+     stokKartlariModel->setHeaderData(15, Qt::Horizontal, "Tedarikçi");
+     stokKartlariModel->setHeaderData(16, Qt::Horizontal, "Açıklama");
+     return stokKartlariModel;
+}
+
+QSqlQueryModel *Veritabani::getStokKartlari(QSqlQuery query)
+{
+    stokKartlariModel->setQuery(query);
     stokKartlariModel->setHeaderData(0, Qt::Horizontal, "Kod");
     stokKartlariModel->setHeaderData(1, Qt::Horizontal, "Barkod");
     stokKartlariModel->setHeaderData(2, Qt::Horizontal, "Ürün Adı");
@@ -1492,7 +1537,6 @@ QStringList Veritabani::stokGruplariGetir()
 {
     sorgu.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
-    liste.append("Stok Grubu seçin...");
     while (sorgu.next()) {
         liste.append(sorgu.value(0).toString());
     }

@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 #include <QBrush>
 
-StokKartlariModel::StokKartlariModel(QObject *parent) : QAbstractItemModel(parent)
+StokKartlariModel::StokKartlariModel(QString grupAdi, QObject *parent) : QAbstractItemModel(parent)
 {
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     genelAyarlar.beginGroup("stok");
@@ -31,7 +31,12 @@ StokKartlariModel::StokKartlariModel(QObject *parent) : QAbstractItemModel(paren
     _stokUyariMiktari = genelAyarlar.value("uyarimiktar").toDouble();
     genelAyarlar.endGroup();
 
-    _QueryModel = vt->getStokKartlari();
+    if(grupAdi == "Hepsi"){
+        _QueryModel = vt->getStokKartlari();
+    }
+    else{
+        _QueryModel = vt->getStokKartlari(grupAdi);
+    }
     _nColumn = _QueryModel->columnCount();
 }
 

@@ -72,7 +72,8 @@ public slots:
     void stokKartiniGuncelle(const QString _EskiStokKartiID, StokKarti _YeniStokKarti, User *_Kullanici);
     void stokKartiSil(QString _StokKartiID);
     QSqlQueryModel* getStokKartlari();
-    QSqlQueryModel* getStokKartlari(QString query);
+    QSqlQueryModel *getStokKartlari(QString grupAdi);
+    QSqlQueryModel* getStokKartlari(QSqlQuery query);
     QSqlQueryModel* getStokKartlariEtiket();
     QStringList stokGruplariGetir();
     int getGrupID(QString pGrup);

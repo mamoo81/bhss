@@ -105,6 +105,10 @@ public:
 
     QImage getBarkodImg() const;
 
+    double getKar() const;
+
+    double getKarYuzde() const;
+
 private:
 
     QString id;

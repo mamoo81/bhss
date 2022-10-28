@@ -179,3 +179,9 @@ void KasaDialogForm::on_KapatpushButton_clicked()
     this->close();
 }
 
+
+void KasaDialogForm::on_RaporpushButton_clicked()
+{
+
+}
+

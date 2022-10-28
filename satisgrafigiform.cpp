@@ -22,12 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "satisgrafigiform.h"
 #include "ui_satisgrafigiform.h"
 //********************************
-#include <QBarSet>
-#include <QChart>
-#include <QBarCategoryAxis>
-#include <QBarSeries>
-#include <QChartView>
-#include <QCategoryAxis>
 #include <QHash>
 
 QT_CHARTS_USE_NAMESPACE
@@ -49,6 +43,13 @@ void SatisGrafigiForm::FormLoad()
     chartview->setRenderHint(QPainter::Antialiasing);
     chartview->setParent(ui->horizontalFrame);
     chartview->setFixedSize(ui->horizontalFrame->size());
+
+    // form açıldığında günlük seçili olacağı için
+    // chart başlığını ayarlama
+    chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
+    chart->setTitle("Günlük satış grafiği");
+
+
 }
 
 SatisGrafigiForm::~SatisGrafigiForm()
@@ -56,18 +57,10 @@ SatisGrafigiForm::~SatisGrafigiForm()
     delete ui;
 }
 
-void SatisGrafigiForm::AralıkBelirle()
-{
-    if(ui->gunlukradioButton->isChecked()){
-
-    }
-}
-
 void SatisGrafigiForm::setStokKarti(StokKarti gosterilecekKart)
 {
     kart = gosterilecekKart;
 }
-
 
 void SatisGrafigiForm::on_gunlukradioButton_clicked()
 {
@@ -79,6 +72,10 @@ void SatisGrafigiForm::on_gunlukradioButton_clicked()
     ui->bitisdateEdit->setCalendarPopup(true);
 
     ui->baslangicdateEdit->setDate(ui->bitisdateEdit->date().addDays(-60));
+
+    // chart başlığını ayarlama
+    chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
+    chart->setTitle("Günlük satış grafiği");
 }
 
 void SatisGrafigiForm::on_aylikradioButton_clicked()
@@ -91,6 +88,10 @@ void SatisGrafigiForm::on_aylikradioButton_clicked()
     ui->bitisdateEdit->setCalendarPopup(true);
 
     ui->baslangicdateEdit->setDate(ui->bitisdateEdit->date().addDays(-730));
+
+    // chart başlığını ayarlama
+    chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
+    chart->setTitle("Aylık satış grafiği");
 }
 
 void SatisGrafigiForm::on_bitisdateEdit_dateChanged(const QDate &date)
@@ -116,29 +117,25 @@ void SatisGrafigiForm::on_yillikradioButton_clicked()
     ui->bitisdateEdit->setCalendarPopup(true);
 
     ui->baslangicdateEdit->setDate(ui->bitisdateEdit->date().addDays(-7300));
+
+    // chart başlığını ayarlama
+    chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
+    chart->setTitle("Yıllık satış grafiği");
 }
 
 void SatisGrafigiForm::on_gosterpushButton_clicked()
 {
-    QBarSet *barset = new QBarSet(kart.getAd());
-    QBarSeries *barSeries = new QBarSeries();
-    QBarCategoryAxis *categoryaxis = new QBarCategoryAxis();
-
-    QDate baslangicTarihi = ui->baslangicdateEdit->date();
-    QDate bitisTarihi = ui->bitisdateEdit->date();
+    // ilkleme
+    barset = new QBarSet(kart.getAd());
+    barSeries = new QBarSeries();
+    categoryaxis = new QBarCategoryAxis();
 
     if(ui->gunlukradioButton->isChecked()){
-
-        // chart başlığını ayarlama
-        chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
-        chart->setTitle("Günlük satış grafiği");
 
         // günlük bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
         qint64 kacGun = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
 
         // gün sayısı kadar günleri listeye ekleme
-        QStringList gunler;
-        QStringList gunlerTamFormat;
         for (int var = 0; var <= kacGun; ++var) {
             gunler.append(ui->baslangicdateEdit->date().addDays(var).toString("dd.MM.yyyy dddd"));
             gunlerTamFormat.append(ui->baslangicdateEdit->date().addDays(var).toString());// aşağıdaki karşılaştırma için.
@@ -175,23 +172,18 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
         }
     }
     if(ui->aylikradioButton->isChecked()){
-        // chart başlığını ayarlama
-        chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
-        chart->setTitle("Aylık satış grafiği");
 
-        // günlük bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
+        // aylik bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
         qint64 kacGunluk = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
 
         int KacAylik = kacGunluk/30;
 
         // ay sayısı kadar ayları listeye ekleme
-        QStringList aylar;
-        QStringList aylarTamFormat;
         for (int var = 0; var <= KacAylik; ++var) {
             aylar.append(ui->baslangicdateEdit->date().addMonths(var).toString("MM.yyyy MMMM"));
             aylarTamFormat.append(ui->baslangicdateEdit->date().addMonths(var).toString("MM.yyyy MMMM"));// aşağıdaki karşılaştırma için.
         }
-        categoryaxis->append(aylar);// gün adlarını chart altına yazıyorum.
+        categoryaxis->append(aylar);// ay adlarını chart altına yazıyorum.
 
         // adetleri bulma ve girme
         QHash<QString, float> adetlerList = vt.getAylikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
@@ -223,18 +215,13 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
         }
     }
     if(ui->yillikradioButton->isChecked()){
-        // chart başlığını ayarlama
-        chart->setTitleFont(QFont("Monospace", 14, QFont::Bold));
-        chart->setTitle("Yıllık satış grafiği");
 
         // yıllık bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
         qint64 kacGunluk = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
 
         int KacYillik = kacGunluk/365;
 
-        // ay sayısı kadar ayları listeye ekleme
-        QStringList yillar;
-        QStringList yillarTamFormat;
+        // yıl sayısı kadar yılları listeye ekleme
         for (int var = 0; var <= KacYillik; ++var) {
             yillar.append(ui->baslangicdateEdit->date().addYears(var).toString("yyyy"));
             yillarTamFormat.append(ui->baslangicdateEdit->date().addYears(var).toString("yyyy"));// aşağıdaki karşılaştırma için.
@@ -290,5 +277,10 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
     chart->setAxisX(categoryaxis, barSeries);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
+
+}
+
+void SatisGrafigiForm::on_EklepushButton_clicked()
+{
 
 }

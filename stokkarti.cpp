@@ -232,3 +232,15 @@ QImage StokKarti::getBarkodImg() const
     }
     return QImage(QFileInfo(barkodImgDosya).absoluteFilePath());
 }
+
+double StokKarti::getKar() const
+{
+    double kar = getSFiyat() - getAFiyat();
+
+    return kar;
+}
+
+double StokKarti::getKarYuzde() const
+{
+
+}

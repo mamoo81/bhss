@@ -61,7 +61,7 @@ HizliUrunEkleFormDialog::~HizliUrunEkleFormDialog()
 
 void HizliUrunEkleFormDialog::stokKartlariniListele()
 {
-    QString sorgu("SELECT kod, barkod, ad, sfiyat FROM stokkartlari ORDER BY ad ASC");
+    QSqlQuery sorgu("SELECT kod, barkod, ad, sfiyat FROM stokkartlari ORDER BY ad ASC", db);
     Veritabani *vt = new Veritabani();
     ui->StokKartlaritableView->setModel(vt->getStokKartlari(sorgu));
     ui->StokKartlaritableView->resizeColumnsToContents();
