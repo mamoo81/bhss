@@ -249,7 +249,7 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             // ürün birimi
             font = QFont("Halvetica", 5);
             painter.setFont(font);
-            painter.drawText(QPoint(250, 50), ("1 x " + vt.getBirimAd(kart.getBirim()) + " ="));
+            painter.drawText(QPoint(250, 50), ("1 " + vt.getBirimAd(kart.getBirim()) + " fiyatıdır."));
 
             // TL logosu
             font = QFont("Halvetica", 14);
