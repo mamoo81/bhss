@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 #include "QSortFilterProxyModel"
 #include "stokkartlarimodel.h"
+#include "stokyonetimi.h"
 //************************
 #include <QDialog>
 #include <QPixmap>
@@ -156,6 +157,7 @@ private:
 
     User kullanici;
     Veritabani *vt = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
     QItemSelectionModel *selectionModel = new QItemSelectionModel();
     QSortFilterProxyModel *sortModel = new QSortFilterProxyModel();
 

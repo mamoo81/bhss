@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef STOKHAREKETLERIDIALOG_H
 #define STOKHAREKETLERIDIALOG_H
-#include "veritabani.h"
 #include "stokkarti.h"
+#include "stokyonetimi.h"
 //*******************************
 #include <QDialog>
 
@@ -38,7 +38,8 @@ public:
     explicit StokHareketleriDialog(QWidget *parent = nullptr);
     ~StokHareketleriDialog();
 
-    Veritabani vt = Veritabani();
+//    Veritabani vt = Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
 
     void setStokKarti(const StokKarti &newStokKarti);
 

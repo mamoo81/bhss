@@ -29,6 +29,14 @@ StokGirCikDialog::StokGirCikDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->doubleSpinBox->selectAll();
     ui->doubleSpinBox->setFocus();
+
+    ENTER = new QShortcut(this);
+    ENTER->setKey(Qt::Key_Enter);
+    connect(ENTER, SIGNAL(activated()), this, SLOT(on_pushButton_clicked()));
+
+    RETURN = new QShortcut(this);
+    RETURN->setKey(Qt::Key_Return);
+    connect(RETURN, SIGNAL(activated()), this, SLOT(on_pushButton_clicked()));
 }
 
 StokGirCikDialog::~StokGirCikDialog()
@@ -44,14 +52,15 @@ void StokGirCikDialog::setIslem(const QString &newIslem)
 
 void StokGirCikDialog::on_pushButton_clicked()
 {
-    bool basarilimi = vt->setStokMiktari(kullanici, stokKartiID, islem, ui->doubleSpinBox->value());
-    if(basarilimi){
-        this->close();
+    if(ui->doubleSpinBox->value() > 0){
+        miktar = ui->doubleSpinBox->value();
     }
     else{
+        miktar = 0;
         ui->doubleSpinBox->selectAll();
         ui->doubleSpinBox->setFocus();
     }
+    this->close();
 }
 
 void StokGirCikDialog::setKullanici(const User &newKullanici)
@@ -67,5 +76,26 @@ void StokGirCikDialog::setStokKartiID(const QString &newStokKartiID)
 
 void StokGirCikDialog::on_iptalpushButton_clicked()
 {
+    miktar = 0;
     this->close();
+}
+
+const User &StokGirCikDialog::getKullanici() const
+{
+    return kullanici;
+}
+
+const QString &StokGirCikDialog::getStokKartiID() const
+{
+    return stokKartiID;
+}
+
+const QString &StokGirCikDialog::getIslem() const
+{
+    return islem;
+}
+
+float StokGirCikDialog::getMiktar() const
+{
+    return miktar;
 }

@@ -63,18 +63,18 @@ void KasaDialogForm::on_BitisdateTimeEdit_dateTimeChanged(const QDateTime &dateT
 void KasaDialogForm::KasaHareketleriListele()
 {
     // kasa hareketlerini getirme
-    ui->KasaHareketleritableView->setModel(vt->getKasaHareketleri(baslangicTarih, bitisTarih));
+    ui->KasaHareketleritableView->setModel(kasaYonetimi.getKasaHareketleri(baslangicTarih, bitisTarih));
     ui->KasaHareketleritableView->setSortingEnabled(true);
     ui->KasaHareketleritableView->resizeColumnsToContents();
     ui->KasaHareketleritableView->clearSelection();
     // kasaya toplam giren parayı getirme
-    ui->ToplamGirislabel->setText("₺" + QString::number(vt->getKasaToplamGiren(baslangicTarih, bitisTarih), 'f', 2));
+    ui->ToplamGirislabel->setText("₺" + QString::number(kasaYonetimi.getKasaToplamGiren(baslangicTarih, bitisTarih), 'f', 2));
     // kasadan toplam çıkan parayı getirme
-    ui->ToplamCikislabel->setText("₺" + QString::number(vt->getKasaToplamCikan(baslangicTarih, bitisTarih), 'f', 2));
+    ui->ToplamCikislabel->setText("₺" + QString::number(kasaYonetimi.getKasaToplamCikan(baslangicTarih, bitisTarih), 'f', 2));
     // net kârı getirme
-    ui->NetKarlabel->setText("₺" + QString::number(vt->getNetKar(baslangicTarih, bitisTarih), 'f', 2));
+    ui->NetKarlabel->setText("₺" + QString::number(kasaYonetimi.getNetKar(baslangicTarih, bitisTarih), 'f', 2));
     //kasadaki parayı getirme
-    ui->KasadakiParalabel->setText("₺" + QString::number(vt->getKasadakiPara(), 'f', 2));
+    ui->KasadakiParalabel->setText("₺" + QString::number(kasaYonetimi.getKasadakiPara(), 'f', 2));
 }
 
 void KasaDialogForm::on_KasaGirisYaptoolButton_clicked()
@@ -146,7 +146,7 @@ void KasaDialogForm::on_SiltoolButton_clicked()
         msg.setButtonText(QMessageBox::No, "Hayır");
         int msgsonuc = msg.exec();
         if(QMessageBox::Yes == msgsonuc){
-            bool sonuc = vt->kasaHareketiSil(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 0).data().toString(),
+            bool sonuc = kasaYonetimi.kasaHareketiSil(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 0).data().toString(),
                                              ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 1).data().toString(),
                                              ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 2).data().toDouble());
             if(sonuc == true){

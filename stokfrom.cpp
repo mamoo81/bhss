@@ -80,11 +80,11 @@ void StokFrom::formLoad()
 //    stokKartlariniListele();  bunu artık on_grupFiltrecomboBox_currentIndexChanged() bu metod içerisinde yaptığım için buna gerek kalmadı.
     // stok birimlerini çekme
     ui->BirimiComboBox->clear();
-    ui->BirimiComboBox->addItems(vt->getStokBirimleri());
+    ui->BirimiComboBox->addItems(stokYonetimi.getStokBirimleri());
     // üreticileri çekme
-    ui->ureticicomboBox->addItems(vt->getUreticiler());
+    ui->ureticicomboBox->addItems(stokYonetimi.getUreticiler());
     // tedarikçileri getirme
-    ui->tedarikcicomboBox->addItems(vt->getTedarikciler());
+    ui->tedarikcicomboBox->addItems(stokYonetimi.getTedarikciler());
 
     // klavye kısayol tanımlamaları
     CTRL_F = new QShortcut(this);
@@ -223,11 +223,11 @@ void StokFrom::hizliRafEtiketiYazdir()
     switch (genelAyarlar.value("kagit").toInt()) {
     case 0:
         // yazdırma
-        yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::YATAY_80mm38mm);
+        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::YATAY_80mm38mm);
         break;
     case 1:
         // yazdırma
-        yazici->rafEtiketiBas(vt->getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::DIKEY_100mm38mm);
+        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->BarkodLnEdit->text()), Yazici::KAGIT::DIKEY_100mm38mm);
         break;
     }
 
@@ -472,7 +472,7 @@ void StokFrom::alanlariDoldur()
     ui->ureticicomboBox->setCurrentIndex(ui->ureticicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString()));
     ui->tedarikcicomboBox->setCurrentIndex(ui->tedarikcicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 15).data().toString()));
     ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 16).data().toString());
-    ui->UrunResimlabel->setPixmap(vt->getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
+    ui->UrunResimlabel->setPixmap(stokYonetimi.getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
 }
 
 void StokFrom::closeEvent(QCloseEvent *)
@@ -560,12 +560,12 @@ void StokFrom::on_KaydetBtn_clicked()
         return;
     }
     if(yeniKayit){// true ise yeni stok kartı kaydı oluşturur.
-        if(!vt->barkodVarmi(ui->BarkodLnEdit->text())){
+        if(!stokYonetimi.barkodVarmi(ui->BarkodLnEdit->text())){
             StokKarti yeniStokKarti = StokKarti();
             yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
             yeniStokKarti.setKod(ui->StokKoduLnEdit->text());
             yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-            yeniStokKarti.setBirim(vt->getBirimID(ui->BirimiComboBox->currentText()));
+            yeniStokKarti.setBirim(stokYonetimi.getBirimID(ui->BirimiComboBox->currentText()));
             yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
             yeniStokKarti.setGrup(vt->getGrupID(ui->StokGrubuComboBox->currentText()));
             yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
@@ -575,10 +575,10 @@ void StokFrom::on_KaydetBtn_clicked()
             yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
             yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
             yeniStokKarti.setTarih(QDateTime::currentDateTime());
-            yeniStokKarti.setUretici(QString::number(vt->getUreticiID(ui->ureticicomboBox->currentText())));
-            yeniStokKarti.setTedarikci(QString::number(vt->getTedarikciID(ui->tedarikcicomboBox->currentText())));
+            yeniStokKarti.setUretici(QString::number(stokYonetimi.getUreticiID(ui->ureticicomboBox->currentText())));
+            yeniStokKarti.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->tedarikcicomboBox->currentText())));
             yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
-            QSqlError hataMesajı = vt->yeniStokKartiOlustur(yeniStokKarti, &kullanici);
+            QSqlError hataMesajı = stokYonetimi.yeniStokKartiOlustur(yeniStokKarti, &kullanici);
             if(!hataMesajı.isValid()){
                 uyariSes->play();
                 QMessageBox *msg = new QMessageBox(this);
@@ -632,7 +632,7 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setId(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         yeniStokKarti.setBarkod(ui->BarkodLnEdit->text());
         yeniStokKarti.setAd(QLocale().toUpper(ui->StokAdiLnEdit->text()));
-        yeniStokKarti.setBirim(vt->getBirimID(ui->BirimiComboBox->currentText()));
+        yeniStokKarti.setBirim(stokYonetimi.getBirimID(ui->BirimiComboBox->currentText()));
         yeniStokKarti.setMiktar(ui->MiktarLnEdit->text().toFloat());
         yeniStokKarti.setGrup(vt->getGrupID(ui->StokGrubuComboBox->currentText()));
         yeniStokKarti.setAFiyat(ui->AFiyatdoubleSpinBox->value());
@@ -642,10 +642,10 @@ void StokFrom::on_KaydetBtn_clicked()
         yeniStokKarti.setKdvdahil(ui->KDVcheckbox->isChecked());
         yeniStokKarti.setOtvdahil(ui->OTVcheckbox->isChecked());
         yeniStokKarti.setTarih(QDateTime::currentDateTime());
-        yeniStokKarti.setUretici(QString::number(vt->getUreticiID(ui->ureticicomboBox->currentText())));
-        yeniStokKarti.setTedarikci(QString::number(vt->getTedarikciID(ui->tedarikcicomboBox->currentText())));
+        yeniStokKarti.setUretici(QString::number(stokYonetimi.getUreticiID(ui->ureticicomboBox->currentText())));
+        yeniStokKarti.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->tedarikcicomboBox->currentText())));
         yeniStokKarti.setAciklama("stok kartı güncelleme");
-        vt->stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
+        stokYonetimi.stokKartiniGuncelle(duzenlenecekStokKartiID, yeniStokKarti, &kullanici);
 
         // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
         vt->setHizliButon(yeniStokKarti);
@@ -670,14 +670,14 @@ void StokFrom::on_SilBtn_clicked()
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
-        msg.setText(QString("%1 barkod numaralı \n%2 isimli stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).arg(seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString()));
+        msg.setText(QString("%1 barkod numaralı\n\n%2 isimli\n\n\n stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString(), seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString()));
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setButtonText(QMessageBox::Yes, "Evet");
         msg.setButtonText(QMessageBox::No, "Hayır");
         msg.setDefaultButton(QMessageBox::Yes);
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
-            vt->stokKartiSil(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
+            stokYonetimi.stokKartiSil(seciliSatirModel->model()->index(seciliSatirIndex, 0).data().toString());
             stokKartlariniListele();
             on_IptalBtn_clicked();
         }
@@ -757,6 +757,18 @@ void StokFrom::on_StokGirBtn_clicked()
         stokMiktarigirForm->setIslem("GİRİŞ");
         stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         stokMiktarigirForm->exec();
+        if(stokMiktarigirForm->getMiktar() > 0){
+            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getStokKartiID(), stokMiktarigirForm->getIslem(), stokMiktarigirForm->getMiktar())){
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getIslem()));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+            }
+        }
         stokKartlariniListele();
         delete stokMiktarigirForm;
         ui->StokKartlaritableView->selectRow(seciliStokIndex);
@@ -768,7 +780,7 @@ void StokFrom::on_StokGirBtn_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Stok kartı seçiniz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Evet");
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -785,6 +797,18 @@ void StokFrom::on_StokCikBtn_clicked()
         stokMiktarigirForm->setIslem("ÇIKIŞ");
         stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         stokMiktarigirForm->exec();
+        if(stokMiktarigirForm->getMiktar() > 0){
+            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getStokKartiID(), stokMiktarigirForm->getIslem(), stokMiktarigirForm->getMiktar())){
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getIslem()));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+            }
+        }
         stokKartlariniListele();
         delete stokMiktarigirForm;
         ui->StokKartlaritableView->selectRow(seciliStokIndex);
@@ -796,7 +820,7 @@ void StokFrom::on_StokCikBtn_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Stok kartı seçiniz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Evet");
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -806,7 +830,7 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
     StokHareketleriDialog *hareketlerForm = new StokHareketleriDialog(this);
-    hareketlerForm->setStokKarti(vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()));
+    hareketlerForm->setStokKarti(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()));
     hareketlerForm->exec();
     delete hareketlerForm;
 }
@@ -818,6 +842,7 @@ void StokFrom::on_BarkodOlusturBtn_clicked()
 
     QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(8000000, 8999999)));
 
+    // üretilen barkodun doğrulama kodunu bulma
     int ciftSayilar = (uretilenBarkod.at(6).digitValue() + uretilenBarkod.at(4).digitValue() + uretilenBarkod.at(2).digitValue() + uretilenBarkod.at(0).digitValue()) * 3;
     int tekSayilar = uretilenBarkod.at(5).digitValue() + uretilenBarkod.at(3).digitValue() + uretilenBarkod.at(1).digitValue();
     int dogrulamaKodu = (((tekSayilar + ciftSayilar) % 10) - 10) % 10;
@@ -831,7 +856,7 @@ void StokFrom::on_BarkodOlusturBtn_clicked()
     uretilenBarkod.append(QString::number(dogrulamaKodu));
 //    qDebug() << "tam barkod: " << uretilenNumara;
 
-    if(!vt->barkodVarmi(uretilenBarkod)){
+    if(!stokYonetimi.barkodVarmi(uretilenBarkod)){
         ui->BarkodLnEdit->setText(uretilenBarkod);
     }
 }
@@ -880,7 +905,7 @@ void StokFrom::on_ResimEkleBtn_clicked()
 
 void StokFrom::on_ResimSilBtn_clicked()
 {
-    if(!vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim().isNull()){
+    if(!stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim().isNull()){
         uyariSes->play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
@@ -902,7 +927,7 @@ void StokFrom::on_ResimSilBtn_clicked()
                 msg.setStandardButtons(QMessageBox::Ok);
                 msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
-                ui->UrunResimlabel->setPixmap(vt->getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim());
+                ui->UrunResimlabel->setPixmap(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim());
             }
             else{
                 uyariSes->play();

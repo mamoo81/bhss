@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef CARIHAREKETIEKLEFORM_H
 #define CARIHAREKETIEKLEFORM_H
 #include "veritabani.h"
+#include "cariyonetimi.h"
 //****************************
 #include <QDialog>
 
@@ -54,6 +55,7 @@ public:
     };
     Q_ENUM(OdemeTipi)
     Veritabani *vt = new Veritabani();
+    CariYonetimi cariYonetimi = CariYonetimi();
     QString cariID;
     Cari cariKart;
     FaturaTipi faturaTip;

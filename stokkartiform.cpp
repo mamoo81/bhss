@@ -49,10 +49,10 @@ void StokKartiForm::setKart(StokKarti newYeniKart)
 
 void StokKartiForm::FormLoad()
 {
-    ui->UreticicomboBox->addItems(vt.getUreticiler());
-    ui->TedarikcicomboBox->addItems(vt.getTedarikciler());
-    ui->BirimicomboBox->addItems(vt.getStokBirimleri());
-    ui->StokGrubucomboBox->addItems(vt.stokGruplariGetir());
+    ui->UreticicomboBox->addItems(stokYonetimi.getUreticiler());
+    ui->TedarikcicomboBox->addItems(stokYonetimi.getTedarikciler());
+    ui->BirimicomboBox->addItems(stokYonetimi.getStokBirimleri());
+    ui->StokGrubucomboBox->addItems(stokYonetimi.stokGruplariGetir());
 
     if(toplustokkarti){
         ui->iptalpushButton->setEnabled(true);
@@ -159,11 +159,11 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         return;
     }
     if(yeniKart){// true ise yeni stok kartı kaydı oluşturur.
-        if(!vt.barkodVarmi(ui->BarkodlineEdit->text())){
+        if(!stokYonetimi.barkodVarmi(ui->BarkodlineEdit->text())){
             kart.setBarkod(ui->BarkodlineEdit->text());
             kart.setKod(ui->StokKodlineEdit->text());
             kart.setAd(QLocale().toUpper(ui->AdlineEdit->text()));
-            kart.setBirim(vt.getBirimID(ui->BirimicomboBox->currentText()));
+            kart.setBirim(stokYonetimi.getBirimID(ui->BirimicomboBox->currentText()));
             kart.setMiktar(ui->MiktarlineEdit->text().toFloat());
             kart.setGrup(vt.getGrupID(ui->StokGrubucomboBox->currentText()));
             kart.setAFiyat(ui->AFiyatdoubleSpinBox->value());
@@ -173,33 +173,33 @@ void StokKartiForm::on_KaydetpushButton_clicked()
             kart.setKdvdahil(ui->KDVDahilcomboBox->currentIndex());
             kart.setOtvdahil(ui->OTVDahilcomboBox->currentIndex());
             kart.setTarih(QDateTime::currentDateTime());
-            kart.setUretici(QString::number(vt.getUreticiID(ui->UreticicomboBox->currentText())));
-            kart.setTedarikci(QString::number(vt.getTedarikciID(ui->TedarikcicomboBox->currentText())));
+            kart.setUretici(QString::number(stokYonetimi.getUreticiID(ui->UreticicomboBox->currentText())));
+            kart.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->TedarikcicomboBox->currentText())));
             kart.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
-            QSqlError hataMesajı = vt.yeniStokKartiOlustur(kart, &kullanici);
+            QSqlError hataMesajı = stokYonetimi.yeniStokKartiOlustur(kart, &kullanici);
             if(!hataMesajı.isValid()){
                 kayitBasarilimi = true;// kapatınca bir üst formda işlem yapmak için.
                 uyariSes->play();
-                QMessageBox *msg = new QMessageBox(this);
-                msg->setIcon(QMessageBox::Information);
-                msg->setWindowTitle("Başarılı");
-                msg->setText("Yeni stok kartı oluşturuldu.");
-                msg->setStandardButtons(QMessageBox::Ok);
-                msg->setDefaultButton(QMessageBox::Ok);
-                msg->setButtonText(QMessageBox::Ok, "Tamam");
-                msg->exec();
+                QMessageBox msg(this);
+                msg.setIcon(QMessageBox::Information);
+                msg.setWindowTitle("Başarılı");
+                msg.setText("Yeni stok kartı oluşturuldu.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setDefaultButton(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
             }
             else{
                 uyariSes->play();
-                QMessageBox *msg = new QMessageBox(this);
-                msg->setIcon(QMessageBox::Critical);
-                msg->setWindowTitle("Hata");
-                msg->setText("Yeni stok kartı oluşturulamadı.");
-                msg->setInformativeText(qPrintable(hataMesajı.text()));
-                msg->setStandardButtons(QMessageBox::Ok);
-                msg->setDefaultButton(QMessageBox::Ok);
-                msg->setButtonText(QMessageBox::Ok, "Tamam");
-                msg->exec();
+                QMessageBox msg(this);
+                msg.setIcon(QMessageBox::Critical);
+                msg.setWindowTitle("Hata");
+                msg.setText("Yeni stok kartı oluşturulamadı.");
+                msg.setInformativeText(qPrintable(hataMesajı.text()));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setDefaultButton(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
             }
         }
         else{
@@ -219,7 +219,7 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         kart.setBarkod(ui->BarkodlineEdit->text());
         kart.setKod(ui->StokKodlineEdit->text());
         kart.setAd(QLocale().toUpper(ui->AdlineEdit->text()));
-        kart.setBirim(vt.getBirimID(ui->BirimicomboBox->currentText()));
+        kart.setBirim(stokYonetimi.getBirimID(ui->BirimicomboBox->currentText()));
         kart.setMiktar(ui->MiktarlineEdit->text().toFloat());
         kart.setGrup(vt.getGrupID(ui->StokGrubucomboBox->currentText()));
         kart.setAFiyat(ui->AFiyatdoubleSpinBox->value());
@@ -229,10 +229,10 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         kart.setKdvdahil(ui->KDVDahilcomboBox->currentIndex());
         kart.setOtvdahil(ui->OTVDahilcomboBox->currentIndex());
         kart.setTarih(QDateTime::currentDateTime());
-        kart.setUretici(QString::number(vt.getUreticiID(ui->UreticicomboBox->currentText())));
-        kart.setTedarikci(QString::number(vt.getTedarikciID(ui->TedarikcicomboBox->currentText())));
+        kart.setUretici(QString::number(stokYonetimi.getUreticiID(ui->UreticicomboBox->currentText())));
+        kart.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->TedarikcicomboBox->currentText())));
         kart.setAciklama("stok kartı güncelleme");
-        vt.stokKartiniGuncelle(kart.getId(), kart, &kullanici);
+        stokYonetimi.stokKartiniGuncelle(kart.getId(), kart, &kullanici);
         fiyatGuncellendi = true;
         // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
         vt.setHizliButon(kart);
@@ -335,7 +335,7 @@ void StokKartiForm::setKullanici(const User &newKullanici)
 void StokKartiForm::on_BarkodOlusturpushButton_clicked()
 {
     QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(80000000, 89999999)));
-    if(!vt.barkodVarmi(uretilenBarkod)){
+    if(!stokYonetimi.barkodVarmi(uretilenBarkod)){
         ui->BarkodlineEdit->setText(uretilenBarkod);
     }
 }

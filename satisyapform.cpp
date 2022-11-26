@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QStandardPaths>
 #include <QKeyEvent>
+#include <QTextCodec>
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -49,10 +50,6 @@ void SatisYapForm::formLoad()
 {
     odemeAlindi->setLoops(0);
     satisYapildimi = false;
-    cariKartlar = vt_satisFormu.getCariKartlar();
-    foreach (auto cari, cariKartlar) {
-        cariAdlari.append(cari.getAd());
-    }
 
     //genel ayarların okunması başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
@@ -65,10 +62,18 @@ void SatisYapForm::formLoad()
     //genel ayarların okunması bitiş
 
     ui->OdenendoubleSpinBox->installEventFilter(this);
-    QCompleter *tamamlayici = new QCompleter(cariAdlari, this);
-    tamamlayici->setCompletionMode(QCompleter::InlineCompletion);
-    tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->CariLineEdit->setCompleter(tamamlayici);
+
+//    QCompleter *tamamlayici = new QCompleter(cariAdlari, this);
+//    tamamlayici->setCompletionMode(QCompleter::InlineCompletion);
+//    tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
+//    ui->CariLineEdit->setCompleter(tamamlayici);
+    cariKartlar = cariYonetimi.getCariKartlar();
+    ui->caricomboBox->clear();
+    ui->caricomboBox->addItem("DİREKT");
+    foreach (Cari cariKart, cariKartlar) {
+        ui->caricomboBox->addItem(cariKart.getAd());
+    }
+
     ui->OdenendoubleSpinBox->setFocus();
 }
 
@@ -76,37 +81,37 @@ void SatisYapForm::on_satBtn_clicked()
 {
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
 
-    if(cariAdlari.contains(ui->CariLineEdit->text())){
-        int index = cariAdlari.indexOf(ui->CariLineEdit->text());
-        // satış yapılan cari DİREKT ise ödenen tutarı sepet toplam tutarı olarak al. değilse kullanıcının girdiği tutarı baz al.
-        if(ui->CariLineEdit->text().contains("DİREKT", Qt::CaseInsensitive)){
-            satilacakSepet.setOdenenTutar(satilacakSepet.sepetToplamTutari());
-        }
-        else{
-            satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
-        }
-        //veritabani clasına satiş gönderme
-        vt_satisFormu.satisYap(satilacakSepet, kullanici, cariKartlar.at(index).getId());
-        // fiş yazdırma
-        if(ui->fischeckBox->isChecked()){
-            QString sonIslemNo = vt_satisFormu.sonIslemNumarasi();
-            fisYazici.fisBas(sonIslemNo, satilacakSepet);
-        }
-        // ödeme alındı sesi çalınsın mı.
-        genelAyarlar.beginGroup("uyari-sesleri");
-        if(genelAyarlar.value("odeme-alindi").toBool()){
-            odemeAlindi->play();
-        }
-        genelAyarlar.endGroup();
+    // ------------------------------------------   satış yapılan cari DİREKT ise ödenen tutarı sepet toplam tutarı olarak al. değilse kullanıcının girdiği tutarı baz al.
+    if(ui->caricomboBox->currentText().contains("DİREKT", Qt::CaseInsensitive)){
+        satilacakSepet.setOdenenTutar(satilacakSepet.sepetToplamTutari());
 
-        ui->OdenendoubleSpinBox->setValue(0);
-        ui->toplamLBL->setText(0);
-        satisYapildimi = true;
-        this->close();
+        // ------------------------------------------   veritabani clasına satiş gönderme direkt carisine
+        faturaYonetimi.satisYap(satilacakSepet, kullanici, 1);
     }
     else{
-        QMessageBox::information(this, "Dikkat", "Girilen cari hesap bulunamadı tekrar kontrol ediniz.", QMessageBox::Ok);
+        satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
+
+        // ------------------------------------------   veritabani clasına satiş gönderme seçili cariye
+        faturaYonetimi.satisYap(satilacakSepet, kullanici, cariKartlar.at(ui->caricomboBox->currentIndex() - 1).getId()); // -1 yapıyorum ki caricombobox'a direkt cari satırını manuel eklediğim için index karışmasın.
     }
+
+    // ------------------------------------------   fiş yazdırma
+    if(ui->fischeckBox->isChecked()){
+        QString sonIslemNo = faturaYonetimi.sonIslemNumarasi();
+        fisYazici.fisBas(sonIslemNo, satilacakSepet);
+    }
+
+    // ------------------------------------------   ödeme alındı sesi çalınsın mı.
+    genelAyarlar.beginGroup("uyari-sesleri");
+    if(genelAyarlar.value("odeme-alindi").toBool()){
+        odemeAlindi->play();
+    }
+    genelAyarlar.endGroup();
+
+    ui->OdenendoubleSpinBox->setValue(0);
+    ui->toplamLBL->setText(0);
+    satisYapildimi = true;
+    this->close();
 }
 
 void SatisYapForm::setSatilacakSepet(const Sepet &newSatilacakSepet)

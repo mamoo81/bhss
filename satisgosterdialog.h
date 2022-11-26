@@ -24,6 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "yazici.h"
 #include "veritabani.h"
 #include "cari.h"
+#include "stokyonetimi.h"
+#include "faturayonetimi.h"
+#include "cariyonetimi.h"
 //*****************************
 #include <QDialog>
 #include <QSound>
@@ -66,6 +69,9 @@ private:
     QString satisFaturaNo;
 
     Veritabani *vt = new Veritabani();
+    CariYonetimi cariYonetimi = CariYonetimi();
+    StokYonetimi stokYonetimi = StokYonetimi();
+    FaturaYonetimi faturaYonetimi = FaturaYonetimi();
 
     QSqlQuery qr;
 

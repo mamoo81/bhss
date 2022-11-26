@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define GECMISSATISLARDIALOG_H
 #include "veritabani.h"
 #include "user.h"
+#include "faturayonetimi.h"
 
 #include <QDialog>
 
@@ -38,6 +39,7 @@ public:
     explicit GecmisSatislarDialog(QWidget *parent = nullptr);
     ~GecmisSatislarDialog();
     Veritabani vt = Veritabani();
+    FaturaYonetimi faturaYonetimi = FaturaYonetimi();
 
     void setKullanici(const User &value);
 

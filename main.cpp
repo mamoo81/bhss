@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
     QTranslator *tr_translator = new QTranslator();
     tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(tr_translator);
-
     a.setApplicationVersion(QString("0.2.1"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
@@ -93,7 +92,7 @@ int main(int argc, char *argv[])
         db.setDatabaseName("mhss_data");
         db.open();
         if(db.lastError().isValid()){
-            qWarning(qPrintable(db.lastError().text()));
+            qDebug() << qPrintable(db.lastError().text());
         }
 
         // (/home/user/.config/) altında mhss klasörü varmı kontrol

@@ -26,6 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cari.h"
 #include "veritabani.h"
 #include "stokkarti.h"
+#include "cariyonetimi.h"
+#include "kasayonetimi.h"
+#include "stokyonetimi.h"
 //********************************
 #include <QString>
 #include <QPrinter>
@@ -36,6 +39,9 @@ public:
     Yazici();
 
     Veritabani vt = Veritabani();
+    KasaYonetimi kasaYonetimi = KasaYonetimi();
+    CariYonetimi cariYonetimi = CariYonetimi();
+    StokYonetimi stokYonetimi = StokYonetimi();
     void fisBas(QString _fisNo, Sepet _sepet);
     QString sirketAdi;
     QString sirketAdresi;

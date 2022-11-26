@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define PARACEKDIALOGFORM_H
 #include "user.h"
 #include "veritabani.h"
+#include "kasayonetimi.h"
 //******************************
 #include <QDialog>
 
@@ -39,6 +40,7 @@ public:
     ~ParaCekDialogForm();
 
     Veritabani vt = Veritabani();
+    KasaYonetimi kasaYonetimi = KasaYonetimi();
 
 public slots:
 

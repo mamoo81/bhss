@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>360</height>
+    <height>340</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>720</width>
-    <height>360</height>
+    <height>340</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>720</width>
-    <height>360</height>
+    <height>340</height>
    </size>
   </property>
   <property name="font">
@@ -151,7 +151,7 @@
      <x>370</x>
      <y>140</y>
      <width>341</width>
-     <height>121</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -160,33 +160,11 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QLineEdit" name="CariLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>321</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>DİREKT</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>80</y>
+      <y>70</y>
       <width>261</width>
       <height>31</height>
      </rect>
@@ -205,12 +183,28 @@
      </size>
     </property>
    </widget>
+   <widget class="QComboBox" name="caricomboBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="iptalBtn">
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>300</y>
+     <y>280</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -233,7 +227,7 @@
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>300</y>
+     <y>280</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -281,7 +275,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>270</y>
+     <y>260</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -435,7 +429,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -458,7 +452,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -481,7 +475,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -504,7 +498,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -527,7 +521,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -550,7 +544,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>300</y>
+     <y>280</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -572,11 +566,23 @@
  </widget>
  <tabstops>
   <tabstop>OdenendoubleSpinBox</tabstop>
-  <tabstop>CariLineEdit</tabstop>
-  <tabstop>pushButton_3</tabstop>
+  <tabstop>caricomboBox</tabstop>
   <tabstop>fischeckBox</tabstop>
   <tabstop>satBtn</tabstop>
   <tabstop>iptalBtn</tabstop>
+  <tabstop>toolButton5TL</tabstop>
+  <tabstop>toolButton10TL</tabstop>
+  <tabstop>toolButton20TL</tabstop>
+  <tabstop>toolButton200TL</tabstop>
+  <tabstop>toolButton100TL</tabstop>
+  <tabstop>toolButton50TL</tabstop>
+  <tabstop>toolButton1TL</tabstop>
+  <tabstop>toolButton50krs</tabstop>
+  <tabstop>toolButton25krs</tabstop>
+  <tabstop>toolButton10krs</tabstop>
+  <tabstop>toolButton5krs</tabstop>
+  <tabstop>toolButton1krs</tabstop>
+  <tabstop>pushButton_3</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

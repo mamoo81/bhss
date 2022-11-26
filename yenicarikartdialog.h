@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef YENICARIKARTDIALOG_H
 #define YENICARIKARTDIALOG_H
 #include "veritabani.h"
+#include "cariyonetimi.h"
 //**************************
 #include <QDialog>
 #include <QRegExp>
@@ -43,6 +44,7 @@ public:
     QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     Veritabani *vt = new Veritabani();
+    CariYonetimi cariYonetimi = CariYonetimi();
 
     void setDuzenle(bool newDuzenle);
 

@@ -44,7 +44,7 @@ BirimekleForm::~BirimekleForm()
 void BirimekleForm::FormLoad()
 {
     ui->listWidget->clear();
-    ui->listWidget->addItems(vt_birim->getStokBirimleri());
+    ui->listWidget->addItems(stokYonetimi.getStokBirimleri());
 }
 
 void BirimekleForm::on_eklepushButton_clicked()
@@ -60,9 +60,9 @@ void BirimekleForm::on_eklepushButton_clicked()
          msg.exec();
     }
     else{
-        vt_birim->stokBirimEkle(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->lineEdit->text()));
+        stokYonetimi.stokBirimEkle(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->lineEdit->text()));
         ui->listWidget->clear();
-        ui->listWidget->addItems(vt_birim->getStokBirimleri());
+        ui->listWidget->addItems(stokYonetimi.getStokBirimleri());
     }
 }
 
@@ -81,7 +81,7 @@ void BirimekleForm::on_silpushButton_clicked()
         msg.exec();
         if(QMessageBox::Yes == msg.result())
         {
-            vt_birim->stokBirimSil(ui->listWidget->currentItem()->text());
+            stokYonetimi.stokBirimSil(ui->listWidget->currentItem()->text());
             delete ui->listWidget->currentItem();
         }
     }

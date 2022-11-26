@@ -32,10 +32,10 @@ StokKartlariModel::StokKartlariModel(QString grupAdi, QObject *parent) : QAbstra
     genelAyarlar.endGroup();
 
     if(grupAdi == "Hepsi"){
-        _QueryModel = vt->getStokKartlari();
+        _QueryModel = stokYonetimi.getStokKartlari();
     }
     else{
-        _QueryModel = vt->getStokKartlari(grupAdi);
+        _QueryModel = stokYonetimi.getStokKartlari(grupAdi);
     }
     _nColumn = _QueryModel->columnCount();
 }

@@ -61,14 +61,14 @@ HizliUrunEkleFormDialog::~HizliUrunEkleFormDialog()
 
 void HizliUrunEkleFormDialog::stokKartlariniListele()
 {
-    QSqlQuery sorgu("SELECT kod, barkod, ad, sfiyat FROM stokkartlari ORDER BY ad ASC", db);
-    Veritabani *vt = new Veritabani();
-    ui->StokKartlaritableView->setModel(vt->getStokKartlari(sorgu));
+    QSqlQuery sorgu("SELECT kod, barkod, ad, sfiyat FROM stokkartlari ORDER BY ad ASC", stokYonetimi.db);
+//    Veritabani *vt = new Veritabani();
+    ui->StokKartlaritableView->setModel(stokYonetimi.getStokKartlari(sorgu));
     ui->StokKartlaritableView->resizeColumnsToContents();
     QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
     selectionModel->select(modelindex, QItemSelectionModel::Clear);
-    delete vt;
+//    delete vt;
     // aşağı/yukarı yön tuşları ile seçim yapabilsin diye gosterilenSatirlar listesine indexleri atıyorum.
     // arama sonrası aşağı/yukarı tabloda gizlenen satırları da seçiyordu. satır gizli olduğu için seçim gözükmüyordu. ilk form yüklendiğinde de seçim yapabilmek için aşağıda ki foru kullandım.
     for (int var = 0; var < ui->StokKartlaritableView->model()->rowCount(); ++var) {

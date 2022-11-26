@@ -46,9 +46,9 @@ void YeniCariKartDialog::setDuzenle(bool newDuzenle)
 
 void YeniCariKartDialog::FormLoad()
 {
-    ui->CariTipicomboBox->addItems(vt->getCariTipleri());
+    ui->CariTipicomboBox->addItems(cariYonetimi.getCariTipleri());
     // vergi dairelerni veritabanından alıp ilgili objeye yazarken otomatik doldurma için.
-    QCompleter *tamamlayici = new QCompleter(vt->getVergiDaireleri(), this);
+    QCompleter *tamamlayici = new QCompleter(cariYonetimi.getVergiDaireleri(), this);
     tamamlayici->setCompletionMode(QCompleter::PopupCompletion);
     tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
     ui->VergiDairesilineEdit->setCompleter(tamamlayici);
@@ -182,7 +182,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         duzenlenecekCariKart.setTelefon(ui->TelefonlineEdit->text());
         duzenlenecekCariKart.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->toPlainText()));
         duzenlenecekCariKart.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
-        bool sonuc = vt->cariKartDuzenle(duzenlenecekCariKart);
+        bool sonuc = cariYonetimi.cariKartDuzenle(duzenlenecekCariKart);
         if(sonuc){
             uyariSes->play();
             QMessageBox msg(this);
@@ -220,7 +220,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         yeniCari.setTelefon(ui->TelefonlineEdit->text());
         yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));
 
-        if(vt->yeniCariKart(yeniCari)){
+        if(cariYonetimi.yeniCariKart(yeniCari)){
             uyariSes->play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
@@ -248,7 +248,7 @@ void YeniCariKartDialog::setDuzenlenecekCariID(const QString &newDuzenlenecekCar
 {
     duzenlenecekCariID = newDuzenlenecekCariID;
     if(duzenle){
-        duzenlenecekCariKart = vt->getCariKart(duzenlenecekCariID);
+        duzenlenecekCariKart = cariYonetimi.getCariKart(duzenlenecekCariID);
         ui->CariAdilineEdit->setText(duzenlenecekCariKart.getAd());
         ui->YetkililineEdit->setText(duzenlenecekCariKart.getYetkili());
         ui->CariTipicomboBox->setCurrentIndex(duzenlenecekCariKart.getTip() - 1);// currentindex 'e -1 ekliyorum. veritabanındaki caritipleri id'sine denk gelsin diye

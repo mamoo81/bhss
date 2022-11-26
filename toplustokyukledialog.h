@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 #include "stokkarti.h"
 #include "user.h"
+#include "stokyonetimi.h"
 //*****************************
 #include <QDialog>
 #include <QFileDialog>
@@ -48,6 +49,7 @@ public:
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
     QSqlQuery sorgu = QSqlQuery(db);
     Veritabani vt = Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
     QFile dosya;
     QString dosyaYolu;
     int yuklenen = 0;

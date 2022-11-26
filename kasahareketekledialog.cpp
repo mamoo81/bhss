@@ -62,7 +62,7 @@ void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
 {
     if(ui->tutardoubleSpinBox->value() > 1){
         if(!hareketDuzenle){
-            int sonuc = vt->KasaHareketiEkle(kullanici, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text(), 0);
+            int sonuc = kasaYonetimi.KasaHareketiEkle(kullanici, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text(), 0);
             switch (sonuc) {
             case 1:
                 this->close();
@@ -74,7 +74,7 @@ void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
             }
         }
         else{
-            int sonuc = vt->kasaHareketiDuzenle(kullanici, hareketID, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
+            int sonuc = kasaYonetimi.kasaHareketiDuzenle(kullanici, hareketID, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
             switch (sonuc) {
             case 1:
                 this->close();
@@ -165,7 +165,7 @@ void KasaHareketEkleDialog::on_tarihdateEdit_dateTimeChanged(const QDateTime &da
 
 void KasaHareketEkleDialog::on_KullaniciCikisipushButton_clicked()
 {
-    double cekilecekPara = vt->getKasadakiPara() - 100;
+    double cekilecekPara = kasaYonetimi.getKasadakiPara() - 100;
 
     ui->tutardoubleSpinBox->setValue(cekilecekPara);
 

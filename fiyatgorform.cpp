@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #include "fiyatgorform.h"
 #include "ui_fiyatgorform.h"
-#include "veritabani.h"
 #include "stokkarti.h"
+#include "stokyonetimi.h"
 //*****************************
 #include <QKeyEvent>
 #include <QTimer>
@@ -43,13 +43,12 @@ void FiyatGorForm::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
         if(!ui->BarkodlineEdit->text().isEmpty()){
-            Veritabani *vt = new Veritabani();
-            StokKarti kart = vt->getStokKarti(ui->BarkodlineEdit->text());
+            StokYonetimi stokYonetimi = StokYonetimi();
+            StokKarti kart = stokYonetimi.getStokKarti(ui->BarkodlineEdit->text());
             ui->urunAdiLabel->setText(kart.getAd());
             ui->fiyatLabel->setText("₺" + QString::number(kart.getSFiyat(), 'f', 2));
             ui->urunResmilabel->setPixmap(kart.getResim());
             QTimer::singleShot(1500, this, &FiyatGorForm::slotTimer);
-            delete vt;
         }
     }
     if(event->key() == Qt::Key_Escape){

@@ -3,6 +3,7 @@
 #include "stokkarti.h"
 #include "veritabani.h"
 #include "user.h"
+#include "stokyonetimi.h"
 //*************************
 #include <QDialog>
 #include <QPalette>
@@ -66,6 +67,7 @@ private:
     Ui::StokKartiForm *ui;
 
     Veritabani vt = Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
     User kullanici;
 
     StokKarti kart;

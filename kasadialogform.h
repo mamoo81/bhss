@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef KASADIALOGFORM_H
 #define KASADIALOGFORM_H
 #include "veritabani.h"
+#include "kasayonetimi.h"
 //***************************
 #include <QDialog>
 
@@ -37,6 +38,7 @@ public:
     ~KasaDialogForm();
 
     Veritabani *vt = new Veritabani();
+    KasaYonetimi kasaYonetimi = KasaYonetimi();
     QDateTime baslangicTarih;
     QDateTime bitisTarih;
     void setKullanici(User newKullanici);

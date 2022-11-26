@@ -21,11 +21,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef SATISYAPFORM_H
 #define SATISYAPFORM_H
-#include "veritabani.h"
 #include "sepet.h"
 #include "user.h"
 #include "cari.h"
 #include "yazici.h"
+#include "faturayonetimi.h"
+#include "cariyonetimi.h"
 //******************
 #include <QDialog>
 #include <QSound>
@@ -43,8 +44,9 @@ public:
     ~SatisYapForm();
 
     QSound *odemeAlindi = new QSound(":/sounds/sounds/odeme-alindi.wav");
-    Veritabani vt_satisFormu;
-    QList<QString> cariAdlari;
+//    Veritabani vt_satisFormu;
+    FaturaYonetimi faturaYonetimi = FaturaYonetimi();
+    CariYonetimi cariYonetimi = CariYonetimi();
     QList<Cari> cariKartlar;
     Yazici fisYazici;
     bool satisYapildimi;

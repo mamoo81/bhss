@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef HIZLIURUNEKLEFORMDIALOG_H
 #define HIZLIURUNEKLEFORMDIALOG_H
 
+#include "stokyonetimi.h"
+
 #include <QDialog>
 #include <QShortcut>
 #include <QList>
@@ -39,7 +41,7 @@ public:
     explicit HizliUrunEkleFormDialog(QWidget *parent = nullptr);
     ~HizliUrunEkleFormDialog();
 
-    QSqlDatabase db = QSqlDatabase::database("mhss_data");
+    StokYonetimi stokYonetimi = StokYonetimi();
 
     QString hizliUrunBarkod;
     QString hizliUrunAd;

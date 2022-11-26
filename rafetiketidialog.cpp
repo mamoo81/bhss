@@ -98,7 +98,7 @@ void RafEtiketiDialog::yazdirilacaklarcustomContextMenuRequested(QPoint pos)
 
 void RafEtiketiDialog::stokKartlariniListele()
 {
-    ui->stokKartlaritableView->setModel(vtEtiket->getStokKartlariEtiket());
+    ui->stokKartlaritableView->setModel(stokYonetimi.getStokKartlariEtiket());
     ui->stokKartlaritableView->resizeColumnsToContents();
     connect(ui->stokKartlaritableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(stokKartlaricustomContextMenuRequested(QPoint)));
     connect(ui->yazdirilacaklartableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(yazdirilacaklarcustomContextMenuRequested(QPoint)));
@@ -221,7 +221,7 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
         ui->progressBar->setMaximum(ui->yazdirilacaklartableWidget->rowCount());
         ui->progressBar->setFormat("Gönderiliyor %p%");
         for (int var = 0; var < ui->yazdirilacaklartableWidget->rowCount(); ++var) {
-            kartlar.append(vtEtiket->getStokKarti(ui->yazdirilacaklartableWidget->model()->index(var, 0).data().toString()));
+            kartlar.append(stokYonetimi.getStokKarti(ui->yazdirilacaklartableWidget->model()->index(var, 0).data().toString()));
             ui->progressBar->setValue(ui->progressBar->value() + 1);
         }
         etiketTHRD = new EtiketThread();

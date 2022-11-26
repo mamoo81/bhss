@@ -32,6 +32,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "satisgosterdialog.h"
 #include "satisyapform.h"
 #include "adetdialogform.h"
+#include "stokyonetimi.h"
+#include "kasayonetimi.h"
+#include "faturayonetimi.h"
 //****************************************
 #include <QWidget>
 #include <QKeyEvent>
@@ -58,6 +61,9 @@ public:
     QTableWidgetItem *yeniSatir;
     QToolButton *hizliEklenecekButon;
     Veritabani *vt = new Veritabani();
+    StokYonetimi *stokYonetimi = new StokYonetimi();
+    KasaYonetimi kasaYonetimi = KasaYonetimi();
+    FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     StokKarti stokKarti = StokKarti();
     QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 

@@ -56,7 +56,7 @@ void SatisGosterDialog::sepetiCek()
     QStringList no = satisFaturaNo.split(" ");
 
     satisFaturaNo = no[0];
-    satilmisSepet = vt->getSatis(satisFaturaNo);
+    satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo);
     qr = vt->getIslemInfo(satisFaturaNo);
     switch (qr.value(11).toInt()) {
     case 2:
@@ -66,7 +66,7 @@ void SatisGosterDialog::sepetiCek()
         this->setWindowTitle(satisFaturaNo + " nolu " + "İADE" + " işlemi");
         break;
     }
-    cari = vt->getCariKart(qr.value(7).toString());
+    cari = cariYonetimi.getCariKart(qr.value(7).toString());
     ui->islemYapilanCariLabel->setText(cari.getAd());
     ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
     ui->kalanLabel->setText("₺" + QString::number(qr.value(6).toDouble(), 'f', 2));
@@ -115,7 +115,7 @@ void SatisGosterDialog::sepetiCek()
     }
 
     // satışı yapılmış faturano iade alınmışsa iade al butonunu ona göre ayarlama
-    if(vt->iadeAlinmismi(satisFaturaNo)){
+    if(faturaYonetimi.iadeAlinmismi(satisFaturaNo)){
         ui->iadepushButton->setEnabled(false);
     }
     else{
@@ -166,7 +166,7 @@ void SatisGosterDialog::on_iadepushButton_clicked()
 
         //iade miktarı için ödenen tutarı form açılırken ki çalıştırdığım sorgudan alıyorum.
         satilmisSepet.setOdenenTutar(qr.value(5).toDouble());
-        vt->iadeAl(satilmisSepet, kullanici, cari, satisFaturaNo);
+        faturaYonetimi.iadeAl(satilmisSepet, kullanici, cari, satisFaturaNo);
 
         uyariSesi->play();
         QMessageBox msg(this);

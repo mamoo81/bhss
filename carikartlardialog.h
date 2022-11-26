@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 #include "cari.h"
 #include "yazici.h"
+#include "cariyonetimi.h"
 //**************************
 #include <QDialog>
 #include <QSound>
@@ -41,6 +42,7 @@ public:
     ~CariKartlarDialog();
 
     Veritabani vt = Veritabani();
+    CariYonetimi cariYonetimi = CariYonetimi();
     Yazici yazici = Yazici();
     enum FaturaTipi{
         alis = 1,

@@ -379,8 +379,8 @@ void SatisForm::hizliButonConnects()
 
 void SatisForm::sepeteEkle()
 {
-    if(vt->barkodVarmi(ui->barkodLineEdit->text())){
-        stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
+    if(stokYonetimi->barkodVarmi(ui->barkodLineEdit->text())){
+        stokKarti = stokYonetimi->getStokKarti(ui->barkodLineEdit->text());
 
         // ürün fiyatı 0 tl ise fiyat girilsin mi diye sorsun.
         if(stokKarti.getSFiyat() == 0){
@@ -402,7 +402,7 @@ void SatisForm::sepeteEkle()
                 stokKartiForm->exec();
 
                 // stokkartini tekrar alıyorum ki güncel fiyatları alsın.
-                stokKarti = vt->getStokKarti(ui->barkodLineEdit->text());
+                stokKarti = stokYonetimi->getStokKarti(ui->barkodLineEdit->text());
 
                 if(!stokKartiForm->fiyatGuncellendi || stokKarti.getSFiyat() == 0){// fiyat güncellenmedi ve halen 0 TL ise
                     return;
@@ -2683,7 +2683,7 @@ void SatisForm::sepetleriKurtar()
             ui->SepetlertabWidget->setCurrentIndex(var.toInt());
             sepetleriKurtarmaSetting.beginGroup(QString::number(var.toInt()));
             foreach (auto sepettekiBarkod, sepetleriKurtarmaSetting.childKeys()) {
-                StokKarti kart = vt->getStokKarti(sepettekiBarkod);
+                StokKarti kart = stokYonetimi->getStokKarti(sepettekiBarkod);
                 float miktar = sepetleriKurtarmaSetting.value(sepettekiBarkod).toFloat();
                 tableWidgetEkle(kart, miktar);
                 sepet[var.toInt()].urunEkle(kart, miktar);
@@ -4883,9 +4883,9 @@ void SatisForm::on_iadeAlBtn_clicked()
             msg.setButtonText(QMessageBox::No, "Hayır");
             int cvp = msg.exec();
             if(cvp == QMessageBox::Yes){
-                if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() <= vt->getKasadakiPara()){
+                if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() <= kasaYonetimi.getKasadakiPara()){
                     // iade işlemleri başlangıcı.
-                    vt->iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
+                    faturaYonetimi.iadeAl(sepet[ui->SepetlertabWidget->currentIndex()], kullanici);
                     // sepet silme başlangıcı
                     sepet[ui->SepetlertabWidget->currentIndex()].sepetiSil();
                     switch (ui->SepetlertabWidget->currentIndex()) {

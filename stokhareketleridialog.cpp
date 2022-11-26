@@ -92,7 +92,7 @@ void StokHareketleriDialog::setStokKarti(const StokKarti &newStokKarti)
 
 void StokHareketleriDialog::getHareketler(QString _barkod, QDateTime _baslangicTarih, QDateTime _bitisTarih)
 {
-    ui->stokhareketleritableView->setModel(vt.getStokHareketleri(_barkod, _baslangicTarih, _bitisTarih));
+    ui->stokhareketleritableView->setModel(stokYonetimi.getStokHareketleri(_barkod, _baslangicTarih, _bitisTarih));
     ui->stokhareketleritableView->setSortingEnabled(true);
     ui->stokhareketleritableView->resizeColumnsToContents();
     ui->stokhareketleritableView->clearSelection();

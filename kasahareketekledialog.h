@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define KASAHAREKETEKLEDIALOG_H
 #include "user.h"
 #include "veritabani.h"
+#include "kasayonetimi.h"
 //*************************
 #include <QDialog>
 
@@ -39,6 +40,7 @@ public:
     ~KasaHareketEkleDialog();
 
     Veritabani *vt = new Veritabani();
+    KasaYonetimi kasaYonetimi = KasaYonetimi();
 
     void setKullanici(User newKullanici);
 

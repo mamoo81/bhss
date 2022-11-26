@@ -66,7 +66,7 @@ void CariHareketiEkleForm::setFaturaTip(FaturaTipi newFaturaTip)
 void CariHareketiEkleForm::setCariID(const QString &newCariID)
 {
     cariID = newCariID;
-    cariKart = vt->getCariKart(cariID);
+    cariKart = cariYonetimi.getCariKart(cariID);
     ui->unvanlineEdit->setText(cariKart.getAd());
     ui->islemdateEdit->setDate(QDate::currentDate());
     ui->OdemeTipcomboBox->addItems(vt->getOdemeTipleri());
@@ -82,7 +82,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
     switch (faturaTip) {
     case tahsilat://cariden tahsilat yapma
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
-            vt->caridenTahsilatYap(cariID,
+            cariYonetimi.caridenTahsilatYap(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
                                    ui->islemdateEdit->dateTime(),
                                    faturaTip,
@@ -110,12 +110,12 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
         break;
     case odeme:// cariye ödeme yapma
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
-            double cariToplamAlacak = vt->getCariToplamAlacak(cariID);
+            double cariToplamAlacak = cariYonetimi.getCariToplamAlacak(cariID);
             if(cariToplamAlacak < ui->islemTutaridoubleSpinBox->value()){// cariye yapılan ödeme toplamAlacaktan büyükse
                 ui->islemTutaridoubleSpinBox->setValue(cariToplamAlacak);
             }
             // cariye ödeme yapma
-            vt->cariyeOdemeYap(cariID,
+            cariYonetimi.cariyeOdemeYap(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
                                    ui->islemdateEdit->dateTime(),
                                    faturaTip,
@@ -143,7 +143,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
         break;
     case satis:// satis
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
-            vt->cariyiAlacaklandır(cariID,
+            cariYonetimi.cariyiAlacaklandır(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
                                    ui->islemdateEdit->dateTime(),
                                    faturaTip,
@@ -171,7 +171,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
         break;
     case alis:
         if(ui->islemTutaridoubleSpinBox->value() >= 1){
-            vt->cariyiBorclandir(cariID,
+            cariYonetimi.cariyiBorclandir(cariID,
                                    ui->islemTutaridoubleSpinBox->value(),
                                    ui->islemdateEdit->dateTime(),
                                    faturaTip,

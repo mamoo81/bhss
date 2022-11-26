@@ -29,7 +29,7 @@ ParaCekDialogForm::ParaCekDialogForm(QWidget *parent) :
     ui(new Ui::ParaCekDialogForm)
 {
     ui->setupUi(this);
-    ui->CiroLabel->setText("₺" + QString::number(vt.getGunlukCiro()));
+    ui->CiroLabel->setText("₺" + QString::number(kasaYonetimi.getGunlukCiro()));
     ui->doubleSpinBox->setFocus();
 }
 
@@ -61,7 +61,7 @@ void ParaCekDialogForm::on_IptalpushButton_clicked()
 void ParaCekDialogForm::on_CekpushButton_clicked()
 {
     if(kasadakiPara >= ui->doubleSpinBox->value()){
-        vt.kasadanParaCek(ui->doubleSpinBox->value(), kull);
+        kasaYonetimi.kasadanParaCek(ui->doubleSpinBox->value(), kull);
         QMessageBox msg;
         msg.setIcon(QMessageBox::Information);
         msg.setWindowTitle("Bilgi");

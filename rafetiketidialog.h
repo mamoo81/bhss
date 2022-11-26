@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "veritabani.h"
 #include "yazici.h"
 #include "etiketthread.h"
+#include "stokyonetimi.h"
 
 #include <QWidget>
 #include <QSound>
@@ -91,6 +92,7 @@ private:
     Ui::RafEtiketiDialog *ui;
 
     Veritabani *vtEtiket = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
     Yazici *yaziciEtiket = new Yazici();
     EtiketThread *etiketTHRD;
 

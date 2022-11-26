@@ -143,7 +143,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
         categoryaxis->append(gunler);// gün adlarını chart altına yazıyorum.
 
         // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = vt.getgunlukAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
+        QHash<QString, float> adetlerList = stokYonetimi.getgunlukAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
         if(!adetlerList.isEmpty()){
             for (int var = 0; var < gunler.count(); ++var) {
                 if(adetlerList.contains(gunlerTamFormat.value(var))){
@@ -186,7 +186,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
         categoryaxis->append(aylar);// ay adlarını chart altına yazıyorum.
 
         // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = vt.getAylikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
+        QHash<QString, float> adetlerList = stokYonetimi.getAylikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
         if(!adetlerList.isEmpty()){
             for (int var = 0; var < aylar.count(); ++var) {
                 if(adetlerList.contains(aylarTamFormat.value(var))){
@@ -229,7 +229,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
         categoryaxis->append(yillar);// yıl adlarını chart altına yazıyorum.
 
         // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = vt.getYillikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
+        QHash<QString, float> adetlerList = stokYonetimi.getYillikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
         if(!adetlerList.isEmpty()){
             for (int var = 0; var < yillar.count(); ++var) {
                 if(adetlerList.contains(yillarTamFormat.value(var))){

@@ -107,7 +107,7 @@ void TopluStokYukleDialog::jsondanYukle()
     float ozelMiktar = ui->doubleSpinBoxMiktar->value();
 
     foreach (QString barkod, object.keys()) {
-        if(!vt.barkodVarmi(barkod)){
+        if(!stokYonetimi.barkodVarmi(barkod)){
             QJsonValue value = object.value(barkod);
 
             if(ui->kontrolEderekcheckBox->isChecked()){
@@ -130,7 +130,7 @@ void TopluStokYukleDialog::jsondanYukle()
                 yKart.setOtv(value["otv"].toInt());
                 yKart.setOtvdahil(value["otvdahil"].toBool());
                 yKart.setTarih(value["tarih"].toVariant().value<QDateTime>());
-                yKart.setUretici(vt.getUreticiAD(value["uretici"].toInt()));
+                yKart.setUretici(stokYonetimi.getUreticiAD(value["uretici"].toInt()));
                 yKart.setAciklama(value["aciklama"].toString());
                 StokKartiForm *stokKartiForm =  new StokKartiForm(this);
                 stokKartiForm->setKullanici(kullanici);
@@ -193,7 +193,7 @@ void TopluStokYukleDialog::jsondanYukle()
                 sorgu.bindValue(15, value["aciklama"].toString());
                 sorgu.exec();
                 if(sorgu.lastError().isValid()){
-                    qCritical(qPrintable(sorgu.lastError().text()));
+                    qDebug() << qPrintable(sorgu.lastError().text());
                     basarisiz++;
                 }
                 yuklenen++;
@@ -209,7 +209,7 @@ void TopluStokYukleDialog::jsondanYukle()
 void TopluStokYukleDialog::csvdenYukle()
 {
     if(!dosya.open(QIODevice::ReadOnly)){
-        qWarning(qPrintable(dosya.errorString()));
+        qDebug() << qPrintable(dosya.errorString());
 
         uyariSesi->play();
         QMessageBox msg(this);
@@ -265,7 +265,7 @@ void TopluStokYukleDialog::csvdenYukle()
     dosya.close();
 
     foreach (StokKarti kart, kartlar) {
-        if(!vt.barkodVarmi(kart.getBarkod())){
+        if(!stokYonetimi.barkodVarmi(kart.getBarkod())){
             sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci) "
                           "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             sorgu.bindValue(0, kart.getBarkod());

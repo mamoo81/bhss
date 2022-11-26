@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define SATISGRAFIGIFORM_H
 #include "stokkarti.h"
 #include "veritabani.h"
+#include "stokyonetimi.h"
 //***********************
 #include <QDialog>
 #include <QDate>
@@ -70,6 +71,7 @@ public:
     QStringList yillarTamFormat;
 
     Veritabani vt = Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
 
     QChart *chart = new QChart();
     QChartView *chartview = new QChartView(chart);

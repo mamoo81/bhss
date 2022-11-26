@@ -35,7 +35,6 @@ private:
     QString ad;
     double odenenTutar;
     double kalanTutar;
-
     bool sepetKurtar;
 
 public:

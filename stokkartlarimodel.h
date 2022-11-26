@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef STOKKARTLARIMODEL_H
 #define STOKKARTLARIMODEL_H
 #include "veritabani.h"
+#include "stokyonetimi.h"
 //*******************************
 #include <QObject>
 #include <QAbstractItemModel>
@@ -47,7 +48,8 @@ public:
     QModelIndex parent(const QModelIndex &child) const;
 
     //veritabanı metodları
-    Veritabani *vt = new Veritabani();
+//    Veritabani *vt = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
     QSqlQueryModel *_QueryModel= new QSqlQueryModel();
 
     double _stokUyariMiktari = 0;

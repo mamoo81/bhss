@@ -21,10 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef STOKGIRCIKDIALOG_H
 #define STOKGIRCIKDIALOG_H
-#include "veritabani.h"
 #include "user.h"
+#include "stokyonetimi.h"
 //*************************
 #include <QDialog>
+#include <QShortcut>
 
 namespace Ui {
 class StokGirCikDialog;
@@ -38,13 +39,22 @@ public:
     explicit StokGirCikDialog(QWidget *parent = nullptr);
     ~StokGirCikDialog();
 
-    Veritabani *vt = new Veritabani();
+//    Veritabani *vt = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
 
     void setIslem(const QString &newIslem);
 
     void setStokKartiID(const QString &newStokKartiID);
 
     void setKullanici(const User &newKullanici);
+
+    float getMiktar() const;
+
+    const QString &getIslem() const;
+
+    const QString &getStokKartiID() const;
+
+    const User &getKullanici() const;
 
 private slots:
     void on_pushButton_clicked();
@@ -54,9 +64,13 @@ private slots:
 private:
     Ui::StokGirCikDialog *ui;
 
+    QShortcut *RETURN;
+    QShortcut *ENTER;
+
     QString islem;
     QString stokKartiID;
     User kullanici;
+    float miktar;
 };
 
 #endif // STOKGIRCIKDIALOG_H

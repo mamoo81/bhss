@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef BIRIMEKLEFORM_H
 #define BIRIMEKLEFORM_H
-#include "veritabani.h"
+#include "stokyonetimi.h"
 //**************************
 #include <QDialog>
 
@@ -37,7 +37,8 @@ public:
     explicit BirimekleForm(QWidget *parent = nullptr);
     ~BirimekleForm();
 
-    Veritabani *vt_birim = new Veritabani();
+//    Veritabani *vt_birim = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
 
 private slots:
     void on_eklepushButton_clicked();

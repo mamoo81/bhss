@@ -15,12 +15,15 @@ SOURCES += \
     cari.cpp \
     carihareketiekleform.cpp \
     carikartlardialog.cpp \
+    cariyonetimi.cpp \
     etiketthread.cpp \
+    faturayonetimi.cpp \
     fiyatgorform.cpp \
     gecmissatislardialog.cpp \
     hizliurunekleformdialog.cpp \
     kasadialogform.cpp \
     kasahareketekledialog.cpp \
+    kasayonetimi.cpp \
     kgform.cpp \
     kullanicidialogform.cpp \
     main.cpp \
@@ -40,6 +43,7 @@ SOURCES += \
     stokkarti.cpp \
     stokkartiform.cpp \
     stokkartlarimodel.cpp \
+    stokyonetimi.cpp \
     terazi.cpp \
     toplustokyukledialog.cpp \
     urun.cpp \
@@ -55,12 +59,15 @@ HEADERS += \
     cari.h \
     carihareketiekleform.h \
     carikartlardialog.h \
+    cariyonetimi.h \
     etiketthread.h \
+    faturayonetimi.h \
     fiyatgorform.h \
     gecmissatislardialog.h \
     hizliurunekleformdialog.h \
     kasadialogform.h \
     kasahareketekledialog.h \
+    kasayonetimi.h \
     kgform.h \
     kullanicidialogform.h \
     loginform.h \
@@ -79,6 +86,7 @@ HEADERS += \
     stokkarti.h \
     stokkartiform.h \
     stokkartlarimodel.h \
+    stokyonetimi.h \
     terazi.h \
     toplustokyukledialog.h \
     urun.h \

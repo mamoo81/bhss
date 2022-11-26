@@ -65,7 +65,7 @@ void StokGrupForm::on_EkleBtn_clicked()
         }
         else
         {
-            vt_grup->stokGrupEkle(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->YenilineEdit->text()));
+            stokYonetimi.stokGrupEkle(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->YenilineEdit->text()));
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
@@ -86,7 +86,7 @@ void StokGrupForm::on_SilBtn_clicked()
     if(ui->gruplarlistWidget->selectedItems().size() != 0 )
     {
         if(ui->gruplarlistWidget->currentRow() != 0){
-            vt_grup->stokGrupSil(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->gruplarlistWidget->currentItem()->text()));
+            stokYonetimi.stokGrupSil(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->gruplarlistWidget->currentItem()->text()));
             QListWidgetItem *silinecek_item = ui->gruplarlistWidget->takeItem(ui->gruplarlistWidget->currentRow());
             delete silinecek_item;
             QMessageBox msg(this);
@@ -119,7 +119,7 @@ void StokGrupForm::on_KaydetBtn_clicked()
 void StokGrupForm::stokGruplariGetir()
 {
     ui->gruplarlistWidget->model()->removeRows(0, ui->gruplarlistWidget->count());
-    QStringList liste = vt_grup->stokGruplariGetir();
+    QStringList liste = stokYonetimi.stokGruplariGetir();
     foreach (auto item, liste) {
         ui->gruplarlistWidget->addItem(item);
     }

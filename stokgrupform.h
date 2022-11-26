@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef STOKGRUPFORM_H
 #define STOKGRUPFORM_H
-#include "veritabani.h"
+#include "stokyonetimi.h"
 //*****************************
 #include <QDialog>
 #include <QKeyEvent>
@@ -38,7 +38,8 @@ public:
     explicit StokGrupForm(QWidget *parent = nullptr);
     ~StokGrupForm();
 
-    Veritabani *vt_grup = new Veritabani();
+//    Veritabani *vt_grup = new Veritabani();
+    StokYonetimi stokYonetimi = StokYonetimi();
 
 private slots:
     void formLoad();

@@ -189,7 +189,7 @@ void Yazici::rafEtiketiBas(StokKarti kart)
     // ürün birimi
     font = QFont("Halvetica", 5);
     painter.setFont(font);
-    painter.drawText(QPoint(250, 50), ("1 x " + vt.getBirimAd(kart.getBirim()) + " ="));
+    painter.drawText(QPoint(250, 50), ("1 x " + stokYonetimi.getBirimAd(kart.getBirim()) + " ="));
 
     // TL logosu
     font = QFont("Halvetica", 14);
@@ -249,7 +249,7 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             // ürün birimi
             font = QFont("Halvetica", 5);
             painter.setFont(font);
-            painter.drawText(QPoint(250, 50), ("1 " + vt.getBirimAd(kart.getBirim()) + " fiyatıdır."));
+            painter.drawText(QPoint(250, 50), ("1 " + stokYonetimi.getBirimAd(kart.getBirim()) + " fiyatıdır."));
 
             // TL logosu
             font = QFont("Halvetica", 14);
@@ -305,7 +305,7 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             // ürün birimi
             font = QFont("Halvetica", 6);
             painter.setFont(font);
-            painter.drawText(QPoint(240, -200), ("1 x " + vt.getBirimAd(kart.getBirim()) + " ="));
+            painter.drawText(QPoint(240, -200), ("1 x " + stokYonetimi.getBirimAd(kart.getBirim()) + " ="));
 
             // TL logosu
             font = QFont("Halvetica", 14);
@@ -358,8 +358,8 @@ void Yazici::cikisRaporuBas(User _user)
         QSqlQuery raporSorgu = vt.getOturum();
         QString oturumGirisSaati = raporSorgu.value(2).toTime().toString("hh:mm");
         QString oturumGirisTarihi = raporSorgu.value(2).toDate().toString("dd.MM.yyyy");
-        double giren = vt.getKasaToplamGiren(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
-        double cikan = vt.getKasaToplamCikan(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
+        double giren = kasaYonetimi.getKasaToplamGiren(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
+        double cikan = kasaYonetimi.getKasaToplamCikan(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
         QString html =
                 "<html>"
                 "<head>"
@@ -436,7 +436,7 @@ void Yazici::cikisRaporuBas(User _user)
                             "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Kasada</font></font></p>"
                         "</td>"
                         "<td width=\"60%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(vt.getKasadakiPara(), 'f', 2) + "</font></font></p>"
+                            "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + QString::number(kasaYonetimi.getKasadakiPara(), 'f', 2) + "</font></font></p>"
                         "</td>"
                     "</tr>"
                 "</table>"
@@ -490,7 +490,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
         sirketAdresi = genelAyarlar.value("sirketAdres").toString();
     }
     QString tarih = QDateTime::currentDateTime().toString("hh:mm dd.MM.yyyy");
-    double cariToplamBorc = vt.getCariToplamBorc(QString::number(_cari.getId()), false);
+    double cariToplamBorc = cariYonetimi.getCariToplamBorc(QString::number(_cari.getId()), false);
     QString html =
             "<html>"
             "<head>"
