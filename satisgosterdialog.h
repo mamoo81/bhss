@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #ifndef SATISGOSTERDIALOG_H
 #define SATISGOSTERDIALOG_H
 #include "yazici.h"
-#include "veritabani.h"
 #include "cari.h"
 #include "stokyonetimi.h"
 #include "faturayonetimi.h"
@@ -49,7 +48,7 @@ public:
     QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
 
     void setSatisFaturaNo(const QString &newSatisFaturaNo);
-
+    void setCari(const Cari &newcari);
 
     void setKullanici(const User &value);
 
@@ -67,8 +66,6 @@ private:
     Ui::SatisGosterDialog *ui;
 
     QString satisFaturaNo;
-
-    Veritabani *vt = new Veritabani();
     CariYonetimi cariYonetimi = CariYonetimi();
     StokYonetimi stokYonetimi = StokYonetimi();
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();

@@ -28,6 +28,12 @@ Cari CariYonetimi::getCariKart(QString cariID)
         kart.setTarih(sorgu.value(10).toDateTime());
         kart.setAciklama(sorgu.value(11).toString());
         kart.setYetkili(sorgu.value(12).toString());
+        if(sorgu.value(13).toInt() == 2){// güncel fiyattan hesaplanacak ise
+            kart.setGuncelBorcHesaplama(true);
+        }
+        else{
+            kart.setGuncelBorcHesaplama(false);
+        }
         return kart;
     }
     else{
@@ -64,8 +70,10 @@ QList<Cari> CariYonetimi::getCariKartlar()
 
 QSqlQueryModel *CariYonetimi::getCariKartIsimleri()
 {
-    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire FROM carikartlar "
-                                    "INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id", db);
+    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, carikartlar.ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire, borchesaplamaturleri.ad FROM carikartlar "
+                                    "INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id "
+                                    "INNER JOIN borchesaplamaturleri ON carikartlar.borc_hesaplama = borchesaplamaturleri.id "
+                                    "WHERE carikartlar.id NOT IN(1)", db);
     cariKartIsımleriModel->setHeaderData(0, Qt::Horizontal, "ID");
     cariKartIsımleriModel->setHeaderData(1, Qt::Horizontal, "Cari ismi");
     cariKartIsımleriModel->setHeaderData(2, Qt::Horizontal, "Yetkili");
@@ -74,13 +82,14 @@ QSqlQueryModel *CariYonetimi::getCariKartIsimleri()
     cariKartIsımleriModel->setHeaderData(5, Qt::Horizontal, "İlçe");
     cariKartIsımleriModel->setHeaderData(6, Qt::Horizontal, "Vergi No");
     cariKartIsımleriModel->setHeaderData(7, Qt::Horizontal, "Vergi Dairesi");
+    cariKartIsımleriModel->setHeaderData(8, Qt::Horizontal, "Borç Hesaplama");
     return cariKartIsımleriModel;
 }
 
 bool CariYonetimi::yeniCariKart(Cari cariKart)
 {
-    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
-                  "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili, borc_hesaplama) "
+                  "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, cariKart.getAd());
     sorgu.bindValue(1, cariKart.getTip());
     sorgu.bindValue(2, cariKart.getVerigino());
@@ -93,6 +102,12 @@ bool CariYonetimi::yeniCariKart(Cari cariKart)
     sorgu.bindValue(9, cariKart.getTarih());
     sorgu.bindValue(10, cariKart.getAciklama());
     sorgu.bindValue(11, cariKart.getYetkili());
+    if(cariKart.getGuncelBorcHesaplama()){
+        sorgu.bindValue(12, 2);//   2 = güncel fiyattan borc hesaplama id
+    }
+    else{
+        sorgu.bindValue(12, 1);//   1 = normal fiyattan borc hesaplama id
+    }
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << qPrintable(sorgu.lastError().text());
@@ -131,7 +146,8 @@ QSqlQueryModel *CariYonetimi::getCariHareketleri(QString cariID)
     sorgu.prepare("SELECT fatura_no, faturalar.tarih, faturatipleri.tip, toplamtutar, odenentutar, kalantutar, odemetipleri.tip, kullanicilar.username, faturalar.aciklama FROM faturalar "
                     "INNER JOIN faturatipleri ON faturalar.tipi = faturatipleri.id "
                     "INNER JOIN odemetipleri ON faturalar.odemetipi = odemetipleri.id "
-                    "INNER JOIN kullanicilar ON faturalar.kullanici = kullanicilar.id WHERE cari = ? ORDER BY faturalar.tarih DESC");
+                    "INNER JOIN kullanicilar ON faturalar.kullanici = kullanicilar.id "
+                    "WHERE cari = ? ORDER BY faturalar.tarih DESC");
     sorgu.bindValue(0, cariID);
     sorgu.exec();
     cariHareketleriModel->setQuery(sorgu);
@@ -196,73 +212,61 @@ double CariYonetimi::getCariToplamAlacak(QString cariID)
     }
 }
 
-double CariYonetimi::getCariToplamBorc(QString cariID, bool guncel)
+double CariYonetimi::getCariToplamBorc(QString cariID)
 {
-    if(cariID != "1"){// DİREKT CARİSİ İSE ES GEÇSİN
+    double kalanTutar = 0, odenenTutar = 0, zamToplamlari = 0, toplamTutar = 0;
 
-        double kalanTutar, odenenTutar;
+    Cari cariKart = getCariKart(cariID);
 
-        if(!guncel){
-            sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
-            sorgu.bindValue(0, cariID);
-            sorgu.exec();
-            if(sorgu.next()){
-                kalanTutar = sorgu.value(0).toDouble();
-            }
-            else{
-                kalanTutar = 0;
-            }
-            sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
-            sorgu.bindValue(0, cariID);
-            sorgu.exec();
-            if(sorgu.next()){
-                odenenTutar = sorgu.value(0).toDouble();
-            }
-            else{
-                odenenTutar = 0;
-            }
-            return kalanTutar - odenenTutar;
+    if(cariKart.getGuncelBorcHesaplama()){
+        // cariye yapılan tüm satışların yapıldığı an ki tutarlarının alınması.
+        QSqlQuery sorguSatislar(db);
+        sorguSatislar.prepare("select sum(cast(toplamtutar as decimal)), sum(cast(odenentutar as decimal)), sum(cast(kalantutar as decimal)) from faturalar where cari = ? /*and kalantutar not in ('0')*/");
+        sorguSatislar.bindValue(0, cariID);
+        sorguSatislar.exec();
+        if(sorguSatislar.next()){
+            kalanTutar = sorguSatislar.value(2).toDouble();
+            odenenTutar = sorguSatislar.value(1).toDouble();
+            toplamTutar = sorguSatislar.value(0).toDouble();
         }
-        else{
-            double guncelSepetToplamlari = 0;
-            // sepetlerin güncel tutarlarının alınması.
-            QSqlQuery sorguGuncelFiyat(db);
-            sorguGuncelFiyat.prepare("SELECT fatura_no FROM faturalar WHERE cari = ? AND tipi = 2");
-            sorguGuncelFiyat.bindValue(0, cariID);
-            sorguGuncelFiyat.exec();
-            if(sorguGuncelFiyat.isSelect()){
-                while (sorguGuncelFiyat.next()) {
-                    guncelSepetToplamlari += faturaYonetimi.getSatis(sorguGuncelFiyat.value(0).toString()).sepetToplamTutari();
-                }
-            }
-            else{
-                guncelSepetToplamlari = 0;
-            }
-
-            sorguGuncelFiyat.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
-            sorguGuncelFiyat.bindValue(0, cariID);
-            sorguGuncelFiyat.exec();
-            if(sorguGuncelFiyat.next()){
-                kalanTutar = sorguGuncelFiyat.value(0).toDouble() + (guncelSepetToplamlari - sorguGuncelFiyat.value(0).toDouble());
-            }
-            else{
-                kalanTutar = 0;
-            }
-
-            sorguGuncelFiyat.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
-            sorguGuncelFiyat.bindValue(0, cariID);
-            sorguGuncelFiyat.exec();
-            if(sorguGuncelFiyat.next()){
-                odenenTutar = sorguGuncelFiyat.value(0).toDouble();
-            }
-            else{
-                odenenTutar = 0;
-            }
-            return kalanTutar - odenenTutar;
+        // veresiye/kısmi ödenmiş/satılmış sepetlerin fatura numaralarını getirme
+        QSqlQuery veresiyeSatilansepetler(db);
+        veresiyeSatilansepetler.prepare("select fatura_no from faturalar where cari = ? and kalantutar not in ('0')");
+        veresiyeSatilansepetler.bindValue(0, cariID);
+        veresiyeSatilansepetler.exec();
+        QStringList faturaNumaralari;
+        while (veresiyeSatilansepetler.next()) {
+            faturaNumaralari.append(veresiyeSatilansepetler.value(0).toString());
         }
+
+        foreach (QString faturaNo, faturaNumaralari) {
+            zamToplamlari += faturaYonetimi.getSatis(faturaNo, cariKart).getFiyatFarki();
+        }
+        toplamTutar += zamToplamlari;
+        kalanTutar += zamToplamlari;
+
+        return toplamTutar - odenenTutar;
     }
     else{
-        return 0;
+        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
+        sorgu.bindValue(0, cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            kalanTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            kalanTutar = 0;
+        }
+        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
+        sorgu.bindValue(0, cariID);
+        sorgu.exec();
+        if(sorgu.next()){
+            odenenTutar = sorgu.value(0).toDouble();
+        }
+        else{
+            odenenTutar = 0;
+        }
+        return kalanTutar - odenenTutar;
     }
 }
 
@@ -366,26 +370,38 @@ bool CariYonetimi::cariHareketiSil(QString faturaNo, User kullanici, Cari cari)
     //    sepetteki ürünlerin stoğa geri eklenmesi
     //    kasa hareketlerine girilmesi
 
-        //satış faturası iade alınmamışsa
-        if(!faturaYonetimi.iadeAlinmismi(faturaNo)){
-            // faturadaki ürünlerin stoğa geri eklenmesi
-            Sepet sepet = faturaYonetimi.getSatis(faturaNo);
-            //satılan sepetteki ürünleri stoğa geri ekle
-            foreach (auto urun, sepet.urunler) {
-                stokYonetimi.setStokMiktari(kullanici, urun.ID, "GİRİŞ", urun.miktar);// stok hareketlerine de ekliyor.
-            }
-            // kasahareketine - para girişi
-            kasaYonetimi.KasaHareketiEkle(kullanici, "ÇIKIŞ", sepet.getOdenenTutar(), QString("cari hareket silme:%1").arg(cari.getId()), QDateTime::currentDateTime(), sepet.getSepettekiKazanc());// kasaya para giriş/çıkış da yapar.
-            //faturanın silinmesi
-            faturaYonetimi.faturayiSil(faturaNo);
-            return true;
+    //satış faturası iade alınmamışsa
+    if(!faturaYonetimi.iadeAlinmismi(faturaNo)){
+        // faturadaki ürünlerin stoğa geri eklenmesi
+        Sepet sepet = faturaYonetimi.getSatis(faturaNo);
+        //satılan sepetteki ürünleri stoğa geri ekle
+        foreach (auto urun, sepet.urunler) {
+            stokYonetimi.setStokMiktari(kullanici, stokYonetimi.getStokKarti(urun.barkod), StokYonetimi::StokHareketi::Giris, urun.miktar);// stok hareketlerine de ekliyor.
         }
+        // kasahareketine - para girişi
+        kasaYonetimi.KasaHareketiEkle(kullanici, KasaYonetimi::KasaHareketi::Cikis, sepet.getOdenenTutar(), QString("cari hareket silme:%1").arg(cari.getId()), QDateTime::currentDateTime(), sepet.getSepettekiKazanc());// kasaya para giriş/çıkış da yapar.
+        //faturanın silinmesi
+        faturaYonetimi.faturayiSil(faturaNo);
+        return true;
+    }
+    return false;
+}
+
+bool CariYonetimi::carininTumHareketleriniSil(Cari cari)
+{
+    sorgu.prepare("DELETE FROM faturalar WHERE cari = ?");
+    sorgu.bindValue(0, cari.getId());
+    sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << qPrintable(sorgu.lastError().text());
         return false;
+    }
+    return true;
 }
 
 void CariYonetimi::caridenTahsilatYap(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama)
 {
-    double guncelBorc = getCariToplamBorc(cariID, false);
+    double guncelBorc = getCariToplamBorc(cariID);
     double odenenTutar = tutar;
     if(guncelBorc < odenenTutar){// tahsilat _tutar'ı büyükse toplam borçtan. falza tutarı carinin alacağına ekle.
         cariyiAlacaklandır(cariID, (odenenTutar - guncelBorc), tarih, 1, odemeTipi, islemYapanKullanici, evrakNo, aciklama);

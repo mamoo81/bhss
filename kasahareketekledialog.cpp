@@ -31,6 +31,9 @@ KasaHareketEkleDialog::KasaHareketEkleDialog(QWidget *parent) :
     ui(new Ui::KasaHareketEkleDialog)
 {
     ui->setupUi(this);
+
+    ui->tutardoubleSpinBox->setFocus();
+    ui->tutardoubleSpinBox->selectAll();
 }
 
 KasaHareketEkleDialog::~KasaHareketEkleDialog()
@@ -44,25 +47,26 @@ void KasaHareketEkleDialog::setKullanici(User newKullanici)
     kullanici = newKullanici;
 }
 
-void KasaHareketEkleDialog::setHareket(int newHareket)
-{
-    hareket = newHareket;
-    if(hareket == 0){
-        oncekiHareket = "GİRİŞ";
-        ui->KullaniciCikisipushButton->setVisible(false);
-    }
-    else if(hareket == 1){
-        oncekiHareket = "ÇIKIŞ";
-        ui->KullaniciCikisipushButton->setVisible(true);
-    }
-    ui->HareketcomboBox->setCurrentIndex(hareket);
-}
+//void KasaHareketEkleDialog::setHareket(int newHareket)
+//{
+//    hareket = newHareket;
+//    if(hareket == 0){
+//        oncekiHareket = "GİRİŞ";
+//        ui->KullaniciCikisipushButton->setVisible(false);
+//    }
+//    else if(hareket == 1){
+//        oncekiHareket = "ÇIKIŞ";
+//        ui->KullaniciCikisipushButton->setVisible(true);
+//    }
+//    ui->HareketcomboBox->setCurrentIndex(hareket);
+//}
 
 void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
 {
+    hareket = kasaYonetimi.enumFromString(ui->HareketcomboBox->currentText());
     if(ui->tutardoubleSpinBox->value() > 1){
         if(!hareketDuzenle){
-            int sonuc = kasaYonetimi.KasaHareketiEkle(kullanici, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text(), 0);
+            int sonuc = kasaYonetimi.KasaHareketiEkle(kullanici, hareket, ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text(), 0);
             switch (sonuc) {
             case 1:
                 this->close();
@@ -74,7 +78,7 @@ void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
             }
         }
         else{
-            int sonuc = kasaYonetimi.kasaHareketiDuzenle(kullanici, hareketID, ui->HareketcomboBox->currentText(), ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
+            int sonuc = kasaYonetimi.kasaHareketiDuzenle(kullanici, hareketID, hareket, ui->tutardoubleSpinBox->value(), ui->AciklamaplainTextEdit->toPlainText(), ui->tarihdateEdit->dateTime(), ui->EvrakNolineEdit->text());
             switch (sonuc) {
             case 1:
                 this->close();
@@ -183,3 +187,24 @@ void KasaHareketEkleDialog::on_HareketcomboBox_currentIndexChanged(int index)
     }
 }
 
+void KasaHareketEkleDialog::setHareket(KasaYonetimi::KasaHareketi newHareket)
+{
+    hareket = newHareket;
+    switch (newHareket) {
+    case KasaYonetimi::KasaHareketi::Giris:
+        oncekiHareket = KasaYonetimi::KasaHareketi::Giris;
+        ui->KullaniciCikisipushButton->setVisible(false);
+        break;
+    case KasaYonetimi::KasaHareketi::Cikis:
+        oncekiHareket = KasaYonetimi::KasaHareketi::Cikis;
+        ui->KullaniciCikisipushButton->setVisible(true);
+        break;
+    case KasaYonetimi::KasaHareketi::Satis:
+        break;
+    case KasaYonetimi::KasaHareketi::Iade:
+        break;
+    case KasaYonetimi::KasaHareketi::BankaVirman:
+        break;
+    }
+    ui->HareketcomboBox->setCurrentIndex(hareket - 1);
+}

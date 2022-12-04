@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 #include <QString>
 #include <QDateTime>
+#include <QLocale>
 
 class Cari
 {
@@ -66,6 +67,9 @@ public:
     const QString &getYetkili() const;
     void setYetkili(const QString &newYetkili);
 
+    bool getGuncelBorcHesaplama() const;
+    void setGuncelBorcHesaplama(bool newGuncelBorcHesaplama);
+
 private:
     int id;
     QString ad;
@@ -81,6 +85,9 @@ private:
     QString telefon;
     QDateTime tarih;
     QString aciklama;
+    bool guncelBorcHesaplama;
+
+    QLocale turkce;
 
 };
 

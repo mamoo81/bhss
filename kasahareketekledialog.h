@@ -44,7 +44,7 @@ public:
 
     void setKullanici(User newKullanici);
 
-    void setHareket(int newHareket);
+//    void setHareket(int newHareket);
 
     void sethareketDuzenle(bool newhareketDuzenle);
 
@@ -57,6 +57,8 @@ public:
     void setEvrakNo(const QString &newEvrakNo);
 
     void setHareketID(const QString &newHareketID);
+
+    void setHareket(KasaYonetimi::KasaHareketi newHareket);
 
 private slots:
     void on_KaydetpushButton_clicked();
@@ -72,13 +74,14 @@ private slots:
 private:
     Ui::KasaHareketEkleDialog *ui;
 
-    int hareket;
+//    int hareket;
+    KasaYonetimi::KasaHareketi hareket;
+    KasaYonetimi::KasaHareketi oncekiHareket;
     User kullanici;
     bool hareketDuzenle;
     QDateTime tarih;
     QString aciklama;
     QString hareketID;
-    QString oncekiHareket;
     double tutar;
     QString evrakNo;
 };

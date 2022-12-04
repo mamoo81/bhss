@@ -265,6 +265,8 @@ void StokFrom::stokKartlariniListele()
     ui->StokKartlaritableView->sortByColumn(3, Qt::AscendingOrder);
     ui->StokKartlaritableView->resizeColumnsToContents();
     ui->StokKartlaritableView->setSortingEnabled(true);
+    ui->StokKartlaritableView->hideColumn(0);// ID kolonunu gizliyorum görünmesine gerek yok.
+    ui->StokKartlaritableView->setColumnWidth(3, 450);
     connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
     connect(ui->StokKartlaritableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
@@ -754,16 +756,16 @@ void StokFrom::on_StokGirBtn_clicked()
         StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
         stokMiktarigirForm->setKullanici(kullanici);
         stokMiktarigirForm->setWindowTitle("Stok Gir");
-        stokMiktarigirForm->setIslem("GİRİŞ");
+        stokMiktarigirForm->setHareket(StokYonetimi::StokHareketi::Giris);
         stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         stokMiktarigirForm->exec();
         if(stokMiktarigirForm->getMiktar() > 0){
-            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getStokKartiID(), stokMiktarigirForm->getIslem(), stokMiktarigirForm->getMiktar())){
+            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getKart(), stokMiktarigirForm->getHareket(), stokMiktarigirForm->getMiktar())){
                 uyariSes->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Information);
-                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getIslem()));
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getHareket()));
                 msg.setStandardButtons(QMessageBox::Ok);
                 msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
@@ -794,16 +796,16 @@ void StokFrom::on_StokCikBtn_clicked()
         StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
         stokMiktarigirForm->setKullanici(kullanici);
         stokMiktarigirForm->setWindowTitle("Stok Çık");
-        stokMiktarigirForm->setIslem("ÇIKIŞ");
+        stokMiktarigirForm->setHareket(StokYonetimi::StokHareketi::Cikis);
         stokMiktarigirForm->setStokKartiID(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString());
         stokMiktarigirForm->exec();
         if(stokMiktarigirForm->getMiktar() > 0){
-            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getStokKartiID(), stokMiktarigirForm->getIslem(), stokMiktarigirForm->getMiktar())){
+            if(stokYonetimi.setStokMiktari(stokMiktarigirForm->getKullanici(), stokMiktarigirForm->getKart(), stokMiktarigirForm->getHareket(), stokMiktarigirForm->getMiktar())){
                 uyariSes->play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Information);
-                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getIslem()));
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), stokMiktarigirForm->getHareket()));
                 msg.setStandardButtons(QMessageBox::Ok);
                 msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();

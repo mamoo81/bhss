@@ -182,6 +182,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         duzenlenecekCariKart.setTelefon(ui->TelefonlineEdit->text());
         duzenlenecekCariKart.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->toPlainText()));
         duzenlenecekCariKart.setYetkili(turkce.toUpper(ui->YetkililineEdit->text()));
+        duzenlenecekCariKart.setGuncelBorcHesaplama(ui->guncelFiyatcheckBox->isChecked());
         bool sonuc = cariYonetimi.cariKartDuzenle(duzenlenecekCariKart);
         if(sonuc){
             uyariSes->play();
@@ -219,6 +220,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         yeniCari.setMail(ui->MaillineEdit->text());
         yeniCari.setTelefon(ui->TelefonlineEdit->text());
         yeniCari.setAciklama(turkce.toUpper(ui->AciklamaplainTextEdit->placeholderText()));
+        yeniCari.setGuncelBorcHesaplama(ui->guncelFiyatcheckBox->isChecked());
 
         if(cariYonetimi.yeniCariKart(yeniCari)){
             uyariSes->play();
@@ -260,6 +262,12 @@ void YeniCariKartDialog::setDuzenlenecekCariID(const QString &newDuzenlenecekCar
         ui->MaillineEdit->setText(duzenlenecekCariKart.getMail());
         ui->TelefonlineEdit->setText(duzenlenecekCariKart.getTelefon());
         ui->AciklamaplainTextEdit->setPlainText(duzenlenecekCariKart.getAciklama());
+        if(duzenlenecekCariKart.getGuncelBorcHesaplama()){
+            ui->guncelFiyatcheckBox->setChecked(true);
+        }
+        else{
+            ui->guncelFiyatcheckBox->setChecked(false);
+        }
     }
 }
 

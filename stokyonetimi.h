@@ -3,7 +3,8 @@
 
 #include "stokkarti.h"
 #include "user.h"
-
+#include "stokkarti.h"
+//******************************
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -18,6 +19,14 @@ public:
     StokYonetimi();
     ~StokYonetimi();
 
+    enum StokHareketi
+    {
+        Giris = 0,
+        Cikis = 1,
+        Satis = 2,
+        Iade = 3
+    };
+
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
     QSqlQuery sorgu = QSqlQuery(db);
     QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
@@ -25,11 +34,11 @@ public:
 
     bool barkodVarmi(const QString barkod);
     StokKarti getStokKarti(QString barkod);
-    bool setStokMiktari(User kullanici, QString stokKartiID, QString islem, float miktar);
+    bool setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi islem, float miktar);
     QSqlError yeniStokKartiOlustur(StokKarti stokKarti, User *kullanici);
     QSqlError stokKartiniGuncelle(const QString sskiStokKartiID, StokKarti yeniStokKarti, User *kullanici);
     bool stokKartiSil(QString stokKartiID);
-    void stokHareketiEkle(User kullanici, QString barkod, QString islem, float miktar);
+    void stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar);
     QSqlQueryModel *getStokKartlari();
     QSqlQueryModel *getStokKartlari(QString grupAdi);
     QSqlQueryModel *getStokKartlari(QSqlQuery query);
@@ -53,6 +62,7 @@ public:
     QString getUreticiAD(int ID);
     QStringList getTedarikciler();
     int getTedarikciID(QString tedarikciAd);
+    bool csvAktar(QString dosyaYolu);
 
 };
 

@@ -498,3 +498,33 @@ void TopluStokYukleDialog::setKullanici(const User &newKullanici)
     kullanici = newKullanici;
 }
 
+
+void TopluStokYukleDialog::on_CSVyeAktarpushButton_clicked()
+{
+    QFileDialog dialog(this);
+    QString dizin = dialog.getExistingDirectory(this, tr("Aktarılacak dizini seçin."), QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    // kullanıcı iptal derse
+    if(dizin.isEmpty()){
+        return;
+    }
+    dizin.append("/stok-kartlari.csv");
+    if(stokYonetimi.csvAktar(dizin)){
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText(QString("Stok kartları baraşıyla \"%1\" dosyasına aktarılmıştır.").arg(dizin));
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+    }
+    else{
+        uyariSesi->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText(QString("Stok kartları \"%1\" dosyasına altarılamadı!").arg(dizin));
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+    }
+}
+

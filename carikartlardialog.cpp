@@ -51,6 +51,15 @@ void CariKartlarDialog::setKullanici(User newKullanici)
     kullanici = newKullanici;
 }
 
+void CariKartlarDialog::CariAlacakBorcHesapla()
+{
+    Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+
+    // carinin toplam alacak/borç
+    ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(QString::number(cari.getId())), 'f', 2));
+    ui->CarilerToplamBorclabel->setText(QString::number(cariYonetimi.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
+}
+
 
 void CariKartlarDialog::formLoad()
 {
@@ -60,6 +69,7 @@ void CariKartlarDialog::formLoad()
     //tarihleri ayarlama
     ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
     connect(ui->CariKartHareketleritableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriTableSelectionChanged()));
+    connect(ui->CariKartlartableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(cariKartlarTableViewSelectionChanged()));
 }
 
 void CariKartlarDialog::cariKartlariListele()
@@ -72,20 +82,20 @@ void CariKartlarDialog::cariKartlariListele()
 void CariKartlarDialog::cariHareketleriListele()
 {
     //cari seçilince yapılacaklar
-    QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
-    ui->CariKartHareketleritableView->setModel(cariYonetimi.getCariHareketleri(cariID));
+    Cari cariKart = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    ui->CariKartHareketleritableView->setModel(cariYonetimi.getCariHareketleri(QString::number(cariKart.getId())));
     ui->CariKartHareketleritableView->resizeColumnsToContents();
     ui->CariKartHareketleritableView->setSortingEnabled(true);
 
     //carinin borcunu getirme
-    ui->cariToplamAlacaklabel->setText(QString::number(cariYonetimi.getCariToplamAlacak(cariID), 'f', 2));
-    ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(cariID, ui->guncelFiyatcheckBox->isChecked()), 'f', 2));
+    ui->cariToplamAlacaklabel->setText(QString::number(cariYonetimi.getCariToplamAlacak(QString::number(cariKart.getId())), 'f', 2));
+    ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(QString::number(cariKart.getId())), 'f', 2));
 
     // carilerin borcunu getirme
     double carilerToplamBorc = 0;
     double carilerToplamAlacak = 0;
 
-    carilerToplamBorc = cariYonetimi.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+    carilerToplamBorc = cariYonetimi.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
     carilerToplamAlacak = cariYonetimi.getCarilerToplamAlacak();
 
     ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
@@ -101,7 +111,6 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariBankatoolButton->setEnabled(false);
         ui->CariyeStokluSatistoolButton->setEnabled(false);
         ui->CariyeStoksuzSatistoolButton->setEnabled(false);
-        ui->guncelFiyatcheckBox->setEnabled(false);
     }
     else{
         // carinin borcu 0 veya düşükse tahsilat butonu pasif yap.
@@ -123,7 +132,6 @@ void CariKartlarDialog::cariHareketleriListele()
         ui->CariBankatoolButton->setEnabled(true);
         ui->CariyeStokluSatistoolButton->setEnabled(true);
         ui->CariyeStoksuzSatistoolButton->setEnabled(true);
-        ui->guncelFiyatcheckBox->setEnabled(true);
     }
     ui->CariislemsiltoolButton->setEnabled(false);
 }
@@ -145,6 +153,19 @@ void CariKartlarDialog::cariHareketleriTableSelectionChanged()
             ui->TahsilatMakbuzuBastoolButton->setEnabled(false);
             ui->OdemeMakbuzuBastoolButton->setEnabled(false);
         }
+    }
+    else{
+        ui->CariislemsiltoolButton->setEnabled(false);
+    }
+}
+
+void CariKartlarDialog::cariKartlarTableViewSelectionChanged()
+{
+    if(ui->CariKartlartableView->selectionModel()->hasSelection()){
+        ui->tumHareketlerisiltoolButton->setEnabled(true);
+    }
+    else{
+        ui->tumHareketlerisiltoolButton->setEnabled(false);
     }
 }
 
@@ -190,29 +211,18 @@ void CariKartlarDialog::on_CariyeOdemeYaptoolButton_clicked()
 
 void CariKartlarDialog::on_SiltoolButton_clicked()
 {
-    if(ui->CariKartlartableView->currentIndex().row() > 0){// DİREKT CARİSİNİ SİLEMESİN.
-        QMessageBox msg(this);
-        msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Question);
-        msg.setText(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 1).data().toString() + " carisi silinecek!\n\nSilmek istediğinize emin misiniz?");
-        msg.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
-        msg.setDefaultButton(QMessageBox::No);
-        msg.exec();
-        if(msg.result() == QMessageBox::Yes){
-            cariYonetimi.cariKartSil(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
-            CariKartlarDialog::cariKartlariListele();
-        }
-    }
-    else{
-        QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("DİREKT carisini silemezsiniz!");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
+    QMessageBox msg(this);
+    msg.setWindowTitle("Dikkat");
+    msg.setIcon(QMessageBox::Question);
+    msg.setText(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 1).data().toString() + " carisi silinecek!\n\nSilmek istediğinize emin misiniz?");
+    msg.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
+    msg.setButtonText(QMessageBox::Yes, "Evet");
+    msg.setButtonText(QMessageBox::No, "Hayır");
+    msg.setDefaultButton(QMessageBox::No);
+    msg.exec();
+    if(msg.result() == QMessageBox::Yes){
+        cariYonetimi.cariKartSil(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+        CariKartlarDialog::cariKartlariListele();
     }
 }
 
@@ -244,24 +254,13 @@ void CariKartlarDialog::on_CariyiBorclandirtoolButton_clicked()
 
 void CariKartlarDialog::on_DuzenletoolButton_clicked()
 {
-    if(ui->CariKartlartableView->currentIndex().row() != 0){
-        YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
-        yeniCari->setWindowTitle("Cari Kartı Düzenle");
-        yeniCari->setDuzenle(true);
-        yeniCari->setDuzenlenecekCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
-        yeniCari->exec();
-        CariKartlarDialog::cariKartlariListele();
-        delete yeniCari;
-    }
-    else{
-        QMessageBox msg(this);
-        msg.setWindowTitle("Uyarı");
-        msg.setIcon(QMessageBox::Warning);
-        msg.setText("DİREKT carisini düzenleyemessiniz!");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
-    }
+    YeniCariKartDialog *yeniCari = new YeniCariKartDialog(this);
+    yeniCari->setWindowTitle("Cari Kartı Düzenle");
+    yeniCari->setDuzenle(true);
+    yeniCari->setDuzenlenecekCariID(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+    yeniCari->exec();
+    CariKartlarDialog::cariKartlariListele();
+    delete yeniCari;
 }
 
 
@@ -271,6 +270,7 @@ void CariKartlarDialog::on_CariKartHareketleritableView_doubleClicked(const QMod
     if(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 2).data().toString() == "SATIŞ"){
         SatisGosterDialog *gecmisSatisForm = new SatisGosterDialog(this);
         gecmisSatisForm->setSatisFaturaNo(ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 0).data().toString());
+        gecmisSatisForm->setCari(cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString()));
         gecmisSatisForm->sepetiCek();
         gecmisSatisForm->exec();
         delete gecmisSatisForm;
@@ -350,23 +350,38 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
     }
 }
 
-void CariKartlarDialog::on_guncelFiyatcheckBox_clicked()
+
+void CariKartlarDialog::on_tumHareketlerisiltoolButton_clicked()
 {
-    double carilerToplamBorc = 0;
-    double carilerToplamAlacak = 0;
+    uyariSesi->play();
+    QMessageBox msg(this);
+    msg.setWindowTitle("Dikkat");
+    msg.setIcon(QMessageBox::Question);
+    msg.setText("Seçili carinin tüm geçmiş hareketleri silinecek emin misiniz?\n\nBu işlem tüm alacak/borç bilgisini siler.");
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setDefaultButton(QMessageBox::No);
+    if(msg.exec() == QMessageBox::Yes){
+        Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
+        if(cariYonetimi.carininTumHareketleriniSil(cari)){
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Tüm geçmiş hareketler silindi.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.exec();
 
-    QString cariID = ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString();
-
-    // carinin toplam alacak/borç
-    ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(cariID, ui->guncelFiyatcheckBox->isChecked()), 'f', 2));
-    ui->CarilerToplamBorclabel->setText(QString::number(cariYonetimi.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
-
-    // carilerin toplam alacak/borç
-    carilerToplamBorc = cariYonetimi.getcarilerToplamBorc(ui->guncelFiyatcheckBox->isChecked(), ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
-    carilerToplamAlacak = cariYonetimi.getCarilerToplamAlacak();
-
-    ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
-    ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
-    ui->CarilerBakiyelabel->setText(QString::number((carilerToplamBorc - carilerToplamAlacak), 'f', 2));
+            cariHareketleriListele();
+        }
+        else{
+            uyariSesi->play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Tüm geçmiş hareketler silinemedi");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.exec();
+        }
+    }
 }
 

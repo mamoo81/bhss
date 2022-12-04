@@ -74,7 +74,8 @@ void CariHareketiEkleForm::setCariID(const QString &newCariID)
 
 void CariHareketiEkleForm::FormLoad()
 {
-
+    ui->islemTutaridoubleSpinBox->setFocus();
+    ui->islemTutaridoubleSpinBox->selectAll();
 }
 
 void CariHareketiEkleForm::on_KaydetpushButton_clicked()

@@ -17,6 +17,7 @@ SOURCES += \
     carikartlardialog.cpp \
     cariyonetimi.cpp \
     etiketthread.cpp \
+    fatura.cpp \
     faturayonetimi.cpp \
     fiyatgorform.cpp \
     gecmissatislardialog.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     carikartlardialog.h \
     cariyonetimi.h \
     etiketthread.h \
+    fatura.h \
     faturayonetimi.h \
     fiyatgorform.h \
     gecmissatislardialog.h \

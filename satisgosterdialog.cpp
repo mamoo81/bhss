@@ -56,9 +56,9 @@ void SatisGosterDialog::sepetiCek()
     QStringList no = satisFaturaNo.split(" ");
 
     satisFaturaNo = no[0];
-    satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo);
-    qr = vt->getIslemInfo(satisFaturaNo);
-    switch (qr.value(11).toInt()) {
+    satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, cari);
+    qr = faturaYonetimi.getIslemInfo(satisFaturaNo);
+    switch (qr.value(7).toInt()) {
     case 2:
         this->setWindowTitle(satisFaturaNo + " nolu " + "SATIŞ" + " işlemi");
         break;
@@ -66,19 +66,28 @@ void SatisGosterDialog::sepetiCek()
         this->setWindowTitle(satisFaturaNo + " nolu " + "İADE" + " işlemi");
         break;
     }
-    cari = cariYonetimi.getCariKart(qr.value(7).toString());
+
     ui->islemYapilanCariLabel->setText(cari.getAd());
-    ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
-    ui->kalanLabel->setText("₺" + QString::number(qr.value(6).toDouble(), 'f', 2));
-    ui->tarihLabel->setText(qr.value(8).toDate().toString("dd.MM.yyyy") + " " + qr.value(8).toTime().toString("hh:mm"));
-    ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
+    // cari borcu güncel fiyattan hesaplanacak ise
+    double fark = satilmisSepet.getFiyatFarki();
+    if(cari.getGuncelBorcHesaplama()){
+        ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
+        ui->kalanLabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari() - satilmisSepet.getOdenenTutar(), 'f', 2));
+        ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
+    }
+    else{
+        ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
+        ui->kalanLabel->setText("₺" + QString::number(qr.value(5).toDouble(), 'f', 2));
+        ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
+    }
+    ui->tarihLabel->setText(qr.value(6).toDate().toString("dd.MM.yyyy") + " " + qr.value(6).toTime().toString("hh:mm"));
     int satirIndex = 0;
     ui->sepetTableWidget->model()->removeRows(0, ui->sepetTableWidget->rowCount());
     foreach (auto urun, satilmisSepet.urunler) {
         ui->sepetTableWidget->insertRow(ui->sepetTableWidget->rowCount());
         ui->sepetTableWidget->setItem(satirIndex, 0, new QTableWidgetItem(urun.barkod));
         ui->sepetTableWidget->setItem(satirIndex, 1, new QTableWidgetItem(urun.ad));
-        ui->sepetTableWidget->setItem(satirIndex, 2, new QTableWidgetItem(QString::number(urun.birimFiyat, 'f', 2)));
+        ui->sepetTableWidget->setItem(satirIndex, 2, new QTableWidgetItem(QString::number(urun.satisFiyat, 'f', 2)));
         switch (urun.birim) {
         case StokKarti::Birimler::Adet:
             ui->sepetTableWidget->setItem(satirIndex, 3, new QTableWidgetItem("ADET"));
@@ -126,6 +135,11 @@ void SatisGosterDialog::sepetiCek()
 void SatisGosterDialog::setSatisFaturaNo(const QString &newSatisFaturaNo)
 {
     satisFaturaNo = newSatisFaturaNo;
+}
+
+void SatisGosterDialog::setCari(const Cari &newcari)
+{
+    cari = newcari;
 }
 
 

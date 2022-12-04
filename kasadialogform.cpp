@@ -66,6 +66,7 @@ void KasaDialogForm::KasaHareketleriListele()
     ui->KasaHareketleritableView->setModel(kasaYonetimi.getKasaHareketleri(baslangicTarih, bitisTarih));
     ui->KasaHareketleritableView->setSortingEnabled(true);
     ui->KasaHareketleritableView->resizeColumnsToContents();
+    ui->KasaHareketleritableView->hideColumn(0);
     ui->KasaHareketleritableView->clearSelection();
     // kasaya toplam giren parayı getirme
     ui->ToplamGirislabel->setText("₺" + QString::number(kasaYonetimi.getKasaToplamGiren(baslangicTarih, bitisTarih), 'f', 2));
@@ -82,7 +83,7 @@ void KasaDialogForm::on_KasaGirisYaptoolButton_clicked()
     KasaHareketEkleDialog *hareketForm = new KasaHareketEkleDialog(this);
     hareketForm->setKullanici(kullanici);
     hareketForm->setTarih(QDateTime::currentDateTime());
-    hareketForm->setHareket(0);// giriş hareketi seçilsin.
+    hareketForm->setHareket(KasaYonetimi::KasaHareketi::Giris);// giriş hareketi seçilsin.
     hareketForm->sethareketDuzenle(false);
     hareketForm->setWindowTitle("Kasaya Giriş Yap");
     hareketForm->exec();
@@ -101,7 +102,7 @@ void KasaDialogForm::on_KasaCikisYaptoolButton_clicked()
     KasaHareketEkleDialog *hareketForm = new KasaHareketEkleDialog(this);
     hareketForm->setKullanici(kullanici);
     hareketForm->setTarih(QDateTime::currentDateTime());
-    hareketForm->setHareket(1);// çıkış hareketi seçilsin.
+    hareketForm->setHareket(KasaYonetimi::KasaHareketi::Cikis);// çıkış hareketi seçilsin.
     hareketForm->sethareketDuzenle(false);
     hareketForm->setWindowTitle("Kasadan Çıkış Yap");
     hareketForm->exec();
@@ -122,10 +123,10 @@ void KasaDialogForm::on_DuzelttoolButton_clicked()
     hareketForm->setAciklama(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 6).data().toString());
     hareketForm->setEvrakNo(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 5).data().toString());
     if(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 1).data().toString() == "GİRİŞ"){
-        hareketForm->setHareket(0);
+        hareketForm->setHareket(KasaYonetimi::KasaHareketi::Giris);
     }
     else if(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 1).data().toString() == "ÇIKIŞ"){
-        hareketForm->setHareket(1);
+        hareketForm->setHareket(KasaYonetimi::KasaHareketi::Cikis);
     }
     hareketForm->exec();
     delete hareketForm;

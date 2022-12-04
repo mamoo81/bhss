@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define STOKGIRCIKDIALOG_H
 #include "user.h"
 #include "stokyonetimi.h"
+#include "stokkarti.h"
 //*************************
 #include <QDialog>
 #include <QShortcut>
@@ -42,19 +43,21 @@ public:
 //    Veritabani *vt = new Veritabani();
     StokYonetimi stokYonetimi = StokYonetimi();
 
-    void setIslem(const QString &newIslem);
-
     void setStokKartiID(const QString &newStokKartiID);
 
     void setKullanici(const User &newKullanici);
 
     float getMiktar() const;
 
-    const QString &getIslem() const;
-
     const QString &getStokKartiID() const;
 
     const User &getKullanici() const;
+
+    const StokKarti &getKart() const;
+    void setKart(const StokKarti &newKart);
+
+    StokYonetimi::StokHareketi getHareket() const;
+    void setHareket(StokYonetimi::StokHareketi newHareket);
 
 private slots:
     void on_pushButton_clicked();
@@ -67,7 +70,8 @@ private:
     QShortcut *RETURN;
     QShortcut *ENTER;
 
-    QString islem;
+    StokKarti kart;
+    StokYonetimi::StokHareketi hareket;
     QString stokKartiID;
     User kullanici;
     float miktar;

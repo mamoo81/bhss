@@ -82,6 +82,8 @@ private slots:
 
     void on_kontrolEderekcheckBox_clicked();
 
+    void on_CSVyeAktarpushButton_clicked();
+
 private:
     Ui::TopluStokYukleDialog *ui;
 

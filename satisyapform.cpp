@@ -85,13 +85,13 @@ void SatisYapForm::on_satBtn_clicked()
     if(ui->caricomboBox->currentText().contains("DİREKT", Qt::CaseInsensitive)){
         satilacakSepet.setOdenenTutar(satilacakSepet.sepetToplamTutari());
 
-        // ------------------------------------------   veritabani clasına satiş gönderme direkt carisine
+        // ------------------------------------------   faturaYonetimi clasına satiş gönderme direkt carisine
         faturaYonetimi.satisYap(satilacakSepet, kullanici, 1);
     }
     else{
         satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
 
-        // ------------------------------------------   veritabani clasına satiş gönderme seçili cariye
+        // ------------------------------------------   faturaYonetimi clasına satiş gönderme seçili cariye
         faturaYonetimi.satisYap(satilacakSepet, kullanici, cariKartlar.at(ui->caricomboBox->currentIndex() - 1).getId()); // -1 yapıyorum ki caricombobox'a direkt cari satırını manuel eklediğim için index karışmasın.
     }
 

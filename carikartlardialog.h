@@ -59,6 +59,9 @@ public:
 
     void setKullanici(User newKullanici);
 
+    void CariAlacakBorcHesapla();
+//    void CarilerinAlacakBorcHesapla();
+
 public slots:
     void cariKartlariListele();
 private slots:
@@ -67,6 +70,7 @@ private slots:
     void cariHareketleriListele();
     void on_CaridenTahsilatYaptoolButton_clicked();
     void cariHareketleriTableSelectionChanged();
+    void cariKartlarTableViewSelectionChanged();
     void on_CariyeOdemeYaptoolButton_clicked();
 
     void on_SiltoolButton_clicked();
@@ -83,7 +87,7 @@ private slots:
 
     void on_CariislemsiltoolButton_clicked();
 
-    void on_guncelFiyatcheckBox_clicked();
+    void on_tumHareketlerisiltoolButton_clicked();
 
 private:
     Ui::CariKartlarDialog *ui;

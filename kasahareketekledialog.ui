@@ -177,13 +177,14 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>tutardoubleSpinBox</tabstop>
+  <tabstop>KaydetpushButton</tabstop>
+  <tabstop>iptalpushButton</tabstop>
   <tabstop>tarihdateEdit</tabstop>
   <tabstop>HareketcomboBox</tabstop>
   <tabstop>AciklamaplainTextEdit</tabstop>
   <tabstop>EvrakNolineEdit</tabstop>
-  <tabstop>tutardoubleSpinBox</tabstop>
-  <tabstop>KaydetpushButton</tabstop>
-  <tabstop>iptalpushButton</tabstop>
+  <tabstop>KullaniciCikisipushButton</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

@@ -171,6 +171,17 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>islemTutaridoubleSpinBox</tabstop>
+  <tabstop>unvanlineEdit</tabstop>
+  <tabstop>YetkililineEdit</tabstop>
+  <tabstop>islemdateEdit</tabstop>
+  <tabstop>OdemeTipcomboBox</tabstop>
+  <tabstop>EvrakNolineEdit</tabstop>
+  <tabstop>AciklamaplainTextEdit</tabstop>
+  <tabstop>KaydetpushButton</tabstop>
+  <tabstop>iptalpushButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

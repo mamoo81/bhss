@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>630</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>630</height>
+    <height>560</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>400</width>
-    <height>640</height>
+    <height>560</height>
    </size>
   </property>
   <property name="font">
@@ -34,10 +34,10 @@
   <widget class="QPushButton" name="KaydetpushButton">
    <property name="geometry">
     <rect>
-     <x>289</x>
-     <y>580</y>
+     <x>290</x>
+     <y>520</y>
      <width>101</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -63,10 +63,10 @@
   <widget class="QPushButton" name="iptalpushButton">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>580</y>
+     <x>181</x>
+     <y>520</y>
      <width>101</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -95,12 +95,18 @@
      <x>10</x>
      <y>10</y>
      <width>381</width>
-     <height>562</height>
+     <height>481</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="5" column="0">
      <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>İl</string>
       </property>
@@ -108,6 +114,12 @@
     </item>
     <item row="6" column="0">
      <widget class="QLabel" name="label_6">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>İlçe</string>
       </property>
@@ -115,6 +127,12 @@
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Tipi</string>
       </property>
@@ -122,6 +140,12 @@
     </item>
     <item row="9" column="0">
      <widget class="QLabel" name="label_9">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Telefon</string>
       </property>
@@ -129,6 +153,12 @@
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Vergi No</string>
       </property>
@@ -136,6 +166,12 @@
     </item>
     <item row="10" column="0">
      <widget class="QLabel" name="label_11">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Açıklama</string>
       </property>
@@ -143,6 +179,12 @@
     </item>
     <item row="8" column="0">
      <widget class="QLabel" name="label_8">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Mail</string>
       </property>
@@ -150,6 +192,12 @@
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Vergi Dairesi</string>
       </property>
@@ -157,6 +205,12 @@
     </item>
     <item row="7" column="0">
      <widget class="QLabel" name="label_7">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Adres</string>
       </property>
@@ -164,6 +218,12 @@
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_10">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Yetkilisi</string>
       </property>
@@ -171,6 +231,12 @@
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Cari Adı</string>
       </property>
@@ -184,6 +250,12 @@
         <height>35</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
      </widget>
     </item>
     <item row="0" column="1" colspan="6">
@@ -193,6 +265,12 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
      </widget>
     </item>
@@ -204,6 +282,12 @@
         <height>35</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
      </widget>
     </item>
     <item row="3" column="1" colspan="6">
@@ -213,6 +297,12 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
      </widget>
     </item>
@@ -224,6 +314,12 @@
         <height>35</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
      </widget>
     </item>
     <item row="5" column="1" colspan="6">
@@ -233,6 +329,12 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="maxVisibleItems">
        <number>15</number>
@@ -250,10 +352,23 @@
         <height>35</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
      </widget>
     </item>
     <item row="7" column="1" colspan="6">
-     <widget class="QPlainTextEdit" name="AdresplainTextEdit"/>
+     <widget class="QPlainTextEdit" name="AdresplainTextEdit">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
     <item row="8" column="1" colspan="6">
      <widget class="QLineEdit" name="MaillineEdit">
@@ -262,6 +377,12 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
      </widget>
     </item>
@@ -273,15 +394,47 @@
         <height>35</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="maxLength">
        <number>11</number>
       </property>
      </widget>
     </item>
     <item row="10" column="1" colspan="6">
-     <widget class="QPlainTextEdit" name="AciklamaplainTextEdit"/>
+     <widget class="QPlainTextEdit" name="AciklamaplainTextEdit">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QCheckBox" name="guncelFiyatcheckBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>500</y>
+     <width>401</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Carinin borcunu güncel fiyat üzerinden hesapla</string>
+   </property>
   </widget>
  </widget>
  <tabstops>

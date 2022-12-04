@@ -920,7 +920,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>Toplu stok kartı ekle</string>
+    <string>Toplu stok kartı ekle/aktar</string>
    </property>
    <property name="iconSize">
     <size>

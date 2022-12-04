@@ -25,6 +25,7 @@ public:
     void satisYap(Sepet satilacakSepet, User satisYapanKullanici, int satisYapilanCariID);
 
     Sepet getSatis(QString _faturaNo);
+    Sepet getSatis(QString _faturaNo, Cari cari);
     QSqlQuery getIslemInfo(QString _faturaNo);
     void iadeAl(Sepet iadeSepet, User kullanici);
     void iadeAl(Sepet iadeSepet, User kullanici, Cari iadeCari, QString faturaNo);

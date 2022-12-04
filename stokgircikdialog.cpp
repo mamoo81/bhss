@@ -44,12 +44,6 @@ StokGirCikDialog::~StokGirCikDialog()
     delete ui;
 }
 
-void StokGirCikDialog::setIslem(const QString &newIslem)
-{
-    islem = newIslem;
-    this->setWindowTitle("Stok " + islem + " Yap");
-}
-
 void StokGirCikDialog::on_pushButton_clicked()
 {
     if(ui->doubleSpinBox->value() > 0){
@@ -80,6 +74,37 @@ void StokGirCikDialog::on_iptalpushButton_clicked()
     this->close();
 }
 
+StokYonetimi::StokHareketi StokGirCikDialog::getHareket() const
+{
+    return hareket;
+}
+
+void StokGirCikDialog::setHareket(StokYonetimi::StokHareketi newHareket)
+{
+    hareket = newHareket;
+    switch (newHareket) {
+    case StokYonetimi::StokHareketi::Giris:
+        this->setWindowTitle("Stok girişi yap");
+        break;
+    case StokYonetimi::StokHareketi::Cikis:
+        this->setWindowTitle("Stok çıkışı yap");
+        break;
+    default:
+        this->setWindowTitle("Stok işlem yap");
+        break;
+    }
+}
+
+const StokKarti &StokGirCikDialog::getKart() const
+{
+    return kart;
+}
+
+void StokGirCikDialog::setKart(const StokKarti &newKart)
+{
+    kart = newKart;
+}
+
 const User &StokGirCikDialog::getKullanici() const
 {
     return kullanici;
@@ -88,11 +113,6 @@ const User &StokGirCikDialog::getKullanici() const
 const QString &StokGirCikDialog::getStokKartiID() const
 {
     return stokKartiID;
-}
-
-const QString &StokGirCikDialog::getIslem() const
-{
-    return islem;
 }
 
 float StokGirCikDialog::getMiktar() const

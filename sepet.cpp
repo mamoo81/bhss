@@ -63,10 +63,21 @@ void Sepet::setKalanTutar(double newKalanTutar)
 double Sepet::sepetToplamTutari()
 {
     double sepetToplam = 0;
-    foreach (auto item, urunler) {
-        sepetToplam += item.toplam;
+    foreach (auto urun, urunler) {
+        sepetToplam += urun.toplam;
     }
     return sepetToplam;
+}
+
+double Sepet::getFiyatFarki()
+{
+    double toplamfark = 0;
+    foreach (Urun urun, urunler) {
+        if(urun.satisFiyat != urun.birimFiyat){
+            toplamfark += urun.satisFiyat - urun.birimFiyat;
+        }
+    }
+    return toplamfark;
 }
 
 /**
@@ -91,164 +102,340 @@ bool Sepet::sepetBosmu()
 void Sepet::urunEkle(StokKarti _StokKarti, float _miktar)
 {
     if(!urunler.contains(_StokKarti.getBarkod())){ //arrayda yok ise
-        if(_StokKarti.getBirim() == 1){
-            Urun urun;
+
+        Urun urun;
+
+        switch (_StokKarti.getBirim()) {
+        case StokKarti::Birimler::Adet:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar = urun.miktar + _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 2){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Kilogram:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 3){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Koli:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 4){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Palet:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 5){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Paket:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 6){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Metre:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 7){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Metrekare:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 8){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Metreküp:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
-        }
-        else if(_StokKarti.getBirim() == 9){
-            Urun urun;
+            break;
+        case StokKarti::Birimler::Litre:
             urun.ID = _StokKarti.getId();
             urun.barkod = _StokKarti.getBarkod();
             urun.ad = _StokKarti.getAd();
             urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = _StokKarti.getSFiyat();
             urun.birimFiyat = _StokKarti.getSFiyat();
             urun.birim = _StokKarti.getBirim();
             urun.miktar += _miktar;
             urun.stokMiktari = _StokKarti.getMiktar();
             urun.toplam = urun.miktar * _StokKarti.getSFiyat();
             urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
         }
     }
     else{// arrayde var ise
-        if(_StokKarti.getBirim() == 1){
+        switch (_StokKarti.getBirim()) {
+        case StokKarti::Birimler::Adet:
             ++urunler[_StokKarti.getBarkod()].miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 2){
+            break;
+        case StokKarti::Birimler::Kilogram:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 3){
+            break;
+        case StokKarti::Birimler::Koli:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 4){
+            break;
+        case StokKarti::Birimler::Palet:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 5){
+            break;
+        case StokKarti::Birimler::Paket:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 6){
+            break;
+        case StokKarti::Birimler::Metre:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 7){
+            break;
+        case StokKarti::Birimler::Metrekare:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 8){
+            break;
+        case StokKarti::Birimler::Metreküp:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
-        }
-        else if(_StokKarti.getBirim() == 9){
+            break;
+        case StokKarti::Birimler::Litre:
             urunler[_StokKarti.getBarkod()].miktar += _miktar;
             urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * _StokKarti.getSFiyat();
+            break;
         }
     }
 }
-/**
+
+void Sepet::urunEkle(StokKarti _StokKarti, float _miktar, double birim_f)
+{
+    if(!urunler.contains(_StokKarti.getBarkod())){ //arrayda yok ise
+
+        Urun urun;
+
+        switch (_StokKarti.getBirim()) {
+        case StokKarti::Birimler::Adet:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar = urun.miktar + _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Kilogram:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Koli:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = birim_f;
+            urun.toplam = urun.miktar * _StokKarti.getSFiyat();
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Palet:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Paket:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Metre:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Metrekare:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Metreküp:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        case StokKarti::Birimler::Litre:
+            urun.ID = _StokKarti.getId();
+            urun.barkod = _StokKarti.getBarkod();
+            urun.ad = _StokKarti.getAd();
+            urun.alisFiyat = _StokKarti.getAFiyat();
+            urun.satisFiyat = birim_f;
+            urun.birimFiyat = birim_f;
+            urun.birim = _StokKarti.getBirim();
+            urun.miktar += _miktar;
+            urun.stokMiktari = _StokKarti.getMiktar();
+            urun.toplam = urun.miktar * birim_f;
+            urunler.insert(_StokKarti.getBarkod(), urun);
+            break;
+        }
+    }
+    else{// arrayde var ise
+        switch (_StokKarti.getBirim()) {
+        case StokKarti::Birimler::Adet:
+            ++urunler[_StokKarti.getBarkod()].miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Kilogram:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Koli:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Palet:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Paket:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Metre:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Metrekare:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Metreküp:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        case StokKarti::Birimler::Litre:
+            urunler[_StokKarti.getBarkod()].miktar += _miktar;
+            urunler[_StokKarti.getBarkod()].toplam = urunler[_StokKarti.getBarkod()].miktar * birim_f;
+            break;
+        }
+    }
+}
+
+/**)
  * @brief Sepet::urunArtir Gönderilen stok kartini gönderilen miktar kadar arttırır.
  * @param _Barkod arttirilacak ürünün barkodu
  * @param _miktar arttirilacak miktar
@@ -258,7 +445,7 @@ void Sepet::urunArtir(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar + _miktar;
     if(urunler[_Barkod].stokMiktari  >= yeniMiktar){
         urunler[_Barkod].miktar += _miktar;
-        urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].birimFiyat;
+        urunler[_Barkod].toplam = urunler[_Barkod].miktar * urunler[_Barkod].satisFiyat;
     }
     else{
         QMessageBox msg(0);
@@ -277,7 +464,7 @@ void Sepet::urunAzalt(QString _Barkod, float _miktar)
     float yeniMiktar = urunler[_Barkod].miktar - _miktar;
     if(yeniMiktar > 0){
         urunler[_Barkod].miktar = yeniMiktar;
-        urunler[_Barkod].toplam = yeniMiktar * urunler[_Barkod].birimFiyat;
+        urunler[_Barkod].toplam = yeniMiktar * urunler[_Barkod].satisFiyat;
     }
 }
 
@@ -289,7 +476,7 @@ void Sepet::urunSil(QString _Barkod)
 void Sepet::urunAdetCarp(QString _Barkod, float _miktar)
 {
     urunler[_Barkod].miktar = _miktar;
-    urunler[_Barkod].toplam = _miktar * urunler[_Barkod].birimFiyat;
+    urunler[_Barkod].toplam = _miktar * urunler[_Barkod].satisFiyat;
 }
 
 void Sepet::sepetiSil()
@@ -321,8 +508,7 @@ double Sepet::getSepettekiKazanc()
 {
     double toplam = 0;
     foreach (auto urun, urunler) {
-        toplam += (urun.birimFiyat - urun.alisFiyat) * urun.miktar;
+        toplam += (urun.satisFiyat - urun.alisFiyat) * urun.miktar;
     }
     return toplam;
 }
-

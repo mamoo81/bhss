@@ -83,10 +83,10 @@
         <file>sounds/warning-sound.wav</file>
     </qresource>
     <qresource prefix="/dosyalar">
-        <file>dosyalar/mhss_data.sql</file>
-        <file>dosyalar/mhss_data_eski.sql</file>
         <file>dosyalar/stok-kartlari.csv</file>
         <file>dosyalar/yerli-uretim-logo.png</file>
         <file>mhss.desktop</file>
+        <file>dosyalar/mhss_data_eski.sql</file>
+        <file>dosyalar/mhss_data.sql</file>
     </qresource>
 </RCC>

@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define SEPET_H
 #include "stokkarti.h"
 #include "urun.h"
+#include "cari.h"
 //********************
 #include <QMessageBox>
 #include <QSqlDatabase>
@@ -35,16 +36,19 @@ private:
     QString ad;
     double odenenTutar;
     double kalanTutar;
-    bool sepetKurtar;
+    QDateTime sepetTarihi;
 
 public:
     Sepet();
 
     QHash<QString, Urun> urunler;
+    Cari cariKart;
 
     double sepetToplamTutari();
+    double getFiyatFarki();
     bool sepetBosmu();
     void urunEkle(StokKarti _StokKarti, float _miktar);
+    void urunEkle(StokKarti _StokKarti, float _miktar, double birim_f);
     void urunArtir(QString _Barkod, float _miktar);
     void urunAzalt(QString _Barkod, float _miktar);
     void urunSil(QString _Barkod);

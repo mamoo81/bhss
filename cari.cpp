@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 Cari::Cari()
 {
-
+    turkce = QLocale(QLocale::Turkish, QLocale::Turkey);
 }
 
 const QString &Cari::getAd() const
@@ -33,7 +33,7 @@ const QString &Cari::getAd() const
 
 void Cari::setAd(const QString &newAd)
 {
-    ad = newAd;
+    ad = turkce.toUpper(newAd);
 }
 
 int Cari::getId() const
@@ -164,4 +164,14 @@ const QString &Cari::getYetkili() const
 void Cari::setYetkili(const QString &newYetkili)
 {
     yetkili = newYetkili;
+}
+
+bool Cari::getGuncelBorcHesaplama() const
+{
+    return guncelBorcHesaplama;
+}
+
+void Cari::setGuncelBorcHesaplama(bool newGuncelBorcHesaplama)
+{
+    guncelBorcHesaplama = newGuncelBorcHesaplama;
 }

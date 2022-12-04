@@ -1,5 +1,6 @@
 #include "stokyonetimi.h"
 
+#include <QProcess>
 #include <QStringList>
 
 StokYonetimi::StokYonetimi()
@@ -56,47 +57,82 @@ StokKarti StokYonetimi::getStokKarti(QString barkod)
     return kart;
 }
 
-bool StokYonetimi::setStokMiktari(User kullanici, QString stokKartiID, QString islem, float miktar)
+bool StokYonetimi::setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi hareket, float miktar)
 {
+//    bool cevap = false;
+//    float mevcutStokMiktari = 0;
+//    sorgu.prepare("SELECT miktar FROM stokkartlari WHERE id = ?");
+//    sorgu.bindValue(0, kart.getId());
+//    sorgu.exec();
+//    if(sorgu.next()){
+//        mevcutStokMiktari = sorgu.value(0).toFloat();
+//    }
+//    QString barkod = "";
+//    sorgu.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
+//    sorgu.bindValue(0, kart.getId());
+//    sorgu.exec();
+//    if(sorgu.next()){
+//        barkod = sorgu.value(0).toString();
+//    }
+//    if(islem == "GİRİŞ"){
+//        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+//        sorgu.bindValue(0, mevcutStokMiktari + miktar);
+//        sorgu.bindValue(1, kart.getId());
+//        sorgu.exec();
+//        if(sorgu.lastError().isValid()){
+//            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+//        }
+//        stokHareketiEkle(kullanici, kart.getBarkod(), islem, miktar);
+//        cevap = true;
+//    }
+//    else if(islem == "ÇIKIŞ"){
+//        if(mevcutStokMiktari >= miktar){
+//            sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+//            sorgu.bindValue(0, (mevcutStokMiktari - miktar));
+//            sorgu.bindValue(1, kart.getId());
+//            sorgu.exec();
+//            if(sorgu.lastError().isValid()){
+//                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+//            }
+//            stokHareketiEkle(kullanici, kart.getBarkod(), islem, miktar);
+//            cevap = true;
+//        }
+//    }
+
     bool cevap = false;
-    float mevcutStokMiktari = 0;
-    sorgu.prepare("SELECT miktar FROM stokkartlari WHERE id = ?");
-    sorgu.bindValue(0, stokKartiID);
-    sorgu.exec();
-    if(sorgu.next()){
-        mevcutStokMiktari = sorgu.value(0).toFloat();
-    }
-    QString barkod = "";
-    sorgu.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
-    sorgu.bindValue(0, stokKartiID);
-    sorgu.exec();
-    if(sorgu.next()){
-        barkod = sorgu.value(0).toString();
-    }
-    if(islem == "GİRİŞ"){
+    float mevcutStokMiktari = kart.getMiktar();
+
+    switch (hareket) {
+    case StokHareketi::Giris:
         sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
         sorgu.bindValue(0, mevcutStokMiktari + miktar);
-        sorgu.bindValue(1, stokKartiID);
+        sorgu.bindValue(1, kart.getId());
         sorgu.exec();
         if(sorgu.lastError().isValid()){
             qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
         }
-        stokHareketiEkle(kullanici, barkod, islem, miktar);
+        stokHareketiEkle(kullanici, kart.getBarkod(), hareket, miktar);
         cevap = true;
-    }
-    else if(islem == "ÇIKIŞ"){
+        break;
+    case StokHareketi::Cikis:
         if(mevcutStokMiktari >= miktar){
             sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
             sorgu.bindValue(0, (mevcutStokMiktari - miktar));
-            sorgu.bindValue(1, stokKartiID);
+            sorgu.bindValue(1, kart.getId());
             sorgu.exec();
             if(sorgu.lastError().isValid()){
                 qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
             }
-            stokHareketiEkle(kullanici, barkod, islem, miktar);
+            stokHareketiEkle(kullanici, kart.getBarkod(), hareket, miktar);
             cevap = true;
         }
+        break;
+    case StokHareketi::Satis:
+        break;
+    case StokHareketi::Iade:
+        break;
     }
+
     return cevap;
 }
 
@@ -160,12 +196,12 @@ bool StokYonetimi::stokKartiSil(QString stokKartiID)
     return true;
 }
 
-void StokYonetimi::stokHareketiEkle(User kullanici, QString barkod, QString islem, float miktar)
+void StokYonetimi::stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar)
 {
     sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                     "VALUES (?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, barkod);
-    sorgu.bindValue(1, islem);
+    sorgu.bindValue(1, hareket);
     sorgu.bindValue(2, miktar);
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, kullanici.getUserID());
@@ -509,4 +545,18 @@ int StokYonetimi::getTedarikciID(QString tedarikciAd)
         return 0;
     }
     return sorgu.value(0).toInt();
+}
+
+bool StokYonetimi::csvAktar(QString dosyaYolu)
+{
+    QFile csvDosya(dosyaYolu);
+    csvDosya.open(QIODevice::WriteOnly);
+    csvDosya.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser);
+    QString cmd = QString("psql -U postgres -d mhss_data -c \"copy (SELECT barkod, kod, ad, birim, miktar, grup, cast (afiyat as decimal), cast (sfiyat as decimal), kdv, kdvdahil, otv, otvdahil, mensei FROM stokkartlari) TO STDIN with CSV HEADER DELIMITER ',';\" > ") + dosyaYolu;
+//    qDebug() << "csv aktarma komutu: " << qPrintable(cmd);
+    int exitCode = system(qPrintable(cmd));
+    if(exitCode != QProcess::NormalExit){
+        return false;
+    }
+    return true;
 }

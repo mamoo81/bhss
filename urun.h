@@ -33,6 +33,7 @@ public:
     QString barkod;
     QString ad;
     double alisFiyat;
+    double satisFiyat;
     double birimFiyat;
 //    QString birim;
     int birim;
