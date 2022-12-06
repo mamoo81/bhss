@@ -89,6 +89,10 @@ private slots:
 
     void on_tumHareketlerisiltoolButton_clicked();
 
+    void on_aratoolButton_clicked();
+
+    void on_AralineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::CariKartlarDialog *ui;
 

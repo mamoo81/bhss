@@ -90,13 +90,14 @@ void CariKartlarDialog::cariHareketleriListele()
     //carinin borcunu getirme
     ui->cariToplamAlacaklabel->setText(QString::number(cariYonetimi.getCariToplamAlacak(QString::number(cariKart.getId())), 'f', 2));
     ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(QString::number(cariKart.getId())), 'f', 2));
+    ui->CariBakiyesilabel->setText(QString::number(ui->cariToplamBorclabel->text().toDouble() - ui->cariToplamAlacaklabel->text().toDouble(), 'f', 2));
 
     // carilerin borcunu getirme
     double carilerToplamBorc = 0;
     double carilerToplamAlacak = 0;
 
-    carilerToplamBorc = cariYonetimi.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
-    carilerToplamAlacak = cariYonetimi.getCarilerToplamAlacak();
+//    carilerToplamBorc = cariYonetimi.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime());
+//    carilerToplamAlacak = cariYonetimi.getCarilerToplamAlacak();
 
     ui->CarilerToplamBorclabel->setText(QString::number(carilerToplamBorc, 'f', 2));
     ui->CarilerToplamAlacaklabel->setText(QString::number(carilerToplamAlacak, 'f', 2));
@@ -381,6 +382,33 @@ void CariKartlarDialog::on_tumHareketlerisiltoolButton_clicked()
             msg.setText("Tüm geçmiş hareketler silinemedi");
             msg.setStandardButtons(QMessageBox::Ok);
             msg.exec();
+        }
+    }
+}
+
+
+void CariKartlarDialog::on_aratoolButton_clicked()
+{
+
+//    if(ui->AralineEdit->text().length() > 3){
+//        for (int var = 0; var < ui->CariKartlartableView->model()->rowCount(); ++var) {
+//            if(ui->CariKartlartableView->model()->index(var,1).data().toString().contains(ui->AralineEdit->text())){
+
+//            }
+//        }
+//    }
+}
+
+
+void CariKartlarDialog::on_AralineEdit_textChanged(const QString &arg1)
+{
+    ui->CariKartlartableView->clearSelection();
+    for (int i = 0; i < ui->CariKartlartableView->model()->rowCount(); ++i) {
+        if(!ui->CariKartlartableView->model()->index(i, 1).data().toString().contains(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(arg1), Qt::CaseInsensitive)){
+            ui->CariKartlartableView->hideRow(i);
+        }
+        else{
+            ui->CariKartlartableView->showRow(i);
         }
     }
 }

@@ -388,7 +388,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="AralineEdit">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -414,7 +414,7 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>600</x>
+     <x>750</x>
      <y>600</y>
      <width>341</width>
      <height>91</height>
@@ -495,7 +495,7 @@ color: rgb(0, 0, 0);</string>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>410</x>
      <y>600</y>
      <width>331</width>
      <height>91</height>
@@ -725,7 +725,7 @@ color: rgb(0, 0, 0);</string>
     <rect>
      <x>10</x>
      <y>600</y>
-     <width>241</width>
+     <width>391</width>
      <height>91</height>
     </rect>
    </property>
@@ -746,7 +746,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
+      <width>391</width>
       <height>21</height>
      </rect>
     </property>
@@ -771,18 +771,21 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>221</width>
-      <height>51</height>
+      <y>20</y>
+      <width>249</width>
+      <height>71</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
+     <property name="verticalSpacing">
+      <number>12</number>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label_15">
        <property name="font">
         <font>
          <family>Monospace</family>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -795,7 +798,7 @@ color: rgb(0, 0, 0);</string>
        <property name="font">
         <font>
          <family>Monospace</family>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -811,7 +814,7 @@ color: rgb(0, 0, 0);</string>
        <property name="font">
         <font>
          <family>Monospace</family>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -824,7 +827,54 @@ color: rgb(0, 0, 0);</string>
        <property name="font">
         <font>
          <family>Monospace</family>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>000000,00</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>20</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Bakiye</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="CariBakiyesilabel">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -923,6 +973,29 @@ color: rgb(0, 0, 0);</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="aratoolButton">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>11</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/ui/search.png</normaloff>:/images/ui/search.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
    </property>
   </widget>
  </widget>

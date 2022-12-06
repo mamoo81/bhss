@@ -27,7 +27,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, satisYapanKullanici.getUserID());
     sorgu.bindValue(5, satilacakSepet.sepetToplamTutari());
-    sorgu.bindValue(6, satilacakSepet.getOdenenTutar());
+    sorgu.bindValue(6, satilacakSepet.sepetToplamTutari());
     sorgu.bindValue(7, satilacakSepet.getKalanTutar());
     sorgu.bindValue(8, 1);//nakit ödeme tipinde satış
     sorgu.exec();
