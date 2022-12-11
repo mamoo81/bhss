@@ -21,7 +21,6 @@ public:
     StokYonetimi stokYonetimi = StokYonetimi();
     KasaYonetimi kasaYonetimi = KasaYonetimi();
 
-
     void satisYap(Sepet satilacakSepet, User satisYapanKullanici, int satisYapilanCariID);
 
     Sepet getSatis(QString _faturaNo);

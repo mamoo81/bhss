@@ -92,6 +92,7 @@ void SatisYapForm::on_satBtn_clicked()
         satilacakSepet.setOdenenTutar(ui->OdenendoubleSpinBox->value());
 
         // ------------------------------------------   faturaYonetimi clasına satiş gönderme seçili cariye
+        satilacakSepet.setFazlaTutarAlacaklandir(ui->fazlaTutarcheckBox->isChecked());// fazla ödenen tutar cariye alacaklı olarak yazılsın mı.
         faturaYonetimi.satisYap(satilacakSepet, kullanici, cariKartlar.at(ui->caricomboBox->currentIndex() - 1).getId()); // -1 yapıyorum ki caricombobox'a direkt cari satırını manuel eklediğim için index karışmasın.
     }
 
@@ -175,6 +176,8 @@ void SatisYapForm::on_OdenendoubleSpinBox_valueChanged(double arg1)
     else{
         ui->ParaUstuLBL->setStyleSheet("QLabel {color: red;}");
     }
+
+    on_caricomboBox_currentIndexChanged(ui->caricomboBox->currentIndex());
 }
 
 void SatisYapForm::setKullanici(const User &newKullanici)
@@ -348,5 +351,17 @@ void SatisYapForm::on_toolButton1krs_clicked()
     ui->OdenendoubleSpinBox->setFocus();
     ui->OdenendoubleSpinBox->selectAll();
     butonilkBasma = false;
+}
+
+
+void SatisYapForm::on_caricomboBox_currentIndexChanged(int index)
+{
+    // cari seçili ise ve ödenen tutar büyükse sepet toplam tutarından
+    if(index != 0 && satilacakSepet.sepetToplamTutari() < ui->OdenendoubleSpinBox->value()){
+        ui->fazlaTutarcheckBox->setEnabled(true);
+    }
+    else{// cari seçili ise
+        ui->fazlaTutarcheckBox->setEnabled(false);
+    }
 }
 

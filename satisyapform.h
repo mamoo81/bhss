@@ -92,6 +92,8 @@ private slots:
 
     void on_toolButton1krs_clicked();
 
+    void on_caricomboBox_currentIndexChanged(int index);
+
 private:
     Ui::SatisYapForm *ui;
 

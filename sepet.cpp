@@ -33,6 +33,16 @@ Sepet::Sepet()
 
 }
 
+bool Sepet::getFazlaTutarAlacaklandir() const
+{
+    return fazlaTutar;
+}
+
+void Sepet::setFazlaTutarAlacaklandir(bool newFazlaTutar)
+{
+    fazlaTutar = newFazlaTutar;
+}
+
 double Sepet::getOdenenTutar() const
 {
     return odenenTutar;

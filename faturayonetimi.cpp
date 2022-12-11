@@ -27,7 +27,12 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, satisYapanKullanici.getUserID());
     sorgu.bindValue(5, satilacakSepet.sepetToplamTutari());
-    sorgu.bindValue(6, satilacakSepet.sepetToplamTutari());
+    if(satilacakSepet.getOdenenTutar() > satilacakSepet.sepetToplamTutari()){// ödenen tutar sepet toplamından büyükse
+        sorgu.bindValue(6, satilacakSepet.sepetToplamTutari());
+    }
+    else if(satilacakSepet.getOdenenTutar() <= satilacakSepet.sepetToplamTutari()){// ödenen tutar sepet toplam tutarından küçükse
+        sorgu.bindValue(6, satilacakSepet.getOdenenTutar());
+    }
     sorgu.bindValue(7, satilacakSepet.getKalanTutar());
     sorgu.bindValue(8, 1);//nakit ödeme tipinde satış
     sorgu.exec();
@@ -44,6 +49,44 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
                              satilacakSepet.getSepettekiKazanc());
+
+            // fazla tutari alacaklandır seçilmişse
+            //*****************************************************************
+//            if(satilacakSepet.getFazlaTutarAlacaklandir()){
+//                cariYonetimi.cariyiAlacaklandır(satisYapilanCariID,
+//                                                satilacakSepet.getOdenenTutar() - satilacakSepet.sepetToplamTutari(),
+//                                                QDateTime::currentDateTime(),
+//                                                1, // alış faturası int kodu.
+//                                                1, // nakit ödeme tipi int kodu
+//                                                satisYapanKullanici,
+//                                                yeniFaturaNo(),
+//                                                "Fazla ödenen tutar alacaklandırıldı.");
+//            }
+
+            if(satilacakSepet.getFazlaTutarAlacaklandir()){
+                //yeni alış fatura bilgisi girme başlangıcı cariYonetimi classını bu sayfaya ekleyemediğim için böyle geçici çözdüm.
+
+                double fazlaTutar = satilacakSepet.getOdenenTutar() - satilacakSepet.sepetToplamTutari();
+                sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                                "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                sorgu.bindValue(0, yeniFaturaNo());
+                sorgu.bindValue(1, satisYapilanCariID);
+                sorgu.bindValue(2, 1);
+                sorgu.bindValue(3, QDateTime::currentDateTime());
+                sorgu.bindValue(4, satisYapanKullanici.getUserID());
+                sorgu.bindValue(5, fazlaTutar);
+                sorgu.bindValue(6, 0);
+                sorgu.bindValue(7, fazlaTutar);
+                sorgu.bindValue(8, "");
+                sorgu.bindValue(9, FaturaNo + "'lu işlemde fazla ödenen tutar alacaklandirildi");
+                sorgu.bindValue(10, 1);
+                sorgu.exec();
+                if(sorgu.lastError().isValid()){
+                    qDebug() << qPrintable(sorgu.lastError().text());
+                }
+            }
+
+            //********************************************************
         }
         // odenen para küçükse sepettoplamtutarindan sepet eksik veya veresiye ödendi.
         if(satilacakSepet.getOdenenTutar() < satilacakSepet.sepetToplamTutari()){

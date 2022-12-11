@@ -37,6 +37,7 @@ private:
     double odenenTutar;
     double kalanTutar;
     QDateTime sepetTarihi;
+    bool fazlaTutar;
 
 public:
     Sepet();
@@ -61,6 +62,9 @@ public:
     void setOdenenTutar(double newOdenenTutar);
     double getKalanTutar() const;
     void setKalanTutar(double newKalanTutar);
+
+    bool getFazlaTutarAlacaklandir() const;
+    void setFazlaTutarAlacaklandir(bool newFazlaTutar);
 
 public slots:
     double getSepettekiKazanc();

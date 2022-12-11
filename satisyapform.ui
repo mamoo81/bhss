@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>340</height>
+    <height>360</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>720</width>
-    <height>340</height>
+    <height>360</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>720</width>
-    <height>340</height>
+    <height>360</height>
    </size>
   </property>
   <property name="font">
@@ -151,7 +151,7 @@
      <x>370</x>
      <y>140</y>
      <width>341</width>
-     <height>111</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="title">
@@ -199,12 +199,28 @@
      </font>
     </property>
    </widget>
+   <widget class="QCheckBox" name="fazlaTutarcheckBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>331</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fazla tutarı cariye alacaklandır</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="iptalBtn">
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>280</y>
+     <y>300</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -227,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>280</y>
+     <y>300</y>
      <width>161</width>
      <height>51</height>
     </rect>
@@ -275,7 +291,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>260</y>
+     <y>275</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -429,7 +445,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -452,7 +468,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -475,7 +491,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -498,7 +514,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -521,7 +537,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -544,7 +560,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>280</y>
+     <y>300</y>
      <width>51</width>
      <height>51</height>
     </rect>
