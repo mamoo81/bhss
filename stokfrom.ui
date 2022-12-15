@@ -39,7 +39,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>280</y>
+     <y>110</y>
      <width>176</width>
      <height>31</height>
     </rect>
@@ -52,9 +52,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>150</y>
      <width>1331</width>
-     <height>371</height>
+     <height>541</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -76,701 +76,11 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QGroupBox" name="stokKartBilGroupBox">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>1031</width>
-     <height>271</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Stok Kartı Bilgileri</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <widget class="QLabel" name="label_12">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>200</y>
-      <width>87</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ÖTV oranı</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="OTVspinBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>190</y>
-      <width>51</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="KDVcheckbox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>160</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>KDV Dahil ?</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="OTVcheckbox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>190</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ÖTV Dahil ?</string>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="StokGrupBtn">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>30</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Stok Grupları</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>64</width>
-      <height>64</height>
-     </size>
-    </property>
-    <property name="toolButtonStyle">
-     <enum>Qt::ToolButtonTextBesideIcon</enum>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="SurekliYenicheckBox">
-    <property name="geometry">
-     <rect>
-      <x>810</x>
-      <y>190</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="text">
-     <string>Sürekli</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="UrunResimlabel">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>30</y>
-      <width>100</width>
-      <height>100</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(0, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/images/ui/box.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="ResimEkleBtn">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>140</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Resim Ekle</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>64</width>
-      <height>64</height>
-     </size>
-    </property>
-    <property name="toolButtonStyle">
-     <enum>Qt::ToolButtonTextBesideIcon</enum>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="ResimSilBtn">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>180</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Resmi Sil</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>64</width>
-      <height>64</height>
-     </size>
-    </property>
-    <property name="toolButtonStyle">
-     <enum>Qt::ToolButtonTextBesideIcon</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>411</x>
-      <y>40</y>
-      <width>97</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stok grubu</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="StokGrubuComboBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>531</x>
-      <y>30</y>
-      <width>181</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>411</x>
-      <y>80</y>
-      <width>106</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Alış fiyatı</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="AFiyatdoubleSpinBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>70</y>
-      <width>101</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <double>999999.989999999990687</double>
-    </property>
-    <property name="value">
-     <double>0.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_9">
-    <property name="geometry">
-     <rect>
-      <x>411</x>
-      <y>120</y>
-      <width>116</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Satış fiyatı</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_11">
-    <property name="geometry">
-     <rect>
-      <x>411</x>
-      <y>160</y>
-      <width>87</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>KDV oranı</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>70</y>
-      <width>77</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Açıklama</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="AciklamaLnEdit">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>90</y>
-      <width>191</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="KDVspinBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>150</y>
-      <width>51</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="SFiyatdoubleSpinBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>110</y>
-      <width>101</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <double>999999.989999999990687</double>
-    </property>
-    <property name="value">
-     <double>0.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_15">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>240</y>
-      <width>91</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Tedarikçi</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="tedarikcicomboBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>230</y>
-      <width>281</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="KaydetBtn">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>820</x>
-      <y>220</y>
-      <width>100</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="text">
-     <string>Kaydet</string>
-    </property>
-    <property name="icon">
-     <iconset resource="images.qrc">
-      <normaloff>:/images/ui/check.png</normaloff>:/images/ui/check.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-    <property name="toolButtonStyle">
-     <enum>Qt::ToolButtonTextBesideIcon</enum>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="IptalBtn">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>930</x>
-      <y>220</y>
-      <width>91</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Monospace</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="text">
-     <string>İptal</string>
-    </property>
-    <property name="icon">
-     <iconset resource="images.qrc">
-      <normaloff>:/images/ui/remove.png</normaloff>:/images/ui/remove.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-    <property name="toolButtonStyle">
-     <enum>Qt::ToolButtonTextBesideIcon</enum>
-    </property>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>391</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Barkod No</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="BarkodLnEdit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QToolButton" name="BarkodOlusturBtn">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>13</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Oluştur</string>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>64</width>
-         <height>64</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Stok kodu</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Stok adı</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLineEdit" name="StokAdiLnEdit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_14">
-       <property name="text">
-        <string>Üretici</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QComboBox" name="ureticicomboBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Birimi</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="BirimiComboBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <item>
-        <property name="text">
-         <string>ADET</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>KİLOGRAM</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>KOLİ</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Stok miktarı</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="MiktarLnEdit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" colspan="2">
-      <widget class="QLineEdit" name="StokKoduLnEdit">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <widget class="QRadioButton" name="barkodRadioButton">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>280</y>
+     <x>10</x>
+     <y>60</y>
      <width>199</width>
      <height>21</height>
     </rect>
@@ -785,8 +95,8 @@
   <widget class="QRadioButton" name="adRadioButton">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>300</y>
+     <x>10</x>
+     <y>90</y>
      <width>99</width>
      <height>21</height>
     </rect>
@@ -802,7 +112,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>280</y>
+     <y>110</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -827,8 +137,8 @@
   <widget class="QRadioButton" name="kodRadioButton">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>300</y>
+     <x>100</x>
+     <y>90</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -837,77 +147,13 @@
     <string>Stok kodunda</string>
    </property>
   </widget>
-  <widget class="QToolButton" name="StokGirBtn">
-   <property name="geometry">
-    <rect>
-     <x>1050</x>
-     <y>70</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Stok Girişi</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/plus.png</normaloff>:/images/ui/plus.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="StokCikBtn">
-   <property name="geometry">
-    <rect>
-     <x>1200</x>
-     <y>70</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Stok Çıkışı</string>
-   </property>
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/ui/negative.png</normaloff>:/images/ui/negative.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
   <widget class="QToolButton" name="dosyadanToolButton">
    <property name="geometry">
     <rect>
-     <x>1050</x>
-     <y>150</y>
+     <x>610</x>
+     <y>10</y>
      <width>291</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -935,8 +181,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>1133</x>
-     <y>280</y>
+     <x>1140</x>
+     <y>10</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -973,8 +219,8 @@
   <widget class="QToolButton" name="YeniBtn">
    <property name="geometry">
     <rect>
-     <x>1050</x>
-     <y>20</y>
+     <x>10</x>
+     <y>10</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -1005,8 +251,8 @@
   <widget class="QToolButton" name="DuzenleBtn">
    <property name="geometry">
     <rect>
-     <x>1150</x>
-     <y>20</y>
+     <x>110</x>
+     <y>10</y>
      <width>100</width>
      <height>41</height>
     </rect>
@@ -1037,8 +283,8 @@
   <widget class="QToolButton" name="SilBtn">
    <property name="geometry">
     <rect>
-     <x>1260</x>
-     <y>20</y>
+     <x>220</x>
+     <y>10</y>
      <width>81</width>
      <height>41</height>
     </rect>
@@ -1072,10 +318,10 @@
   <widget class="QToolButton" name="TopluEtikettoolButton">
    <property name="geometry">
     <rect>
-     <x>1050</x>
-     <y>111</y>
+     <x>310</x>
+     <y>10</y>
      <width>291</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -1099,7 +345,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>280</y>
+     <y>110</y>
      <width>171</width>
      <height>31</height>
     </rect>
@@ -1109,7 +355,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>280</y>
+     <y>110</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -1121,36 +367,12 @@
  </widget>
  <tabstops>
   <tabstop>AraLineEdit</tabstop>
-  <tabstop>BarkodLnEdit</tabstop>
-  <tabstop>StokKoduLnEdit</tabstop>
-  <tabstop>StokAdiLnEdit</tabstop>
-  <tabstop>ureticicomboBox</tabstop>
-  <tabstop>BirimiComboBox</tabstop>
-  <tabstop>MiktarLnEdit</tabstop>
-  <tabstop>StokGrubuComboBox</tabstop>
-  <tabstop>AFiyatdoubleSpinBox</tabstop>
-  <tabstop>SFiyatdoubleSpinBox</tabstop>
-  <tabstop>KDVspinBox</tabstop>
-  <tabstop>KDVcheckbox</tabstop>
-  <tabstop>OTVspinBox</tabstop>
-  <tabstop>OTVcheckbox</tabstop>
-  <tabstop>tedarikcicomboBox</tabstop>
-  <tabstop>KaydetBtn</tabstop>
-  <tabstop>IptalBtn</tabstop>
   <tabstop>araBtn</tabstop>
   <tabstop>YeniBtn</tabstop>
   <tabstop>StokKartlaritableView</tabstop>
   <tabstop>dosyadanToolButton</tabstop>
   <tabstop>kodRadioButton</tabstop>
-  <tabstop>StokGirBtn</tabstop>
-  <tabstop>StokCikBtn</tabstop>
-  <tabstop>AciklamaLnEdit</tabstop>
-  <tabstop>StokGrupBtn</tabstop>
   <tabstop>adRadioButton</tabstop>
-  <tabstop>SurekliYenicheckBox</tabstop>
-  <tabstop>BarkodOlusturBtn</tabstop>
-  <tabstop>ResimEkleBtn</tabstop>
-  <tabstop>ResimSilBtn</tabstop>
   <tabstop>barkodRadioButton</tabstop>
   <tabstop>TopluEtikettoolButton</tabstop>
   <tabstop>SilBtn</tabstop>

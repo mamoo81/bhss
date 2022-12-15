@@ -43,18 +43,18 @@ public:
 //    Veritabani *vt = new Veritabani();
     StokYonetimi stokYonetimi = StokYonetimi();
 
-    void setStokKartiID(const QString &newStokKartiID);
+//    void setStokKartiID(const QString &newStokKartiID);
 
-    void setKullanici(const User &newKullanici);
+//    void setKullanici(const User &newKullanici);
 
     float getMiktar() const;
 
-    const QString &getStokKartiID() const;
+//    const QString &getStokKartiID() const;
 
-    const User &getKullanici() const;
+//    const User &getKullanici() const;
 
-    const StokKarti &getKart() const;
-    void setKart(const StokKarti &newKart);
+//    const StokKarti &getKart() const;
+//    void setKart(const StokKarti &newKart);
 
     StokYonetimi::StokHareketi getHareket() const;
     void setHareket(StokYonetimi::StokHareketi newHareket);

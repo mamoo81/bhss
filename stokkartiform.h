@@ -32,6 +32,7 @@ public:
     bool fiyatGuncellendi = false;
 
     void setKart(StokKarti newYeniKart);
+    void setKart(QString barkod);
 
     void FormLoad();
 
@@ -62,6 +63,10 @@ private slots:
     void on_stokHareketleripushButton_clicked();
 
     void on_cikispushButton_clicked();
+
+    void on_stokGirpushButton_clicked();
+
+    void on_stokDuspushButton_clicked();
 
 private:
     Ui::StokKartiForm *ui;

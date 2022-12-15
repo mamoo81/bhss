@@ -1,3 +1,4 @@
+#include "sepet.h"
 #include "stokyonetimi.h"
 
 #include <QProcess>
@@ -160,30 +161,76 @@ QSqlError StokYonetimi::yeniStokKartiOlustur(StokKarti stokKarti, User *kullanic
     return sorgu.lastError();
 }
 
-QSqlError StokYonetimi::stokKartiniGuncelle(const QString sskiStokKartiID, StokKarti yeniStokKarti, User *kullanici)
+QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici)
 {
-    sorgu.prepare("UPDATE stokkartlari SET barkod = ?, kod = ?, ad = ?, birim = ?, miktar = ?, grup = ?, afiyat = ?, sfiyat = ?, kdv = ?, otv = ?, kdvdahil = ?, otvdahil = ?, tarih = ?, uretici = ?, tedarikci = ?, aciklama = ? "
-                        "WHERE id = ?");
-    sorgu.bindValue(0, yeniStokKarti.getBarkod());
-    sorgu.bindValue(1, yeniStokKarti.getKod());
-    sorgu.bindValue(2, yeniStokKarti.getAd());
-    sorgu.bindValue(3, yeniStokKarti.getBirim());
-    sorgu.bindValue(4, yeniStokKarti.getMiktar());
-    sorgu.bindValue(5, yeniStokKarti.getGrup());
-    sorgu.bindValue(6, yeniStokKarti.getAFiyat());
-    sorgu.bindValue(7, yeniStokKarti.getSFiyat());
-    sorgu.bindValue(8, yeniStokKarti.getKdv());
-    sorgu.bindValue(9, yeniStokKarti.getOtv());
-    sorgu.bindValue(10, yeniStokKarti.getKdvdahil());
-    sorgu.bindValue(11, yeniStokKarti.getOtvdahil());
-    sorgu.bindValue(12, yeniStokKarti.getTarih());
-    sorgu.bindValue(13, yeniStokKarti.getUretici().toInt());
-    sorgu.bindValue(14, yeniStokKarti.getTedarikci().toInt());
-    sorgu.bindValue(15, yeniStokKarti.getAciklama() + " " + kullanici->getUserName());
-    sorgu.bindValue(16, sskiStokKartiID);
+    sorgu.prepare("UPDATE stokkartlari SET "
+                  "barkod = ?, "
+                  "kod = ?, "
+                  "ad = ?, "
+                  "birim = ?, "
+                  "miktar = ?, "
+                  "grup = ?, "
+                  "afiyat = ?, "
+                  "sfiyat = ?, "
+                  "kdv = ?, "
+                  "otv = ?, "
+                  "kdvdahil = ?, "
+                  "otvdahil = ?, "
+                  "tarih = ?, "
+                  "uretici = ?, "
+                  "tedarikci = ?, "
+                  "aciklama = ? "
+                  "WHERE id = ?");
+    sorgu.bindValue(0, duzenlenecekStokKarti.getBarkod());
+    sorgu.bindValue(1, duzenlenecekStokKarti.getKod());
+    sorgu.bindValue(2, duzenlenecekStokKarti.getAd());
+    sorgu.bindValue(3, duzenlenecekStokKarti.getBirim());
+    sorgu.bindValue(4, duzenlenecekStokKarti.getMiktar());
+    sorgu.bindValue(5, duzenlenecekStokKarti.getGrup());
+    sorgu.bindValue(6, duzenlenecekStokKarti.getAFiyat());
+    sorgu.bindValue(7, duzenlenecekStokKarti.getSFiyat());
+    sorgu.bindValue(8, duzenlenecekStokKarti.getKdv());
+    sorgu.bindValue(9, duzenlenecekStokKarti.getOtv());
+    sorgu.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
+    sorgu.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
+    sorgu.bindValue(12, duzenlenecekStokKarti.getTarih());
+    sorgu.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
+    sorgu.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
+    sorgu.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
+    sorgu.bindValue(16, duzenlenecekStokKarti.getId());
     sorgu.exec();
+    if(sorgu.lastError().isValid()){
+        qDebug() << qPrintable(sorgu.lastError().text());
+    }
+
+    // cariye veresiye kayıt edilmiş satışların toplamtutarlarını ve kalantutarlarını güncelleme
+//    veresiyeTutarlariGuncelle(duzenlenecekStokKarti.getBarkod());
     return sorgu.lastError();
 }
+
+//void StokYonetimi::veresiyeTutarlariGuncelle(QString barkod)
+//{
+//    sorgu.exec("SELECT fatura_no FROM faturalar WHERE cari = (SELECT id FROM carikartlar WHERE borc_hesaplama = 2) AND kalantutar NOT IN ('0') AND tipi = 2");
+//    QStringList veresiyeFaturaNolar;
+//    while(sorgu.next()){
+//        veresiyeFaturaNolar.append(sorgu.value(0).toString());
+//    }
+//    double fark = 0;
+//    foreach (auto faturaNo, veresiyeFaturaNolar) {
+//        Sepet sepet = faturaYonetimi.getSatis(faturaNo);
+//        if(sepet.urunler.contains(barkod)){
+//            fark = sepet.getFiyatFarki();
+//            sorgu.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
+//            sorgu.bindValue(0, fark + sepet.sepetToplamTutari());
+//            sorgu.bindValue(1, fark + sepet.sepetToplamTutari());
+//            sorgu.bindValue(2, faturaNo);
+//            sorgu.exec();
+//            if(sorgu.lastError().isValid()){
+//                qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + sorgu.lastError().text());
+//            }
+//        }
+//    }
+//}
 
 bool StokYonetimi::stokKartiSil(QString stokKartiID)
 {
@@ -552,7 +599,7 @@ bool StokYonetimi::csvAktar(QString dosyaYolu)
     QFile csvDosya(dosyaYolu);
     csvDosya.open(QIODevice::WriteOnly);
     csvDosya.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser);
-    QString cmd = QString("psql -U postgres -d mhss_data -c \"copy (SELECT barkod, kod, ad, birim, miktar, grup, cast (afiyat as decimal), cast (sfiyat as decimal), kdv, kdvdahil, otv, otvdahil, mensei FROM stokkartlari) TO STDIN with CSV HEADER DELIMITER ',';\" > ") + dosyaYolu;
+    QString cmd = QString("psql -U postgres -d mhss_data -c \"copy (SELECT barkod, kod, ad, birim, cast (miktar as float), grup, cast (afiyat as decimal), cast (sfiyat as decimal), kdv, kdvdahil, otv, otvdahil, mensei FROM stokkartlari) TO STDIN with CSV HEADER DELIMITER ',';\" > ") + dosyaYolu;
 //    qDebug() << "csv aktarma komutu: " << qPrintable(cmd);
     int exitCode = system(qPrintable(cmd));
     if(exitCode != QProcess::NormalExit){

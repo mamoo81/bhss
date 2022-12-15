@@ -84,7 +84,7 @@ double Sepet::getFiyatFarki()
     double toplamfark = 0;
     foreach (Urun urun, urunler) {
         if(urun.satisFiyat != urun.birimFiyat){
-            toplamfark += urun.satisFiyat - urun.birimFiyat;
+            toplamfark += urun.miktar * (urun.satisFiyat - urun.birimFiyat);
         }
     }
     return toplamfark;

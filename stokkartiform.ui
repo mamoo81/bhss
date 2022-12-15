@@ -37,10 +37,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>827</x>
      <y>10</y>
-     <width>128</width>
-     <height>128</height>
+     <width>161</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="font">
@@ -66,19 +66,6 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>60</y>
-     <width>131</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Ürün Resmi</string>
    </property>
   </widget>
   <widget class="QPushButton" name="KaydetpushButton">
@@ -171,11 +158,17 @@
   <widget class="QPushButton" name="ResimEklepushButton">
    <property name="geometry">
     <rect>
-     <x>860</x>
+     <x>710</x>
      <y>10</y>
-     <width>131</width>
+     <width>111</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Resim ekle</string>
@@ -184,11 +177,17 @@
   <widget class="QPushButton" name="ResimSilpushButton">
    <property name="geometry">
     <rect>
-     <x>860</x>
+     <x>710</x>
      <y>50</y>
-     <width>131</width>
+     <width>111</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Resmi sil</string>
@@ -198,9 +197,9 @@
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>130</y>
+     <y>150</y>
      <width>421</width>
-     <height>371</height>
+     <height>351</height>
     </rect>
    </property>
    <property name="title">
@@ -217,31 +216,19 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="BarkodlineEdit"/>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="MiktarlineEdit"/>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="label_11">
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>KDV Dahil mi?</string>
+       <string>Stok Kodu</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="1">
-     <widget class="QSpinBox" name="KDVspinBox"/>
-    </item>
-    <item row="6" column="0">
+    <item row="5" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
        <string>Stok Grubu</string>
       </property>
      </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QComboBox" name="StokGrubucomboBox"/>
     </item>
     <item row="9" column="0">
      <widget class="QLabel" name="label_10">
@@ -250,8 +237,84 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Alış Fiyatı</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Stok Miktarı</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Barkod</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QComboBox" name="BirimicomboBox"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Ad</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_14">
+      <property name="text">
+       <string>Tedarikçi</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Alt gruplar</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="BarkodOlusturpushButton">
+      <property name="text">
+       <string>Barkod Oluştur</string>
+      </property>
+     </widget>
+    </item>
     <item row="11" column="1">
      <widget class="QSpinBox" name="OTVspinBox"/>
+    </item>
+    <item row="5" column="2">
+     <widget class="QPushButton" name="stokGruplaripushButton">
+      <property name="text">
+       <string>Stok grupları</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Üretici</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QLineEdit" name="AdlineEdit"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Birimi</string>
+      </property>
+     </widget>
     </item>
     <item row="7" column="1">
      <widget class="QDoubleSpinBox" name="AFiyatdoubleSpinBox">
@@ -259,6 +322,38 @@
        <double>9999999.990000000223517</double>
       </property>
      </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="BarkodlineEdit"/>
+    </item>
+    <item row="8" column="1">
+     <widget class="QDoubleSpinBox" name="SFiyatdoubleSpinBox">
+      <property name="maximum">
+       <double>9999999.990000000223517</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="MiktarlineEdit"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="StokKodlineEdit"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QComboBox" name="StokGrubucomboBox"/>
+    </item>
+    <item row="14" column="1" colspan="2">
+     <widget class="QComboBox" name="UreticicomboBox"/>
+    </item>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>OTV Dahil mi?</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QComboBox" name="altGrupcomboBox"/>
     </item>
     <item row="12" column="1">
      <widget class="QComboBox" name="OTVDahilcomboBox">
@@ -274,55 +369,30 @@
       </item>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_6">
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>Stok Miktarı</string>
+       <string>KDV Dahil mi?</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
+    <item row="9" column="1">
+     <widget class="QSpinBox" name="KDVspinBox"/>
+    </item>
+    <item row="13" column="1" colspan="2">
+     <widget class="QComboBox" name="TedarikcicomboBox"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_17">
       <property name="text">
-       <string>Barkod</string>
+       <string>Alt grup</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="0">
-     <widget class="QLabel" name="label_13">
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>OTV Dahil mi?</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
-     <widget class="QLabel" name="label_14">
-      <property name="text">
-       <string>Tedarikçi</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QComboBox" name="BirimicomboBox"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Stok Kodu</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Alış Fiyatı</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="0">
-     <widget class="QLabel" name="label_12">
-      <property name="text">
-       <string>OTV</string>
+       <string>Satış Fiyatı</string>
       </property>
      </widget>
     </item>
@@ -340,64 +410,10 @@
       </item>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_5">
+    <item row="11" column="0">
+     <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>Birimi</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Ad</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Üretici</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_9">
-      <property name="text">
-       <string>Satış Fiyatı</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1">
-     <widget class="QDoubleSpinBox" name="SFiyatdoubleSpinBox">
-      <property name="maximum">
-       <double>9999999.990000000223517</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="BarkodOlusturpushButton">
-      <property name="text">
-       <string>Barkod Oluştur</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QLineEdit" name="StokKodlineEdit"/>
-    </item>
-    <item row="2" column="1" colspan="2">
-     <widget class="QLineEdit" name="AdlineEdit"/>
-    </item>
-    <item row="3" column="1" colspan="2">
-     <widget class="QComboBox" name="UreticicomboBox"/>
-    </item>
-    <item row="13" column="1" colspan="2">
-     <widget class="QComboBox" name="TedarikcicomboBox"/>
-    </item>
-    <item row="6" column="2">
-     <widget class="QPushButton" name="stokGruplaripushButton">
-      <property name="text">
-       <string>Stok grupları</string>
+       <string>OTV</string>
       </property>
      </widget>
     </item>
@@ -461,8 +477,45 @@
     </size>
    </property>
   </widget>
+  <widget class="QPushButton" name="stokGirpushButton">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>510</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Stok gir</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="stokDuspushButton">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>510</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Stok düş</string>
+   </property>
+  </widget>
   <zorder>layoutWidget</zorder>
-  <zorder>label_15</zorder>
   <zorder>KaydetpushButton</zorder>
   <zorder>iptalpushButton</zorder>
   <zorder>temizlepushButton</zorder>
@@ -472,12 +525,13 @@
   <zorder>UrunResimlabel</zorder>
   <zorder>cikispushButton</zorder>
   <zorder>stokHareketleripushButton</zorder>
+  <zorder>stokGirpushButton</zorder>
+  <zorder>stokDuspushButton</zorder>
  </widget>
  <tabstops>
   <tabstop>BarkodlineEdit</tabstop>
   <tabstop>StokKodlineEdit</tabstop>
   <tabstop>AdlineEdit</tabstop>
-  <tabstop>UreticicomboBox</tabstop>
   <tabstop>BirimicomboBox</tabstop>
   <tabstop>MiktarlineEdit</tabstop>
   <tabstop>StokGrubucomboBox</tabstop>

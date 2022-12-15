@@ -57,16 +57,15 @@ void StokGirCikDialog::on_pushButton_clicked()
     this->close();
 }
 
-void StokGirCikDialog::setKullanici(const User &newKullanici)
-{
-    kullanici = newKullanici;
-}
+//void StokGirCikDialog::setKullanici(const User &newKullanici)
+//{
+//    kullanici = newKullanici;
+//}
 
-void StokGirCikDialog::setStokKartiID(const QString &newStokKartiID)
-{
-    stokKartiID = newStokKartiID;
-}
-
+//void StokGirCikDialog::setStokKartiID(const QString &newStokKartiID)
+//{
+//    stokKartiID = newStokKartiID;
+//}
 
 void StokGirCikDialog::on_iptalpushButton_clicked()
 {
@@ -84,36 +83,36 @@ void StokGirCikDialog::setHareket(StokYonetimi::StokHareketi newHareket)
     hareket = newHareket;
     switch (newHareket) {
     case StokYonetimi::StokHareketi::Giris:
-        this->setWindowTitle("Stok girişi yap");
+        this->setWindowTitle("Stok girişi");
         break;
     case StokYonetimi::StokHareketi::Cikis:
-        this->setWindowTitle("Stok çıkışı yap");
+        this->setWindowTitle("Stok çıkışı");
         break;
     default:
-        this->setWindowTitle("Stok işlem yap");
+        this->setWindowTitle("Stok işlem");
         break;
     }
 }
 
-const StokKarti &StokGirCikDialog::getKart() const
-{
-    return kart;
-}
+//const StokKarti &StokGirCikDialog::getKart() const
+//{
+//    return kart;
+//}
 
-void StokGirCikDialog::setKart(const StokKarti &newKart)
-{
-    kart = newKart;
-}
+//void StokGirCikDialog::setKart(const StokKarti &newKart)
+//{
+//    kart = newKart;
+//}
 
-const User &StokGirCikDialog::getKullanici() const
-{
-    return kullanici;
-}
+//const User &StokGirCikDialog::getKullanici() const
+//{
+//    return kullanici;
+//}
 
-const QString &StokGirCikDialog::getStokKartiID() const
-{
-    return stokKartiID;
-}
+//const QString &StokGirCikDialog::getStokKartiID() const
+//{
+//    return stokKartiID;
+//}
 
 float StokGirCikDialog::getMiktar() const
 {

@@ -221,7 +221,7 @@ double CariYonetimi::getCariToplamBorc(QString cariID)
     if(cariKart.getGuncelBorcHesaplama()){
         // cariye yapılan tüm satışların yapıldığı an ki tutarlarının alınması.
         QSqlQuery sorguSatislar(db);
-        sorguSatislar.prepare("select sum(cast(toplamtutar as decimal)), sum(cast(odenentutar as decimal)), sum(cast(kalantutar as decimal)) from faturalar where cari = ? and tipi = 2");
+        sorguSatislar.prepare("select sum(cast(toplamtutar as decimal)), sum(cast(odenentutar as decimal)), sum(cast(kalantutar as decimal)) from faturalar where cari = ? and tipi in(2,5)");
         sorguSatislar.bindValue(0, cariID);
         sorguSatislar.exec();
         if(sorguSatislar.next()){

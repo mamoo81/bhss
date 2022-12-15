@@ -36,7 +36,8 @@ public:
     StokKarti getStokKarti(QString barkod);
     bool setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi islem, float miktar);
     QSqlError yeniStokKartiOlustur(StokKarti stokKarti, User *kullanici);
-    QSqlError stokKartiniGuncelle(const QString sskiStokKartiID, StokKarti yeniStokKarti, User *kullanici);
+    QSqlError stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici);
+//    void veresiyeTutarlariGuncelle(QString barkod);
     bool stokKartiSil(QString stokKartiID);
     void stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar);
     QSqlQueryModel *getStokKartlari();

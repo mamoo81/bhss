@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "QSortFilterProxyModel"
 #include "stokkartlarimodel.h"
 #include "stokyonetimi.h"
+#include "stokkartiform.h"
 //************************
 #include <QDialog>
 #include <QPixmap>
@@ -60,12 +61,13 @@ public slots:
 
     void hizliRafEtiketiYazdir();
 
+    void stokGirSlot();
+
+    void stokCikSlot();
+
 private slots:
-    void on_StokGrupBtn_clicked();
 
     void formLoad();
-
-    void grupComboboxDoldur();
 
     void filtreGrupComboboxDoldur();
 
@@ -75,16 +77,9 @@ private slots:
 
     void on_DuzenleBtn_clicked();
 
-    void on_IptalBtn_clicked();
-
-    void alanlariTemizle();
-
-    void alanlariDoldur();
-
     void closeEvent(QCloseEvent*);
-    void keyPressEvent(QKeyEvent *event);
 
-    void on_KaydetBtn_clicked();
+    void keyPressEvent(QKeyEvent *event);
 
     void on_SilBtn_clicked();
 
@@ -94,21 +89,9 @@ private slots:
 
     void on_dosyadanToolButton_clicked();
 
-    void on_StokGirBtn_clicked();
-
-    void on_StokCikBtn_clicked();
-
     void on_StokKartlaritableView_doubleClicked(const QModelIndex &index);
 
-    void on_BarkodOlusturBtn_clicked();
-
     void on_AraLineEdit_textChanged(const QString &arg1);
-
-    void on_ResimEkleBtn_clicked();
-
-    void on_ResimSilBtn_clicked();
-
-    void urunResmiKaydet(QPixmap urunResmi, QString urunBarkod);
 
     void CTRL_F_Slot();
 
@@ -128,6 +111,8 @@ private slots:
 
     void key_F6_Slot();
 
+    void key_F7_Slot();
+
     void on_barkodRadioButton_clicked();
 
     void on_StokKartlaritableView_clicked(const QModelIndex &index);
@@ -135,18 +120,6 @@ private slots:
     void on_adRadioButton_clicked();
 
     void on_kodRadioButton_clicked();
-
-    void on_BarkodLnEdit_textChanged(const QString &arg1);
-
-    void on_StokKoduLnEdit_textChanged(const QString &arg1);
-
-    void on_StokAdiLnEdit_textChanged(const QString &arg1);
-
-    void on_MiktarLnEdit_textChanged(const QString &arg1);
-
-    void on_SFiyatdoubleSpinBox_valueChanged(double arg1);
-
-    void on_AFiyatdoubleSpinBox_valueChanged(double arg1);
 
     void on_TopluEtikettoolButton_clicked();
 
@@ -171,6 +144,7 @@ private:
     QShortcut *key_F4;
     QShortcut *key_F5;
     QShortcut *key_F6;
+    QShortcut *key_F7;
     QShortcut *key_Down;
     QShortcut *key_DownArrow;
     QShortcut *key_Up;

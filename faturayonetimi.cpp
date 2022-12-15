@@ -50,19 +50,6 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
                              QDateTime::currentDateTime(),
                              satilacakSepet.getSepettekiKazanc());
 
-            // fazla tutari alacaklandır seçilmişse
-            //*****************************************************************
-//            if(satilacakSepet.getFazlaTutarAlacaklandir()){
-//                cariYonetimi.cariyiAlacaklandır(satisYapilanCariID,
-//                                                satilacakSepet.getOdenenTutar() - satilacakSepet.sepetToplamTutari(),
-//                                                QDateTime::currentDateTime(),
-//                                                1, // alış faturası int kodu.
-//                                                1, // nakit ödeme tipi int kodu
-//                                                satisYapanKullanici,
-//                                                yeniFaturaNo(),
-//                                                "Fazla ödenen tutar alacaklandırıldı.");
-//            }
-
             if(satilacakSepet.getFazlaTutarAlacaklandir()){
                 //yeni alış fatura bilgisi girme başlangıcı cariYonetimi classını bu sayfaya ekleyemediğim için böyle geçici çözdüm.
 

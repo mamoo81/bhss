@@ -29,6 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QLocale>
 #include <QDateTime>
 #include <QDebug>
+#include <QStandardItemModel>
 
 QLocale turkce(QLocale::Turkish, QLocale::Turkey);
 
