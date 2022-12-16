@@ -305,16 +305,6 @@ void StokFrom::stokCikSlot()
     }
 }
 
-//void StokFrom::grupComboboxDoldur()
-//{
-//    QStringList gruplar = vt->stokGruplariGetir();
-//    ui->StokGrubuComboBox->addItem("Stok gurubu seçin");
-//    foreach (auto grup, gruplar) {
-//        ui->StokGrubuComboBox->addItem(grup);
-//    }
-//    ui->StokGrubuComboBox->setCurrentIndex(0);
-//}
-
 void StokFrom::filtreGrupComboboxDoldur()
 {
     ui->grupFiltrecomboBox->clear();
@@ -337,7 +327,6 @@ void StokFrom::stokKartlariniListele()
     ui->StokKartlaritableView->setSortingEnabled(true);
     ui->StokKartlaritableView->hideColumn(0);// ID kolonunu gizliyorum görünmesine gerek yok.
     ui->StokKartlaritableView->setColumnWidth(3, 450);
-//    connect(ui->StokKartlaritableView->selectionModel(),SIGNAL(selectionChanged(QItemSelection,QItemSelection)),SLOT(alanlariDoldur()));
     connect(ui->StokKartlaritableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
 }
@@ -349,7 +338,10 @@ void StokFrom::on_YeniBtn_clicked()
     kartForm->toplustokkarti = false;
     kartForm->FormLoad();
     kartForm->exec();
+    stokKartlariniListele();
+    ui->StokKartlaritableView->selectRow(seciliIndex);
     ui->AraLineEdit->setFocus();
+    ui->AraLineEdit->selectAll();
 }
 
 void StokFrom::on_DuzenleBtn_clicked()
@@ -363,7 +355,10 @@ void StokFrom::on_DuzenleBtn_clicked()
         kartForm->FormLoad();
         kartForm->setKart(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
         kartForm->exec();
+        stokKartlariniListele();
+        ui->StokKartlaritableView->selectRow(seciliIndex);
         ui->AraLineEdit->setFocus();
+        ui->AraLineEdit->selectAll();
     }
     else
     {
@@ -382,114 +377,6 @@ void StokFrom::on_DuzenleBtn_clicked()
     //}
 }
 
-
-//void StokFrom::on_IptalBtn_clicked()
-//{
-//    alanlariTemizle();
-//    ui->YeniBtn->setEnabled(true);
-//    ui->DuzenleBtn->setEnabled(true);
-//    ui->SilBtn->setEnabled(true);
-//    ui->StokKartlaritableView->setEnabled(true);
-//    ui->AraLineEdit->setEnabled(true);
-//    ui->araBtn->setEnabled(true);
-//    ui->StokGirBtn->setEnabled(true);
-//    ui->StokCikBtn->setEnabled(true);
-
-//    ui->BarkodLnEdit->setEnabled(false);
-//    ui->BarkodOlusturBtn->setEnabled(false);
-//    ui->StokKoduLnEdit->setEnabled(false);
-//    ui->StokAdiLnEdit->setEnabled(false);
-//    ui->BirimiComboBox->setEnabled(false);
-//    ui->MiktarLnEdit->setEnabled(false);
-//    ui->StokGrubuComboBox->setEnabled(false);
-//    ui->ureticicomboBox->setEnabled(false);
-//    ui->tedarikcicomboBox->setEnabled(false);
-//    ui->AFiyatdoubleSpinBox->setEnabled(false);
-//    ui->SFiyatdoubleSpinBox->setEnabled(false);
-//    ui->KDVspinBox->setEnabled(false);
-//    ui->OTVspinBox->setEnabled(false);
-//    ui->KDVcheckbox->setEnabled(false);
-//    ui->OTVcheckbox->setEnabled(false);
-//    ui->ResimEkleBtn->setEnabled(false);
-//    ui->ResimSilBtn->setEnabled(false);
-//    ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
-//    ui->SurekliYenicheckBox->setEnabled(false);
-//    ui->KaydetBtn->setEnabled(false);
-//    ui->IptalBtn->setEnabled(false);
-//    ui->AraLineEdit->setFocus();
-//    alanlariDoldur();
-//}
-
-//void StokFrom::alanlariTemizle()
-//{
-//    ui->BarkodLnEdit->clear();
-//    ui->BarkodLnEdit->setPalette(TextColorPaletteDefault);
-//    ui->StokKoduLnEdit->clear();
-//    ui->StokKoduLnEdit->setPalette(TextColorPaletteDefault);
-//    ui->StokAdiLnEdit->clear();
-//    ui->StokAdiLnEdit->setPalette(TextColorPaletteDefault);
-//    ui->BirimiComboBox->setCurrentIndex(0);
-//    ui->MiktarLnEdit->clear();
-//    ui->MiktarLnEdit->setPalette(TextColorPaletteDefault);
-//    ui->StokGrubuComboBox->setCurrentIndex(0);
-//    ui->AFiyatdoubleSpinBox->setValue(0);
-//    ui->AFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
-//    ui->SFiyatdoubleSpinBox->setValue(0);
-//    ui->SFiyatdoubleSpinBox->setPalette(TextColorPaletteDefault);
-//    ui->KDVspinBox->setValue(0);
-//    ui->AciklamaLnEdit->clear();
-//    ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
-//}
-
-
-//void StokFrom::alanlariDoldur()
-//{
-//    seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
-//    seciliSatirModel = ui->StokKartlaritableView->selectionModel();
-//    ui->BarkodLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString());
-//    ui->StokKoduLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 2).data().toString());
-//    ui->StokAdiLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString());
-//    for (int i = 0; i <ui->BirimiComboBox->count(); ++i)
-//    {
-//        int result = QString::compare(ui->BirimiComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 4).data().toString(), Qt::CaseInsensitive);
-//        if(result == 0)
-//        {
-//            ui->BirimiComboBox->setCurrentIndex(i);
-//            break;
-//        }
-//    }
-//    ui->MiktarLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 5).data().toString());
-//    for (int i = 0; i <ui->StokGrubuComboBox->count(); ++i)
-//    {
-//        int result = QString::compare(ui->StokGrubuComboBox->itemText(i), seciliSatirModel->model()->index(seciliSatirIndex, 6).data().toString(), Qt::CaseInsensitive);
-//        if(result == 0)
-//        {
-//            ui->StokGrubuComboBox->setCurrentIndex(i);
-//            break;
-//        }
-//    }
-//    ui->AFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 7).data().toDouble());
-//    ui->SFiyatdoubleSpinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 8).data().toDouble());
-//    ui->KDVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 9).data().toString().remove("%", Qt::CaseInsensitive).toInt());
-//    ui->OTVspinBox->setValue(seciliSatirModel->model()->index(seciliSatirIndex, 10).data().toString().remove("%", Qt::CaseInsensitive).toInt());
-//    if(seciliSatirModel->model()->index(seciliSatirIndex, 11).data().toString() == "Evet"){
-//        ui->KDVcheckbox->setChecked(true);
-//    }
-//    else{
-//        ui->KDVcheckbox->setChecked(false);
-//    }
-//    if(seciliSatirModel->model()->index(seciliSatirIndex, 12).data().toString() == "Evet"){
-//        ui->OTVcheckbox->setChecked(true);
-//    }
-//    else{
-//        ui->OTVcheckbox->setChecked(false);
-//    }
-//    ui->ureticicomboBox->setCurrentIndex(ui->ureticicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 14).data().toString()));
-//    ui->tedarikcicomboBox->setCurrentIndex(ui->tedarikcicomboBox->findText(seciliSatirModel->model()->index(seciliSatirIndex, 15).data().toString()));
-//    ui->AciklamaLnEdit->setText(seciliSatirModel->model()->index(seciliSatirIndex, 16).data().toString());
-//    ui->UrunResimlabel->setPixmap(stokYonetimi.getStokKarti(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString()).getResim());
-//}
-
 void StokFrom::closeEvent(QCloseEvent *)
 {
 
@@ -497,34 +384,14 @@ void StokFrom::closeEvent(QCloseEvent *)
 
 void StokFrom::keyPressEvent(QKeyEvent *event)
 {
-//    if(event->key() == Qt::Key_Escape){
-//        if(ui->KaydetBtn->isEnabled() && ui->IptalBtn->isEnabled()){
-//            uyariSes->play();
-//            QMessageBox msg(this);
-//            msg.setWindowTitle("Uyarı");
-//            msg.setIcon(QMessageBox::Question);
-//            msg.setText("Stok kartını düzenlemeyi bitirmediniz.\nYinede bitirmek istiyor musunuz?");
-//            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-//            msg.setDefaultButton(QMessageBox::Yes);
-//            msg.setButtonText(QMessageBox::Yes, "Evet");
-//            msg.setButtonText(QMessageBox::No, "Hayır");
-//            int cevap = msg.exec();
-//            if(QMessageBox::Yes == cevap){
-//                on_IptalBtn_clicked();
-//            }
-//        }
-//        else{
-//            this->close();
-//        }
-//    }
-//    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-//        if(ui->AraLineEdit->isEnabled()){
-//            on_araBtn_clicked();
-//        }
-//        else if(ui->KaydetBtn->isEnabled()){
-//            on_KaydetBtn_clicked();
-//        }
-//    }
+    if(event->key() == Qt::Key_Escape){
+        this->close();
+    }
+    else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
+        if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
+            on_DuzenleBtn_clicked();
+        }
+    }
 }
 
 

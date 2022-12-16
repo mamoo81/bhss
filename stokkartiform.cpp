@@ -57,7 +57,7 @@ void StokKartiForm::setKart(QString barkod)
     ui->UreticicomboBox->setCurrentIndex(ui->UreticicomboBox->findText(ayarlanacakKart.getUretici()));
     ui->BirimicomboBox->setCurrentIndex(ayarlanacakKart.getBirim());
     ui->MiktarlineEdit->setText(QString::number(ayarlanacakKart.getMiktar(), 'f', 3));
-    ui->StokGrubucomboBox->setCurrentIndex(ayarlanacakKart.getGrup() - 1);
+    ui->StokGrubucomboBox->setCurrentIndex(ayarlanacakKart.getGrup());
     ui->AFiyatdoubleSpinBox->setValue(ayarlanacakKart.getAFiyat());
     ui->SFiyatdoubleSpinBox->setValue(ayarlanacakKart.getSFiyat());
     ui->KDVspinBox->setValue(ayarlanacakKart.getKdv());
@@ -82,6 +82,7 @@ void StokKartiForm::FormLoad()
     ui->UreticicomboBox->addItems(stokYonetimi.getUreticiler());
     ui->TedarikcicomboBox->addItems(stokYonetimi.getTedarikciler());
     ui->BirimicomboBox->addItems(stokYonetimi.getStokBirimleri());
+    ui->StokGrubucomboBox->addItem("Stok grubu seçin...");
     ui->StokGrubucomboBox->addItems(stokYonetimi.stokGruplariGetir());
 
     if(toplustokkarti){
@@ -106,7 +107,7 @@ void StokKartiForm::FormLoad()
     regEXPstokKod = QRegExp("[a-zöçşıiğüA-ZÖÇŞIİĞÜ0-9]{3,}");
     ui->StokKodlineEdit->setValidator(new QRegExpValidator(regEXPstokKod, this));
 
-    regEXPstokAd = QRegExp("[a-zöçşıiğü- A-ZÖÇŞIİĞÜ 0-9.*'+-]{3,}");
+    regEXPstokAd = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9.*'+-]{3,}");
     ui->AdlineEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
 
     regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
