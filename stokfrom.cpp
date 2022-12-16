@@ -616,8 +616,6 @@ void StokFrom::on_araBtn_clicked()
 }
 
 
-
-
 void StokFrom::on_dosyadanToolButton_clicked()
 {
     TopluStokYukleDialog *stokYukleForm = new TopluStokYukleDialog(this);
