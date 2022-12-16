@@ -203,34 +203,60 @@ QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, Use
         qDebug() << qPrintable(sorgu.lastError().text());
     }
 
+    // cari hareketlerini güncel fiyatlardan gösterme
     // cariye veresiye kayıt edilmiş satışların toplamtutarlarını ve kalantutarlarını güncelleme
-//    veresiyeTutarlariGuncelle(duzenlenecekStokKarti.getBarkod());
+    sorgu.exec("SELECT fatura_no FROM faturalar WHERE cari = (SELECT id FROM carikartlar WHERE borc_hesaplama = 2) AND kalantutar NOT IN ('0') AND tipi = 2");
+    QStringList veresiyeFaturaNolar;
+    while(sorgu.next()){
+        veresiyeFaturaNolar.append(sorgu.value(0).toString());
+    }
+    double fark = 0;
+    foreach (auto faturaNo, veresiyeFaturaNolar) {
+        Sepet sepet = getSatis(faturaNo);
+        if(sepet.urunler.contains(duzenlenecekStokKarti.getBarkod())){
+            fark = sepet.getFiyatFarki();
+            sorgu.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
+            sorgu.bindValue(0, fark + sepet.sepetToplamTutari());
+            sorgu.bindValue(1, fark + sepet.sepetToplamTutari());
+            sorgu.bindValue(2, faturaNo);
+            sorgu.exec();
+            if(sorgu.lastError().isValid()){
+                qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + sorgu.lastError().text());
+            }
+        }
+    }
+
     return sorgu.lastError();
 }
 
-//void StokYonetimi::veresiyeTutarlariGuncelle(QString barkod)
-//{
-//    sorgu.exec("SELECT fatura_no FROM faturalar WHERE cari = (SELECT id FROM carikartlar WHERE borc_hesaplama = 2) AND kalantutar NOT IN ('0') AND tipi = 2");
-//    QStringList veresiyeFaturaNolar;
-//    while(sorgu.next()){
-//        veresiyeFaturaNolar.append(sorgu.value(0).toString());
-//    }
-//    double fark = 0;
-//    foreach (auto faturaNo, veresiyeFaturaNolar) {
-//        Sepet sepet = faturaYonetimi.getSatis(faturaNo);
-//        if(sepet.urunler.contains(barkod)){
-//            fark = sepet.getFiyatFarki();
-//            sorgu.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
-//            sorgu.bindValue(0, fark + sepet.sepetToplamTutari());
-//            sorgu.bindValue(1, fark + sepet.sepetToplamTutari());
-//            sorgu.bindValue(2, faturaNo);
-//            sorgu.exec();
-//            if(sorgu.lastError().isValid()){
-//                qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + sorgu.lastError().text());
-//            }
-//        }
-//    }
-//}
+Sepet StokYonetimi::getSatis(QString _faturaNo)// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
+{
+    Sepet satilmisSepet;
+    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
+    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
+    satisSorgu.bindValue(0, _faturaNo);
+    satisSorgu.exec();
+    while (satisSorgu.next()) {
+        StokKarti sk = getStokKarti(satisSorgu.value(0).toString());
+        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
+    }
+    // faturanın ödenen ve kalan tutar bilgisini alma.
+    QSqlQuery islem = getIslemInfo(_faturaNo);
+    satilmisSepet.setOdenenTutar(islem.value(4).toDouble());
+    satilmisSepet.setKalanTutar(islem.value(5).toDouble());
+
+    return satilmisSepet;
+}
+
+QSqlQuery StokYonetimi::getIslemInfo(QString _faturaNo)
+{
+    QSqlQuery islemSorgu = QSqlQuery(db);
+    islemSorgu.prepare("SELECT id, fatura_no, kullanici, toplamtutar, odenentutar, kalantutar, tarih, tipi, cari FROM faturalar WHERE fatura_no = ?");
+    islemSorgu.bindValue(0, _faturaNo);
+    islemSorgu.exec();
+    islemSorgu.next();
+    return islemSorgu;
+}
 
 bool StokYonetimi::stokKartiSil(QString stokKartiID)
 {

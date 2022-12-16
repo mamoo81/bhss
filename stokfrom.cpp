@@ -218,11 +218,11 @@ void StokFrom::hizliRafEtiketiYazdir()
     switch (genelAyarlar.value("kagit").toInt()) {
     case 0:
         // yazdırma
-        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString()), Yazici::KAGIT::YATAY_80mm38mm);
+        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()), Yazici::KAGIT::YATAY_80mm38mm);
         break;
     case 1:
         // yazdırma
-        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 0).data().toString()), Yazici::KAGIT::DIKEY_100mm38mm);
+        yazici->rafEtiketiBas(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()), Yazici::KAGIT::DIKEY_100mm38mm);
         break;
     }
 

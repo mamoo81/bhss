@@ -32,7 +32,6 @@ public:
     bool faturayiSil(QString faturaNo);
     QString yeniFaturaNo();
     QString sonIslemNumarasi();
-
 };
 
 #endif // FATURAYONETIMI_H
