@@ -1,3 +1,5 @@
+#include "resimekledialog.h"
+#include "stokgircikdialog.h"
 #include "stokhareketleridialog.h"
 #include "stokkartiform.h"
 #include "ui_stokkartiform.h"
@@ -25,7 +27,7 @@ void StokKartiForm::setKart(StokKarti newYeniKart)
     ui->AdlineEdit->setText(kart.getAd());
     ui->UreticicomboBox->setCurrentIndex(ui->UreticicomboBox->findText(kart.getUretici()));
     ui->BirimicomboBox->setCurrentIndex(kart.getBirim());
-    ui->MiktarlineEdit->setText(QString::number(kart.getMiktar(), 'f', 3));
+    ui->MiktardoubleSpinBox->setValue(kart.getMiktar());
     ui->StokGrubucomboBox->setCurrentIndex(kart.getGrup());
     ui->AFiyatdoubleSpinBox->setValue(kart.getAFiyat());
     ui->SFiyatdoubleSpinBox->setValue(kart.getSFiyat());
@@ -49,32 +51,32 @@ void StokKartiForm::setKart(StokKarti newYeniKart)
 
 void StokKartiForm::setKart(QString barkod)
 {
-    auto ayarlanacakKart = stokYonetimi.getStokKarti(barkod);
-    kart = ayarlanacakKart;
-    ui->BarkodlineEdit->setText(ayarlanacakKart.getBarkod());
-    ui->StokKodlineEdit->setText(ayarlanacakKart.getKod());
-    ui->AdlineEdit->setText(ayarlanacakKart.getAd());
-    ui->UreticicomboBox->setCurrentIndex(ui->UreticicomboBox->findText(ayarlanacakKart.getUretici()));
-    ui->BirimicomboBox->setCurrentIndex(ayarlanacakKart.getBirim());
-    ui->MiktarlineEdit->setText(QString::number(ayarlanacakKart.getMiktar(), 'f', 3));
-    ui->StokGrubucomboBox->setCurrentIndex(ayarlanacakKart.getGrup());
-    ui->AFiyatdoubleSpinBox->setValue(ayarlanacakKart.getAFiyat());
-    ui->SFiyatdoubleSpinBox->setValue(ayarlanacakKart.getSFiyat());
-    ui->KDVspinBox->setValue(ayarlanacakKart.getKdv());
-    if(ayarlanacakKart.getKdvdahil()){
+    guncellenecekKart = stokYonetimi.getStokKarti(barkod);
+    ui->BarkodlineEdit->setText(guncellenecekKart.getBarkod());
+    ui->StokKodlineEdit->setText(guncellenecekKart.getKod());
+    ui->AdlineEdit->setText(guncellenecekKart.getAd());
+    ui->UreticicomboBox->setCurrentIndex(ui->UreticicomboBox->findText(guncellenecekKart.getUretici()));
+    ui->BirimicomboBox->setCurrentIndex(guncellenecekKart.getBirim());
+    ui->MiktardoubleSpinBox->setValue(guncellenecekKart.getMiktar());
+    ui->StokGrubucomboBox->setCurrentIndex(guncellenecekKart.getGrup());
+    ui->AFiyatdoubleSpinBox->setValue(guncellenecekKart.getAFiyat());
+    ui->SFiyatdoubleSpinBox->setValue(guncellenecekKart.getSFiyat());
+    ui->KDVspinBox->setValue(guncellenecekKart.getKdv());
+    if(guncellenecekKart.getKdvdahil()){
         ui->KDVDahilcomboBox->setCurrentIndex(1);
     }
     else{
         ui->KDVDahilcomboBox->setCurrentIndex(0);
     }
-    ui->OTVspinBox->setValue(ayarlanacakKart.getOtv());
-    if(ayarlanacakKart.getOtvdahil()){
+    ui->OTVspinBox->setValue(guncellenecekKart.getOtv());
+    if(guncellenecekKart.getOtvdahil()){
         ui->OTVDahilcomboBox->setCurrentIndex(1);
     }
     else{
         ui->OTVDahilcomboBox->setCurrentIndex(0);
     }
     ui->TedarikcicomboBox->setCurrentIndex(0);
+    ui->UrunResimlabel->setPixmap(guncellenecekKart.getResim());
 }
 
 void StokKartiForm::FormLoad()
@@ -94,11 +96,15 @@ void StokKartiForm::FormLoad()
 
     if(yeniKart){
         ui->stokHareketleripushButton->setEnabled(false);
-        ui->MiktarlineEdit->setEnabled(true);
+        ui->MiktardoubleSpinBox->setEnabled(true);
+        ui->stokGirpushButton->setEnabled(false);
+        ui->stokDuspushButton->setEnabled(false);
     }
     else{
         ui->stokHareketleripushButton->setEnabled(true);
-        ui->MiktarlineEdit->setEnabled(false);
+        ui->MiktardoubleSpinBox->setEnabled(false);
+        ui->stokGirpushButton->setEnabled(true);
+        ui->stokDuspushButton->setEnabled(true);
     }
 
     regEXPbarkod = QRegExp("[0-9]{8,13}");
@@ -110,10 +116,10 @@ void StokKartiForm::FormLoad()
     regEXPstokAd = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9.*'+-]{3,}");
     ui->AdlineEdit->setValidator(new QRegExpValidator(regEXPstokAd, this));
 
-    regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
-    regEXPstokMiktar->setNotation(QDoubleValidator::StandardNotation);
-    regEXPstokMiktar->setLocale(QLocale::C);
-    ui->MiktarlineEdit->setValidator(regEXPstokMiktar);
+//    regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
+//    regEXPstokMiktar->setNotation(QDoubleValidator::StandardNotation);
+//    regEXPstokMiktar->setLocale(QLocale::C);
+//    ui->MiktardoubleSpinBox->setValidator(regEXPstokMiktar);
 
     TextColorPaletteDefault = ui->BarkodlineEdit->style()->standardPalette();
 
@@ -125,6 +131,21 @@ void StokKartiForm::FormLoad()
         ui->AFiyatdoubleSpinBox->setFocus();
         ui->AFiyatdoubleSpinBox->selectAll();
     }
+    else{
+        ui->BarkodlineEdit->setFocus();
+    }
+
+    ENTER_key = new QShortcut(this);
+    ENTER_key->setKey(Qt::Key_Enter);
+    connect(ENTER_key, SIGNAL(activated()), this, SLOT(Enter_Slot()));
+
+    RETURN_key = new QShortcut(this);
+    RETURN_key->setKey(Qt::Key_Return);
+    connect(RETURN_key, SIGNAL(activated()), this, SLOT(Enter_Slot()));
+
+    ESC_key = new QShortcut(this);
+    ESC_key->setKey(Qt::Key_Escape);
+    connect(ESC_key, SIGNAL(activated()), this, SLOT(ESC_Slot()));
 }
 
 void StokKartiForm::AlanlariTemizle()
@@ -134,7 +155,7 @@ void StokKartiForm::AlanlariTemizle()
     ui->AdlineEdit->clear();
     ui->UreticicomboBox->setCurrentIndex(0);
     ui->BirimicomboBox->setCurrentIndex(0);
-    ui->MiktarlineEdit->clear();
+    ui->MiktardoubleSpinBox->setValue(0);
     ui->StokGrubucomboBox->setCurrentIndex(0);
     ui->AFiyatdoubleSpinBox->setValue(0);
     ui->SFiyatdoubleSpinBox->setValue(0);
@@ -153,9 +174,9 @@ void StokKartiForm::on_KaydetpushButton_clicked()
     msg.setText("Kırmızı renkli alanları kontrol ederek düzeltin/doldurun.");
     msg.setStandardButtons(QMessageBox::Ok);
     msg.setButtonText(QMessageBox::Ok, "Tamam");
-    if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
+    if(ui->SFiyatdoubleSpinBox->value() <= ui->AFiyatdoubleSpinBox->value()){
         uyariSes->play();
-        msg.setInformativeText("\n\nSatış fiyatı alış fiyatından düşük olamaz.");
+        msg.setInformativeText("\n\nSatış fiyatı alış fiyatından düşük veya eşit olamaz.");
         msg.exec();
         return;
     }
@@ -195,9 +216,9 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         if(!stokYonetimi.barkodVarmi(ui->BarkodlineEdit->text())){
             kart.setBarkod(ui->BarkodlineEdit->text());
             kart.setKod(ui->StokKodlineEdit->text());
-            kart.setAd(QLocale().toUpper(ui->AdlineEdit->text()));
+            kart.setAd(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AdlineEdit->text()));
             kart.setBirim(stokYonetimi.getBirimID(ui->BirimicomboBox->currentText()));
-            kart.setMiktar(ui->MiktarlineEdit->text().toFloat());
+            kart.setMiktar(ui->MiktardoubleSpinBox->value());
             kart.setGrup(vt.getGrupID(ui->StokGrubucomboBox->currentText()));
             kart.setAFiyat(ui->AFiyatdoubleSpinBox->value());
             kart.setSFiyat(ui->SFiyatdoubleSpinBox->value());
@@ -248,46 +269,63 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         }
     }
     else if(!yeniKart){// yenikayit false ise mevcut stok kartını günceller.
+        guncellenenKart.setId(guncellenecekKart.getId());
+        guncellenenKart.setBarkod(ui->BarkodlineEdit->text());
+        guncellenenKart.setKod(ui->StokKodlineEdit->text());
+        guncellenenKart.setAd(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AdlineEdit->text()));
+        guncellenenKart.setBirim(stokYonetimi.getBirimID(ui->BirimicomboBox->currentText()));
+        guncellenenKart.setMiktar(ui->MiktardoubleSpinBox->value());
+        guncellenenKart.setGrup(vt.getGrupID(ui->StokGrubucomboBox->currentText()));
+        guncellenenKart.setAFiyat(ui->AFiyatdoubleSpinBox->value());
+        guncellenenKart.setSFiyat(ui->SFiyatdoubleSpinBox->value());
+        guncellenenKart.setKdv(ui->KDVspinBox->value());
+        guncellenenKart.setOtv(ui->OTVspinBox->value());
+        guncellenenKart.setKdvdahil(ui->KDVDahilcomboBox->currentIndex());
+        guncellenenKart.setOtvdahil(ui->OTVDahilcomboBox->currentIndex());
+        guncellenenKart.setTarih(QDateTime::currentDateTime());
+        guncellenenKart.setUretici(QString::number(stokYonetimi.getUreticiID(ui->UreticicomboBox->currentText())));
+        guncellenenKart.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->TedarikcicomboBox->currentText())));
+        guncellenenKart.setAciklama("stok kartı güncelleme");
 
-        kart.setBarkod(ui->BarkodlineEdit->text());
-        kart.setKod(ui->StokKodlineEdit->text());
-        kart.setAd(QLocale().toUpper(ui->AdlineEdit->text()));
-        kart.setBirim(stokYonetimi.getBirimID(ui->BirimicomboBox->currentText()));
-        kart.setMiktar(ui->MiktarlineEdit->text().toFloat());
-        kart.setGrup(vt.getGrupID(ui->StokGrubucomboBox->currentText()));
-        kart.setAFiyat(ui->AFiyatdoubleSpinBox->value());
-        kart.setSFiyat(ui->SFiyatdoubleSpinBox->value());
-        kart.setKdv(ui->KDVspinBox->value());
-        kart.setOtv(ui->OTVspinBox->value());
-        kart.setKdvdahil(ui->KDVDahilcomboBox->currentIndex());
-        kart.setOtvdahil(ui->OTVDahilcomboBox->currentIndex());
-        kart.setTarih(QDateTime::currentDateTime());
-        kart.setUretici(QString::number(stokYonetimi.getUreticiID(ui->UreticicomboBox->currentText())));
-        kart.setTedarikci(QString::number(stokYonetimi.getTedarikciID(ui->TedarikcicomboBox->currentText())));
-        kart.setAciklama("stok kartı güncelleme");
-        QSqlError sqlcvp = stokYonetimi.stokKartiniGuncelle(kart, &kullanici);
-        if(!sqlcvp.isValid()){
-            fiyatGuncellendi = true;
-            // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
-            vt.setHizliButon(kart);
+        if(degisimVarmi(guncellenecekKart, guncellenenKart)){
+            // fiyat değiştiyse stokkartiniguncelle metodunda ona göre işlem yapsın.
+            QSqlError sqlcvp;
+            if(guncellenecekKart.getSFiyat() != guncellenenKart.getSFiyat()){
+                sqlcvp = stokYonetimi.stokKartiniGuncelle(guncellenenKart, &kullanici, true);
+            }
+            else{
+                sqlcvp = stokYonetimi.stokKartiniGuncelle(guncellenenKart, &kullanici, false);
+            }
 
-            uyariSes->play();
-            QMessageBox msg(this);
-            msg.setWindowTitle("Bilgi");
-            msg.setText("Stok Kartı güncellendi");
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.exec();
+            if(!sqlcvp.isValid()){
+                fiyatGuncellendi = true;
+                kayitBasarilimi = true;
+                // düzenlenen stok kartı hızlı ürün butonlarına ekliyse ini dosyası ve buton bilgisini düzeltme başlangıcı
+                vt.setHizliButon(guncellenenKart);
+
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setText("Stok Kartı güncellendi");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+                this->close();
+            }
+            else{
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setText(QString("Stok Kartı güncellenemedi!!\n\nHata Mesajı:\n\n%1").arg(sqlcvp.text()));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+            }
         }
         else{
-            uyariSes->play();
-            QMessageBox msg(this);
-            msg.setWindowTitle("Bilgi");
-            msg.setText(QString("Stok Kartı güncellenemedi!!\n\nHata Mesajı:\n\n%1").arg(sqlcvp.text()));
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.exec();
+            fiyatGuncellendi = false;
+            kayitBasarilimi = false;
+            this->close();
         }
     }
-    this->close();
 }
 
 
@@ -362,29 +400,106 @@ void StokKartiForm::on_SFiyatdoubleSpinBox_valueChanged(double arg1)
 }
 
 
-void StokKartiForm::on_MiktarlineEdit_textChanged(const QString &arg1)
-{
-    QString str = arg1;
-    int i = 0;
-    QValidator::State st = regEXPstokMiktar->validate(str, i);
+//void StokKartiForm::on_MiktarlineEdit_textChanged(const QString &arg1)
+//{
+//    QString str = arg1;
+//    int i = 0;
+//    QValidator::State st = regEXPstokMiktar->validate(str, i);
 
-    if(st == QValidator::Acceptable){
-        ui->MiktarlineEdit->setPalette(TextColorPaletteDefault);
-    }
-    else{
-        ui->MiktarlineEdit->setPalette(TextColorPaletteRed);
-    }
-}
+//    if(st == QValidator::Acceptable){
+//        ui->MiktardoubleSpinBox->setPalette(TextColorPaletteDefault);
+//    }
+//    else{
+//        ui->MiktarlineEdit->setPalette(TextColorPaletteRed);
+//    }
+//}
 
 void StokKartiForm::setKullanici(const User &newKullanici)
 {
     kullanici = newKullanici;
 }
 
+bool StokKartiForm::degisimVarmi(StokKarti eskiKart, StokKarti yeniKart)
+{
+    if(eskiKart.getBarkod() != yeniKart.getBarkod()){
+//        qDebug() << "barkodu değişmiş";
+        return true;
+    }
+    else if(eskiKart.getKod() != yeniKart.getKod()){
+//        qDebug() << "kodu değişmiş";
+        return true;
+    }
+    else if(eskiKart.getAd() != yeniKart.getAd()){
+//        qDebug() << "adı değişmiş";
+        return true;
+    }
+    else if(eskiKart.getBirim() != yeniKart.getBirim()){
+//        qDebug() << "birimi değişmiş";
+        return true;
+    }
+    else if(eskiKart.getMiktar() != yeniKart.getMiktar()){
+        return true;
+    }
+    else if(eskiKart.getGrup() != yeniKart.getGrup()){
+//        qDebug() << "grubu değişmiş";
+        return true;
+    }
+    else if(eskiKart.getAFiyat() != yeniKart.getAFiyat()){
+//        qDebug() << "alış fiyatı değişmiş";
+        return true;
+    }
+    else if(eskiKart.getSFiyat() != yeniKart.getSFiyat()){
+//        qDebug() << "satış fiyatı değişmiş";
+        return true;
+    }
+    else if(eskiKart.getKdv() != yeniKart.getKdv()){
+//        qDebug() << "kdv yüzdesi değişmiş";
+        return true;
+    }
+    else if(eskiKart.getOtv() != yeniKart.getOtv()){
+//        qDebug() << "otv yüzdesi değişmiş";
+        return true;
+    }
+    else if(eskiKart.getKdvdahil() != yeniKart.getKdvdahil()){
+//        qDebug() << "kdv değişmiş";
+        return true;
+    }
+    else if(eskiKart.getOtvdahil() != yeniKart.getOtvdahil()){
+//        qDebug() << "otv değişmiş";
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void StokKartiForm::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
+{
+    auto resimlerDizini = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/";
+    if(!QFileInfo::exists(resimlerDizini)){
+        QDir().mkdir(resimlerDizini);
+    }
+    // YENİ RESİM KAYDETME
+    QFile yeniResim(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + urunBarkod + ".png");
+    yeniResim.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    urunResmi.save(&yeniResim, "PNG");
+    yeniResim.close();
+
+    if(!QFileInfo(yeniResim).exists()){
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Bilgi");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Resim kaydedilemedi.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.exec();
+    }
+}
+
 
 void StokKartiForm::on_BarkodOlusturpushButton_clicked()
 {
-
     // burası for döngüsüne alarak iyileştirilebilir.
 
     QString uretilenBarkod(QString::number(QRandomGenerator::global()->bounded(8000000, 8999999)));
@@ -426,12 +541,124 @@ void StokKartiForm::on_cikispushButton_clicked()
 
 void StokKartiForm::on_stokGirpushButton_clicked()
 {
-
+    if(!yeniKart){
+        StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+        stokMiktarigirForm->setHareket(StokYonetimi::StokHareketi::Giris);
+        stokMiktarigirForm->exec();
+        if(stokMiktarigirForm->getMiktar() > 0){
+    //        StokKarti kart = stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(seciliStokIndex, 1).data().toString());
+            if(stokYonetimi.setStokMiktari(kullanici, guncellenecekKart, StokYonetimi::StokHareketi::Giris, stokMiktarigirForm->getMiktar())){
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("giriş")));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+                ui->MiktardoubleSpinBox->setValue(ui->MiktardoubleSpinBox->value() + stokMiktarigirForm->getMiktar());
+            }
+        }
+    }
 }
 
 
 void StokKartiForm::on_stokDuspushButton_clicked()
 {
+    if(!yeniKart){
+        StokGirCikDialog *stokMiktarigirForm = new StokGirCikDialog(this);
+        stokMiktarigirForm->setWindowTitle("Stok Çık");
+        stokMiktarigirForm->setHareket(StokYonetimi::StokHareketi::Cikis);
+        stokMiktarigirForm->exec();
+        if(stokMiktarigirForm->getMiktar() > 0){
+//            StokKarti kart = stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(seciliStokIndex, 1).data().toString());
+            if(stokYonetimi.setStokMiktari(kullanici, guncellenecekKart, StokYonetimi::StokHareketi::Cikis, stokMiktarigirForm->getMiktar())){
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Bilgi");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("çıkış")));
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+                ui->MiktardoubleSpinBox->setValue(ui->MiktardoubleSpinBox->value() - stokMiktarigirForm->getMiktar());
+            }
+        }
+    }
+}
 
+void StokKartiForm::Enter_Slot()
+{
+    on_KaydetpushButton_clicked();
+}
+
+void StokKartiForm::ESC_Slot()
+{
+    on_iptalpushButton_clicked();
+}
+
+
+void StokKartiForm::on_ResimEklepushButton_clicked()
+{
+    if(!ui->BarkodlineEdit->text().isNull() || !ui->BarkodlineEdit->text().isEmpty()){
+        ResimEkleDialog *resimEkleForm = new ResimEkleDialog(this);
+        resimEkleForm->setUrunBarkod(ui->BarkodlineEdit->text());
+        resimEkleForm->exec();
+        if(QFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->BarkodlineEdit->text() + ".png").exists()){
+            ui->UrunResimlabel->setPixmap(QPixmap(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->BarkodlineEdit->text() + ".png"));
+        }
+        else{
+            ui->UrunResimlabel->setPixmap(QPixmap(":/images/ui/box.png"));
+        }
+    }
+    else{
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle("Uyarı");
+        msg.setText("Önce stok kartına barkod giriniz.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+    }
+}
+
+void StokKartiForm::on_ResimSilpushButton_clicked()
+{
+    if(!guncellenecekKart.getResim().isNull()){
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Ürün resmini silmek istediğinize emin misiniz?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        msg.setDefaultButton(QMessageBox::Yes);
+        int cevap = msg.exec();
+        if(cevap == QMessageBox::Yes){
+            QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->BarkodlineEdit->text() + ".png");
+            if(resimDosya.remove()){
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Information);
+                msg.setText("Ürün resmi silindi.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+                ui->UrunResimlabel->setPixmap(guncellenecekKart.getResim());
+            }
+            else{
+                uyariSes->play();
+                QMessageBox msg(this);
+                msg.setWindowTitle("Uyarı");
+                msg.setIcon(QMessageBox::Warning);
+                msg.setText("Ürün resmi silinemedi.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                msg.exec();
+            }
+        }
+    }
 }
 

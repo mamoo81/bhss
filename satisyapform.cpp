@@ -68,12 +68,12 @@ void SatisYapForm::formLoad()
 //    tamamlayici->setCaseSensitivity(Qt::CaseInsensitive);
 //    ui->CariLineEdit->setCompleter(tamamlayici);
     cariKartlar = cariYonetimi.getCariKartlar();
+    ui->caricomboBox->setLocale(QLocale(QLocale::Turkish, QLocale::Turkey));
     ui->caricomboBox->clear();
     ui->caricomboBox->addItem("DİREKT");
     foreach (Cari cariKart, cariKartlar) {
         ui->caricomboBox->addItem(cariKart.getAd());
     }
-
     ui->OdenendoubleSpinBox->setFocus();
 }
 

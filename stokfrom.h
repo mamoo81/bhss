@@ -113,6 +113,8 @@ private slots:
 
     void key_F7_Slot();
 
+    void fiyatGuncelle_Slot();
+
     void on_barkodRadioButton_clicked();
 
     void on_StokKartlaritableView_clicked(const QModelIndex &index);

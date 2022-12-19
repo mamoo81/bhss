@@ -31,6 +31,11 @@ class Cari
 public:
     Cari();
 
+    enum BorcHesaplama {
+        SatildigiFiyattan = 1,
+        GuncelFiyattan = 2
+    };
+
 
     const QString &getAd() const;
     void setAd(const QString &newAd);

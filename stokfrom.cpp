@@ -49,9 +49,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 #include <QScroller>
 
-//QItemSelectionModel *seciliSatirModel;
-//int seciliSatirIndex;
-
 StokFrom::StokFrom(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::StokFrom)
@@ -180,6 +177,12 @@ void StokFrom::customMenuRequested(QPoint pos)
     duzenleAction->setShortcut(QKeySequence(Qt::Key_F2));
     connect(duzenleAction, SIGNAL(triggered(bool)), this, SLOT(key_F2_Slot()));
     menu->addAction(duzenleAction);
+
+    QAction *fiyatGuncelle = new QAction(this);
+    fiyatGuncelle->setFont(QFont("Monospace", 12));
+    fiyatGuncelle->setText("Fiyat güncelle");
+    connect(fiyatGuncelle, SIGNAL(triggered(bool)), this, SLOT(fiyatGuncelle_Slot()));
+    menu->addAction(fiyatGuncelle);
 
     QAction *silAction = new QAction(this);
     silAction->setIcon(QIcon(":/images/ui/delete-document-100.png"));
@@ -355,10 +358,12 @@ void StokFrom::on_DuzenleBtn_clicked()
         kartForm->FormLoad();
         kartForm->setKart(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
         kartForm->exec();
-        stokKartlariniListele();
-        ui->StokKartlaritableView->selectRow(seciliIndex);
+        if(kartForm->kayitBasarilimi){
+            stokKartlariniListele();
+        }
         ui->AraLineEdit->setFocus();
         ui->AraLineEdit->selectAll();
+        ui->StokKartlaritableView->selectRow(seciliIndex);
     }
     else
     {
@@ -388,9 +393,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
         this->close();
     }
     else if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return){
-        if(ui->StokKartlaritableView->selectionModel()->hasSelection()){
-            on_DuzenleBtn_clicked();
-        }
+        stokKartiAra(ui->AraLineEdit->text());
     }
 }
 
@@ -628,6 +631,7 @@ void StokFrom::on_dosyadanToolButton_clicked()
 
 void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 {
+    seciliIndex = ui->StokKartlaritableView->currentIndex().row();
     Q_UNUSED(index);
     StokKartiForm *stokKartiForm =  new StokKartiForm(this);
     stokKartiForm->setKullanici(kullanici);
@@ -637,6 +641,13 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
     stokKartiForm->FormLoad();
     stokKartiForm->setKart(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
     stokKartiForm->exec();
+
+    if(stokKartiForm->fiyatGuncellendi || stokKartiForm->kayitBasarilimi){
+        stokKartlariniListele();
+        ui->StokKartlaritableView->selectRow(seciliIndex);
+    }
+    ui->AraLineEdit->setFocus();
+    ui->AraLineEdit->selectAll();
 }
 
 
@@ -856,6 +867,38 @@ void StokFrom::key_F7_Slot()
         msg.setWindowTitle("Bilgi");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
+    }
+}
+
+void StokFrom::fiyatGuncelle_Slot()
+{
+    seciliIndex = ui->StokKartlaritableView->currentIndex().row();
+    if(ui->StokKartlaritableView->currentIndex().row() > -1)
+    {
+        StokKartiForm *kartForm = new StokKartiForm(this);
+        kartForm->yeniKart = false;
+        kartForm->toplustokkarti = false;
+        kartForm->fiyatGuncelle = true;
+        kartForm->FormLoad();
+        kartForm->setKart(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString());
+        kartForm->exec();
+        if(kartForm->kayitBasarilimi){
+            stokKartlariniListele();
+        }
+        ui->AraLineEdit->setFocus();
+        ui->AraLineEdit->selectAll();
+        ui->StokKartlaritableView->selectRow(seciliIndex);
+    }
+    else
+    {
+        uyariSes->play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Information);
+        msg.setText("Bir stok kartı seçiniz.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

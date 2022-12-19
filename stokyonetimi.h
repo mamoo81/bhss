@@ -3,8 +3,8 @@
 
 #include "stokkarti.h"
 #include "user.h"
-#include "stokkarti.h"
 #include "sepet.h"
+#include "cari.h"
 //******************************
 #include <QDebug>
 #include <QSqlDatabase>
@@ -37,9 +37,11 @@ public:
     StokKarti getStokKarti(QString barkod);
     bool setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi islem, float miktar);
     QSqlError yeniStokKartiOlustur(StokKarti stokKarti, User *kullanici);
-    QSqlError stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici);
+    QSqlError stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici, bool fiyatDegistimi);
     Sepet getSatis(QString _faturaNo);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
+//    Sepet getSatis(QString _faturaNo, Cari cari);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
     QSqlQuery getIslemInfo(QString _faturaNo);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
+    Cari getCariKart(QString cariID);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
     bool stokKartiSil(QString stokKartiID);
     void stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar);
     QSqlQueryModel *getStokKartlari();

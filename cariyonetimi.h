@@ -36,7 +36,7 @@ public:
     double getCariToplamAlacak(QString cariID);
     double getCariToplamBorc(QString cariID);
     double getCarilerToplamAlacak();
-    double getcarilerToplamBorc(bool guncel, QDateTime startDate, QDateTime endDate);
+    double getcarilerToplamBorc(QDateTime startDate, QDateTime endDate);
     bool cariHareketiSil(QString faturaNo, User kullanici, Cari cari);
     bool carininTumHareketleriniSil(Cari cari);
     void caridenTahsilatYap(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama);

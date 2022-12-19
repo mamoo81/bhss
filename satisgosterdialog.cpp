@@ -56,7 +56,13 @@ void SatisGosterDialog::sepetiCek()
     QStringList no = satisFaturaNo.split(" ");
 
     satisFaturaNo = no[0];
-    satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, cari);
+    //satilmiş sepeti getirme
+    if(cari.getGuncelBorcHesaplama()){
+        satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, Cari::BorcHesaplama::GuncelFiyattan);
+    }
+    else{
+        satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, Cari::BorcHesaplama::SatildigiFiyattan);
+    }
     qr = faturaYonetimi.getIslemInfo(satisFaturaNo);
     switch (qr.value(7).toInt()) {
     case 2:
@@ -69,7 +75,7 @@ void SatisGosterDialog::sepetiCek()
 
     ui->islemYapilanCariLabel->setText(cari.getAd());
     // cari borcu güncel fiyattan hesaplanacak ise
-    double fark = satilmisSepet.getFiyatFarki();
+//    double fark = satilmisSepet.getFiyatFarki();
     if(cari.getGuncelBorcHesaplama()){
         ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
         ui->kalanLabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari() - satilmisSepet.getOdenenTutar(), 'f', 2));

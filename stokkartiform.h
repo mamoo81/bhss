@@ -10,6 +10,12 @@
 #include <QRegExp>
 #include <QDoubleValidator>
 #include <QSound>
+#include <QShortcut>
+#include <QPixmap>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QFile>
+#include <QDir>
 
 namespace Ui {
 class StokKartiForm;
@@ -38,7 +44,12 @@ public:
 
     void setKullanici(const User &newKullanici);
 
+    bool degisimVarmi(StokKarti eskiKart, StokKarti yeniKart);
+
+    void urunResmiKaydet(QPixmap urunResmi, QString urunBarkod);
+
 private slots:
+
     void on_KaydetpushButton_clicked();
 
     void on_iptalpushButton_clicked();
@@ -56,7 +67,7 @@ private slots:
 
     void on_SFiyatdoubleSpinBox_valueChanged(double arg1);
 
-    void on_MiktarlineEdit_textChanged(const QString &arg1);
+//    void on_MiktarlineEdit_textChanged(const QString &arg1);
 
     void on_BarkodOlusturpushButton_clicked();
 
@@ -68,6 +79,14 @@ private slots:
 
     void on_stokDuspushButton_clicked();
 
+    void Enter_Slot();
+
+    void ESC_Slot();
+
+    void on_ResimEklepushButton_clicked();
+
+    void on_ResimSilpushButton_clicked();
+
 private:
     Ui::StokKartiForm *ui;
 
@@ -76,6 +95,8 @@ private:
     User kullanici;
 
     StokKarti kart;
+    StokKarti guncellenecekKart;
+    StokKarti guncellenenKart;
 
     QPalette TextColorPaletteRed;
     QPalette TextColorPaletteDefault;
@@ -84,6 +105,10 @@ private:
     QRegExp regEXPstokKod;
     QRegExp regEXPstokAd;
     QDoubleValidator *regEXPstokMiktar;
+
+    QShortcut *RETURN_key;
+    QShortcut *ENTER_key;
+    QShortcut *ESC_key;
 };
 
 #endif // STOKKARTIFORM_H

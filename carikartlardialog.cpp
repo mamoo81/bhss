@@ -58,7 +58,7 @@ void CariKartlarDialog::CariAlacakBorcHesapla()
 
     // carinin toplam alacak/borç
     ui->cariToplamBorclabel->setText(QString::number(cariYonetimi.getCariToplamBorc(QString::number(cari.getId())), 'f', 2));
-    ui->CarilerToplamBorclabel->setText(QString::number(cariYonetimi.getcarilerToplamBorc(true, ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
+    ui->CarilerToplamBorclabel->setText(QString::number(cariYonetimi.getcarilerToplamBorc(ui->baslangicdateEdit->dateTime(), ui->bitisdateEdit->dateTime()), 'f', 2));
 }
 
 

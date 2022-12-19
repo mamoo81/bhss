@@ -117,44 +117,55 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
     }
 }
 
-Sepet FaturaYonetimi::getSatis(QString _faturaNo, Cari cari)
+//Sepet FaturaYonetimi::getSatis(QString _faturaNo, Cari cari)
+//{
+//    Sepet satilmisSepet;
+//    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
+//    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
+//    satisSorgu.bindValue(0, _faturaNo);
+//    satisSorgu.exec();
+//    if(cari.getGuncelBorcHesaplama()){
+//        while (satisSorgu.next()) {
+//            StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
+//            satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat());
+//            satilmisSepet.urunler[sk.getBarkod()].birimFiyat = satisSorgu.value(6).toDouble();
+//        }
+//    }
+//    else{
+//        while (satisSorgu.next()) {
+//            StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
+//            satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
+//        }
+//    }
+//    // faturanın ödenen ve kalan tutar bilgisini alma.
+//    QSqlQuery islem = getIslemInfo(_faturaNo);
+//    satilmisSepet.setOdenenTutar(islem.value(4).toDouble());
+//    satilmisSepet.setKalanTutar(islem.value(5).toDouble());
+
+//    return satilmisSepet;
+//}
+
+Sepet FaturaYonetimi::getSatis(QString _faturaNo, Cari::BorcHesaplama borcHesaplama)
 {
     Sepet satilmisSepet;
     QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
     satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
     satisSorgu.bindValue(0, _faturaNo);
     satisSorgu.exec();
-    if(cari.getGuncelBorcHesaplama()){
+    switch (borcHesaplama) {
+    case Cari::BorcHesaplama::GuncelFiyattan:
         while (satisSorgu.next()) {
             StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
             satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat());
             satilmisSepet.urunler[sk.getBarkod()].birimFiyat = satisSorgu.value(6).toDouble();
         }
-    }
-    else{
+        break;
+    case Cari::BorcHesaplama::SatildigiFiyattan:
         while (satisSorgu.next()) {
             StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
             satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
         }
-    }
-    // faturanın ödenen ve kalan tutar bilgisini alma.
-    QSqlQuery islem = getIslemInfo(_faturaNo);
-    satilmisSepet.setOdenenTutar(islem.value(4).toDouble());
-    satilmisSepet.setKalanTutar(islem.value(5).toDouble());
-
-    return satilmisSepet;
-}
-
-Sepet FaturaYonetimi::getSatis(QString _faturaNo)
-{
-    Sepet satilmisSepet;
-    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
-    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
-    satisSorgu.bindValue(0, _faturaNo);
-    satisSorgu.exec();
-    while (satisSorgu.next()) {
-        StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
-        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
+        break;
     }
     // faturanın ödenen ve kalan tutar bilgisini alma.
     QSqlQuery islem = getIslemInfo(_faturaNo);

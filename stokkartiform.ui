@@ -333,9 +333,6 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="MiktarlineEdit"/>
-    </item>
     <item row="1" column="1">
      <widget class="QLineEdit" name="StokKodlineEdit"/>
     </item>
@@ -414,6 +411,19 @@
      <widget class="QLabel" name="label_12">
       <property name="text">
        <string>OTV</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="MiktardoubleSpinBox">
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="maximum">
+       <double>99999999.989999994635582</double>
       </property>
      </widget>
     </item>
@@ -533,8 +543,8 @@
   <tabstop>StokKodlineEdit</tabstop>
   <tabstop>AdlineEdit</tabstop>
   <tabstop>BirimicomboBox</tabstop>
-  <tabstop>MiktarlineEdit</tabstop>
   <tabstop>StokGrubucomboBox</tabstop>
+  <tabstop>altGrupcomboBox</tabstop>
   <tabstop>AFiyatdoubleSpinBox</tabstop>
   <tabstop>SFiyatdoubleSpinBox</tabstop>
   <tabstop>KDVspinBox</tabstop>
@@ -542,10 +552,19 @@
   <tabstop>OTVspinBox</tabstop>
   <tabstop>OTVDahilcomboBox</tabstop>
   <tabstop>TedarikcicomboBox</tabstop>
+  <tabstop>UreticicomboBox</tabstop>
   <tabstop>KaydetpushButton</tabstop>
+  <tabstop>cikispushButton</tabstop>
   <tabstop>iptalpushButton</tabstop>
   <tabstop>temizlepushButton</tabstop>
+  <tabstop>stokHareketleripushButton</tabstop>
+  <tabstop>stokDuspushButton</tabstop>
+  <tabstop>stokGirpushButton</tabstop>
+  <tabstop>ResimEklepushButton</tabstop>
+  <tabstop>ResimSilpushButton</tabstop>
   <tabstop>BarkodOlusturpushButton</tabstop>
+  <tabstop>stokGruplaripushButton</tabstop>
+  <tabstop>pushButton</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
