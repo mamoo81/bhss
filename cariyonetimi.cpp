@@ -438,6 +438,9 @@ void CariYonetimi::caridenTahsilatYap(QString cariID, double tutar, QDateTime ta
     if(sorgu.lastError().isValid()){
         qDebug() << qPrintable(sorgu.lastError().text());
     }
+
+    // tahsilatı kasaya girme
+    kasaYonetimi.KasaHareketiEkle(islemYapanKullanici, KasaYonetimi::KasaHareketi::Giris, tutar, "tahsilat yapıldı yapan:" + islemYapanKullanici.getAd(), tarih, 0);
 }
 
 void CariYonetimi::cariKartSil(QString cariID)
