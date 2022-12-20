@@ -6,12 +6,16 @@
 
 #include <QSqlError>
 #include <QRandomGenerator>
+#include <QKeyEvent>
+#include <QEvent>
 
 StokKartiForm::StokKartiForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::StokKartiForm)
 {
     ui->setupUi(this);
+
+    ui->BarkodlineEdit->installEventFilter(this);
 }
 
 StokKartiForm::~StokKartiForm()
@@ -495,6 +499,22 @@ void StokKartiForm::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
         msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
+}
+
+bool StokKartiForm::eventFilter(QObject *filtrelenecekObject, QEvent *e)
+{
+    if(filtrelenecekObject == ui->BarkodlineEdit){
+        if(e->type() == QEvent::KeyPress){
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(e);
+            if(keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return){
+                e->ignore();
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    return StokKartiForm::eventFilter(filtrelenecekObject, e);
 }
 
 

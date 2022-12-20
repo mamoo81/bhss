@@ -48,6 +48,9 @@ public:
 
     void urunResmiKaydet(QPixmap urunResmi, QString urunBarkod);
 
+protected:
+    bool eventFilter(QObject *filtrelenecekObject, QEvent *e) override;
+
 private slots:
 
     void on_KaydetpushButton_clicked();
