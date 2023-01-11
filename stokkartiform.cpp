@@ -246,6 +246,7 @@ void StokKartiForm::on_KaydetpushButton_clicked()
                 msg.setDefaultButton(QMessageBox::Ok);
                 msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
+                this->close();
             }
             else{
                 uyariSes->play();

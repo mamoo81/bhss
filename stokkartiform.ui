@@ -543,6 +543,7 @@
   <tabstop>StokKodlineEdit</tabstop>
   <tabstop>AdlineEdit</tabstop>
   <tabstop>BirimicomboBox</tabstop>
+  <tabstop>MiktardoubleSpinBox</tabstop>
   <tabstop>StokGrubucomboBox</tabstop>
   <tabstop>altGrupcomboBox</tabstop>
   <tabstop>AFiyatdoubleSpinBox</tabstop>
@@ -557,14 +558,14 @@
   <tabstop>cikispushButton</tabstop>
   <tabstop>iptalpushButton</tabstop>
   <tabstop>temizlepushButton</tabstop>
-  <tabstop>stokHareketleripushButton</tabstop>
   <tabstop>stokDuspushButton</tabstop>
   <tabstop>stokGirpushButton</tabstop>
+  <tabstop>stokHareketleripushButton</tabstop>
   <tabstop>ResimEklepushButton</tabstop>
   <tabstop>ResimSilpushButton</tabstop>
-  <tabstop>BarkodOlusturpushButton</tabstop>
   <tabstop>stokGruplaripushButton</tabstop>
   <tabstop>pushButton</tabstop>
+  <tabstop>BarkodOlusturpushButton</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
