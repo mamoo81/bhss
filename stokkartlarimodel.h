@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef STOKKARTLARIMODEL_H
 #define STOKKARTLARIMODEL_H
-#include "veritabani.h"
 #include "stokyonetimi.h"
 //*******************************
 #include <QObject>
