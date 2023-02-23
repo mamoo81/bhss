@@ -27,10 +27,10 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
     sorgu.bindValue(3, QDateTime::currentDateTime());
     sorgu.bindValue(4, satisYapanKullanici.getUserID());
     sorgu.bindValue(5, satilacakSepet.sepetToplamTutari());
-    if(satilacakSepet.getOdenenTutar() > satilacakSepet.sepetToplamTutari()){// ödenen tutar sepet toplamından büyükse
+    if(satilacakSepet.getOdenenTutar() > satilacakSepet.sepetToplamTutari()){ // ödenen tutar sepet toplamından büyükse
         sorgu.bindValue(6, satilacakSepet.sepetToplamTutari());
     }
-    else if(satilacakSepet.getOdenenTutar() <= satilacakSepet.sepetToplamTutari()){// ödenen tutar sepet toplam tutarından küçükse
+    else if(satilacakSepet.getOdenenTutar() <= satilacakSepet.sepetToplamTutari()){ // ödenen tutar sepet toplam tutarından küçükse
         sorgu.bindValue(6, satilacakSepet.getOdenenTutar());
     }
     sorgu.bindValue(7, satilacakSepet.getKalanTutar());

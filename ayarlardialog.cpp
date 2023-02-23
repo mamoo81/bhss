@@ -53,7 +53,7 @@ AyarlarDialog::~AyarlarDialog()
 
 void AyarlarDialog::formLoad()
 {
-    ui->labelVersion->setText(QApplication::applicationVersion());
+    ui->labelVersion->setText("0.2.3");
 
     // oto başlangıç okuma ayarını okuma
     // oto başlangıç için İşletim sistemi belirleme
