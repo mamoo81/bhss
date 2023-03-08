@@ -146,16 +146,15 @@ int main(int argc, char *argv[])
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         if(msg.exec() == QMessageBox::Yes){
-            QString yetkiliKomut;
+
+            // postgresql in yüklenmesi
+            QProcess *prcs = new QProcess();
             if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
-                yetkiliKomut = "sudoui";
+
             }
             else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-                yetkiliKomut = "pkexec";
+                prcs->start("pkexec", {"sudo", "apt", "--reinstall", "install", "postgresql", "-y"});
             }
-            QProcess *prcs = new QProcess();
-            // postgresql in yüklenmesi
-            prcs->start(yetkiliKomut, {"sudo", "apt", "--reinstall", "install", "postgresql", "-y"});
             msg.setWindowTitle("Paketler kuruluyor... Lütfen bekleyin.");
             msg.setText("postgresql kuruluyor... Lütfen bekleyin.                    .");
             msg.setStandardButtons(QMessageBox::NoButton);
@@ -176,7 +175,7 @@ int main(int argc, char *argv[])
             QStringList psqlDirList = etcpostgresql.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotAndDotDot | QDir::NoSymLinks);
             foreach (QString dirName, psqlDirList) {
                 QProcess *prcs2 = new QProcess();
-                prcs2->start(yetkiliKomut, {"sudo", "cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
+                prcs2->start("pkexec", {"sudo", "cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
                 if(prcs2->waitForFinished()){
                     qDebug() << prcs2->readAllStandardOutput().toStdString().c_str();
                     qDebug() << "pg_hba.conf aktarımı tamamlandı.";
@@ -186,7 +185,7 @@ int main(int argc, char *argv[])
 
             // postgresql servisini yeniden başlatma
             QProcess *prcs3 = new QProcess();
-            prcs3->start(yetkiliKomut, {"sudo", "systemctl", "restart", "postgresql"});
+            prcs3->start("pkexec", {"sudo", "systemctl", "restart", "postgresql"});
             if(prcs3->waitForFinished()){
                 qDebug() << prcs3->readAllStandardOutput().toStdString().c_str();
                 qDebug()<< "Postgresql Servisi yeniden başlatıldı.";
@@ -196,7 +195,7 @@ int main(int argc, char *argv[])
             // postgres kullanıcısının şifresini postgres yapma
             QProcess *prcs4 = new QProcess();
             prcs4->setProcessChannelMode(QProcess::MergedChannels);
-            prcs4->start(yetkiliKomut, {"sudo", "passwd", "postgres"});
+            prcs4->start("pkexec", {"sudo", "passwd", "postgres"});
             if(prcs4->waitForReadyRead()){
                 qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
             }
@@ -222,7 +221,7 @@ int main(int argc, char *argv[])
             // postgresql sunucuda postgres şifresini güncelleme
             QProcess *prcs5 = new QProcess();
             prcs5->setProcessChannelMode(QProcess::MergedChannels);
-            prcs5->start(yetkiliKomut, {"-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
+            prcs5->start("pkexec", {"-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
             if(prcs5->waitForReadyRead()){
                 qDebug() << prcs5->readAllStandardOutput().toStdString().c_str();
             }
