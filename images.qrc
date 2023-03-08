@@ -77,6 +77,7 @@
         <file>images/ui/user.png</file>
         <file>images/ui/basat-splash-screen.png</file>
         <file>images/ui/mhss.png</file>
+        <file>dosyalar/pg_hba.conf</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/odeme-alindi.wav</file>

@@ -20,6 +20,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "loginform.h"
+#include "qprocess.h"
 #include "veritabani.h"
 //***********************
 #include <QApplication>
@@ -37,6 +38,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
+
+void veritabaniIlkleme(QSqlDatabase pDB, Veritabani pVT){
+    //mhss_data veritabanı varmı. yoksa oluştur.
+    QSqlQuery sorgu = QSqlQuery(pDB);
+    sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
+    if(!sorgu.next()){
+        QMessageBox msg(0);
+        msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
+        msg.setWindowTitle("Dikkat");
+        msg.setIcon(QMessageBox::Question);
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setDefaultButton(QMessageBox::No);
+        msg.setButtonText(QMessageBox::Yes, "Evet");
+        msg.setButtonText(QMessageBox::No, "Hayır");
+        int cevap = msg.exec();
+        if(cevap == QMessageBox::Yes){
+            QMessageBox msg(0);
+            msg.setWindowTitle("Bilgi");
+            msg.setIcon(QMessageBox::Information);
+            msg.setText("Veritabanı oluşturuldu");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            if(pVT.veritabaniSifirla()){// sıfırla metodu vt yi yeniden yüklediği için bunu çağırıyorum.
+                msg.exec();
+            }
+            else {
+                msg.setText("Veritabanı oluşturulamadı");
+                msg.exec();
+            }
+        }
+    }
+    pDB.close();
+    pDB.setDatabaseName("mhss_data");
+    pDB.open();
+    if(pDB.lastError().isValid()){
+        qDebug() << qPrintable(pDB.lastError().text());
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -56,104 +95,149 @@ int main(int argc, char *argv[])
 //    splash.showMessage("Uygulama başlatılıyor...", Qt::AlignVCenter);
     a.processEvents();
 
+    // (/home/user/.config/) altında mhss klasörü varmı kontrol
+    auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();
+    if(!QFileInfo::exists(dizin)){
+        QDir().mkdir(dizin);// mhss klasörünü oluşturma.
+        // mhss klasörü içinde hizlibutonlar.ini dosyasını oluşturma başlangıcı.
+        QFile hizlibutonlarini(dizin + "/hizlibutonlar.ini");
+        if(!QFileInfo::exists(hizlibutonlarini.fileName())){
+            hizlibutonlarini.open(QIODevice::ReadWrite);
+        }
+        QFile ayarlarini(dizin + "/genel.ini");
+        if(!QFileInfo::exists(ayarlarini.fileName())){
+            ayarlarini.open(QIODevice::ReadWrite);
+        }
+    }
+    else{
+        // mhss klasörü içinde hizlibutonlar.ini dosyasını oluşturma başlangıcı.
+        QFile hizlibutonlarini(dizin + "/hizlibutonlar.ini");
+        if(!QFileInfo::exists(hizlibutonlarini.fileName())){
+            hizlibutonlarini.open(QIODevice::ReadWrite);
+        }
+        QFile ayarlarini(dizin + "/genel.ini");
+        if(!QFileInfo::exists(ayarlarini.fileName())){
+            ayarlarini.open(QIODevice::ReadWrite);
+        }
+    }
+    // (/home/user/.local/) altında mhss klasörü varmı kontrol ve ekleme
+    if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation))){
+        QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    }
+    // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
+    auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/";
+    if(!QFileInfo::exists(barkodlarDizin)){
+        QDir().mkdir(barkodlarDizin);
+    }
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
     db.setUserName("postgres");
     db.setPassword("postgres");
     Veritabani vt = Veritabani();
     if(db.open()){
-        //mhss_data veritabanı varmı. yoksa oluştur.
-        QSqlQuery sorgu = QSqlQuery(db);
-        sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
-        if(!sorgu.next()){
-            QMessageBox msg(0);
-            msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
-            msg.setWindowTitle("Dikkat");
-            msg.setIcon(QMessageBox::Question);
-            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msg.setDefaultButton(QMessageBox::No);
-            msg.setButtonText(QMessageBox::Yes, "Evet");
-            msg.setButtonText(QMessageBox::No, "Hayır");
-            int cevap = msg.exec();
-            if(cevap == QMessageBox::Yes){
-                if(vt.veritabaniSifirla()){// sıfırla metodu vt yi yeniden yüklediği için bunu çağırıyorum.
-                    QMessageBox msg(0);
-                    msg.setWindowTitle("Bilgi");
-                    msg.setIcon(QMessageBox::Information);
-                    msg.setText("Veritabanı oluşturuldu");
-                    msg.setStandardButtons(QMessageBox::Ok);
-                    msg.setButtonText(QMessageBox::Ok, "Tamam");
-                    msg.exec();
-                    qWarning("Veritabanı oluşturuldu.");
-                }
-            }
-        }
-        db.close();
-        db.setDatabaseName("mhss_data");
-        db.open();
-        if(db.lastError().isValid()){
-            qDebug() << qPrintable(db.lastError().text());
-        }
-
-        // (/home/user/.config/) altında mhss klasörü varmı kontrol
-        auto dizin = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + QCoreApplication::applicationName();
-        if(!QFileInfo::exists(dizin)){
-            QDir().mkdir(dizin);// mhss klasörünü oluşturma.
-            // mhss klasörü içinde hizlibutonlar.ini dosyasını oluşturma başlangıcı.
-            QFile hizlibutonlarini(dizin + "/hizlibutonlar.ini");
-            if(!QFileInfo::exists(hizlibutonlarini.fileName())){
-                hizlibutonlarini.open(QIODevice::ReadWrite);
-            }
-            QFile ayarlarini(dizin + "/genel.ini");
-            if(!QFileInfo::exists(ayarlarini.fileName())){
-                ayarlarini.open(QIODevice::ReadWrite);
-            }
-        }
-        else{
-            // mhss klasörü içinde hizlibutonlar.ini dosyasını oluşturma başlangıcı.
-            QFile hizlibutonlarini(dizin + "/hizlibutonlar.ini");
-            if(!QFileInfo::exists(hizlibutonlarini.fileName())){
-                hizlibutonlarini.open(QIODevice::ReadWrite);
-            }
-            QFile ayarlarini(dizin + "/genel.ini");
-            if(!QFileInfo::exists(ayarlarini.fileName())){
-                ayarlarini.open(QIODevice::ReadWrite);
-            }
-        }
-        // (/home/user/.local/) altında mhss klasörü varmı kontrol ve ekleme
-        if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation))){
-            QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-        }
-        // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
-        auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/";
-        if(!QFileInfo::exists(barkodlarDizin)){
-            QDir().mkdir(barkodlarDizin);
-        }
-
-        LoginForm w;
-
-        QTimer::singleShot(2500, &splash, SLOT(close()));
-        QTimer::singleShot(2500, &w, SLOT(show()));
-
-//        w.show();
-//        splash.finish(&w); QTimer ile kapatacağım için buna gerek yok.
-        return a.exec();
+        veritabaniIlkleme(db, vt);
     }
     else{
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisini kontrol edin. İşletim sisteminize göre konsola sırasıyla uygulayın;\n"
-                    "MİLİS LİNUX;"
-                    "\n\n   sudo servis ekle postgresql"
-                    "\n   sudo servis aktif postgresql"
-                    "\n   sudo servis kos postgresql"
-                    "\n"
-                    "PARDUS;"
-                    "\n\n   sudo apt-get install postgresql-13");
+        msg.setText("PostgreSQL servisine bağlanılamadı! yüklenilsin mi?\n\nDikkat bu işlem:\n\"/etc/postgresql/<versiyon>/main/pg_hba.conf\"\ndosyasını değiştirecek.\nEğer başka bir uygulama için özel bir ayar barındırıyorsa yedek alın ve gözden geçirin.\n\nİşlem için bir kaç kez root şifresi isteyebilir.");
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        if(msg.exec() == QMessageBox::Yes){
+            QString yetkiliKomut;
+            if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+                yetkiliKomut = "sudoui";
+            }
+            else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+                yetkiliKomut = "pkexec";
+            }
+            QProcess *prcs = new QProcess();
+            // postgresql in yüklenmesi
+            prcs->start(yetkiliKomut, {"sudo", "apt", "--reinstall", "install", "postgresql", "-y"});
+            msg.setWindowTitle("Paketler kuruluyor... Lütfen bekleyin.");
+            msg.setText("postgresql kuruluyor... Lütfen bekleyin.                    .");
+            msg.setStandardButtons(QMessageBox::NoButton);
+            msg.open();
+            if(prcs->waitForFinished()){
+                qDebug() << prcs->readAllStandardOutput().toStdString().c_str();
+                prcs->kill();
+                msg.close();
+            }
+            msg.setText("postgresql kuruldu.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.exec();
+
+            // pg_hba.conf dosyasını değiştir. trust
+            QFile pg_hba(":/dosyalar/pg_hba.conf");
+            pg_hba.copy(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/pg_hba.conf");
+            QDir etcpostgresql("/etc/postgresql/");
+            QStringList psqlDirList = etcpostgresql.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+            foreach (QString dirName, psqlDirList) {
+                QProcess *prcs2 = new QProcess();
+                prcs2->start(yetkiliKomut, {"sudo", "cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
+                if(prcs2->waitForFinished()){
+                    qDebug() << prcs2->readAllStandardOutput().toStdString().c_str();
+                    qDebug() << "pg_hba.conf aktarımı tamamlandı.";
+                    prcs2->kill();
+                }
+            }
+
+            // postgresql servisini yeniden başlatma
+            QProcess *prcs3 = new QProcess();
+            prcs3->start(yetkiliKomut, {"sudo", "systemctl", "restart", "postgresql"});
+            if(prcs3->waitForFinished()){
+                qDebug() << prcs3->readAllStandardOutput().toStdString().c_str();
+                qDebug()<< "Postgresql Servisi yeniden başlatıldı.";
+                prcs3->kill();
+            }
+
+            // postgres kullanıcısının şifresini postgres yapma
+            QProcess *prcs4 = new QProcess();
+            prcs4->setProcessChannelMode(QProcess::MergedChannels);
+            prcs4->start(yetkiliKomut, {"sudo", "passwd", "postgres"});
+            if(prcs4->waitForReadyRead()){
+                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
+            }
+            else {
+                qDebug() << prcs4->errorString();
+            }
+            prcs4->write("postgres\n"); // \n eklemek gerekiyor yazılacak stringin sonuna
+            if(prcs4->waitForReadyRead()){
+                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
+            }
+            else {
+                qDebug() << prcs4->errorString();
+            }
+            prcs4->write("postgres\n");
+            if(prcs4->waitForReadyRead()){
+                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
+            }
+            else {
+                qDebug() << prcs4->errorString();
+            }
+            prcs4->kill();
+
+            // postgresql sunucuda postgres şifresini güncelleme
+            QProcess *prcs5 = new QProcess();
+            prcs5->setProcessChannelMode(QProcess::MergedChannels);
+            prcs5->start(yetkiliKomut, {"-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
+            if(prcs5->waitForReadyRead()){
+                qDebug() << prcs5->readAllStandardOutput().toStdString().c_str();
+            }
+            else{
+                qDebug() << prcs5->errorString().toStdString().c_str();
+            }
+            prcs5->kill();
+            veritabaniIlkleme(db, vt);
+        }
     }
+    LoginForm w;
+    QTimer::singleShot(2000, &splash, SLOT(close()));
+    QTimer::singleShot(2000, &w, SLOT(show()));
+
+//        w.show();
+//        splash.finish(&w); QTimer ile kapatacağım için buna gerek yok.
+    return a.exec();
 }
