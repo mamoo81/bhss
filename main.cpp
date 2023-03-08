@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
             // postgresql sunucuda postgres şifresini güncelleme
             QProcess *prcs5 = new QProcess();
             prcs5->setProcessChannelMode(QProcess::MergedChannels);
-            prcs5->start("pkexec", {"-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
+            prcs5->start("pkexec", {"psql", "-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
             if(prcs5->waitForReadyRead()){
                 qDebug() << prcs5->readAllStandardOutput().toStdString().c_str();
             }
