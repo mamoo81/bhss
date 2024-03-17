@@ -31,7 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDialog>
 #include <QPixmap>
 #include <QShortcut>
-#include <QSound>
+#include <QSoundEffect>
 #include <QItemSelectionModel>
 #include <QRegExp>
 #include <QDoubleValidator>
@@ -48,7 +48,7 @@ public:
     explicit StokFrom(QWidget *parent = nullptr);
     ~StokFrom();
 
-    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
     int seciliIndex;
     bool yeniKayit = false;
 

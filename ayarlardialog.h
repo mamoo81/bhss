@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 //****************************
 #include <QDialog>
 #include <QFile>
-#include <QSound>
+#include <QSoundEffect>
 
 namespace Ui {
 class AyarlarDialog;
@@ -42,7 +42,7 @@ public:
 
     Veritabani vt = Veritabani();
 
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     void setCurrentUser(const User &newCurrentUser);
 

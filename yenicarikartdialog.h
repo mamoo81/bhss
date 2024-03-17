@@ -27,7 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QDialog>
 #include <QRegExp>
 #include <QPalette>
-#include <QSound>
+#include <QSoundEffect>
 
 namespace Ui {
 class YeniCariKartDialog;
@@ -41,7 +41,7 @@ public:
     explicit YeniCariKartDialog(QWidget *parent = nullptr);
     ~YeniCariKartDialog();
 
-    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     Veritabani *vt = new Veritabani();
     CariYonetimi cariYonetimi = CariYonetimi();

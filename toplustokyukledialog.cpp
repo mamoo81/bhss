@@ -73,7 +73,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
 
         ui->Bilgilabel->setText("Aktarım tamamlandı.");
 
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Warning);
@@ -85,7 +85,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
     else{
         ui->Bilgilabel->setText("Aktarılamadı !");
 
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -141,7 +141,7 @@ void TopluStokYukleDialog::jsondanYukle()
                 stokKartiForm->exec();
 
                 if(stokKartiForm->toplustokkartiIptal){
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Uyarı");
                     msg.setIcon(QMessageBox::Warning);
@@ -211,7 +211,7 @@ void TopluStokYukleDialog::csvdenYukle()
     if(!dosya.open(QIODevice::ReadOnly)){
         qDebug() << qPrintable(dosya.errorString());
 
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -321,7 +321,7 @@ void TopluStokYukleDialog::stokKartiSayisiYaz(QString dosyaURL)
     // dosya csv ise içindeki stok kartı sayısını labele yazma.
     if(dosyaBilgisi.suffix().contains("csv", Qt::CaseInsensitive)){
         if(!dosya.open(QIODevice::ReadOnly)){
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox::information(this, "Hata", tr("seçilen csv dosyası açılamadı\n\nHata mesajı:\n").arg(dosya.errorString()), QMessageBox::Ok);
         }
 
@@ -365,7 +365,7 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
         QFile yeniCSV(yeniKopyalanacakKonum);
         yeniCSV.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser);
 
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -375,7 +375,7 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
         msg.exec();
     }
     else{
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Question);
@@ -398,7 +398,7 @@ void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
     //internet bağlantı kontrolü
     if(check()){
         QProcess process;
-        QDir kartlarDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/kartlar");
+        QDir kartlarDir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/kartlar");
         if(!kartlarDir.exists()){
             ui->Bilgilabel->setText("Sunucudan klonlanıyor...");
             QDir().mkpath(kartlarDir.absolutePath());
@@ -417,7 +417,7 @@ void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
             QString str = process.readAll();
             if(str.contains("güncel.")){
                 ui->Bilgilabel->setText("uzak sunucudan güncellendi");
-                uyariSesi->play();
+                uyariSesi.play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Bilgi");
                 msg.setIcon(QMessageBox::Information);
@@ -427,7 +427,7 @@ void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
                 msg.exec();
             }
             else{
-                uyariSesi->play();
+                uyariSesi.play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Bilgi");
                 msg.setIcon(QMessageBox::Question);
@@ -440,7 +440,7 @@ void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
                     ui->Bilgilabel->setText("Yeni kartlar indiriliyor...");
                     process.start("git", QStringList() << "-C" << kartlarDir.absolutePath() << "pull");
                     process.waitForFinished();
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -454,7 +454,7 @@ void TopluStokYukleDialog::on_sunucudanpushButton_clicked()
         }
     }
     else{// bağlantı yok ise
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Information);
@@ -509,7 +509,7 @@ void TopluStokYukleDialog::on_CSVyeAktarpushButton_clicked()
     }
     dizin.append("/stok-kartlari.csv");
     if(stokYonetimi.csvAktar(dizin)){
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Information);
@@ -518,7 +518,7 @@ void TopluStokYukleDialog::on_CSVyeAktarpushButton_clicked()
         msg.exec();
     }
     else{
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Warning);

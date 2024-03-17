@@ -137,7 +137,7 @@ void StokFrom::formLoad()
 //    TextColorPaletteRed = QPalette();
 //    TextColorPaletteRed.setColor(QPalette::Base, Qt::red);
 //    TextColorPaletteRed.setColor(QPalette::Text, Qt::black);
-
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
     ui->AraLineEdit->setFocus();
 }
 
@@ -244,7 +244,7 @@ void StokFrom::stokGirSlot()
         if(stokMiktarigirForm->getMiktar() > 0){
             StokKarti kart = stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(seciliStokIndex, 1).data().toString());
             if(stokYonetimi.setStokMiktari(kullanici, kart, StokYonetimi::StokHareketi::Giris, stokMiktarigirForm->getMiktar())){
-                uyariSes->play();
+                uyariSesi.play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Information);
@@ -259,7 +259,7 @@ void StokFrom::stokGirSlot()
         ui->StokKartlaritableView->selectRow(seciliStokIndex);
     }
     else{
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -282,7 +282,7 @@ void StokFrom::stokCikSlot()
         if(stokMiktarigirForm->getMiktar() > 0){
             StokKarti kart = stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(seciliStokIndex, 1).data().toString());
             if(stokYonetimi.setStokMiktari(kullanici, kart, StokYonetimi::StokHareketi::Cikis, stokMiktarigirForm->getMiktar())){
-                uyariSes->play();
+                uyariSesi.play();
                 QMessageBox msg(this);
                 msg.setWindowTitle("Uyarı");
                 msg.setIcon(QMessageBox::Information);
@@ -297,7 +297,7 @@ void StokFrom::stokCikSlot()
         ui->StokKartlaritableView->selectRow(seciliStokIndex);
     }
     else{
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -367,7 +367,7 @@ void StokFrom::on_DuzenleBtn_clicked()
     }
     else
     {
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -407,39 +407,39 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 //    msg.setStandardButtons(QMessageBox::Ok);
 //    msg.setButtonText(QMessageBox::Ok, "Tamam");
 //    if(ui->SFiyatdoubleSpinBox->value() < ui->AFiyatdoubleSpinBox->value()){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        msg.setInformativeText("\n\nSatış fiyatı alış fiyatından düşük olamaz.");
 //        msg.exec();
 //        return;
 //    }
 //    if(!regEXPbarkod.exactMatch(ui->BarkodLnEdit->text())){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        msg.setInformativeText("\n\nBarkod numarası uygun formatta değil.");
 //        msg.exec();
 //        return;
 //    }
 //    if(!ui->StokKoduLnEdit->text().isEmpty()){
 //        if(!regEXPstokKod.exactMatch(ui->StokKoduLnEdit->text())){
-//            uyariSes->play();
+//            uyariSesi.play();
 //            msg.setInformativeText("\n\nStok kodu uygun formatta değil.");
 //            msg.exec();
 //            return;
 //        }
 //    }
 //    if(!regEXPstokAd.exactMatch(ui->StokAdiLnEdit->text())){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        msg.setInformativeText("\n\nStok adı uygun formatta değil.");
 //        msg.exec();
 //        return;
 //    }
 //    if(ui->BirimiComboBox->currentIndex() <= 0){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        msg.setInformativeText("\n\nStok birimini seçiniz.");
 //        msg.exec();
 //        return;
 //    }
 //    if(ui->StokGrubuComboBox->currentIndex() <= 0){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        msg.setInformativeText("\n\nStok gurubunu seçiniz.");
 //        msg.exec();
 //        return;
@@ -465,7 +465,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 //            yeniStokKarti.setAciklama(QLocale().toUpper("stok kartı oluşturuldu"));
 //            QSqlError hataMesajı = stokYonetimi.yeniStokKartiOlustur(yeniStokKarti, &kullanici);
 //            if(!hataMesajı.isValid()){
-//                uyariSes->play();
+//                uyariSesi.play();
 //                QMessageBox *msg = new QMessageBox(this);
 //                msg->setIcon(QMessageBox::Information);
 //                msg->setWindowTitle("Başarılı");
@@ -476,7 +476,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 //                msg->exec();
 //            }
 //            else{
-//                uyariSes->play();
+//                uyariSesi.play();
 //                QMessageBox *msg = new QMessageBox(this);
 //                msg->setIcon(QMessageBox::Critical);
 //                msg->setWindowTitle("Hata");
@@ -497,7 +497,7 @@ void StokFrom::keyPressEvent(QKeyEvent *event)
 //            on_IptalBtn_clicked();
 //        }
 //        else{
-//            uyariSes->play();
+//            uyariSesi.play();
 //            QMessageBox msg(this);
 //            msg.setWindowTitle("Dikkat");
 //            msg.setIcon(QMessageBox::Warning);
@@ -551,7 +551,7 @@ void StokFrom::on_SilBtn_clicked()
     if(ui->StokKartlaritableView->currentIndex().row() != -1){
         seciliSatirIndex = ui->StokKartlaritableView->currentIndex().row();
         seciliSatirModel = ui->StokKartlaritableView->selectionModel();
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Dikkat");
         msg.setIcon(QMessageBox::Question);
@@ -568,7 +568,7 @@ void StokFrom::on_SilBtn_clicked()
         }
     }
     else{
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);
@@ -595,7 +595,7 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
     }
 
     if(!varmi){
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);
@@ -721,7 +721,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 //void StokFrom::on_ResimSilBtn_clicked()
 //{
 //    if(!stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim().isNull()){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        QMessageBox msg(this);
 //        msg.setWindowTitle("Uyarı");
 //        msg.setIcon(QMessageBox::Information);
@@ -734,7 +734,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 //        if(cevap == QMessageBox::Yes){
 //            QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString() + ".png");
 //            if(resimDosya.remove()){
-//                uyariSes->play();
+//                uyariSesi.play();
 //                QMessageBox msg(this);
 //                msg.setWindowTitle("Uyarı");
 //                msg.setIcon(QMessageBox::Information);
@@ -745,7 +745,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 //                ui->UrunResimlabel->setPixmap(stokYonetimi.getStokKarti(ui->StokKartlaritableView->model()->index(ui->StokKartlaritableView->currentIndex().row(), 1).data().toString()).getResim());
 //            }
 //            else{
-//                uyariSes->play();
+//                uyariSesi.play();
 //                QMessageBox msg(this);
 //                msg.setWindowTitle("Uyarı");
 //                msg.setIcon(QMessageBox::Warning);
@@ -771,7 +771,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 //    yeniResim.close();
 
 //    if(!QFileInfo(yeniResim).exists()){
-//        uyariSes->play();
+//        uyariSesi.play();
 //        QMessageBox msg(this);
 //        msg.setWindowTitle("Bilgi");
 //        msg.setIcon(QMessageBox::Information);
@@ -840,7 +840,7 @@ void StokFrom::key_F6_Slot()
         hizliRafEtiketiYazdir();
     }
     else{
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setIcon(QMessageBox::Information);
         msg.setText("Etiket yazdırmak için listeden bir stok kartı seçiniz!");
@@ -860,7 +860,7 @@ void StokFrom::key_F7_Slot()
         delete hareketlerForm;
     }
     else{
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setIcon(QMessageBox::Information);
         msg.setText("Stok hareketleri için listeden bir stok kartı seçiniz!");
@@ -892,7 +892,7 @@ void StokFrom::fiyatGuncelle_Slot()
     }
     else
     {
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Information);

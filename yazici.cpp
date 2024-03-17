@@ -125,7 +125,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QSizeF(72,210), QPrinter::Millimeter);
+    printer.setPageSize(QPageSize(QSize(72, 210)));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     printer.setOutputFileName("/tmp/mhss-fis.pdf");
 
@@ -161,9 +161,9 @@ void Yazici::rafEtiketiBas(StokKarti kart)
 
     // sayfa tanımlamaları
     printer->setPrinterName(etiketYazici);
-    printer->setPaperName("mhss");
-    printer->setPageSizeMM(QSize(72,33));
-    printer->setPageMargins(0,4,0,6, QPrinter::Millimeter);
+    printer->setDocName("mhss");
+    printer->setPageSize(QPageSize(QSize(72,33)));
+    printer->setPageMargins(QMargins(0,4,0,6), QPageLayout::Millimeter);
     printer->setResolution(300);
 
     QPainter painter(printer);
@@ -220,11 +220,11 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
 
     // sayfa tanımlamaları
     printer->setPrinterName(etiketYazici);
-    printer->setPaperName("mhss");
+    printer->setDocName("mhss");
     switch (kagit) {
     case KAGIT::YATAY_80mm38mm:{
-            printer->setPageSizeMM(QSize(72,33)); // kağıdın programdaki ölçüleri
-            printer->setPageMargins(0,4,0,6, QPrinter::Millimeter);
+            printer->setPageSize(QPageSize(QSize(72,33))); // kağıdın programdaki ölçüleri
+        printer->setPageMargins(QMargins(0,4,0,6), QPageLayout::Millimeter);
 
             QPainter painter(printer);
 
@@ -272,12 +272,12 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
     case KAGIT::DIKEY_100mm38mm:{
             // ürün ad ve SFiyat uzunluğuna göre kağıda ortalamak için.
             if( kart.getAd().size() <= 28 && QString::number(kart.getSFiyat()).size() <= 5){
-                printer->setPageSizeMM(QSize(38,90)); // kağıdın programdaki ölçüleri
-                printer->setPageMargins(0,6,0,0, QPrinter::Millimeter);
+                printer->setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
+                printer->setPageMargins(QMargins(0,6,0,0), QPageLayout::Millimeter);
             }
             else{
-                printer->setPageSizeMM(QSize(38,90)); // kağıdın programdaki ölçüleri
-                printer->setPageMargins(0,1,0,0, QPrinter::Millimeter);
+                printer->setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
+                printer->setPageMargins(QMargins(0,1,0,0), QPageLayout::Millimeter);
             }
 
             printer->setResolution(300);
@@ -449,7 +449,7 @@ void Yazici::cikisRaporuBas(User _user)
 
         QPrinter printer(QPrinter::PrinterResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPaperSize(QSizeF(72,210), QPrinter::Millimeter);
+        printer.setPageSize(QPageSize(QSize(72,210)));
         printer.setPageMargins(QMarginsF(0, 0, 0, 0));
         printer.setOutputFileName("/tmp/mhss-kasa-rapor.pdf");
 
@@ -589,7 +589,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QSizeF(72,210), QPrinter::Millimeter);
+    printer.setPageSize(QPageSize(QSize(72,210)));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     printer.setOutputFileName("/tmp/mhss-tahsilat-fis.pdf");
 

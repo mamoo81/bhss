@@ -1,6 +1,6 @@
-QT       += core gui sql multimedia printsupport charts serialport network
+QT       += core gui sql multimedia printsupport charts serialport network core5compat
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 CONFIG += c++11
 

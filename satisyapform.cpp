@@ -48,7 +48,7 @@ SatisYapForm::~SatisYapForm()
 
 void SatisYapForm::formLoad()
 {
-    odemeAlindi->setLoops(0);
+    odemeAlindi.setLoopCount(0);
     satisYapildimi = false;
 
     //genel ayarların okunması başlangıcı
@@ -75,6 +75,7 @@ void SatisYapForm::formLoad()
         ui->caricomboBox->addItem(cariKart.getAd());
     }
     ui->OdenendoubleSpinBox->setFocus();
+    odemeAlindi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 void SatisYapForm::on_satBtn_clicked()
@@ -105,7 +106,7 @@ void SatisYapForm::on_satBtn_clicked()
     // ------------------------------------------   ödeme alındı sesi çalınsın mı.
     genelAyarlar.beginGroup("uyari-sesleri");
     if(genelAyarlar.value("odeme-alindi").toBool()){
-        odemeAlindi->play();
+        odemeAlindi.play();
     }
     genelAyarlar.endGroup();
 

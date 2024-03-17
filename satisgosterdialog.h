@@ -28,7 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cariyonetimi.h"
 //*****************************
 #include <QDialog>
-#include <QSound>
+#include <QSoundEffect>
 
 namespace Ui {
 class SatisGosterDialog;
@@ -45,7 +45,7 @@ public:
     Sepet satilmisSepet;
     Yazici fis = Yazici();
 
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     void setSatisFaturaNo(const QString &newSatisFaturaNo);
     void setCari(const Cari &newcari);

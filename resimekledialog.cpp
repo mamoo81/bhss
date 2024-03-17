@@ -41,12 +41,12 @@ ResimEkleDialog::~ResimEkleDialog()
 
 void ResimEkleDialog::on_kaydetpushButton_clicked()
 {
-    resimlerDizini = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/";
+    resimlerDizini = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/urunler-image/";
     if(!QFileInfo::exists(resimlerDizini)){
         QDir().mkdir(resimlerDizini);
     }
 
-    QFile yeniResim(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + urunBarkod + "." + QFileInfo(resim->fileName()).completeSuffix());
+    QFile yeniResim(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/urunler-image/" + urunBarkod + "." + QFileInfo(resim->fileName()).completeSuffix());
     resim->copy(resim->fileName(), yeniResim.fileName());
 
     if(QFileInfo(yeniResim).exists()){

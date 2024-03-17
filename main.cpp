@@ -50,8 +50,8 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani pVT){
         msg.setIcon(QMessageBox::Question);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setDefaultButton(QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
             QMessageBox msg(0);
@@ -59,7 +59,7 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani pVT){
             msg.setIcon(QMessageBox::Information);
             msg.setText("Veritabanı oluşturuldu");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             if(pVT.veritabaniSifirla()){// sıfırla metodu vt yi yeniden yüklediği için bunu çağırıyorum.
                 msg.exec();
             }
@@ -121,11 +121,11 @@ int main(int argc, char *argv[])
         }
     }
     // (/home/user/.local/) altında mhss klasörü varmı kontrol ve ekleme
-    if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation))){
-        QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    if(!QFileInfo::exists(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation))){
+        QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     }
     // (/home/user/.local/mhss/barkodlar/) klasörü varmı kontrol ve ekleme
-    auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/";
+    auto barkodlarDizin = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/barkodlar/";
     if(!QFileInfo::exists(barkodlarDizin)){
         QDir().mkdir(barkodlarDizin);
     }

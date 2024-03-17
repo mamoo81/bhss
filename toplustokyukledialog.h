@@ -30,7 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QFileDialog>
 #include <QFile>
 #include <QFileInfo>
-#include <QSound>
+#include <QSoundEffect>
 #include <QVector>
 #include <QLocale>
 
@@ -57,7 +57,7 @@ public:
     int basarisiz = 0;
     QStringList mevcutBarkodlar;
 
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
     QLocale turkce = QLocale(QLocale::Turkish, QLocale::Turkey);
 
     void jsondanYukle();

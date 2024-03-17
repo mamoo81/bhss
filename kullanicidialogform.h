@@ -21,13 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 #ifndef KULLANICIDIALOGFORM_H
 #define KULLANICIDIALOGFORM_H
+#include "ui_kullanicidialogform.h"
 #include "veritabani.h"
 #include "user.h"
 //*****************************
 #include <QDialog>
 #include <QValidator>
-#include <QRegExp>
-#include <QSound>
+#include <QRegularExpressionValidator>
+#include <QSoundEffect>
 
 namespace Ui {
 class KullaniciDialogForm;
@@ -44,7 +45,7 @@ public:
     Veritabani vt = Veritabani();
     User u;
 
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     void setYeniMi(bool newYeniMi);
 
@@ -69,9 +70,13 @@ private:
 
     bool yeniMi;
     QString duzenlenecekUserName;
-    QRegExp regEXPTelefon;
-    QRegExp regEXPkullaniciAdi;
-    QRegExp regEXPpassword;
+    QRegularExpression regEXPTelefon;
+    QRegularExpression regEXPkullaniciAdi;
+    QRegularExpression regEXPpassword;
+    QRegularExpressionMatch kullaniciAdiMatch;
+    QRegularExpressionMatch passwordMatch;
+    QRegularExpressionMatch password2Match;
+    QRegularExpressionMatch telefonMatch;
 
 };
 

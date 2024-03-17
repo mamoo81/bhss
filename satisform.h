@@ -42,7 +42,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QList>
 #include <QToolButton>
 #include <QShortcut>
-#include <QSound>
+#include <QSoundEffect>
 #include <QTableWidgetItem>
 #include <QSettings>
 
@@ -65,7 +65,7 @@ public:
     KasaYonetimi kasaYonetimi = KasaYonetimi();
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     StokKarti stokKarti = StokKarti();
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     void setUser(User user);
     void formLoad();

@@ -71,6 +71,7 @@ void CariKartlarDialog::formLoad()
     ui->bitisdateEdit->setDateTime(QDateTime::currentDateTime());
     connect(ui->CariKartHareketleritableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(cariHareketleriTableSelectionChanged()));
     connect(ui->CariKartlartableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(cariKartlarTableViewSelectionChanged()));
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 void CariKartlarDialog::cariKartlariListele()
@@ -317,7 +318,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
         QString silinecekCariHareketFaturaNo = ui->CariKartHareketleritableView->model()->index(ui->CariKartHareketleritableView->currentIndex().row(), 0).data().toString();
         if(hareketTipi == "SATIŞ"){
 
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Warning);
@@ -328,7 +329,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
             if(msg.exec() == QMessageBox::Yes){
                 Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
                 if(cariYonetimi.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari)){
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -337,7 +338,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
                     msg.exec();
                 }
                 else{
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -349,7 +350,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
         }
         if(hareketTipi == "TAHSİLAT"){
 
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Warning);
@@ -360,7 +361,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
             if(msg.exec() == QMessageBox::Yes){
                 Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
                 if(cariYonetimi.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari)){
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -369,7 +370,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
                     msg.exec();
                 }
                 else{
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -381,7 +382,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
         }
         if(hareketTipi == "ALIŞ"){
 
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Dikkat");
             msg.setIcon(QMessageBox::Warning);
@@ -392,7 +393,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
             if(msg.exec() == QMessageBox::Yes){
                 Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
                 if(cariYonetimi.cariHareketiSil(silinecekCariHareketFaturaNo, kullanici, cari)){
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -401,7 +402,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
                     msg.exec();
                 }
                 else{
-                    uyariSesi->play();
+                    uyariSesi.play();
                     QMessageBox msg(this);
                     msg.setWindowTitle("Bilgi");
                     msg.setIcon(QMessageBox::Information);
@@ -421,7 +422,7 @@ void CariKartlarDialog::on_CariislemsiltoolButton_clicked()
 
 void CariKartlarDialog::on_tumHareketlerisiltoolButton_clicked()
 {
-    uyariSesi->play();
+    uyariSesi.play();
     QMessageBox msg(this);
     msg.setWindowTitle("Dikkat");
     msg.setIcon(QMessageBox::Question);
@@ -431,7 +432,7 @@ void CariKartlarDialog::on_tumHareketlerisiltoolButton_clicked()
     if(msg.exec() == QMessageBox::Yes){
         Cari cari = cariYonetimi.getCariKart(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 0).data().toString());
         if(cariYonetimi.carininTumHareketleriniSil(cari)){
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
@@ -442,7 +443,7 @@ void CariKartlarDialog::on_tumHareketlerisiltoolButton_clicked()
             cariHareketleriListele();
         }
         else{
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);

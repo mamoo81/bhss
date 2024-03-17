@@ -29,7 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cariyonetimi.h"
 //******************
 #include <QDialog>
-#include <QSound>
+#include <QSoundEffect>
 
 namespace Ui {
 class SatisYapForm;
@@ -43,7 +43,7 @@ public:
     explicit SatisYapForm(QWidget *parent = nullptr);
     ~SatisYapForm();
 
-    QSound *odemeAlindi = new QSound(":/sounds/sounds/odeme-alindi.wav");
+    QSoundEffect odemeAlindi;
 //    Veritabani vt_satisFormu;
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     CariYonetimi cariYonetimi = CariYonetimi();

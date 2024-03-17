@@ -9,7 +9,7 @@
 #include <QPalette>
 #include <QRegExp>
 #include <QDoubleValidator>
-#include <QSound>
+#include <QSoundEffect>
 #include <QShortcut>
 #include <QPixmap>
 #include <QFileInfo>
@@ -29,7 +29,7 @@ public:
     explicit StokKartiForm(QWidget *parent = nullptr);
     ~StokKartiForm();
 
-    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
     bool yeniKart = true;
     bool toplustokkarti = false;
     bool toplustokkartiIptal = false;
@@ -104,9 +104,9 @@ private:
     QPalette TextColorPaletteRed;
     QPalette TextColorPaletteDefault;
 
-    QRegExp regEXPbarkod;
-    QRegExp regEXPstokKod;
-    QRegExp regEXPstokAd;
+    QRegularExpression regEXPbarkod;
+    QRegularExpression regEXPstokKod;
+    QRegularExpression regEXPstokAd;
     QDoubleValidator *regEXPstokMiktar;
 
     QShortcut *RETURN_key;

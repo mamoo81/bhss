@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 //********************************
 #include <QHash>
 
-QT_CHARTS_USE_NAMESPACE
+// QT_CHARTS_USE_NAMESPACE
 
 SatisGrafigiForm::SatisGrafigiForm(QWidget *parent) :
     QDialog(parent),
@@ -156,7 +156,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
             // en çok, en az ve ortalama alma
             QList<float> lii = adetlerList.values();
 
-            qSort(lii.begin(), lii.end());
+            std::sort(lii.begin(), lii.end());
             ui->EnAzlabel->setText(QString::number(lii.first()));
             ui->EnCoklabel->setText(QString::number(lii.last()));
             float toplam = 0;
@@ -198,7 +198,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
             }
             // en çok, en az ve ortalama alma
             QList<float> lii = adetlerList.values();
-            qSort(lii.begin(), lii.end());
+            std::sort(lii.begin(), lii.end());
 
             ui->EnAzlabel->setText(QString::number(lii.first()));
             ui->EnCoklabel->setText(QString::number(lii.last()));
@@ -241,7 +241,7 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
             }
             // en çok, en az ve ortalama alma
             QList<float> lii = adetlerList.values();
-            qSort(lii.begin(), lii.end());
+            std::sort(lii.begin(), lii.end());
 
             ui->EnAzlabel->setText(QString::number(lii.first()));
             ui->EnCoklabel->setText(QString::number(lii.last()));

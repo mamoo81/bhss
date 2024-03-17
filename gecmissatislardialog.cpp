@@ -50,7 +50,7 @@ void GecmisSatislarDialog::iadeleriRenklendir()
 {
     for (int var = 0; var < ui->SonSatislarlistWidget->count(); ++var) {
         if(faturaYonetimi.iadeAlinmismi(ui->SonSatislarlistWidget->item(var)->text().split(' ').first())){
-            ui->SonSatislarlistWidget->item(var)->setBackgroundColor(Qt::yellow);
+            ui->SonSatislarlistWidget->item(var)->setBackground(Qt::yellow);
         }
     }
 }

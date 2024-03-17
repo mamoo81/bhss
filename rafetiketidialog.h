@@ -27,7 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "stokyonetimi.h"
 
 #include <QWidget>
-#include <QSound>
+#include <QSoundEffect>
 #include <QKeyEvent>
 #include <QShortcut>
 
@@ -43,7 +43,7 @@ public:
     explicit RafEtiketiDialog(QWidget *parent = nullptr);
     ~RafEtiketiDialog();
 
-    QSound *uyariSes = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
 public slots:
 

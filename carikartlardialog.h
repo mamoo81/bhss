@@ -27,7 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cariyonetimi.h"
 //**************************
 #include <QDialog>
-#include <QSound>
+#include <QSoundEffect>
 
 namespace Ui {
 class CariKartlarDialog;
@@ -53,7 +53,7 @@ public:
     };
     Q_ENUM(FaturaTipi)
 
-    QSound *uyariSesi = new QSound(":/sounds/sounds/warning-sound.wav", this);
+    QSoundEffect uyariSesi;
 
     void setVergiDaireleri(const QStringList &newVergiDaireleri);
 

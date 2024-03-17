@@ -61,19 +61,21 @@ void YeniCariKartDialog::FormLoad()
     LineEditBackColorPaletteRed.setColor(QPalette::Base, Qt::red);
     LineEditBackColorPaletteRed.setColor(QPalette::Text, Qt::black);
 
-    RegEXPcariAdi = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9]{5,}");
-    ui->CariAdilineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
-    ui->YetkililineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
+    // RegEXPcariAdi = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9]{5,}");
+    // ui->CariAdilineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
+    // ui->YetkililineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
 
-    RegEXPVergiNo = QRegExp("[0-9]{11}");
-    ui->VergiNolineEdit->setValidator(new QRegExpValidator(RegEXPVergiNo, this));
+    // RegEXPVergiNo = QRegExp("[0-9]{11}");
+    // ui->VergiNolineEdit->setValidator(new QRegExpValidator(RegEXPVergiNo, this));
 
-    RegEXPmail = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
-    RegEXPmail.setCaseSensitivity(Qt::CaseInsensitive);
-    ui->MaillineEdit->setValidator(new QRegExpValidator(RegEXPmail, this));
+    // RegEXPmail = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    // RegEXPmail.setCaseSensitivity(Qt::CaseInsensitive);
+    // ui->MaillineEdit->setValidator(new QRegExpValidator(RegEXPmail, this));
 
-    RegEXPtelefon = QRegExp("[0-9]{11}");
-    ui->TelefonlineEdit->setValidator(new QRegExpValidator(RegEXPtelefon, this));
+    // RegEXPtelefon = QRegExp("[0-9]{11}");
+    // ui->TelefonlineEdit->setValidator(new QRegExpValidator(RegEXPtelefon, this));
+
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 void YeniCariKartDialog::on_iptalpushButton_clicked()
@@ -102,23 +104,23 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
     msg.setWindowTitle("Uyarı");
     msg.setIcon(QMessageBox::Warning);
     msg.setStandardButtons(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    // msg.setButtonText(QMessageBox::Ok, "Tamam");
 
     if(ui->CariAdilineEdit->text().isEmpty()){
-        uyariSes->play();
+        uyariSesi.play();
         msg.setText("Cari adını giriniz.");
         msg.exec();
         return;
     }
     if(!RegEXPcariAdi.exactMatch(ui->CariAdilineEdit->text())){
-        uyariSes->play();
+        uyariSesi.play();
         msg.setText("Cari adı uygun formatta olmalı");
         msg.exec();
         return;
     }
     if(!ui->YetkililineEdit->text().isEmpty()){
         if(!RegEXPcariAdi.exactMatch(ui->YetkililineEdit->text())){
-            uyariSes->play();
+            uyariSesi.play();
             msg.setText("Cari yetkili adı uygun formatta olmalı");
             msg.exec();
             return;
@@ -126,7 +128,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
     }
     if(!ui->VergiNolineEdit->text().isEmpty()){
         if(!RegEXPVergiNo.exactMatch(ui->VergiNolineEdit->text())){
-            uyariSes->play();
+            uyariSesi.play();
             msg.setText("Cari vergi numarası uygun formatta olmalı");
             msg.exec();
             return;
@@ -134,7 +136,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
     }
     if(!ui->VergiNolineEdit->text().isEmpty()){
         if(!RegEXPcariAdi.exactMatch(ui->VergiDairesilineEdit->text())){
-            uyariSes->play();
+            uyariSesi.play();
             msg.setText("Cari vergi dairesi adı uygun formatta olmalı");
             msg.exec();
             return;
@@ -142,7 +144,7 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
     }
     if(!ui->MaillineEdit->text().isEmpty()){
         if(!RegEXPmail.exactMatch(ui->MaillineEdit->text())){
-            uyariSes->play();
+            uyariSesi.play();
             msg.setText("Cari mail adresi uygun formatta olmalı");
             msg.exec();
             return;
@@ -150,20 +152,20 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
     }
     if(!ui->TelefonlineEdit->text().isEmpty()){
         if(!RegEXPtelefon.exactMatch(ui->TelefonlineEdit->text())){
-            uyariSes->play();
+            uyariSesi.play();
             msg.setText("Cari telefon numarası uygun formatta olmalı");
             msg.exec();
             return;
         }
     }
     if(ui->ilcomboBox->currentIndex() <= 0){
-        uyariSes->play();
+        uyariSesi.play();
         msg.setText("Cari ilini seçin");
         msg.exec();
         return;
     }
     if(ui->ilcecomboBox->currentIndex() <= 0){
-        uyariSes->play();
+        uyariSesi.play();
         msg.setText("Cari ilçesini seçin");
         msg.exec();
         return;
@@ -185,24 +187,26 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         duzenlenecekCariKart.setGuncelBorcHesaplama(ui->guncelFiyatcheckBox->isChecked());
         bool sonuc = cariYonetimi.cariKartDuzenle(duzenlenecekCariKart);
         if(sonuc){
-            uyariSes->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Cari kart düzenlendi");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            QPushButton *tamamButton = msg.addButton(tr("Tamam"), QMessageBox::AcceptRole);
             msg.exec();
-            this->close();
+            if(msg.clickedButton() == tamamButton){
+                this->close();
+            }
         }
         else{
-            uyariSes->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Cari kart düzenlenlenemedi!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -223,23 +227,23 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         yeniCari.setGuncelBorcHesaplama(ui->guncelFiyatcheckBox->isChecked());
 
         if(cariYonetimi.yeniCariKart(yeniCari)){
-            uyariSes->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Yeni cari kart oluşturuldu.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         else{
-            uyariSes->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Bilgi");
             msg.setIcon(QMessageBox::Information);
             msg.setText("Yeni cari kart oluşturulamadı!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }

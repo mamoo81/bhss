@@ -108,7 +108,7 @@ QVariant StokKartlariModel::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
         }
-    case Qt::BackgroundColorRole: // renklendirme için
+    case Qt::BackgroundRole: // renklendirme için
         if(_takipAktifMi){
             // satırı renklendirme
             if(_QueryModel->record(index.row()).value("miktar").toDouble() <= _stokUyariMiktari){// miktar uyarı miktarından düşük veya eşitse

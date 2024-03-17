@@ -34,6 +34,7 @@ SatisGosterDialog::SatisGosterDialog(QWidget *parent) :
     ui->setupUi(this);
 
     initTableWidgets();
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 SatisGosterDialog::~SatisGosterDialog()
@@ -158,7 +159,7 @@ void SatisGosterDialog::on_kapatpushButton_clicked()
 void SatisGosterDialog::on_FisYazdirpushButton_clicked()
 {
     fis.fisBas(satisFaturaNo, satilmisSepet);
-    uyariSesi->play();
+    uyariSesi.play();
     QMessageBox msg(this);
     msg.setWindowTitle("Bilgi");
     msg.setIcon(QMessageBox::Information);
@@ -172,7 +173,7 @@ void SatisGosterDialog::on_FisYazdirpushButton_clicked()
 
 void SatisGosterDialog::on_iadepushButton_clicked()
 {
-    uyariSesi->play();
+    uyariSesi.play();
     QMessageBox msg(this);
     msg.setWindowTitle("Uyarı");
     msg.setIcon(QMessageBox::Question);
@@ -188,7 +189,7 @@ void SatisGosterDialog::on_iadepushButton_clicked()
         satilmisSepet.setOdenenTutar(qr.value(5).toDouble());
         faturaYonetimi.iadeAl(satilmisSepet, kullanici, cari, satisFaturaNo);
 
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Information);

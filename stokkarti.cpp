@@ -46,7 +46,7 @@ const QString &StokKarti::getBarkod() const
 void StokKarti::setBarkod(const QString &newBarkod)
 {
     barkod = newBarkod;
-    QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/urunler-image/" + barkod + ".png");
+    QFile resimDosya(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/urunler-image/" + barkod + ".png");
     if(resimDosya.exists()){
         QImage img(QFileInfo(resimDosya).absoluteFilePath());
         setResim(QPixmap::fromImage(img));
@@ -219,7 +219,7 @@ void StokKarti::setResim(const QPixmap &newResim)
 
 QImage StokKarti::getBarkodImg() const
 {
-    QFile barkodImgDosya(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/barkodlar/" + getBarkod() + ".svg");
+    QFile barkodImgDosya(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/barkodlar/" + getBarkod() + ".svg");
     if(!QFileInfo(barkodImgDosya).exists()){
         //barkod image oluşturma
         QString kirpilmisBarkod = QString(getBarkod().left(getBarkod().count() - 1));// barkodun son hanesi doğrulama hanesi olduğu için zint kendi veriyor. kırpıyorum.

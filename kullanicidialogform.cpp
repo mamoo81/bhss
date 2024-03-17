@@ -39,19 +39,26 @@ KullaniciDialogForm::~KullaniciDialogForm()
 
 void KullaniciDialogForm::formLoad()
 {
-    regEXPTelefon = QRegExp("[0-9]\\d{10}");
-    regEXPTelefon.setCaseSensitivity(Qt::CaseInsensitive);
-    regEXPTelefon.setPatternSyntax(QRegExp::RegExp);
-    ui->CepNolineEdit->setValidator(new QRegExpValidator(regEXPTelefon, this));
+    regEXPTelefon = QRegularExpression("[0-9]\\d{10}");
+    regEXPTelefon.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    QValidator *validatorTelefon = new QRegularExpressionValidator(regEXPTelefon, this);
+    ui->CepNolineEdit->setValidator(validatorTelefon);
 
-    regEXPkullaniciAdi = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{5,16}");
-    regEXPkullaniciAdi.setCaseSensitivity(Qt::CaseInsensitive);
-    ui->UserNamelineEdit->setValidator(new QRegExpValidator(regEXPkullaniciAdi, this));
+    regEXPkullaniciAdi = QRegularExpression("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{5,16}");
+    regEXPkullaniciAdi.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    QValidator *validatorKullaniciAdi = new QRegularExpressionValidator(regEXPkullaniciAdi, this);
+    ui->UserNamelineEdit->setValidator(validatorKullaniciAdi);
 
-    regEXPpassword = QRegExp("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{4,16}");
-    regEXPpassword.setCaseSensitivity(Qt::CaseInsensitive);
-    ui->PasswordlineEdit->setValidator(new QRegExpValidator(regEXPpassword, this));
-    ui->PasswordlineEdit_2->setValidator(new QRegExpValidator(regEXPpassword, this));
+    regEXPpassword = QRegularExpression("[a-zöçşiğüA-ZÖÇŞİĞÜ0-9.]{4,16}");
+    regEXPpassword.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    QValidator *validatorPassword = new QRegularExpressionValidator(regEXPpassword, this);
+    ui->PasswordlineEdit->setValidator(validatorPassword);
+    ui->PasswordlineEdit_2->setValidator(validatorPassword);
+
+    kullaniciAdiMatch = regEXPkullaniciAdi.match(ui->UserNamelineEdit->text());
+    passwordMatch = regEXPpassword.match(ui->PasswordlineEdit->text());
+    password2Match = regEXPpassword.match(ui->PasswordlineEdit_2->text());
+    telefonMatch = regEXPTelefon.match(ui->CepNolineEdit->text());
 
     if(yeniMi){
         this->setWindowTitle("Yeni kullanıcı oluştur");
@@ -60,6 +67,7 @@ void KullaniciDialogForm::formLoad()
         this->setWindowTitle("Kullanıcıyı düzenle");
     }
     ui->UserNamelineEdit->setFocus();
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 void KullaniciDialogForm::setDuzenlenecekUser(const QString &newDuzenlenecekUserName)
@@ -92,30 +100,35 @@ void KullaniciDialogForm::on_pushButton_clicked()
     msg.setIcon(QMessageBox::Warning);
     msg.setText("Tüm alanları doldurunuz veya Kırmızı renkli alanları kontrol edin!");
     msg.setStandardButtons(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    // msg.setButtonText(QMessageBox::Ok, "Tamam");
 
-    if(!regEXPkullaniciAdi.exactMatch(ui->UserNamelineEdit->text())){
-        uyariSesi->play();
+    QRegularExpressionMatch kullaniciAdiMatch = regEXPkullaniciAdi.match(ui->UserNamelineEdit->text());
+    QRegularExpressionMatch passwordMatch = regEXPpassword.match(ui->PasswordlineEdit->text());
+    QRegularExpressionMatch password2Match = regEXPpassword.match(ui->PasswordlineEdit_2->text());
+    QRegularExpressionMatch telefonMatch = regEXPTelefon.match(ui->CepNolineEdit->text());
+
+    if(!kullaniciAdiMatch.hasMatch()){
+        uyariSesi.play();
         msg.exec();
         return;
     }
-    if(!regEXPpassword.exactMatch(ui->PasswordlineEdit->text()) && !regEXPpassword.exactMatch(ui->PasswordlineEdit_2->text())){
-        uyariSesi->play();
+    if(!passwordMatch.hasMatch() && !password2Match.hasMatch()){
+        uyariSesi.play();
         msg.exec();
         return;
     }
-    if(!regEXPTelefon.exactMatch(ui->CepNolineEdit->text())){
-        uyariSesi->play();
+    if(!telefonMatch.hasMatch()){
+        uyariSesi.play();
         msg.exec();
         return;
     }
     if(ui->AdlineEdit->text().isEmpty()){
-        uyariSesi->play();
+        uyariSesi.play();
         msg.exec();
         return;
     }
     if(ui->SoyadlineEdit->text().isEmpty()){
-        uyariSesi->play();
+        uyariSesi.play();
         msg.exec();
         return;
     }
@@ -136,31 +149,31 @@ void KullaniciDialogForm::on_pushButton_clicked()
 
     if(yeniMi){
         if(vt.CreateNewUser(NewUser)){
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setIcon(QMessageBox::Information);
             msg.setWindowTitle("Başarılı");
             msg.setText("Yeni kullanıcı oluşturuldu.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             this->close();
         }
         else{
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setIcon(QMessageBox::Information);
             msg.setWindowTitle("Hata");
             msg.setText("HATA:\n\nYeni kullanıcı oluşturulamadı!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
     else{
         NewUser.setUserID(u.getUserID());
         if(vt.updateUser(NewUser)){
-            uyariSesi->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setIcon(QMessageBox::Information);
             msg.setWindowTitle("Başarılı");
@@ -191,7 +204,8 @@ void KullaniciDialogForm::on_pushButton_2_clicked()
 
 void KullaniciDialogForm::on_UserNamelineEdit_textChanged(const QString &arg1)
 {
-    if(regEXPkullaniciAdi.exactMatch(arg1)){
+    kullaniciAdiMatch = regEXPkullaniciAdi.match(arg1);
+    if(kullaniciAdiMatch.hasMatch()){
         ui->UserNamelineEdit->setStyleSheet("color: black;");
     }
     else{
@@ -201,7 +215,8 @@ void KullaniciDialogForm::on_UserNamelineEdit_textChanged(const QString &arg1)
 
 void KullaniciDialogForm::on_PasswordlineEdit_textChanged(const QString &arg1)
 {
-    if(regEXPpassword.exactMatch(arg1)){
+    passwordMatch = regEXPpassword.match(arg1);
+    if(passwordMatch.hasMatch()){
         ui->PasswordlineEdit->setStyleSheet("color: black;");
     }
     else{
@@ -211,7 +226,8 @@ void KullaniciDialogForm::on_PasswordlineEdit_textChanged(const QString &arg1)
 
 void KullaniciDialogForm::on_PasswordlineEdit_2_textChanged(const QString &arg1)
 {
-    if(regEXPpassword.exactMatch(arg1)){
+    password2Match = regEXPpassword.match(arg1);
+    if(password2Match.hasMatch()){
         ui->PasswordlineEdit_2->setStyleSheet("color: black;");
     }
     else{
@@ -230,7 +246,8 @@ void KullaniciDialogForm::on_PasswordlineEdit_2_textChanged(const QString &arg1)
 
 void KullaniciDialogForm::on_CepNolineEdit_textChanged(const QString &arg1)
 {
-    if(regEXPTelefon.exactMatch(arg1)){
+    telefonMatch = regEXPTelefon.match(arg1);
+    if(telefonMatch.hasMatch()){
         ui->CepNolineEdit->setStyleSheet("color: black;");
     }
     else{

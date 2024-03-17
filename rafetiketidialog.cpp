@@ -57,6 +57,7 @@ RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
     genelAyarlar.beginGroup("etiket-yazici");
     ui->VarsayilanKagitcomboBox->setCurrentIndex(genelAyarlar.value("kagit").toInt());
     genelAyarlar.endGroup();
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 RafEtiketiDialog::~RafEtiketiDialog()
@@ -201,7 +202,7 @@ void RafEtiketiDialog::on_cikarpushButton_clicked()
 
 void RafEtiketiDialog::on_yazdirtoolButton_clicked()
 {
-    uyariSes->play();
+    uyariSesi.play();
     QMessageBox msg(this);
     msg.setWindowTitle("Dikkat");
     msg.setIcon(QMessageBox::Information);
@@ -236,7 +237,7 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
         // etiket yazıcı ayarları okuma başlangıç
         genelAyarlar.beginGroup("etiket-yazici");
         if(genelAyarlar.value("kagit").isNull() || genelAyarlar.value("kagit").isValid()){
-            uyariSes->play();
+            uyariSesi.play();
             QMessageBox msg(this);
             msg.setWindowTitle("Uyarı");
             msg.setIcon(QMessageBox::Warning);
@@ -323,7 +324,7 @@ void RafEtiketiDialog::stokKartiAra(QString aranacakMetin)
     }
 
     if(!varmi){
-        uyariSes->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
         msg.setIcon(QMessageBox::Warning);

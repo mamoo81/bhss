@@ -71,6 +71,8 @@ void LoginForm::formLoad()
     ui->CmBoxUserName->setFocus();
 
     ui->labelVersion->setText(QApplication::applicationVersion());
+
+    uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
 
 void LoginForm::on_GirisBtn_clicked()
@@ -82,7 +84,7 @@ void LoginForm::on_GirisBtn_clicked()
         this->close();
     }
     else{
-        uyariSesi->play();
+        uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Hata");
         msg.setIcon(QMessageBox::Warning);
@@ -135,7 +137,7 @@ void LoginForm::on_toolButton_clicked()
 {
     QProcess *systemCommand = new QProcess();
     if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-        systemCommand->start("onboard", QIODevice::ReadWrite);
+        // systemCommand->start("onboard", QIODevice::ReadWrite);
     }
 }
 
