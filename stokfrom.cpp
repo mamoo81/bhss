@@ -71,7 +71,7 @@ void StokFrom::formLoad()
 
     // klavye kısayol tanımlamaları
     CTRL_F = new QShortcut(this);
-    CTRL_F->setKey(Qt::CTRL + Qt::Key_F);
+    CTRL_F->setKey(Qt::CTRL | Qt::Key_F);
     connect(CTRL_F, SIGNAL(activated()), this, SLOT(CTRL_F_Slot()));
 
     key_Down = new QShortcut(this);
@@ -250,7 +250,7 @@ void StokFrom::stokGirSlot()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("giriş")));
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
         }
@@ -265,7 +265,7 @@ void StokFrom::stokGirSlot()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Stok kartı seçiniz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -288,7 +288,7 @@ void StokFrom::stokCikSlot()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("çıkış")));
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
         }
@@ -303,7 +303,7 @@ void StokFrom::stokCikSlot()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Stok kartı seçiniz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -373,7 +373,7 @@ void StokFrom::on_DuzenleBtn_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Bir stok kartı seçiniz.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     //QItemSelectionModel *select = ui->StokKartlaritableView->selectionModel();
@@ -557,8 +557,8 @@ void StokFrom::on_SilBtn_clicked()
         msg.setIcon(QMessageBox::Question);
         msg.setText(QString("%1 barkod numaralı\n\n%2 isimli\n\n\n stok kartını silmek istediğinize emin misiniz?").arg(seciliSatirModel->model()->index(seciliSatirIndex, 1).data().toString(), seciliSatirModel->model()->index(seciliSatirIndex, 3).data().toString()));
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         msg.setDefaultButton(QMessageBox::Yes);
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
@@ -574,7 +574,7 @@ void StokFrom::on_SilBtn_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Bir stok kartı seçiniz");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
     }
@@ -601,7 +601,7 @@ void StokFrom::stokKartiAra(QString aranacakMetin)
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Stok kartı bulunamadı");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
         ui->StokKartlaritableView->clearSelection();
@@ -697,7 +697,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
             ui->StokKartlaritableView->selectRow(gosterilenSatirlar.first());// gösterilen satırlardan ilk indexi seçiyorum.
         }
 
-        if(arg1.count() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
+        if(arg1.length() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
             ui->StokKartlaritableView->selectRow(0);
             sonSecilenGosterilenSatirIndexi = 0;
         }
@@ -898,7 +898,7 @@ void StokFrom::fiyatGuncelle_Slot()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Bir stok kartı seçiniz.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -1007,9 +1007,10 @@ void StokFrom::on_TopluEtikettoolButton_clicked()
     rafEtiketForm->show();
 }
 
-void StokFrom::on_grupFiltrecomboBox_currentIndexChanged(const QString &arg1)
+
+void StokFrom::on_grupFiltrecomboBox_currentIndexChanged(int index)
 {
-    Q_UNUSED(arg1);
+    Q_UNUSED(index);
     stokKartlariniListele();
 }
 

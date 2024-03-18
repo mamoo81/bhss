@@ -510,7 +510,7 @@ void StokKartiForm::urunResmiKaydet(QPixmap urunResmi, QString urunBarkod)
         msg.setIcon(QMessageBox::Information);
         msg.setText("Resim kaydedilemedi.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -588,7 +588,7 @@ void StokKartiForm::on_stokGirpushButton_clicked()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("giriş")));
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
                 ui->MiktardoubleSpinBox->setValue(ui->MiktardoubleSpinBox->value() + stokMiktarigirForm->getMiktar());
             }
@@ -613,7 +613,7 @@ void StokKartiForm::on_stokDuspushButton_clicked()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText(QString("%1 adet %2 yapıldı.").arg(QString::number(stokMiktarigirForm->getMiktar(), 'f', 2), QString("çıkış")));
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
                 ui->MiktardoubleSpinBox->setValue(ui->MiktardoubleSpinBox->value() - stokMiktarigirForm->getMiktar());
             }
@@ -665,8 +665,8 @@ void StokKartiForm::on_ResimSilpushButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Ürün resmini silmek istediğinize emin misiniz?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         msg.setDefaultButton(QMessageBox::Yes);
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
@@ -678,7 +678,7 @@ void StokKartiForm::on_ResimSilpushButton_clicked()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText("Ürün resmi silindi.");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
                 ui->UrunResimlabel->setPixmap(guncellenecekKart.getResim());
             }
@@ -689,7 +689,7 @@ void StokKartiForm::on_ResimSilpushButton_clicked()
                 msg.setIcon(QMessageBox::Warning);
                 msg.setText("Ürün resmi silinemedi.");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
         }

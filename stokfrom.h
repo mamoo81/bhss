@@ -125,7 +125,7 @@ private slots:
 
     void on_TopluEtikettoolButton_clicked();
 
-    void on_grupFiltrecomboBox_currentIndexChanged(const QString &arg1);
+    void on_grupFiltrecomboBox_currentIndexChanged(int index);
 
 private:
     Ui::StokFrom *ui;

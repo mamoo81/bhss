@@ -60,7 +60,7 @@ void StokGrupForm::on_EkleBtn_clicked()
             msg.setIcon(QMessageBox::Critical);
             msg.setText("Bu stok gurubu zaten mevcut.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         else
@@ -71,7 +71,7 @@ void StokGrupForm::on_EkleBtn_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Stok gurubu başarıyla eklendi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             ui->YenilineEdit->clear();
             stokGruplariGetir();
@@ -94,7 +94,7 @@ void StokGrupForm::on_SilBtn_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Stok gurubu silindi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             stokGruplariGetir();
         }
@@ -106,7 +106,7 @@ void StokGrupForm::on_SilBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Listeden silinecek gurubu seçin.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
