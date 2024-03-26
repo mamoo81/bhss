@@ -128,7 +128,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
                 msg.setIcon(QMessageBox::Warning);
                 msg.setText("Kasada ki miktardan fazla çıkış yapamazsınız!");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
                 return 0;
             }
@@ -172,7 +172,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             msg.setText("Kasadan " + QString::number(tutar, 'f', 2) + " TL çıkış yapıldı.");
         }
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
         return 1;
     }

@@ -311,7 +311,7 @@ void Veritabani::deleteUser(QString _DeletedUserName)
         msg->setText(_DeletedUserName + " kullanıcısı silindi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
-        msg->setButtonText(QMessageBox::Ok, "Tamam");
+        // msg->setButtonText(QMessageBox::Ok, "Tamam");
         msg->exec();
     }
     else{
@@ -323,7 +323,7 @@ void Veritabani::deleteUser(QString _DeletedUserName)
             msg->setInformativeText(sorgu.lastError().text());
             msg->setStandardButtons(QMessageBox::Ok);
             msg->setDefaultButton(QMessageBox::Ok);
-            msg->setButtonText(QMessageBox::Ok, "Tamam");
+            // msg->setButtonText(QMessageBox::Ok, "Tamam");
             msg->exec();
         }
     }

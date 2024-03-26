@@ -64,16 +64,29 @@ void YeniCariKartDialog::FormLoad()
     // RegEXPcariAdi = QRegExp("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9]{5,}");
     // ui->CariAdilineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
     // ui->YetkililineEdit->setValidator(new QRegExpValidator(RegEXPcariAdi, this));
+    RegEXPcariAdi = QRegularExpression("[a-zöçşıiğü A-ZÖÇŞIİĞÜ 0-9]{5,}");
+    QValidator *cariAdiValidator = new QRegularExpressionValidator(RegEXPcariAdi, this);
+    ui->CariAdilineEdit->setValidator(cariAdiValidator);
+    ui->YetkililineEdit->setValidator(cariAdiValidator);
 
     // RegEXPVergiNo = QRegExp("[0-9]{11}");
     // ui->VergiNolineEdit->setValidator(new QRegExpValidator(RegEXPVergiNo, this));
+    RegEXPVergiNo = QRegularExpression("[0-9]{11}");
+    QValidator *vergiNoValidator = new QRegularExpressionValidator(RegEXPVergiNo, this);
+    ui->VergiNolineEdit->setValidator(vergiNoValidator);
 
     // RegEXPmail = QRegExp("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
     // RegEXPmail.setCaseSensitivity(Qt::CaseInsensitive);
     // ui->MaillineEdit->setValidator(new QRegExpValidator(RegEXPmail, this));
+    RegEXPmail = QRegularExpression("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    QValidator *mailValidator = new QRegularExpressionValidator(RegEXPmail, this);
+    ui->MaillineEdit->setValidator(mailValidator);
 
     // RegEXPtelefon = QRegExp("[0-9]{11}");
     // ui->TelefonlineEdit->setValidator(new QRegExpValidator(RegEXPtelefon, this));
+    RegEXPtelefon = QRegularExpression("[0-9]{11}");
+    QValidator *telefonValidator = new QRegularExpressionValidator(RegEXPtelefon, this);
+    ui->TelefonlineEdit->setValidator(telefonValidator);
 
     uyariSesi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
 }
@@ -112,46 +125,52 @@ void YeniCariKartDialog::on_KaydetpushButton_clicked()
         msg.exec();
         return;
     }
-    if(!RegEXPcariAdi.exactMatch(ui->CariAdilineEdit->text())){
+
+    cariAdiMatch = RegEXPcariAdi.match(ui->CariAdilineEdit->text());
+    if(!cariAdiMatch.hasMatch()){
         uyariSesi.play();
         msg.setText("Cari adı uygun formatta olmalı");
         msg.exec();
         return;
     }
+    yetkiliAdiMatch = RegEXPcariAdi.match(ui->YetkililineEdit->text());
     if(!ui->YetkililineEdit->text().isEmpty()){
-        if(!RegEXPcariAdi.exactMatch(ui->YetkililineEdit->text())){
+        if(!yetkiliAdiMatch.hasMatch()){
             uyariSesi.play();
             msg.setText("Cari yetkili adı uygun formatta olmalı");
             msg.exec();
             return;
         }
     }
+    vergiNoMatch = RegEXPVergiNo.match(ui->VergiNolineEdit->text());
     if(!ui->VergiNolineEdit->text().isEmpty()){
-        if(!RegEXPVergiNo.exactMatch(ui->VergiNolineEdit->text())){
+        if(!vergiNoMatch.hasMatch()){
             uyariSesi.play();
             msg.setText("Cari vergi numarası uygun formatta olmalı");
             msg.exec();
             return;
         }
     }
-    if(!ui->VergiNolineEdit->text().isEmpty()){
-        if(!RegEXPcariAdi.exactMatch(ui->VergiDairesilineEdit->text())){
-            uyariSesi.play();
-            msg.setText("Cari vergi dairesi adı uygun formatta olmalı");
-            msg.exec();
-            return;
-        }
-    }
+    // if(!ui->VergiNolineEdit->text().isEmpty()){
+    //     if(!RegEXPcariAdi.exactMatch(ui->VergiDairesilineEdit->text())){
+    //         uyariSesi.play();
+    //         msg.setText("Cari vergi dairesi adı uygun formatta olmalı");
+    //         msg.exec();
+    //         return;
+    //     }
+    // }
+    mailMatch = RegEXPmail.match(ui->MaillineEdit->text());
     if(!ui->MaillineEdit->text().isEmpty()){
-        if(!RegEXPmail.exactMatch(ui->MaillineEdit->text())){
+        if(!mailMatch.hasMatch()){
             uyariSesi.play();
             msg.setText("Cari mail adresi uygun formatta olmalı");
             msg.exec();
             return;
         }
     }
+    telefonMatch = RegEXPtelefon.match(ui->TelefonlineEdit->text());
     if(!ui->TelefonlineEdit->text().isEmpty()){
-        if(!RegEXPtelefon.exactMatch(ui->TelefonlineEdit->text())){
+        if(!telefonMatch.hasMatch()){
             uyariSesi.play();
             msg.setText("Cari telefon numarası uygun formatta olmalı");
             msg.exec();
@@ -278,7 +297,8 @@ void YeniCariKartDialog::setDuzenlenecekCariID(const QString &newDuzenlenecekCar
 
 void YeniCariKartDialog::on_CariAdilineEdit_textChanged(const QString &arg1)
 {
-    if(RegEXPcariAdi.exactMatch(arg1)){
+    cariAdiMatch = RegEXPcariAdi.match(arg1);
+    if(cariAdiMatch.hasMatch()){
         ui->CariAdilineEdit->setPalette(LineEditBackColorPaletteDefault);
     }
     else{
@@ -288,7 +308,8 @@ void YeniCariKartDialog::on_CariAdilineEdit_textChanged(const QString &arg1)
 
 void YeniCariKartDialog::on_YetkililineEdit_textChanged(const QString &arg1)
 {
-    if(RegEXPcariAdi.exactMatch(arg1)){
+    yetkiliAdiMatch = RegEXPcariAdi.match(arg1);
+    if(yetkiliAdiMatch.hasMatch()){
         ui->YetkililineEdit->setPalette(LineEditBackColorPaletteDefault);
     }
     else{
@@ -298,7 +319,8 @@ void YeniCariKartDialog::on_YetkililineEdit_textChanged(const QString &arg1)
 
 void YeniCariKartDialog::on_VergiNolineEdit_textChanged(const QString &arg1)
 {
-    if(RegEXPVergiNo.exactMatch(arg1)){
+    vergiNoMatch = RegEXPVergiNo.match(arg1);
+    if(vergiNoMatch.hasMatch()){
         ui->VergiNolineEdit->setPalette(LineEditBackColorPaletteDefault);
     }
     else{
@@ -308,7 +330,8 @@ void YeniCariKartDialog::on_VergiNolineEdit_textChanged(const QString &arg1)
 
 void YeniCariKartDialog::on_MaillineEdit_textChanged(const QString &arg1)
 {
-    if(RegEXPmail.exactMatch(arg1)){
+    mailMatch = RegEXPmail.match(arg1);
+    if(mailMatch.hasMatch()){
         ui->MaillineEdit->setPalette(LineEditBackColorPaletteDefault);
     }
     else{
@@ -318,7 +341,8 @@ void YeniCariKartDialog::on_MaillineEdit_textChanged(const QString &arg1)
 
 void YeniCariKartDialog::on_TelefonlineEdit_textChanged(const QString &arg1)
 {
-    if(RegEXPtelefon.exactMatch(arg1)){
+    telefonMatch = RegEXPtelefon.match(arg1);
+    if(telefonMatch.hasMatch()){
         ui->TelefonlineEdit->setPalette(LineEditBackColorPaletteDefault);
     }
     else{

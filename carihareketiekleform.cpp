@@ -96,7 +96,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             this->close();
         }else{
@@ -105,7 +105,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         break;
@@ -129,7 +129,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             this->close();
         }else{
@@ -138,7 +138,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         break;
@@ -157,7 +157,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             this->close();
         }else{
@@ -166,7 +166,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         break;
@@ -185,7 +185,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " Kaydedildi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             this->close();
         }else{
@@ -194,7 +194,7 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Lütfen en az 1 TL veya daha büyük bir rakam giriniz!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         break;

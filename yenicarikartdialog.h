@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "cariyonetimi.h"
 //**************************
 #include <QDialog>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QPalette>
 #include <QSoundEffect>
 
@@ -80,10 +80,15 @@ private:
     QPalette LineEditBackColorPaletteRed;
     QPalette LineEditBackColorPaletteDefault;
 
-    QRegExp RegEXPcariAdi;
-    QRegExp RegEXPVergiNo;
-    QRegExp RegEXPtelefon;
-    QRegExp RegEXPmail;
+    QRegularExpression RegEXPcariAdi;
+    QRegularExpression RegEXPVergiNo;
+    QRegularExpression RegEXPtelefon;
+    QRegularExpression RegEXPmail;
+    QRegularExpressionMatch cariAdiMatch;
+    QRegularExpressionMatch yetkiliAdiMatch;
+    QRegularExpressionMatch vergiNoMatch;
+    QRegularExpressionMatch mailMatch;
+    QRegularExpressionMatch telefonMatch;
 };
 
 #endif // YENICARIKARTDIALOG_H

@@ -51,7 +51,7 @@ void ParaCekDialogForm::on_IptalpushButton_clicked()
     msg.setWindowTitle("Bilgi");
     msg.setText(QString("Kasadan para çekimi iptal edildi."));
     msg.setStandardButtons(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    // msg.setButtonText(QMessageBox::Ok, "Tamam");
     msg.setDefaultButton(QMessageBox::Ok);
     msg.exec();
     this->close();
@@ -67,7 +67,7 @@ void ParaCekDialogForm::on_CekpushButton_clicked()
         msg.setWindowTitle("Bilgi");
         msg.setText(QString("Kasadan ₺%1 lira çekildi.").arg(QString::number(ui->doubleSpinBox->value())));
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
         this->close();
@@ -78,7 +78,7 @@ void ParaCekDialogForm::on_CekpushButton_clicked()
         msg.setWindowTitle("Bilgi");
         msg.setText(QString("Kasada ki miktardan yüksek olamaz.").arg(QString::number(ui->doubleSpinBox->value())));
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
     }

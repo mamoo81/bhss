@@ -50,7 +50,7 @@ void AdetDialogForm::on_pushButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("0 dan büyük bir rakam giriniz.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

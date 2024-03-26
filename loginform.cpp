@@ -90,7 +90,7 @@ void LoginForm::on_GirisBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Şifre hatalı!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
         ui->LeditPass->clear();
         ui->LeditPass->setFocus();

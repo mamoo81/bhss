@@ -55,7 +55,7 @@ void ResimEkleDialog::on_kaydetpushButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Resim başarıyla kaydedildi.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
         this->close();
     }
@@ -65,7 +65,7 @@ void ResimEkleDialog::on_kaydetpushButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Resim kaydedilemedi.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

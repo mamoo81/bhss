@@ -174,7 +174,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Stok işlemleri yapmaya yetkiniz yoktur.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -185,7 +185,7 @@ void SatisForm::on_StokKartlariBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Satışı yapılmamış sepetiniz var stok kartları sayfasını açamazsınız.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     ui->barkodLineEdit->setFocus();
@@ -418,7 +418,7 @@ void SatisForm::sepeteEkle()
         if(stokKarti.getMiktar() <= 0){
             uyariSesi.play();
             QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün stoğu tükenmiş!"), QMessageBox::Ok, this);
-            MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
+            // MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
             MsgBox.exec();
             ui->barkodLineEdit->clear();
             return;
@@ -554,7 +554,7 @@ void SatisForm::sepeteEkle()
     else{
         uyariSesi.play();
         QMessageBox MsgBox(QMessageBox::Warning, tr("Uyarı"), ui->barkodLineEdit->text() + tr("\n\nBarkodlu ürün bulunamadı!"), QMessageBox::Ok, this);
-        MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
+        // MsgBox.setButtonText(QMessageBox::Ok, "Tamam");
         MsgBox.exec();
         ui->barkodLineEdit->clear();
     }
@@ -830,8 +830,8 @@ void SatisForm::closeEvent(QCloseEvent *event)
     if(ui->sepet1TableWidget->rowCount() > 0 || ui->sepet2TableWidget->rowCount() > 0 || ui->sepet3TableWidget->rowCount() > 0 || ui->sepet4TableWidget->rowCount() > 0){
         uyariSesi.play();
         QMessageBox closingMsgBox(QMessageBox::Question, tr("Dikkat"), tr("Satışı yapılmamış sepetiniz var!\n\nYine de çıkmak istediğinize emin misiniz?"), QMessageBox::Yes | QMessageBox::No, this);
-        closingMsgBox.setButtonText(QMessageBox::Yes, "Evet");
-        closingMsgBox.setButtonText(QMessageBox::No, "Hayır");
+        // closingMsgBox.setButtonText(QMessageBox::Yes, "Evet");
+        // closingMsgBox.setButtonText(QMessageBox::No, "Hayır");
         closingMsgBox.setDefaultButton(QMessageBox::No);
         int cevap = closingMsgBox.exec();
         switch (cevap) {
@@ -843,9 +843,9 @@ void SatisForm::closeEvent(QCloseEvent *event)
                 msg.setText("Kasadan para çekimi yapılsın mı?");
                 msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
                 msg.setDefaultButton(QMessageBox::No);
-                msg.setButtonText(QMessageBox::Yes, "Evet");
-                msg.setButtonText(QMessageBox::No, "Hayır");
-                msg.setButtonText(QMessageBox::Cancel, "İptal");
+                // msg.setButtonText(QMessageBox::Yes, "Evet");
+                // msg.setButtonText(QMessageBox::No, "Hayır");
+                // msg.setButtonText(QMessageBox::Cancel, "İptal");
                 int cevapKasa = msg.exec();
                 if(QMessageBox::Yes == cevapKasa){
                     SatisForm::on_KasaBtn_clicked();
@@ -887,9 +887,9 @@ void SatisForm::closeEvent(QCloseEvent *event)
         msg.setText("Kasadan para çekimi yapılsın mı?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         msg.setDefaultButton(QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
-        msg.setButtonText(QMessageBox::Cancel, "İptal");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Cancel, "İptal");
         int cevap = msg.exec();
         if(QMessageBox::Yes == cevap){
             SatisForm::on_KasaBtn_clicked();
@@ -922,7 +922,7 @@ void SatisForm::adetCarp()
     msg.setIcon(QMessageBox::Warning);
     msg.setText("Adet stok miktarından fazla olamaz.");
     msg.setStandardButtons(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    // msg.setButtonText(QMessageBox::Ok, "Tamam");
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
         if(ui->sepet1TableWidget->model()->index(ui->sepet1TableWidget->currentIndex().row(), 3).data().toString() == "ADET"
@@ -2994,8 +2994,8 @@ void SatisForm::on_satirSilBtn_clicked()
     msgBox.setIcon(QMessageBox::Question);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
-    msgBox.setButtonText(QMessageBox::Yes, "Evet");
-    msgBox.setButtonText(QMessageBox::No, "Hayır");
+    // msgBox.setButtonText(QMessageBox::Yes, "Evet");
+    // msgBox.setButtonText(QMessageBox::No, "Hayır");
     int cevap;
     switch (ui->SepetlertabWidget->currentIndex()) {
     case 0:
@@ -3083,8 +3083,8 @@ void SatisForm::on_sepetSilBtn_clicked()
     sepetSilMsgBox.setText("Aktif Sepeti silmek istediğinize emin misiniz?");
     sepetSilMsgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     sepetSilMsgBox.setDefaultButton(QMessageBox::Yes);
-    sepetSilMsgBox.setButtonText(QMessageBox::Yes, "Evet");
-    sepetSilMsgBox.setButtonText(QMessageBox::No, "Hayır");
+    // sepetSilMsgBox.setButtonText(QMessageBox::Yes, "Evet");
+    // sepetSilMsgBox.setButtonText(QMessageBox::No, "Hayır");
     sepetSilMsgBox.setModal(true);
     int cevap = sepetSilMsgBox.exec();
     if(cevap == QMessageBox::Yes){
@@ -4881,8 +4881,8 @@ void SatisForm::on_iadeAlBtn_clicked()
             msg.setInformativeText(QString("İade edilecek tutar: ₺%1").arg(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari()));
             msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
             msg.setDefaultButton(QMessageBox::Yes);
-            msg.setButtonText(QMessageBox::Yes, "Evet");
-            msg.setButtonText(QMessageBox::No, "Hayır");
+            // msg.setButtonText(QMessageBox::Yes, "Evet");
+            // msg.setButtonText(QMessageBox::No, "Hayır");
             int cvp = msg.exec();
             if(cvp == QMessageBox::Yes){
                 if(sepet[ui->SepetlertabWidget->currentIndex()].sepetToplamTutari() <= kasaYonetimi.getKasadakiPara()){
@@ -4919,7 +4919,7 @@ void SatisForm::on_iadeAlBtn_clicked()
                     msg.setIcon(QMessageBox::Warning);
                     msg.setText("Kasada yeterli miktarda para yok!\n\nİade alamassınız.");
                     msg.setStandardButtons(QMessageBox::Ok);
-                    msg.setButtonText(QMessageBox::Ok, "Tamam");
+                    // msg.setButtonText(QMessageBox::Ok, "Tamam");
                     msg.exec();
                 }
             }
@@ -4932,7 +4932,7 @@ void SatisForm::on_iadeAlBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("İade almaya yetkiniz yok.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     ui->barkodLineEdit->setFocus();
@@ -4954,7 +4954,7 @@ void SatisForm::on_AyarlarBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Satışı yapılmamış sepetiniz varken ayarları açamassınız!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     else{
@@ -4974,7 +4974,7 @@ void SatisForm::on_AyarlarBtn_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Ayarlara erişim ve düzenleme yetkiniz yoktur.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -4996,7 +4996,7 @@ void SatisForm::on_CariKartlarBtn_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Cari işlemleri yapmaya yetkiniz yoktur.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     ui->barkodLineEdit->setFocus();

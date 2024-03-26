@@ -464,7 +464,7 @@ void Sepet::urunArtir(QString _Barkod, float _miktar)
         msg.setText("STOK MİKTARINDAN FAZLA OLAMAZ!");
         msg.setModal(true);
         msg.setDefaultButton(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

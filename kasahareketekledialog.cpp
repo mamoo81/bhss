@@ -92,7 +92,7 @@ void KasaHareketEkleDialog::on_KaydetpushButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Tutar en az 1,00 TL den büyük olmalı.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -156,7 +156,7 @@ void KasaHareketEkleDialog::on_tarihdateEdit_dateTimeChanged(const QDateTime &da
         msg.setIcon(QMessageBox::Information);
         msg.setText("Kasa giriş/çıkış işlemini ileri bir tarihe yapamazsınız!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
         QThread::msleep(100);
         ui->KaydetpushButton->setEnabled(false);

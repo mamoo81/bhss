@@ -166,7 +166,7 @@ void SatisGosterDialog::on_FisYazdirpushButton_clicked()
     msg.setText("Bilgi fişi yazdırıldı.");
     msg.setStandardButtons(QMessageBox::Ok);
     msg.setDefaultButton(QMessageBox::Ok);
-    msg.setButtonText(QMessageBox::Ok, "Tamam");
+    // msg.setButtonText(QMessageBox::Ok, "Tamam");
     msg.exec();
 }
 
@@ -179,8 +179,8 @@ void SatisGosterDialog::on_iadepushButton_clicked()
     msg.setIcon(QMessageBox::Question);
     msg.setText("Geçmiş satışı iade almak istediğinize emin misiniz?");
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
@@ -195,7 +195,7 @@ void SatisGosterDialog::on_iadepushButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Geçmiş satış iade alındı.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

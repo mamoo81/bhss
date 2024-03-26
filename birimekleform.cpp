@@ -56,7 +56,7 @@ void BirimekleForm::on_eklepushButton_clicked()
          msg.setIcon(QMessageBox::Warning);
          msg.setText("Girdiğiniz birim zaten mevcut");
          msg.setStandardButtons(QMessageBox::Ok);
-         msg.setButtonText(QMessageBox::Ok, "Tamam");
+         // msg.setButtonText(QMessageBox::Ok, "Tamam");
          msg.exec();
     }
     else{
@@ -75,8 +75,8 @@ void BirimekleForm::on_silpushButton_clicked()
         msg.setIcon(QMessageBox::Question);
         msg.setText("Silmek istediğinize emin misiniz?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         msg.setDefaultButton(QMessageBox::Yes);
         msg.exec();
         if(QMessageBox::Yes == msg.result())

@@ -261,7 +261,7 @@ void AyarlarDialog::on_DuzenlePushButton_clicked()
         msg.setText("Listeden bir kullanıcı seçin.");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setDefaultButton(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -281,7 +281,7 @@ void AyarlarDialog::on_SilPushButton_clicked()
         msg.setText("Listeden bir kullanıcı seçin.");
         msg.setStandardButtons(QMessageBox::Ok);
         msg.setDefaultButton(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -393,7 +393,7 @@ void AyarlarDialog::on_pushButton_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Veritabanının otomatik yedeklenmesi için yedekleneceği konumu belirtin!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
             ui->tabWidget->setCurrentIndex(3);
             return;
@@ -426,7 +426,7 @@ void AyarlarDialog::on_YedeklepushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Veritabanı Yedeklendi.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         else{
@@ -436,7 +436,7 @@ void AyarlarDialog::on_YedeklepushButton_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Veritabanı yedeklenemedi!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -450,8 +450,8 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
     msg.setIcon(QMessageBox::Warning);
     msg.setText("Bu işlem sonucunda tüm işlemler veritabanı yedeğine geri dönecek\n\nYapmak istediğinize emin misiniz?");
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
     uyariSesi.play();
     int cevap = msg.exec();
@@ -474,7 +474,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText("Veritabanı yedekten geri yüklendi.");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
             else{
@@ -484,7 +484,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
                 msg.setIcon(QMessageBox::Warning);
                 msg.setText("Veritabanı yedekten geri yüklenemedi!");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
         }
@@ -495,7 +495,7 @@ void AyarlarDialog::on_GeriYuklepushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Veritabanı yedeği seçilmedi.\n\nİşlemden vazgeçildi!");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -776,8 +776,8 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
                 "Cari Kartlar ve Cari Hareketleri\n"
                 "Kullanıcılar");
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
@@ -788,7 +788,7 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
             msg.setIcon(QMessageBox::Information);
             msg.setText("Veritabanı sıfırlandı.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
         else{
@@ -798,7 +798,7 @@ void AyarlarDialog::on_SifirlapushButton_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Veritabanı sıfırlanamadı.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.exec();
         }
     }
@@ -818,8 +818,8 @@ void AyarlarDialog::on_hizliButtonSifirlapushButton_clicked()
     msg.setIcon(QMessageBox::Warning);
     msg.setText("Hızlı ürün butonlarını sıfırlamak istediğinize emin misiniz?");
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
     uyariSesi.play();
     int ret = msg.exec();

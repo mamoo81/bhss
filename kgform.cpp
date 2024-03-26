@@ -90,7 +90,7 @@ void KgForm::on_pushButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Lütfen 0 'dan büyük bir değer giriniz.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

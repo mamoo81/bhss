@@ -219,8 +219,8 @@ void CariKartlarDialog::on_SiltoolButton_clicked()
     msg.setIcon(QMessageBox::Question);
     msg.setText(ui->CariKartlartableView->model()->index(ui->CariKartlartableView->currentIndex().row(), 1).data().toString() + " carisi silinecek!\n\nSilmek istediğinize emin misiniz?");
     msg.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     msg.setDefaultButton(QMessageBox::No);
     msg.exec();
     if(msg.result() == QMessageBox::Yes){
@@ -295,7 +295,7 @@ void CariKartlarDialog::on_TahsilatMakbuzuBastoolButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Tahsilat makbuzu yazdırıldı.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     else{
@@ -304,7 +304,7 @@ void CariKartlarDialog::on_TahsilatMakbuzuBastoolButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Cari hareketlerinden bir tahsilat seçiniz.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

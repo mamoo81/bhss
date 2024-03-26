@@ -33,7 +33,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QShortcut>
 #include <QSoundEffect>
 #include <QItemSelectionModel>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDoubleValidator>
 
 namespace Ui {
@@ -158,9 +158,9 @@ private:
     QPalette TextColorPaletteRed;
     QPalette TextColorPaletteDefault;
 
-    QRegExp regEXPbarkod;
-    QRegExp regEXPstokKod;
-    QRegExp regEXPstokAd;
+    QRegularExpression regEXPbarkod;
+    QRegularExpression regEXPstokKod;
+    QRegularExpression regEXPstokAd;
     QDoubleValidator *regEXPstokMiktar;
 };
 

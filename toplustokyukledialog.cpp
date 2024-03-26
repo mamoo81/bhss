@@ -79,7 +79,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText(tr("%1 stok kartı veritabanına girilmiştir.").arg(yuklenen) + tr("\n%1 adet stok kartı zaten mevcut.").arg(esGecilen) + tr("\n%1 adet stok kartı yüklemesi başarısız.").arg(basarisiz));
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     else{
@@ -91,7 +91,7 @@ void TopluStokYukleDialog::on_YuklepushButton_clicked()
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Önce Stok kartları dosyası seçilmeli.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -147,7 +147,7 @@ void TopluStokYukleDialog::jsondanYukle()
                     msg.setIcon(QMessageBox::Warning);
                     msg.setText("Toplu stok kartı aktarımı iptal edildi.");
                     msg.setStandardButtons(QMessageBox::Ok);
-                    msg.setButtonText(QMessageBox::Ok, "Tamam");
+                    // msg.setButtonText(QMessageBox::Ok, "Tamam");
                     msg.exec();
                     return;
                 }
@@ -217,7 +217,7 @@ void TopluStokYukleDialog::csvdenYukle()
         msg.setIcon(QMessageBox::Warning);
         msg.setText(QString("Dosya açılamadı.\n\nHata mesajı:\n\n%1").arg(dosya.errorString()));
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
         return;
     }
@@ -371,7 +371,7 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Dosya oluşturuldu.");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     else{
@@ -381,8 +381,8 @@ void TopluStokYukleDialog::on_CsvDosyaCikartButton_clicked()
         msg.setIcon(QMessageBox::Question);
         msg.setText("Dosya zaten mevcut üzerine yazayım mı?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
             QFile(yeniKopyalanacakKonum).remove();

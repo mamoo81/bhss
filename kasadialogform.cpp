@@ -143,8 +143,8 @@ void KasaDialogForm::on_SiltoolButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Seçili işlemi silmek istediğinize emin misiniz?");
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setButtonText(QMessageBox::Yes, "Evet");
-        msg.setButtonText(QMessageBox::No, "Hayır");
+        // msg.setButtonText(QMessageBox::Yes, "Evet");
+        // msg.setButtonText(QMessageBox::No, "Hayır");
         int msgsonuc = msg.exec();
         if(QMessageBox::Yes == msgsonuc){
             bool sonuc = kasaYonetimi.kasaHareketiSil(ui->KasaHareketleritableView->model()->index(ui->KasaHareketleritableView->currentIndex().row(), 0).data().toString(),
@@ -156,7 +156,7 @@ void KasaDialogForm::on_SiltoolButton_clicked()
                 msg.setIcon(QMessageBox::Information);
                 msg.setText("Kasa hareketi silindi.");
                 msg.setStandardButtons(QMessageBox::Ok);
-                msg.setButtonText(QMessageBox::Ok, "Tamam");
+                // msg.setButtonText(QMessageBox::Ok, "Tamam");
                 msg.exec();
             }
             KasaHareketleriListele();
@@ -168,7 +168,7 @@ void KasaDialogForm::on_SiltoolButton_clicked()
         msg.setIcon(QMessageBox::Information);
         msg.setText("Listeden bir işlem seçin");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     delete seciliSatir;

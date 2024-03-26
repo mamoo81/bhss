@@ -56,7 +56,7 @@ void StokHareketleriDialog::on_bitisdateEdit_dateTimeChanged(const QDateTime &da
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Bitiş tarihi Başlangıç tarihinden küçük olamaz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }
@@ -75,7 +75,7 @@ void StokHareketleriDialog::on_baslangicdateEdit_dateTimeChanged(const QDateTime
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Başlangıç tarihi bitiş tarihinden büyük olamaz!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
 }

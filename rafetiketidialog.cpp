@@ -209,8 +209,8 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
     msg.setText("Listedeki stok kartları yazıcıya gönderilecek. Emin misiniz?");
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msg.setDefaultButton(QMessageBox::Yes);
-    msg.setButtonText(QMessageBox::Yes, "Evet");
-    msg.setButtonText(QMessageBox::No, "Hayır");
+    // msg.setButtonText(QMessageBox::Yes, "Evet");
+    // msg.setButtonText(QMessageBox::No, "Hayır");
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
         ui->progressBar->setVisible(true);
@@ -243,7 +243,7 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
             msg.setIcon(QMessageBox::Warning);
             msg.setText("Varsayılan kağıt ayarlardan okunamadı. \n\nÖnceden ayarlamamış olabilirsiniz.");
             msg.setStandardButtons(QMessageBox::Ok);
-            msg.setButtonText(QMessageBox::Ok, "Tamam");
+            // msg.setButtonText(QMessageBox::Ok, "Tamam");
             msg.setDefaultButton(QMessageBox::Ok);
             msg.exec();
         }
@@ -330,7 +330,7 @@ void RafEtiketiDialog::stokKartiAra(QString aranacakMetin)
         msg.setIcon(QMessageBox::Warning);
         msg.setText("Stok kartı bulunamadı");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
         ui->stokKartlaritableView->clearSelection();

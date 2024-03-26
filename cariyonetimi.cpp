@@ -453,7 +453,7 @@ void CariYonetimi::cariKartSil(QString cariID)
         msg.setIcon(QMessageBox::Information);
         msg.setText("Cari kart silindi!");
         msg.setStandardButtons(QMessageBox::Ok);
-        msg.setButtonText(QMessageBox::Ok, "Tamam");
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
     if(sorgu.lastError().isValid()){
