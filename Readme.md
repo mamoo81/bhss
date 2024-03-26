@@ -53,7 +53,7 @@ sudo servis kos postgresql
 sudo servis aktif postgresql
 ```
 
-#### Pardus 23.x GNU/Linux
+#### Pardus GNU/Linux
 Güncellemerin kurulumu
 ```
 sudo apt-get update
@@ -61,7 +61,7 @@ sudo apt-get upgrade
 ```
 Gereklerin kurulumu
 ```
-sudo apt-get install build-essential postgresql zint qt5-qmake qmake6 make git qt6-declarative-dev qt6-tools-dev libqt6serialport6 qt6-multimedia-dev qt6-charts-dev libqt6sql6-psql
+sudo apt-get install postgresql-13 zint qt5-qmake make g++ git qtdeclarative5-dev qttools5-dev libqt5serialport5-dev qtmultimedia5-dev libqt5charts5-dev libqt5sql5-psql
 ```
 Postgresql'de ```postgres``` kullanıcısının localhost bağlantısına izin verilmeli.
 ```postgres``` kullanıcısının şifresi ```postgres``` olmalı.
