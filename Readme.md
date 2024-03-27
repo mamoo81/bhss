@@ -53,7 +53,7 @@ sudo servis kos postgresql
 sudo servis aktif postgresql
 ```
 
-#### Pardus GNU/Linux
+#### Pardus 23.x GNU/Linux
 Güncellemerin kurulumu
 ```
 sudo apt-get update
@@ -61,16 +61,16 @@ sudo apt-get upgrade
 ```
 Gereklerin kurulumu
 ```
-sudo apt-get install postgresql-13 zint qt5-qmake make g++ git qtdeclarative5-dev qttools5-dev libqt5serialport5-dev qtmultimedia5-dev libqt5charts5-dev libqt5sql5-psql
+sudo apt-get install postgresql zint qmake6 make g++ git qt6-declarative-dev qt6-tools-dev qt6-serialport-dev qt6-multimedia-dev qt6-charts-dev libqt6sql6-psql
 ```
 Postgresql'de ```postgres``` kullanıcısının localhost bağlantısına izin verilmeli.
 ```postgres``` kullanıcısının şifresi ```postgres``` olmalı.
 
 MHSS nin kaynaktan kurulumu
 ```
-git clone https://mls.akdeniz.edu.tr/git/mamoo/mhss.git
+git clone https://github.com/mamoo81/bhss.git
 cd mhss && mkdir build && cd build
-qmake ../mhss.pro
+qmake6 ../mhss.pro
 make
 sudo make install
 ```
