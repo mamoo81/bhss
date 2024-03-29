@@ -45,6 +45,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSoundEffect>
 #include <QTableWidgetItem>
 #include <QSettings>
+#include <QRegularExpression>
 
 namespace Ui {
 class SatisForm;
@@ -477,6 +478,8 @@ private:
 
     SatisGosterDialog *satisGosterForm = new SatisGosterDialog(this);
     AdetDialogForm *adetForm = new AdetDialogForm(this);
+
+    QRegularExpression barkodRegExp;
 };
 
 #endif // SATISFORM_H

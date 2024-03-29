@@ -163,43 +163,48 @@ QSqlError StokYonetimi::yeniStokKartiOlustur(StokKarti stokKarti, User *kullanic
 
 QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici, bool fiyatDegistimi)
 {
-    // stok kartını güncelleme sorgusu
-    sorgu.prepare("UPDATE stokkartlari SET "
-                  "barkod = ?, "
-                  "kod = ?, "
-                  "ad = ?, "
-                  "birim = ?, "
-                  "miktar = ?, "
-                  "grup = ?, "
-                  "afiyat = ?, "
-                  "sfiyat = ?, "
-                  "kdv = ?, "
-                  "otv = ?, "
-                  "kdvdahil = ?, "
-                  "otvdahil = ?, "
-                  "tarih = ?, "
-                  "uretici = ?, "
-                  "tedarikci = ?, "
-                  "aciklama = ? "
-                  "WHERE id = ?");
-    sorgu.bindValue(0, duzenlenecekStokKarti.getBarkod());
-    sorgu.bindValue(1, duzenlenecekStokKarti.getKod());
-    sorgu.bindValue(2, duzenlenecekStokKarti.getAd());
-    sorgu.bindValue(3, duzenlenecekStokKarti.getBirim());
-    sorgu.bindValue(4, duzenlenecekStokKarti.getMiktar());
-    sorgu.bindValue(5, duzenlenecekStokKarti.getGrup());
-    sorgu.bindValue(6, duzenlenecekStokKarti.getAFiyat());
-    sorgu.bindValue(7, duzenlenecekStokKarti.getSFiyat());
-    sorgu.bindValue(8, duzenlenecekStokKarti.getKdv());
-    sorgu.bindValue(9, duzenlenecekStokKarti.getOtv());
-    sorgu.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
-    sorgu.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
-    sorgu.bindValue(12, duzenlenecekStokKarti.getTarih());
-    sorgu.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
-    sorgu.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
-    sorgu.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
-    sorgu.bindValue(16, duzenlenecekStokKarti.getId());
+    // stok kartını güncelleme sorgusu/*
+    // sorgu.prepare("UPDATE stokkartlari SET "
+    //               "barkod = ?, "
+    //               "kod = ?, "
+    //               "ad = ?, "
+    //               "birim = ?, "
+    //               "miktar = ?, "
+    //               "grup = ?, "
+    //               "afiyat = ?, "
+    //               "sfiyat = ?, "
+    //               "kdv = ?, "
+    //               "otv = ?, "
+    //               "kdvdahil = ?, "
+    //               "otvdahil = ?, "
+    //               "tarih = ?, "
+    //               "uretici = ?, "
+    //               "tedarikci = ?, "
+    //               "aciklama = ? "
+    //               "WHERE id = ?;");
+    // sorgu.bindValue(0, duzenlenecekStokKarti.getBarkod());
+    // sorgu.bindValue(1, duzenlenecekStokKarti.getKod());
+    // sorgu.bindValue(2, duzenlenecekStokKarti.getAd());
+    // sorgu.bindValue(3, duzenlenecekStokKarti.getBirim());
+    // sorgu.bindValue(4, duzenlenecekStokKarti.getMiktar());
+    // sorgu.bindValue(5, duzenlenecekStokKarti.getGrup());
+    // sorgu.bindValue(0, duzenlenecekStokKarti.getAFiyat());
+    // sorgu.bindValue(1, duzenlenecekStokKarti.getSFiyat());
+    // sorgu.bindValue(8, duzenlenecekStokKarti.getKdv());
+    // sorgu.bindValue(9, duzenlenecekStokKarti.getOtv());
+    // sorgu.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
+    // sorgu.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
+    // sorgu.bindValue(12, duzenlenecekStokKarti.getTarih());
+    // sorgu.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
+    // sorgu.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
+    // sorgu.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
+    // sorgu.bindValue(2, duzenlenecekStokKarti.getId());
+    sorgu.prepare("UPDATE stokkartlari SET afiyat = :afiyat, sfiyat = :sfiyat WHERE id = :id;");
+    sorgu.bindValue(":afiyat", duzenlenecekStokKarti.getAFiyat());
+    sorgu.bindValue(":sfiyat", duzenlenecekStokKarti.getSFiyat());
+    sorgu.bindValue(":id", duzenlenecekStokKarti.getId());
     sorgu.exec();
+    // qDebug() << sorgu.lastQuery();
     if(sorgu.lastError().isValid()){
         qDebug() << qPrintable(sorgu.lastError().text());
     }

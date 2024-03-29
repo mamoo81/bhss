@@ -1,6 +1,17 @@
 QT       += core gui sql multimedia printsupport charts serialport network core5compat
 
-greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 6): QT += widgets
+
+contains(QT_MAJOR_VERSION, 6) {
+    equals(QT_MINOR_VERSION, 5): {
+        QT += core gui widgets multimedia printsupport charts serialport network core5compat
+    }
+    equals(QT_MINOR_VERSION, 4): {
+        QT += core gui widgets multimedia printsupport charts serialport network core5compat
+    }
+} else {
+    error("Qt 6.5.3 veya 6.4.3 gereklidir.")
+}
 
 CONFIG += c++11
 

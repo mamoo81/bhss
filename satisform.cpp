@@ -73,9 +73,12 @@ void SatisForm::formLoad()
 {
     QWidget::showMaximized();
     initTableWidgets();
-    // hizliButonConnects();
-    // QRegExp rgx("(|\"|/|\\.|[0-9]){13}");// lineEdit'e sadece rakam girmesi için QRegExp tanımlaması.
-    // ui->barkodLineEdit->setValidator(new QRegExpValidator(rgx, this));// setValidator'üne QRegExpValidator'ü belirtme.
+    hizliButonConnects();
+
+    barkodRegExp = QRegularExpression("(|\"|/|\\.|[0-9]){13}");
+    QValidator *barkodValidator = new QRegularExpressionValidator(barkodRegExp, this);
+    ui->barkodLineEdit->setValidator(barkodValidator);
+
     ui->barkodLineEdit->installEventFilter(this);
     butonDurumlariniAyarla();
     hizliUrunButonlariAyarla();
@@ -85,7 +88,7 @@ void SatisForm::formLoad()
 
     // klavye kısayol tanımlamaları
     CTRL_F = new QShortcut(this);
-    CTRL_F->setKey(Qt::CTRL + Qt::Key_F);
+    CTRL_F->setKey(Qt::CTRL | Qt::Key_F);
     connect(CTRL_F, SIGNAL(activated()), this, SLOT(CTRL_F_Slot()));
 
     ENTER = new QShortcut(this);

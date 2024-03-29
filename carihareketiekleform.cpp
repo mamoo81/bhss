@@ -202,10 +202,21 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
 
 }
 
-void CariHareketiEkleForm::on_OdemeTipcomboBox_currentIndexChanged(const QString &arg1)
+void CariHareketiEkleForm::on_YetkililineEdit_textChanged(const QString &arg1)
 {
-    Q_UNUSED(arg1);
-    switch (ui->OdemeTipcomboBox->currentIndex()) {
+    ui->AciklamaplainTextEdit->setPlainText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " YAPILDI. YETKİLİ: " + arg1);
+}
+
+
+void CariHareketiEkleForm::on_iptalpushButton_clicked()
+{
+    this->close();
+}
+
+
+void CariHareketiEkleForm::on_OdemeTipcomboBox_currentIndexChanged(int index)
+{
+    switch (index) {
     case 0:
         odemeTip = nakit;
         break;
@@ -222,17 +233,5 @@ void CariHareketiEkleForm::on_OdemeTipcomboBox_currentIndexChanged(const QString
         odemeTip = senet;
         break;
     }
-}
-
-
-void CariHareketiEkleForm::on_YetkililineEdit_textChanged(const QString &arg1)
-{
-    ui->AciklamaplainTextEdit->setPlainText(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(QVariant::fromValue(faturaTip).toString()) + " YAPILDI. YETKİLİ: " + arg1);
-}
-
-
-void CariHareketiEkleForm::on_iptalpushButton_clicked()
-{
-    this->close();
 }
 

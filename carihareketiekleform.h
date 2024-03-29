@@ -72,11 +72,11 @@ private slots:
     void FormLoad();
     void on_KaydetpushButton_clicked();
 
-    void on_OdemeTipcomboBox_currentIndexChanged(const QString &arg1);
-
     void on_YetkililineEdit_textChanged(const QString &arg1);
 
     void on_iptalpushButton_clicked();
+
+    void on_OdemeTipcomboBox_currentIndexChanged(int index);
 
 private:
     User kullanici;

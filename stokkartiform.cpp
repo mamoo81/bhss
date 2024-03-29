@@ -124,10 +124,10 @@ void StokKartiForm::FormLoad()
     QValidator *validatorStokAd = new QRegularExpressionValidator(regEXPstokAd, this);
     ui->AdlineEdit->setValidator(validatorStokAd);
 
-//    regEXPstokMiktar = new QDoubleValidator(0, 999999999, 10, this);
-//    regEXPstokMiktar->setNotation(QDoubleValidator::StandardNotation);
-//    regEXPstokMiktar->setLocale(QLocale::C);
-//    ui->MiktardoubleSpinBox->setValidator(regEXPstokMiktar);
+    // regEXPstokMiktar->setDecimals(2);
+    // regEXPstokMiktar->setNotation(QDoubleValidator::StandardNotation);
+    // regEXPstokMiktar->setLocale(QLocale::C);
+    // ui->MiktardoubleSpinBox->setValidator(regEXPstokMiktar);
 
     TextColorPaletteDefault = ui->BarkodlineEdit->style()->standardPalette();
 
@@ -284,7 +284,8 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         }
     }
     else if(!yeniKart){// yenikayit false ise mevcut stok kartını günceller.
-        guncellenenKart.setId(guncellenecekKart.getId());
+        QString id = kart.getId();
+        guncellenenKart.setId(id);
         guncellenenKart.setBarkod(ui->BarkodlineEdit->text());
         guncellenenKart.setKod(ui->StokKodlineEdit->text());
         guncellenenKart.setAd(QLocale(QLocale::Turkish, QLocale::Turkey).toUpper(ui->AdlineEdit->text()));
