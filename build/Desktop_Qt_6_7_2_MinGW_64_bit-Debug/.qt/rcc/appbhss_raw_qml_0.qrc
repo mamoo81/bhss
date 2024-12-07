@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="/qt/qml/bhss/">
+    <file alias="Main.qml">C:/Users/Mehmet/Documents/bhss/Main.qml</file>
+    <file alias="LoginPage.qml">C:/Users/Mehmet/Documents/bhss/LoginPage.qml</file>
+    <file alias="SignUpPage.qml">C:/Users/Mehmet/Documents/bhss/SignUpPage.qml</file>
+    <file alias="ChoosePlanPage.qml">C:/Users/Mehmet/Documents/bhss/ChoosePlanPage.qml</file>
+    <file alias="SehirlerData.qml">C:/Users/Mehmet/Documents/bhss/SehirlerData.qml</file>
+    <file alias="ui-images.qrc">C:/Users/Mehmet/Documents/bhss/ui-images.qrc</file>
+    <file alias="qml.qrc">C:/Users/Mehmet/Documents/bhss/qml.qrc</file>
+  </qresource>
+</RCC>
+

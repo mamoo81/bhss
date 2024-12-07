@@ -1,0 +1,9 @@
+module bhss
+typeinfo appbhss.qmltypes
+prefer :/qt/qml/bhss/
+Main 1.0 Main.qml
+LoginPage 1.0 LoginPage.qml
+SignUpPage 1.0 SignUpPage.qml
+ChoosePlanPage 1.0 ChoosePlanPage.qml
+SehirlerData 1.0 SehirlerData.qml
+

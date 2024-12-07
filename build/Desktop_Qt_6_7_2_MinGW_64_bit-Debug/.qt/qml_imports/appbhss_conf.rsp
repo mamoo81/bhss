@@ -1,0 +1,14 @@
+-rootPath
+C:/Users/Mehmet/Documents/bhss
+-cmake-output
+-output-file
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/qml_imports/appbhss_conf.cmake
+-importPath
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/bhss
+-importPath
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug
+-importPath
+C:/Qt/6.7.2/mingw_64/./qml
+-qrcFiles
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/qmake_bhss.qrc
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/appbhss_raw_qml_0.qrc

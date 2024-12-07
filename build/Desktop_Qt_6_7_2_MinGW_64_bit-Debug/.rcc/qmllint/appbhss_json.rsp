@@ -1,0 +1,16 @@
+--bare
+-I
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug
+-I
+C:/Qt/6.7.2/mingw_64/./qml
+--resource
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/qmake_bhss.qrc
+--resource
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/appbhss_raw_qml_0.qrc
+C:/Users/Mehmet/Documents/bhss/Main.qml
+C:/Users/Mehmet/Documents/bhss/LoginPage.qml
+C:/Users/Mehmet/Documents/bhss/SignUpPage.qml
+C:/Users/Mehmet/Documents/bhss/ChoosePlanPage.qml
+C:/Users/Mehmet/Documents/bhss/SehirlerData.qml
+--json
+C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/appbhss_qmllint.json

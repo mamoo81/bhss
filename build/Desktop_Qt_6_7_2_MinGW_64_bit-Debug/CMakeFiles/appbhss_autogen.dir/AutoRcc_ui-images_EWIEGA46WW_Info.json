@@ -1,0 +1,37 @@
+{
+	"BUILD_DIR" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/appbhss_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/Mehmet/Documents/bhss",
+	"CMAKE_SOURCE_DIR" : "C:/Users/Mehmet/Documents/bhss",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/appbhss_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/Users/Mehmet/Documents/bhss/images/web.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/x.com-logo.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/no-licence.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/instagram.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/licence.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/previous.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/right-arrow.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/facebook.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/login-background.png",
+		"C:/Users/Mehmet/Documents/bhss/images/lgn-ui-image.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/down-arrow.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/setting.svg",
+		"C:/Users/Mehmet/Documents/bhss/images/arrow-left.svg"
+	],
+	"LOCK_FILE" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/appbhss_autogen.dir/AutoRcc_ui-images_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "ui_images" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_ui-images.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.7.2/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/appbhss_autogen.dir/AutoRcc_ui-images_EWIEGA46WW_Used.txt",
+	"SOURCE" : "C:/Users/Mehmet/Documents/bhss/ui-images.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>SehirlerData.qml</file>
+    </qresource>
+</RCC>
