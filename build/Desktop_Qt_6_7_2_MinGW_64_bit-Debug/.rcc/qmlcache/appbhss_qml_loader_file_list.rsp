@@ -1,9 +1,0 @@
---resource
-C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/qmake_bhss.qrc
---resource
-C:/Users/Mehmet/Documents/bhss/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qt/rcc/appbhss_raw_qml_0.qrc
-/qt/qml/bhss/Main.qml
-/qt/qml/bhss/LoginPage.qml
-/qt/qml/bhss/SignUpPage.qml
-/qt/qml/bhss/ChoosePlanPage.qml
-/qt/qml/bhss/SehirlerData.qml
