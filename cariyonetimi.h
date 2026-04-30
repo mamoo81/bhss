@@ -7,6 +7,7 @@
 #include "kasayonetimi.h"
 #include "cari.h"
 
+#include <QString>
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -18,7 +19,7 @@ public:
     CariYonetimi();
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu = QSqlQuery(db);
+    QSqlQuery sorgu;
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     StokYonetimi stokYonetimi = StokYonetimi();
     KasaYonetimi kasaYonetimi = KasaYonetimi();

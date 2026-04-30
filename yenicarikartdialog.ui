@@ -417,25 +417,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QCheckBox" name="guncelFiyatcheckBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>500</y>
-     <width>401</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Monospace</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Carinin borcunu güncel fiyat üzerinden hesapla</string>
-   </property>
-  </widget>
  </widget>
  <tabstops>
   <tabstop>CariTipicomboBox</tabstop>

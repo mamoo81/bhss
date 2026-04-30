@@ -63,7 +63,7 @@ void HizliUrunEkleFormDialog::stokKartlariniListele()
 {
     QSqlQuery sorgu("SELECT kod, barkod, ad, sfiyat FROM stokkartlari ORDER BY ad ASC", stokYonetimi.db);
 //    Veritabani *vt = new Veritabani();
-    ui->StokKartlaritableView->setModel(stokYonetimi.getStokKartlari(sorgu));
+    ui->StokKartlaritableView->setModel(stokYonetimi.getStokKartlari(std::move(sorgu)));
     ui->StokKartlaritableView->resizeColumnsToContents();
     QItemSelectionModel *selectionModel = ui->StokKartlaritableView->selectionModel();
     QModelIndex modelindex = ui->StokKartlaritableView->model()->index(0, 0);
@@ -123,7 +123,7 @@ void HizliUrunEkleFormDialog::on_lineEdit_textChanged(const QString &arg1)
         ui->StokKartlaritableView->selectRow(gosterilenSatirlar.first());// gösterilen satırlardan ilk indexi seçiyorum.
     }
 
-    if(arg1.count() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
+    if(arg1.size() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
         ui->StokKartlaritableView->selectRow(0);
         sonSecilenGosterilenSatirIndexi = 0;
     }

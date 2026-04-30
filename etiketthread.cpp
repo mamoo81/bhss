@@ -1,11 +1,10 @@
 #include "etiketthread.h"
 
-#include <QMutex>
 #include <QSettings>
 
 EtiketThread::EtiketThread()
 {
-
+    connect(this, &QThread::finished, this, &QObject::deleteLater);
 }
 
 void EtiketThread::setKartlar(const QList<StokKarti> &value)
@@ -20,14 +19,11 @@ void EtiketThread::setKagitTipi(int newKagitTipi)
 
 void EtiketThread::run()
 {
-    foreach (StokKarti kart, kartlar) {
+    for (StokKarti kart : kartlar) {
         // threadı ihtiyaç halinde sonlandırmak için.
-        QMutex mutex;
-        mutex.lock();
-        if(this->stop){
+        if(stop.load()){
             break;
         }
-        mutex.unlock();
 
         etiketYazici.rafEtiketiBas(kart, kagitTipi);
         emit yazdirilinca(1, kart.getBarkod());

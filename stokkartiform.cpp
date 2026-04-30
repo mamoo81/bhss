@@ -82,6 +82,7 @@ void StokKartiForm::setKart(QString barkod)
     }
     ui->TedarikcicomboBox->setCurrentIndex(0);
     ui->UrunResimlabel->setPixmap(guncellenecekKart.getResim());
+    kart = guncellenecekKart;
 }
 
 void StokKartiForm::FormLoad()

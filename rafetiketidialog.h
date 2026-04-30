@@ -94,7 +94,7 @@ private:
     Veritabani *vtEtiket = new Veritabani();
     StokYonetimi stokYonetimi = StokYonetimi();
     Yazici *yaziciEtiket = new Yazici();
-    EtiketThread *etiketTHRD;
+    EtiketThread *etiketTHRD = nullptr;
 
     QList<StokKarti> kartlar;
 

@@ -58,12 +58,7 @@ void SatisGosterDialog::sepetiCek()
 
     satisFaturaNo = no[0];
     //satilmiş sepeti getirme
-    if(cari.getGuncelBorcHesaplama()){
-        satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, Cari::BorcHesaplama::GuncelFiyattan);
-    }
-    else{
-        satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo, Cari::BorcHesaplama::SatildigiFiyattan);
-    }
+    satilmisSepet = faturaYonetimi.getSatis(satisFaturaNo);
     qr = faturaYonetimi.getIslemInfo(satisFaturaNo);
     switch (qr.value(7).toInt()) {
     case 2:
@@ -75,22 +70,13 @@ void SatisGosterDialog::sepetiCek()
     }
 
     ui->islemYapilanCariLabel->setText(cari.getAd());
-    // cari borcu güncel fiyattan hesaplanacak ise
-//    double fark = satilmisSepet.getFiyatFarki();
-    if(cari.getGuncelBorcHesaplama()){
-        ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
-        ui->kalanLabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari() - satilmisSepet.getOdenenTutar(), 'f', 2));
-        ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
-    }
-    else{
-        ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
-        ui->kalanLabel->setText("₺" + QString::number(qr.value(5).toDouble(), 'f', 2));
-        ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
-    }
+    ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
+    ui->kalanLabel->setText("₺" + QString::number(qr.value(5).toDouble(), 'f', 2));
+    ui->faturaTutarlabel->setText("₺" + QString::number(satilmisSepet.sepetToplamTutari(), 'f', 2));
     ui->tarihLabel->setText(qr.value(6).toDate().toString("dd.MM.yyyy") + " " + qr.value(6).toTime().toString("hh:mm"));
     int satirIndex = 0;
     ui->sepetTableWidget->model()->removeRows(0, ui->sepetTableWidget->rowCount());
-    foreach (auto urun, satilmisSepet.urunler) {
+    for (auto urun : satilmisSepet.urunler) {
         ui->sepetTableWidget->insertRow(ui->sepetTableWidget->rowCount());
         ui->sepetTableWidget->setItem(satirIndex, 0, new QTableWidgetItem(urun.barkod));
         ui->sepetTableWidget->setItem(satirIndex, 1, new QTableWidgetItem(urun.ad));

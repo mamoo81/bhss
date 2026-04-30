@@ -84,7 +84,7 @@ void AyarlarDialog::formLoad()
     ui->TeraziMarkacomboBox->addItems(vt.getTeraziler());
     // kullanılabilir seriportları getirme
     auto portlar = QSerialPortInfo::availablePorts();
-    foreach (auto port, portlar) {
+    for (auto port : portlar) {
         ui->SeriPortcomboBox->addItem(port.portName());
     }
 
@@ -219,7 +219,7 @@ void AyarlarDialog::getUsers()
 {
     ui->KullanicilarlistWidget->clear();
     QList<QString> k = vt.GetUsers();
-    foreach (QString user, k) {
+    for (QString user : k) {
         ui->KullanicilarlistWidget->addItem(user);
     }
 }
@@ -591,7 +591,7 @@ void AyarlarDialog::cronJobKaydet()
         // listeden mhss satırlarını silme
         {
             int satirSayac = 0;
-            foreach (QString satir, satirlar) {
+            for (QString satir : satirlar) {
                 if(satir.contains("#MHSS")){
                     satirlar.removeAt(satirSayac);
                     satirlar.removeAt(satirSayac);// sonraki satiri siler. +1 yapmadım çünkü üstte sildiği için sonraki satir indexsi bir yukarı kaydı.
@@ -692,7 +692,7 @@ void AyarlarDialog::cronJobSil()
         // listeden mhss satırlarını silme
         {
             int satirSayac = 0;
-            foreach (QString satir, satirlar) {
+            for (QString satir : satirlar) {
                 if(satir.contains("#MHSS")){
                     satirlar.removeAt(satirSayac);
                     satirlar.removeAt(satirSayac);// sonraki satiri siler. +1 yapmadım çünkü üstte sildiği için sonraki satir indexsi bir yukarı kaydı.
@@ -825,7 +825,7 @@ void AyarlarDialog::on_hizliButtonSifirlapushButton_clicked()
     int ret = msg.exec();
     if(ret == QMessageBox::Yes){
         QSettings hizlibutonlarini(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
-        foreach (auto buton, hizlibutonlarini.childGroups()) {
+        for (auto buton : hizlibutonlarini.childGroups()) {
             hizlibutonlarini.remove(buton);
         }
     }

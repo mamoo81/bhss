@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 
-KasaYonetimi::KasaYonetimi()
+KasaYonetimi::KasaYonetimi() : sorgu(db)
 {
 
 }
@@ -55,16 +55,17 @@ double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime biti
 
 QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    sorgu.prepare("SELECT kasahareketleri.id, kasahareketadlari.ad, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
+    QSqlQuery query(db);
+    query.prepare("SELECT kasahareketleri.id, kasahareketadlari.ad, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
                     "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
                     "INNER JOIN kasahareketadlari ON kasahareketleri.islem = kasahareketadlari.id "
                     "WHERE kasahareketleri.tarih BETWEEN ? AND ? "
                     "ORDER BY kasahareketleri.id DESC");
-    sorgu.bindValue(0, baslangicTarih);
-    sorgu.bindValue(1, bitisTarih);
-    sorgu.exec();
+    query.bindValue(0, baslangicTarih);
+    query.bindValue(1, bitisTarih);
+    query.exec();
     kasaHareketlerimodel->clear();
-    kasaHareketlerimodel->setQuery(sorgu);
+    kasaHareketlerimodel->setQuery(std::move(query));
     kasaHareketlerimodel->setHeaderData(0, Qt::Horizontal, "ID");
     kasaHareketlerimodel->setHeaderData(1, Qt::Horizontal, "Hareket");
     kasaHareketlerimodel->setHeaderData(2, Qt::Horizontal, "Miktar");
@@ -423,4 +424,5 @@ KasaYonetimi::KasaHareketi KasaYonetimi::enumFromString(QString value)
     else if(value == "BankaVirman"){
         return KasaHareketi::BankaVirman;
     }
+    return KasaHareketi::Giris;
 }

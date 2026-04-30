@@ -222,7 +222,7 @@ QImage StokKarti::getBarkodImg() const
     QFile barkodImgDosya(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/barkodlar/" + getBarkod() + ".svg");
     if(!QFileInfo(barkodImgDosya).exists()){
         //barkod image oluşturma
-        QString kirpilmisBarkod = QString(getBarkod().left(getBarkod().count() - 1));// barkodun son hanesi doğrulama hanesi olduğu için zint kendi veriyor. kırpıyorum.
+        QString kirpilmisBarkod = QString(getBarkod().left(getBarkod().size() - 1));// barkodun son hanesi doğrulama hanesi olduğu için zint kendi veriyor. kırpıyorum.
         // zint ile EAN-8 veya EAN-13(TR DE KULLANILAN BARKOD TİPİ) barkod resmini oluşturma
         QString zintKomut("zint -b 13 -o " + QFileInfo(barkodImgDosya).absoluteFilePath() + " -d \"" + kirpilmisBarkod + "\"");
         int exitCode = system(qPrintable(zintKomut));
@@ -242,5 +242,5 @@ double StokKarti::getKar() const
 
 double StokKarti::getKarYuzde() const
 {
-
+    return 0;
 }

@@ -73,7 +73,7 @@ void Sepet::setKalanTutar(double newKalanTutar)
 double Sepet::sepetToplamTutari()
 {
     double sepetToplam = 0;
-    foreach (auto urun, urunler) {
+    for (auto urun : urunler) {
         sepetToplam += urun.toplam;
     }
     return sepetToplam;
@@ -82,7 +82,7 @@ double Sepet::sepetToplamTutari()
 double Sepet::getFiyatFarki()
 {
     double toplamfark = 0;
-    foreach (Urun urun, urunler) {
+    for (Urun urun : urunler) {
         if(urun.satisFiyat != urun.birimFiyat){
             toplamfark += urun.miktar * (urun.satisFiyat - urun.birimFiyat);
         }
@@ -517,7 +517,7 @@ Urun Sepet::urunBilgileriniGetir(QString _Barkod)
 double Sepet::getSepettekiKazanc()
 {
     double toplam = 0;
-    foreach (auto urun, urunler) {
+    for (auto urun : urunler) {
         toplam += (urun.satisFiyat - urun.alisFiyat) * urun.miktar;
     }
     return toplam;

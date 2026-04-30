@@ -38,6 +38,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 TopluStokYukleDialog::TopluStokYukleDialog(QWidget *parent) :
     QDialog(parent),
+    sorgu(db),
     ui(new Ui::TopluStokYukleDialog)
 {
     ui->setupUi(this);
@@ -106,7 +107,7 @@ void TopluStokYukleDialog::jsondanYukle()
 
     float ozelMiktar = ui->doubleSpinBoxMiktar->value();
 
-    foreach (QString barkod, object.keys()) {
+    for (QString barkod : object.keys()) {
         if(!stokYonetimi.barkodVarmi(barkod)){
             QJsonValue value = object.value(barkod);
 
@@ -264,7 +265,7 @@ void TopluStokYukleDialog::csvdenYukle()
 
     dosya.close();
 
-    foreach (StokKarti kart, kartlar) {
+    for (StokKarti kart : kartlar) {
         if(!stokYonetimi.barkodVarmi(kart.getBarkod())){
             sorgu.prepare("INSERT INTO stokkartlari(id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, kdvdahil, otv, otvdahil, tarih, uretici, tedarikci) "
                           "VALUES(nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

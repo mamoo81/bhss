@@ -63,6 +63,12 @@ RafEtiketiDialog::RafEtiketiDialog(QWidget *parent) :
 RafEtiketiDialog::~RafEtiketiDialog()
 {
     delete ui;
+    delete vtEtiket;
+    delete yaziciEtiket;
+    if(etiketTHRD && etiketTHRD->isRunning()){
+        etiketTHRD->quit();
+        etiketTHRD->wait();
+    }
 }
 
 void RafEtiketiDialog::stokKartlaricustomContextMenuRequested(QPoint pos)
@@ -109,7 +115,7 @@ void RafEtiketiDialog::ListeyeEkle()
 {
     QModelIndexList secilenEklenecekStoklar = ui->stokKartlaritableView->selectionModel()->selectedRows();
 
-    foreach (QModelIndex satir, secilenEklenecekStoklar) {
+    for (QModelIndex satir : secilenEklenecekStoklar) {
         QString barkod = satir.model()->index(satir.row(), 0).data().toString();
         QString stokAdi = satir.model()->index(satir.row(), 1).data().toString();
 
@@ -162,7 +168,7 @@ void RafEtiketiDialog::ListedenCikar()
             ui->yazdirilacaklartableWidget->selectRow(secilenSilinecekStoklar.last().row() + 1);
         }
 
-        foreach (QModelIndex satir, secilenSilinecekStoklar) {
+        for (QModelIndex satir : secilenSilinecekStoklar) {
 
             ui->yazdirilacaklartableWidget->removeRow(satir.row());
         }
@@ -213,6 +219,16 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
     // msg.setButtonText(QMessageBox::No, "Hayır");
     int cevap = msg.exec();
     if(cevap == QMessageBox::Yes){
+        if(etiketTHRD && etiketTHRD->isRunning()){
+            uyariSesi.play();
+            QMessageBox msg(this);
+            msg.setWindowTitle("Uyarı");
+            msg.setIcon(QMessageBox::Warning);
+            msg.setText("Önceki yazdırma işlemi hâlâ devam ediyor. Lütfen bekleyin.");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.exec();
+            return;
+        }
         ui->progressBar->setVisible(true);
         ui->DurdurtoolButton->setEnabled(true);
         ui->eklepushButton->setEnabled(false);
@@ -232,21 +248,21 @@ void RafEtiketiDialog::on_yazdirtoolButton_clicked()
         // yazıdırılacak kartların set edilmesi
         etiketTHRD->setKartlar(kartlar);
 
-        //genel ayarlar
-        QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-        // etiket yazıcı ayarları okuma başlangıç
-        genelAyarlar.beginGroup("etiket-yazici");
-        if(genelAyarlar.value("kagit").isNull() || genelAyarlar.value("kagit").isValid()){
-            uyariSesi.play();
-            QMessageBox msg(this);
-            msg.setWindowTitle("Uyarı");
-            msg.setIcon(QMessageBox::Warning);
-            msg.setText("Varsayılan kağıt ayarlardan okunamadı. \n\nÖnceden ayarlamamış olabilirsiniz.");
-            msg.setStandardButtons(QMessageBox::Ok);
-            // msg.setButtonText(QMessageBox::Ok, "Tamam");
-            msg.setDefaultButton(QMessageBox::Ok);
-            msg.exec();
-        }
+    //genel ayarlar
+    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
+    // etiket yazıcı ayarları okuma başlangıç
+    genelAyarlar.beginGroup("etiket-yazici");
+    if(genelAyarlar.value("kagit").isNull()){
+        uyariSesi.play();
+        QMessageBox msg(this);
+        msg.setWindowTitle("Uyarı");
+        msg.setIcon(QMessageBox::Warning);
+        msg.setText("Varsayılan kağıt ayarlardan okunamadı. \n\nÖnceden ayarlamamış olabilirsiniz.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        // msg.setButtonText(QMessageBox::Ok, "Tamam");
+        msg.setDefaultButton(QMessageBox::Ok);
+        msg.exec();
+    }
         ui->VarsayilanKagitcomboBox->setCurrentIndex(genelAyarlar.value("kagit").toInt());
         genelAyarlar.endGroup();
 
@@ -281,6 +297,9 @@ void RafEtiketiDialog::on_HepsiYazdirilacakcheckBox_clicked()
 
 void RafEtiketiDialog::on_DurdurtoolButton_clicked()
 {
+    if(!etiketTHRD || !etiketTHRD->isRunning()){
+        return;
+    }
     //genel ayarların okunması başlangıcı
     QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
     // etiket yazıcı ayarları okuma başlangıç
@@ -289,7 +308,7 @@ void RafEtiketiDialog::on_DurdurtoolButton_clicked()
     genelAyarlar.endGroup();
 
     etiketTHRD->quit();
-    etiketTHRD->stop = true;
+    etiketTHRD->stop.store(true);
     ui->progressBar->setVisible(false);
     ui->DurdurtoolButton->setEnabled(false);
     ui->progressBar->setValue(0);
@@ -410,5 +429,8 @@ void RafEtiketiDialog::yazdirmaBittiSinyaliAlininca()
     ui->cikarpushButton->setEnabled(true);
     ui->HepsiYazdirilacakcheckBox->setEnabled(true);
     ui->yazdirilacaklartableWidget->setEnabled(true);
-    disconnect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
+    if(etiketTHRD){
+        disconnect(etiketTHRD, SIGNAL(yazdirmaBitince()), this, SLOT(yazdirmaBittiSinyaliAlininca()));
+        etiketTHRD = nullptr;
+    }
 }

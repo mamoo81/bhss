@@ -39,9 +39,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QLocale>
 #include <QLibraryInfo>
 
-void veritabaniIlkleme(QSqlDatabase pDB, Veritabani pVT){
+void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
     //mhss_data veritabanı varmı. yoksa oluştur.
-    QSqlQuery sorgu = QSqlQuery(pDB);
+    QSqlQuery sorgu(pDB);
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
         QMessageBox msg(0);
@@ -84,9 +84,11 @@ int main(int argc, char *argv[])
 
     // uygulama içindeki sağ klik menüleri türkçe olması için.
     QTranslator *tr_translator = new QTranslator();
-    tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    if (!tr_translator->load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+        qWarning() << "Qt translator load failed";
+    }
     a.installTranslator(tr_translator);
-    a.setApplicationVersion(QString("0.2.5"));
+    a.setApplicationVersion(QString("0.2.6"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
@@ -134,7 +136,7 @@ int main(int argc, char *argv[])
     db.setHostName("localhost");
     db.setUserName("postgres");
     db.setPassword("postgres");
-    Veritabani vt = Veritabani();
+    Veritabani vt;
     if(db.open()){
         veritabaniIlkleme(db, vt);
     }
@@ -173,7 +175,7 @@ int main(int argc, char *argv[])
             pg_hba.copy(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/pg_hba.conf");
             QDir etcpostgresql("/etc/postgresql/");
             QStringList psqlDirList = etcpostgresql.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-            foreach (QString dirName, psqlDirList) {
+            for (QString dirName : psqlDirList) {
                 QProcess *prcs2 = new QProcess();
                 prcs2->start("pkexec", {"sudo", "cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
                 if(prcs2->waitForFinished()){

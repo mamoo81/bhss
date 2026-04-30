@@ -159,7 +159,7 @@ bool Veritabani::veritabaniSifirla()
 void Veritabani::setHizliButon(StokKarti _stokKarti)
 {
     QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
-    foreach (QString buttonName, hizliButonBarkodlar.childGroups()) {
+    for (QString buttonName : hizliButonBarkodlar.childGroups()) {
         hizliButonBarkodlar.beginGroup(buttonName);
         QString duzenlenecekStokBarkod = hizliButonBarkodlar.value("barkod").toString();
         if(duzenlenecekStokBarkod == _stokKarti.getBarkod()){
@@ -199,11 +199,12 @@ void Veritabani::setOturum(User _user)
 
 QSqlQuery Veritabani::getOturum()
 {
-    sorgu.exec("SELECT * FROM oturum");
-    if(!sorgu.next()){
+    QSqlQuery query(db);
+    query.exec("SELECT * FROM oturum");
+    if(!query.next()){
         return QSqlQuery();
     }
-    return sorgu;
+    return query;
 }
 
 void Veritabani::oturumSonlandir()

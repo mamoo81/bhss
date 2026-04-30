@@ -274,7 +274,8 @@ void SatisGrafigiForm::on_gosterpushButton_clicked()
     categoryaxis->setLabelsVisible(true);
 
     chart->createDefaultAxes();
-    chart->setAxisX(categoryaxis, barSeries);
+    chart->addAxis(categoryaxis, Qt::AlignBottom);
+    barSeries->attachAxis(categoryaxis);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
 

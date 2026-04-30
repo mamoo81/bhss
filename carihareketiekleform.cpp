@@ -198,6 +198,8 @@ void CariHareketiEkleForm::on_KaydetpushButton_clicked()
             msg.exec();
         }
         break;
+    case iade:
+        break;
     }
 
 }

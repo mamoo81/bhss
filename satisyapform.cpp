@@ -30,7 +30,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QStandardPaths>
 #include <QKeyEvent>
-#include <QTextCodec>
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -71,7 +70,7 @@ void SatisYapForm::formLoad()
     ui->caricomboBox->setLocale(QLocale(QLocale::Turkish, QLocale::Turkey));
     ui->caricomboBox->clear();
     ui->caricomboBox->addItem("DİREKT");
-    foreach (Cari cariKart, cariKartlar) {
+    for (Cari cariKart : cariKartlar) {
         ui->caricomboBox->addItem(cariKart.getAd());
     }
     ui->OdenendoubleSpinBox->setFocus();

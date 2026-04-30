@@ -29,7 +29,7 @@ public:
     };
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu = QSqlQuery(db);
+    QSqlQuery sorgu;
     QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
     QSqlQueryModel *stokHareketleriModel = new QSqlQueryModel();
 
@@ -46,7 +46,7 @@ public:
     void stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar);
     QSqlQueryModel *getStokKartlari();
     QSqlQueryModel *getStokKartlari(QString grupAdi);
-    QSqlQueryModel *getStokKartlari(QSqlQuery query);
+    QSqlQueryModel *getStokKartlari(QSqlQuery &&query);
     QSqlQueryModel *getStokKartlariEtiket();
     QStringList stokGruplariGetir();
     int getGrupID(QString pGrup);

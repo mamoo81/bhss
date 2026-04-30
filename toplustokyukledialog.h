@@ -47,7 +47,7 @@ public:
     ~TopluStokYukleDialog();
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu = QSqlQuery(db);
+    QSqlQuery sorgu;
     Veritabani vt = Veritabani();
     StokYonetimi stokYonetimi = StokYonetimi();
     QFile dosya;

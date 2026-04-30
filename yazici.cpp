@@ -91,7 +91,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\">Tutar</font></font></p>"
                     "</td>"
                 "</tr>";
-    foreach (auto urun, _sepet.urunler) {
+    for (auto urun : _sepet.urunler) {
         html.append(QString(
                         "<tr valign=\"top\">"
                             "<td width=\"58%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
@@ -103,10 +103,10 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     html.append(QString(
                 "<tr valign=\"top\">"
                     "<td colspan=\"2\" width=\"78%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"center\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\"><strong>Toplam<strong></font></font></p>"
+                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\"><strong>Toplam</strong></font></font></p>"
                     "</td>"
                     "<td width=\"24%\" style=\"border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0.04in 0in\"><p align=\"right\">"
-                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari(), 'f', 2) + "<strong></font></font></p>"
+                        "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 8pt\"><strong>" + QString::number(_sepet.sepetToplamTutari(), 'f', 2) + "</strong></font></font></p>"
                     "</td>"
                 "</tr>"
             "</table>"
@@ -141,6 +141,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     else{
         qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
     }
+    QObject::connect(processIslem, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), processIslem, &QProcess::deleteLater);
     processIslem->start(yazdirmaKomut);
 
 }
@@ -152,61 +153,7 @@ void Yazici::setKullanici(const User &newKullanici)
 
 void Yazici::rafEtiketiBas(StokKarti kart)
 {
-    //genel ayarların okunması başlangıcı
-    QSettings genelAyarlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/genel.ini", QSettings::IniFormat);
-    // etiket yazıcı ayarları okuma başlangıç
-    genelAyarlar.beginGroup("etiket-yazici");
-    etiketYazici = genelAyarlar.value("yazici").toString();
-    genelAyarlar.endGroup();
-
-    // sayfa tanımlamaları
-    printer->setPrinterName(etiketYazici);
-    printer->setDocName("mhss");
-    printer->setPageSize(QPageSize(QSize(72,33)));
-    printer->setPageMargins(QMargins(0,4,0,6), QPageLayout::Millimeter);
-    printer->setResolution(300);
-
-    QPainter painter(printer);
-
-    // ürün adı
-    QFont font("Halvetica", 7);
-    painter.setFont(font);
-    painter.drawText(QPoint(0,5), kart.getAd());
-
-    // urun barkod img
-    painter.drawImage(QPoint(0,25), kart.getBarkodImg(), QRect(0,0, 350,125));
-
-    // urun fiyat değişim tarihi
-    font = QFont("Halvetica", 5, QFont::Bold);
-    painter.setFont(font);
-    painter.drawText(QPoint(300, 180), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
-
-    // etiket basım tarihi
-    font = QFont("Halvetica", 5, QFont::Bold);
-    painter.setFont(font);
-    painter.drawText(QPoint(300, 200), "E.B.T: " + QDate::currentDate().toString("dd.MM.yyyy"));
-
-    // ürün birimi
-    font = QFont("Halvetica", 5);
-    painter.setFont(font);
-    painter.drawText(QPoint(250, 50), ("1 x " + stokYonetimi.getBirimAd(kart.getBirim()) + " ="));
-
-    // TL logosu
-    font = QFont("Halvetica", 14);
-    painter.setFont(font);
-    painter.drawText(QPoint(220, 140), QString("₺"));
-
-    // ürün fiyatı
-    font = QFont("Halvetica", 20, QFont::Bold);
-    painter.setFont(font);
-    painter.drawText(QPoint(255, 140), QString::number(kart.getSFiyat(), 'f', 2));
-
-    // yerli ürün logosu
-    if(kart.getBarkod().front() == '8'){
-        painter.drawImage(QPoint(0, 150), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
-    }
-    painter.end();
-    emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
+    rafEtiketiBas(kart, KAGIT::YATAY_80mm38mm);
 }
 
 void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
@@ -219,17 +166,18 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
     genelAyarlar.endGroup();
 
     // sayfa tanımlamaları
-    printer->setPrinterName(etiketYazici);
-    printer->setDocName("mhss");
+    QPrinter printer;
+    printer.setPrinterName(etiketYazici);
+    printer.setDocName("mhss");
     switch (kagit) {
     case KAGIT::YATAY_80mm38mm:{
-            printer->setPageSize(QPageSize(QSize(72,33))); // kağıdın programdaki ölçüleri
-        printer->setPageMargins(QMargins(0,4,0,6), QPageLayout::Millimeter);
+            printer.setPageSize(QPageSize(QSize(72,33))); // kağıdın programdaki ölçüleri
+        printer.setPageMargins(QMargins(0,4,0,6), QPageLayout::Millimeter);
 
-            QPainter painter(printer);
+            QPainter painter(&printer);
 
             // ürün adı
-            QFont font("Halvetica", 7);
+            QFont font("Helvetica", 7);
             painter.setFont(font);
             painter.drawText(QPoint(0,5), kart.getAd());
 
@@ -237,55 +185,54 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             painter.drawImage(QPoint(0,25), kart.getBarkodImg(), QRect(0,0, 350,125));
 
             // urun fiyat değişim tarihi
-            font = QFont("Halvetica", 5, QFont::Bold);
+            font = QFont("Helvetica", 5, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(300, 180), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
 
             // etiket basım tarihi
-            font = QFont("Halvetica", 5, QFont::Bold);
+            font = QFont("Helvetica", 5, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(300, 200), "E.B.T: " + QDate::currentDate().toString("dd.MM.yyyy"));
 
             // ürün birimi
-            font = QFont("Halvetica", 5);
+            font = QFont("Helvetica", 5);
             painter.setFont(font);
             painter.drawText(QPoint(250, 50), ("1 " + stokYonetimi.getBirimAd(kart.getBirim()) + " fiyatıdır."));
 
             // TL logosu
-            font = QFont("Halvetica", 14);
+            font = QFont("Helvetica", 14);
             painter.setFont(font);
             painter.drawText(QPoint(220, 140), QString("₺"));
 
             // ürün fiyatı
-            font = QFont("Halvetica", 20, QFont::Bold);
+            font = QFont("Helvetica", 20, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(255, 140), QString::number(kart.getSFiyat(), 'f', 2));
 
             // yerli ürün logosu
-            if(kart.getBarkod().front() == '8'){
+            if(!kart.getBarkod().isEmpty() && kart.getBarkod().front() == '8'){
                 painter.drawImage(QPoint(0, 150), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
             }
             painter.end();
-            emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
         }
         break;
     case KAGIT::DIKEY_100mm38mm:{
             // ürün ad ve SFiyat uzunluğuna göre kağıda ortalamak için.
             if( kart.getAd().size() <= 28 && QString::number(kart.getSFiyat()).size() <= 5){
-                printer->setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
-                printer->setPageMargins(QMargins(0,6,0,0), QPageLayout::Millimeter);
+                printer.setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
+                printer.setPageMargins(QMargins(0,6,0,0), QPageLayout::Millimeter);
             }
             else{
-                printer->setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
-                printer->setPageMargins(QMargins(0,1,0,0), QPageLayout::Millimeter);
+                printer.setPageSize(QPageSize(QSize(38,90))); // kağıdın programdaki ölçüleri
+                printer.setPageMargins(QMargins(0,1,0,0), QPageLayout::Millimeter);
             }
 
-            printer->setResolution(300);
+            printer.setResolution(300);
 
-            QPainter painter(printer);
+            QPainter painter(&printer);
             painter.rotate(90);
             // ürün adı
-            QFont font("Halvetica", 7);
+            QFont font("Helvetica", 7);
             painter.setFont(font);
             painter.drawText(QPoint(0,-240), kart.getAd());
 
@@ -293,44 +240,38 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             painter.drawImage(QPoint(0,-220), kart.getBarkodImg(), QRect(0,50, 350,125));
 
             // urun fiyat değişim tarihi
-            font = QFont("Halvetica", 5, QFont::Bold);
+            font = QFont("Helvetica", 5, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(0, -65), "F.D.T: " + kart.getTarih().toString("dd.MM.yyyy"));
 
             // etiket basım tarihi
-            font = QFont("Halvetica", 5, QFont::Bold);
+            font = QFont("Helvetica", 5, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(0, -45), "E.B.T: " + QDate::currentDate().toString("dd.MM.yyyy"));
 
             // ürün birimi
-            font = QFont("Halvetica", 6);
+            font = QFont("Helvetica", 6);
             painter.setFont(font);
             painter.drawText(QPoint(240, -200), ("1 x " + stokYonetimi.getBirimAd(kart.getBirim()) + " ="));
 
             // TL logosu
-            font = QFont("Halvetica", 14);
+            font = QFont("Helvetica", 14);
             painter.setFont(font);
             painter.drawText(QPoint(245, -60), QString("₺"));
 
             // ürün fiyatı
-            font = QFont("Halvetica", 25, QFont::Bold);
+            font = QFont("Helvetica", 25, QFont::Bold);
             painter.setFont(font);
             painter.drawText(QPoint(280, -60), QString::number(kart.getSFiyat(), 'f', 2));
 
             // yerli ürün logosu
-            if(kart.getBarkod().front() == '8'){
+            if(!kart.getBarkod().isEmpty() && kart.getBarkod().front() == '8'){
                 painter.drawImage(QPoint(40, -135), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png")/*, QRect(0,0,190,100)*/);
             }
             painter.end();
-            emit yazdirildi(kart.getBarkod());// yazdırılınca sinyal göndersin.
         }
         break;
     }
-}
-
-void Yazici::yazdirildi(QString _barkod)
-{
-
 }
 
 void Yazici::cikisRaporuBas(User _user)
@@ -465,6 +406,7 @@ void Yazici::cikisRaporuBas(User _user)
         else{
             qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
         }
+        QObject::connect(processIslem, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), processIslem, &QProcess::deleteLater);
         processIslem->start(yazdirmaKomut);
     }
 
@@ -605,5 +547,6 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
     else{
         qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
     }
+    QObject::connect(processIslem, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), processIslem, &QProcess::deleteLater);
     processIslem->start(yazdirmaKomut);
 }

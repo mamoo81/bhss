@@ -166,12 +166,4 @@ void Cari::setYetkili(const QString &newYetkili)
     yetkili = newYetkili;
 }
 
-bool Cari::getGuncelBorcHesaplama() const
-{
-    return guncelBorcHesaplama;
-}
 
-void Cari::setGuncelBorcHesaplama(bool newGuncelBorcHesaplama)
-{
-    guncelBorcHesaplama = newGuncelBorcHesaplama;
-}

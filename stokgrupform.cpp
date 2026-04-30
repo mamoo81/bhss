@@ -120,7 +120,7 @@ void StokGrupForm::stokGruplariGetir()
 {
     ui->gruplarlistWidget->model()->removeRows(0, ui->gruplarlistWidget->count());
     QStringList liste = stokYonetimi.stokGruplariGetir();
-    foreach (auto item, liste) {
+    for (auto item : liste) {
         ui->gruplarlistWidget->addItem(item);
     }
 }

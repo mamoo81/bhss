@@ -35,7 +35,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "gecmissatislardialog.h"
 #include "stokkartiform.h"
 //*****************************
-#include <QRegExp>
 #include <QDebug>
 #include <QSqlQuery>
 #include <QKeyEvent>
@@ -2581,7 +2580,7 @@ void SatisForm::hizliUrunButonlariAyarla()
 {
     QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     if(!hizliButonBarkodlar.childGroups().empty()){
-        foreach (QString butonName, hizliButonBarkodlar.childGroups()) {
+        for (QString butonName : hizliButonBarkodlar.childGroups()) {
             QToolButton *btn = this->findChild<QToolButton*>(butonName);
             hizliButonBarkodlar.beginGroup(butonName);
             btn->setText(hizliButonBarkodlar.value("ad").toString());
@@ -2673,7 +2672,7 @@ void SatisForm::sepetleriKurtar()
 //        for (int var = 0; var < sepetleriKurtarmaSetting.childGroups().count(); ++var) {
 //            ui->SepetlertabWidget->setCurrentIndex(var);
 //            sepetleriKurtarmaSetting.beginGroup(QString::number(var));
-//            foreach (auto sepettekiBarkod, sepetleriKurtarmaSetting.childKeys()) {
+//            for (auto sepettekiBarkod : sepetleriKurtarmaSetting.childKeys()) {
 //                StokKarti kart = vt->getStokKarti(sepettekiBarkod);
 //                float miktar = sepetleriKurtarmaSetting.value(sepettekiBarkod).toFloat();
 //                tableWidgetEkle(kart, miktar);
@@ -2684,10 +2683,10 @@ void SatisForm::sepetleriKurtar()
 //            butonDurumlariniAyarla();
 //            sepetTabIconlariAyarla();
 //        }
-        foreach (auto var, sepetleriKurtarmaSetting.childGroups()) {
+        for (auto var : sepetleriKurtarmaSetting.childGroups()) {
             ui->SepetlertabWidget->setCurrentIndex(var.toInt());
             sepetleriKurtarmaSetting.beginGroup(QString::number(var.toInt()));
-            foreach (auto sepettekiBarkod, sepetleriKurtarmaSetting.childKeys()) {
+            for (auto sepettekiBarkod : sepetleriKurtarmaSetting.childKeys()) {
                 StokKarti kart = stokYonetimi->getStokKarti(sepettekiBarkod);
                 float miktar = sepetleriKurtarmaSetting.value(sepettekiBarkod).toFloat();
                 tableWidgetEkle(kart, miktar);

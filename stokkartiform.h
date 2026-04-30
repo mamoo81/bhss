@@ -7,7 +7,6 @@
 //*************************
 #include <QDialog>
 #include <QPalette>
-#include <QRegExp>
 #include <QDoubleValidator>
 #include <QSoundEffect>
 #include <QShortcut>

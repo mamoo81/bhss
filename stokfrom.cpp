@@ -313,7 +313,7 @@ void StokFrom::filtreGrupComboboxDoldur()
     ui->grupFiltrecomboBox->clear();
     QStringList gruplar = vt->stokGruplariGetir();
     ui->grupFiltrecomboBox->addItem("Hepsi");
-    foreach (auto grup, gruplar) {
+    for (auto grup : gruplar) {
         ui->grupFiltrecomboBox->addItem(grup);
     }
     ui->grupFiltrecomboBox->setCurrentIndex(0);

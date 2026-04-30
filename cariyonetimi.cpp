@@ -1,6 +1,6 @@
 #include "cariyonetimi.h"
 
-CariYonetimi::CariYonetimi()
+CariYonetimi::CariYonetimi() : sorgu(db)
 {
 
 }
@@ -28,12 +28,6 @@ Cari CariYonetimi::getCariKart(QString cariID)
         kart.setTarih(sorgu.value(10).toDateTime());
         kart.setAciklama(sorgu.value(11).toString());
         kart.setYetkili(sorgu.value(12).toString());
-        if(sorgu.value(13).toInt() == 2){// güncel fiyattan hesaplanacak ise
-            kart.setGuncelBorcHesaplama(true);
-        }
-        else{
-            kart.setGuncelBorcHesaplama(false);
-        }
         return kart;
     }
     else{
@@ -70,9 +64,8 @@ QList<Cari> CariYonetimi::getCariKartlar()
 
 QSqlQueryModel *CariYonetimi::getCariKartIsimleri()
 {
-    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, carikartlar.ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire, borchesaplamaturleri.ad FROM carikartlar "
+    cariKartIsımleriModel->setQuery("SELECT carikartlar.id, carikartlar.ad, yetkili, caritipleri.tip, il, ilce, vergi_no, vergi_daire FROM carikartlar "
                                     "INNER JOIN caritipleri ON carikartlar.tip = caritipleri.id "
-                                    "INNER JOIN borchesaplamaturleri ON carikartlar.borc_hesaplama = borchesaplamaturleri.id "
                                     "WHERE carikartlar.id NOT IN(1)", db);
     cariKartIsımleriModel->setHeaderData(0, Qt::Horizontal, "ID");
     cariKartIsımleriModel->setHeaderData(1, Qt::Horizontal, "Cari ismi");
@@ -82,14 +75,13 @@ QSqlQueryModel *CariYonetimi::getCariKartIsimleri()
     cariKartIsımleriModel->setHeaderData(5, Qt::Horizontal, "İlçe");
     cariKartIsımleriModel->setHeaderData(6, Qt::Horizontal, "Vergi No");
     cariKartIsımleriModel->setHeaderData(7, Qt::Horizontal, "Vergi Dairesi");
-    cariKartIsımleriModel->setHeaderData(8, Qt::Horizontal, "Borç Hesaplama");
     return cariKartIsımleriModel;
 }
 
 bool CariYonetimi::yeniCariKart(Cari cariKart)
 {
-    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili, borc_hesaplama) "
-                  "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
+                  "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     sorgu.bindValue(0, cariKart.getAd());
     sorgu.bindValue(1, cariKart.getTip());
     sorgu.bindValue(2, cariKart.getVerigino());
@@ -102,12 +94,6 @@ bool CariYonetimi::yeniCariKart(Cari cariKart)
     sorgu.bindValue(9, cariKart.getTarih());
     sorgu.bindValue(10, cariKart.getAciklama());
     sorgu.bindValue(11, cariKart.getYetkili());
-    if(cariKart.getGuncelBorcHesaplama()){
-        sorgu.bindValue(12, 2);//   2 = güncel fiyattan borc hesaplama id
-    }
-    else{
-        sorgu.bindValue(12, 1);//   1 = normal fiyattan borc hesaplama id
-    }
     sorgu.exec();
     if(sorgu.lastError().isValid()){
         qDebug() << qPrintable(sorgu.lastError().text());
@@ -143,14 +129,15 @@ bool CariYonetimi::cariKartDuzenle(Cari cariKart)
 
 QSqlQueryModel *CariYonetimi::getCariHareketleri(QString cariID)
 {
-    sorgu.prepare("SELECT fatura_no, faturalar.tarih, faturatipleri.tip, toplamtutar, odenentutar, kalantutar, odemetipleri.tip, kullanicilar.username, faturalar.aciklama FROM faturalar "
+    QSqlQuery query(db);
+    query.prepare("SELECT fatura_no, faturalar.tarih, faturatipleri.tip, toplamtutar, odenentutar, kalantutar, odemetipleri.tip, kullanicilar.username, faturalar.aciklama FROM faturalar "
                     "INNER JOIN faturatipleri ON faturalar.tipi = faturatipleri.id "
                     "INNER JOIN odemetipleri ON faturalar.odemetipi = odemetipleri.id "
                     "INNER JOIN kullanicilar ON faturalar.kullanici = kullanicilar.id "
                     "WHERE cari = ? ORDER BY faturalar.tarih DESC");
-    sorgu.bindValue(0, cariID);
-    sorgu.exec();
-    cariHareketleriModel->setQuery(sorgu);
+    query.bindValue(0, cariID);
+    query.exec();
+    cariHareketleriModel->setQuery(std::move(query));
     cariHareketleriModel->setHeaderData(0, Qt::Horizontal, "Fatura No");
     cariHareketleriModel->setHeaderData(1, Qt::Horizontal, "Fatura Tarihi");
     cariHareketleriModel->setHeaderData(2, Qt::Horizontal, "Fatura Tip");
@@ -214,7 +201,7 @@ double CariYonetimi::getCariToplamAlacak(QString cariID)
 
 double CariYonetimi::getCariToplamBorc(QString cariID)
 {
-    double kalanTutar = 0, odenenTutar = 0, toplamTutar = 0;
+    double odenenTutar = 0, toplamTutar = 0;
 
 //    Cari cariKart = getCariKart(cariID);
 
@@ -223,7 +210,6 @@ double CariYonetimi::getCariToplamBorc(QString cariID)
     sorguSatislar.bindValue(0, cariID);
     sorguSatislar.exec();
     if(sorguSatislar.next()){
-        kalanTutar = sorguSatislar.value(2).toDouble();
         odenenTutar = sorguSatislar.value(1).toDouble();
         toplamTutar = sorguSatislar.value(0).toDouble();
     }
@@ -250,7 +236,7 @@ double CariYonetimi::getCariToplamBorc(QString cariID)
 //            faturaNumaralari.append(veresiyeSatilansepetler.value(0).toString());
 //        }
 
-//        foreach (QString faturaNo, faturaNumaralari) {
+//        for (QString faturaNo : faturaNumaralari) {
 //            zamToplamlari += faturaYonetimi.getSatis(faturaNo/*, cariKart*/).getFiyatFarki();
 //        }
 //        toplamTutar += zamToplamlari;
@@ -344,7 +330,7 @@ double CariYonetimi::getcarilerToplamBorc(QDateTime startDate, QDateTime endDate
 //                faturalar.append(sorguGuncelFiyat.value(0).toString());
 //            }
 
-//            foreach (auto fatura, faturalar) {
+//            for (auto fatura : faturalar) {
 //                guncelSepetToplamlari += faturaYonetimi.getSatis(fatura).sepetToplamTutari();
 //            }
 
@@ -384,9 +370,9 @@ bool CariYonetimi::cariHareketiSil(QString faturaNo, User kullanici, Cari cari)
     //satış faturası iade alınmamışsa
     if(!faturaYonetimi.iadeAlinmismi(faturaNo)){
         // faturadaki ürünlerin stoğa geri eklenmesi
-        Sepet sepet = faturaYonetimi.getSatis(faturaNo, Cari::BorcHesaplama::SatildigiFiyattan);
+        Sepet sepet = faturaYonetimi.getSatis(faturaNo);
         //satılan sepetteki ürünleri stoğa geri ekle
-        foreach (auto urun, sepet.urunler) {
+        for (auto urun : sepet.urunler) {
             stokYonetimi.setStokMiktari(kullanici, stokYonetimi.getStokKarti(urun.barkod), StokYonetimi::StokHareketi::Giris, urun.miktar);// stok hareketlerine de ekliyor.
         }
         // kasahareketine - para girişi

@@ -1,6 +1,6 @@
 #include "faturayonetimi.h"
 
-FaturaYonetimi::FaturaYonetimi()
+FaturaYonetimi::FaturaYonetimi() : sorgu(db)
 {
 
 }
@@ -87,7 +87,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
     }
 
     //sepetteki ürünlerin stok hareketlerine girişi
-    foreach (auto urun, satilacakSepet.urunler) {
+    for (auto urun : satilacakSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama, birim_f, toplam_f, kdv) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         sorgu.bindValue(0, urun.barkod);
@@ -106,7 +106,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
         }
     }
     //sepetteki ürünlerin stoklardan düşülmesi
-    foreach (auto urun, satilacakSepet.urunler) {
+    for (auto urun : satilacakSepet.urunler) {
         sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
         sorgu.bindValue(0, urun.stokMiktari - urun.miktar);
         sorgu.bindValue(1, urun.barkod);
@@ -145,27 +145,16 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
 //    return satilmisSepet;
 //}
 
-Sepet FaturaYonetimi::getSatis(QString _faturaNo, Cari::BorcHesaplama borcHesaplama)
+Sepet FaturaYonetimi::getSatis(QString _faturaNo)
 {
     Sepet satilmisSepet;
     QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
     satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
     satisSorgu.bindValue(0, _faturaNo);
     satisSorgu.exec();
-    switch (borcHesaplama) {
-    case Cari::BorcHesaplama::GuncelFiyattan:
-        while (satisSorgu.next()) {
-            StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
-            satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat());
-            satilmisSepet.urunler[sk.getBarkod()].birimFiyat = satisSorgu.value(6).toDouble();
-        }
-        break;
-    case Cari::BorcHesaplama::SatildigiFiyattan:
-        while (satisSorgu.next()) {
-            StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
-            satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
-        }
-        break;
+    while (satisSorgu.next()) {
+        StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
+        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
     }
     // faturanın ödenen ve kalan tutar bilgisini alma.
     QSqlQuery islem = getIslemInfo(_faturaNo);
@@ -215,7 +204,7 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici)
     }
     kasaYonetimi.KasaHareketiEkle(kullanici, KasaYonetimi::KasaHareketi::Iade, iadeSepet.sepetToplamTutari(), ("İADE İŞLEMİ:" + iadeFaturaNo), QDateTime::currentDateTime(), -iadeSepet.getSepettekiKazanc());
     //sepetteki iade ürünlerin stok hareketlerine girişi
-    foreach (auto urun, iadeSepet.urunler) {
+    for (auto urun : iadeSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?)");
         sorgu.bindValue(0, urun.barkod);
@@ -231,7 +220,7 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici)
         }
     }
     // sepetteki iade ürünlerin stoğa eklenmesi
-    foreach (Urun urun, iadeSepet.urunler) {
+    for (Urun urun : iadeSepet.urunler) {
         sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
         sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
         sorgu.bindValue(1, urun.barkod);
@@ -285,7 +274,7 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici, Cari iadeCari, QStr
         qDebug() << qPrintable(sorgu.lastError().text());
     }
     //sepetteki iade ürünlerin stok hareketlerine girişi
-    foreach (auto urun, iadeSepet.urunler) {
+    for (auto urun : iadeSepet.urunler) {
         sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?)");
         sorgu.bindValue(0, urun.barkod);
@@ -301,7 +290,7 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici, Cari iadeCari, QStr
         }
     }
     // sepetteki iade ürünlerin stoğa eklenmesi
-    foreach (Urun urun, iadeSepet.urunler) {
+    for (Urun urun : iadeSepet.urunler) {
         sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
         sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
         sorgu.bindValue(1, urun.barkod);

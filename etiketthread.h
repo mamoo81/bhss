@@ -4,6 +4,7 @@
 #include "yazici.h"
 
 #include <QThread>
+#include <atomic>
 
 class EtiketThread : public QThread
 {
@@ -14,9 +15,9 @@ class EtiketThread : public QThread
 public:
     EtiketThread();
 
-    Yazici etiketYazici = Yazici();
+    Yazici etiketYazici;
 
-    bool stop = false;
+    std::atomic<bool> stop{false};
     void setKartlar(const QList<StokKarti> &value);
 
     void setKagitTipi(int newKagitTipi);

@@ -17,13 +17,13 @@ public:
     ~FaturaYonetimi();
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu = QSqlQuery(db);
+    QSqlQuery sorgu;
     StokYonetimi stokYonetimi = StokYonetimi();
     KasaYonetimi kasaYonetimi = KasaYonetimi();
 
     void satisYap(Sepet satilacakSepet, User satisYapanKullanici, int satisYapilanCariID);
 
-    Sepet getSatis(QString _faturaNo, Cari::BorcHesaplama borcHesaplama);
+    Sepet getSatis(QString _faturaNo);
 //    Sepet getSatis(QString _faturaNo, Cari cari);
     QSqlQuery getIslemInfo(QString _faturaNo);
     void iadeAl(Sepet iadeSepet, User kullanici);

@@ -135,7 +135,7 @@ void LoginForm::setCapsLockFilePath(const QString &newCapsLockFilePath)
 
 void LoginForm::on_toolButton_clicked()
 {
-    QProcess *systemCommand = new QProcess();
+    // QProcess *systemCommand = new QProcess();
     if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
         // systemCommand->start("onboard", QIODevice::ReadWrite);
     }
