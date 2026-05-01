@@ -43,7 +43,7 @@ public:
     explicit SatisYapForm(QWidget *parent = nullptr);
     ~SatisYapForm();
 
-    QSoundEffect odemeAlindi;
+    QSoundEffect *odemeAlindi;
 //    Veritabani vt_satisFormu;
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     CariYonetimi cariYonetimi = CariYonetimi();

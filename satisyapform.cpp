@@ -30,6 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QStandardPaths>
 #include <QKeyEvent>
+#include <QTimer>
 
 SatisYapForm::SatisYapForm(QWidget *parent) :
     QDialog(parent),
@@ -47,7 +48,8 @@ SatisYapForm::~SatisYapForm()
 
 void SatisYapForm::formLoad()
 {
-    odemeAlindi.setLoopCount(0);
+    odemeAlindi = new QSoundEffect(qApp);
+    odemeAlindi->setLoopCount(1);
     satisYapildimi = false;
 
     //genel ayarların okunması başlangıcı
@@ -74,7 +76,7 @@ void SatisYapForm::formLoad()
         ui->caricomboBox->addItem(cariKart.getAd());
     }
     ui->OdenendoubleSpinBox->setFocus();
-    odemeAlindi.setSource(QUrl("qrc:/sounds/sounds/warning-sound.wav"));
+    odemeAlindi->setSource(QUrl("qrc:/sounds/sounds/odeme-alindi.wav"));
 }
 
 void SatisYapForm::on_satBtn_clicked()
@@ -104,14 +106,16 @@ void SatisYapForm::on_satBtn_clicked()
 
     // ------------------------------------------   ödeme alındı sesi çalınsın mı.
     genelAyarlar.beginGroup("uyari-sesleri");
-    if(genelAyarlar.value("odeme-alindi").toBool()){
-        odemeAlindi.play();
-    }
+    bool sesCalinsin = genelAyarlar.value("odeme-alindi").toBool();
     genelAyarlar.endGroup();
 
     ui->OdenendoubleSpinBox->setValue(0);
     ui->toplamLBL->setText(0);
     satisYapildimi = true;
+
+    if(sesCalinsin){
+        odemeAlindi->play();
+    }
     this->close();
 }
 

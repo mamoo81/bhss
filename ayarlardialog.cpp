@@ -744,12 +744,6 @@ void AyarlarDialog::cronJobSil()
 }
 
 
-void AyarlarDialog::on_SiklikcomboBox_currentIndexChanged(const QString &arg1)
-{
-    periyod = arg1;
-}
-
-
 void AyarlarDialog::on_SaatcomboBox_currentIndexChanged(int index)
 {
     jobSaati = QString::number(index);
@@ -905,16 +899,5 @@ void AyarlarDialog::on_StokTakibicheckBox_stateChanged(int arg1)
 }
 
 
-void AyarlarDialog::on_YonelimcomboBox_currentIndexChanged(int index)
-{
-    ui->VarsayilanKagitcomboBox->clear();
-    switch (index) {
-    case 0:
-        ui->VarsayilanKagitcomboBox->addItem("38x80mm Termal Karton Etiket");
-        break;
-    case 1:
-        ui->VarsayilanKagitcomboBox->addItem("38x100mm Termal Karton Etiket");
-        break;
-    }
-}
+
 

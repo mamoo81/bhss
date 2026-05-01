@@ -75,8 +75,6 @@ private slots:
 
     void cronJobSil();
 
-    void on_SiklikcomboBox_currentIndexChanged(const QString &arg1);
-
     void on_SaatcomboBox_currentIndexChanged(int index);
 
     void on_dakikacomboBox_currentIndexChanged(int index);
@@ -95,8 +93,6 @@ private slots:
     void on_SekmeVarsayilanpushButton_clicked();
 
     void on_StokTakibicheckBox_stateChanged(int arg1);
-
-    void on_YonelimcomboBox_currentIndexChanged(int index);
 
 private:
     Ui::AyarlarDialog *ui;
