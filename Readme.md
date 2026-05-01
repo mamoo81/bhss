@@ -1,123 +1,127 @@
-# MİLİS HIZLI SATIŞ SİSTEMİ
+# BHSS — Basat Hızlı Satış Sistemi
 
-Küçük ölçekli işletmeler için stok takibi, cari takibi, barkodlu satış yapabileceğiniz bir uygulama.
+![Versiyon](https://img.shields.io/badge/versiyon-v0.2.7-blue)
+![Lisans](https://img.shields.io/badge/lisans-MIT-green)
 
-### Özellikler
+Küçük ve orta ölçekli işletmeler için barkodlu satış, stok takibi, cari hesap ve kasa yönetimi çözümü.
 
-* Stok takibi
-* Cari takibi (temel seviyede)
-* Cariye stoklu/stoksuz satış
-* Kasa takibi
-* Kullanıcı yönetimi ve yetkilendirme
-* Adisyon/fiş yazdırma (80mm adisyon yazıcılar ile uyumlu)
-* Terazi entegrasyonu (RS232 seriport)
-* Etiket yazıcı entegrasyonu
-* Kasa raporu yazdırma
-* Veritabanı otomatik yedekleme
+## Ekran Görüntüleri
 
-### Satış ekranı
+| Satış Ekranı | Stok Ekranı | Kasa Ekranı |
+|:------------:|:-----------:|:-----------:|
+| ![Satış](https://raw.githubusercontent.com/mamoo81/bhss/master/screenshots/mhss-ana-ekran.png) | ![Stok](https://raw.githubusercontent.com/mamoo81/bhss/master/screenshots/mhss-stok.png) | ![Kasa](https://raw.githubusercontent.com/mamoo81/bhss/master/screenshots/mhss-kasa.png) |
 
-![ana](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-ana-ekran.png)
+## Özellikler
 
-### Stok ekranı
+- **Stok Takibi:** Stoklu/stoksuz ürün yönetimi
+- **Cari Takibi:** Müşteri ve tedarikçi cari hesapları
+- **Barkodlu Satış:** Hızlı sepet yönetimi ve çoklu ödeme
+- **Kasa Yönetimi:** Gün sonu raporları ve tahsilat makbuzu
+- **Etiket Yazdırma:** Raf etiketi basımı (80×38 mm ve 100×38 mm desteği)
+- **Fiş/Adisyon Yazdırma:** 80 mm termal yazıcı desteği
+- **Terazi Entegrasyonu:** RS-232 seri port ile tartım
+- **Kullanıcı Yetkilendirme:** Rol bazlı erişim kontrolü
+- **Otomatik Yedekleme:** Veritabanı periyodik yedekleme (crontab)
 
-![stok](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-stok.png)
+## Sistem Gereksinimleri
 
-### Kasa ekranı
-
-![kasa](https://mls.akdeniz.edu.tr/git/mamoo/mhss/raw/branch/master/screenshots/mhss-kasa.png)
-
-#### Tavsiye edilen sistem gereksinimleri
-* Milis Linux işletim sistemi (Dokunmatik kullanım isteniyorsa Pardus GNU/Linux kullanılabilir)
-* 1 GB sistem belleği
-* Minimum 1366x768px çözünürlüğünde monitör
-
-#### Gerekler
-* Postgresql (çalışma gereği)
-* Crontab (isteğe bağlı)
-* CUPS (isteğe bağlı)
+| Bileşen | Minimum |
+|---------|---------|
+| İşletim Sistemi | Milis Linux / Pardus 23.x / Debian 12+ |
+| RAM | 1 GB |
+| Ekran | 1366×768 px |
+| Veritabanı | PostgreSQL 13+ |
 
 ## Kurulum
-#### Milis Linux
 
-Terminalden Milis Hızlı Satış Sistemi kurulumu
+### Debian / Pardus / Ubuntu
+
+```bash
+# Sistem güncellemesi
+sudo apt update && sudo apt upgrade -y
+
+# Gerekli bağımlılıklar
+sudo apt install postgresql zint qmake6 make g++ git \
+    qt6-declarative-dev qt6-tools-dev qt6-serialport-dev \
+    qt6-multimedia-dev qt6-charts-dev libqt6sql6-psql
+
+# Kaynak kodu indirme
+git clone https://github.com/mamoo81/bhss.git
+cd bhss
+
+# Derleme
+mkdir build && cd build
+qmake6 ../mhss.pro
+make -j$(nproc)
+sudo make install
 ```
+
+### Milis Linux
+
+```bash
 sudo mps gun
 sudo mps kur mhss postgresql
-```
 
-Postgresql servisinin kurulumu ve aktifleştirilmesi
-```
+# PostgreSQL servisini başlatma
 sudo servis ekle postgresql
 sudo servis kos postgresql
 sudo servis aktif postgresql
 ```
 
-#### Pardus 23.x GNU/Linux
-Güncellemerin kurulumu
-```
-sudo apt-get update
-sudo apt-get upgrade
-```
-Gereklerin kurulumu
-```
-sudo apt-get install postgresql zint qmake6 make g++ git qt6-declarative-dev qt6-tools-dev qt6-serialport-dev qt6-multimedia-dev qt6-charts-dev libqt6sql6-psql
-```
-Postgresql'de ```postgres``` kullanıcısının localhost bağlantısına izin verilmeli.
-```postgres``` kullanıcısının şifresi ```postgres``` olmalı.
+## İlk Çalıştırma
 
-MHSS nin kaynaktan kurulumu
-```
-git clone https://github.com/mamoo81/bhss.git
-cd mhss && mkdir build && cd build
-qmake6 ../mhss.pro
-make
-sudo make install
+```bash
+mhss
 ```
 
-MHSS nin çalıştırılması.
-terminalden ```mhss```
+**Varsayılan giriş bilgileri:**
+- Kullanıcı: `admin`
+- Şifre: `admin`
 
-#### MHSS Giriş bilgileri
-```
-kullanıcı: admin
-şifre    : admin
-```
+## Klavye Kısayolları
 
-#### Ana ekran klavye kısayolları
+### Ana Ekran
 
-| Tuş   |     | Tuş    | İşlevi                            |
-| :---  | :-: | :----: | ---:                              |
-| Enter |     |        | Satış ekranını açar               |
-| Esc   |     |        | Satış ekranını kapatır            |
-| Ctrl  | +   | F      | Ürün ara ve sepete ekle           |
-| F     |     |        | Ürünün fiyatını gösterir          |
-| +     |     |        | Sepetteki ürünün adetini artırır  |
-| -     |     |        | Sepetteki ürünün adetini azaltır  |
-| *     |     |        | Sepetteki ürünün adetini çarpar   |
-| F3    |     |        | Sepetten ürün siler               |
-| F5    |     |        | Seçili sepeti siler               |
-| F9    |     |        | Stok kartları ekranını açar       |
-| F10   |     |        | Cari kartlar ekranını açar        |
-| F11   |     |        | Kasa ekranını açar                |
-| F12   |     |        | Ayarlar ekranını açar             |
-| ← →   |     |        | Sepetler arası geçiş yapar        |
-| ↑ ↓   |     |        | Sepetteki seçili ürünü değiştirir |
+| Kısayol | İşlev |
+|---------|-------|
+| `Enter` | Satış ekranını açar |
+| `Esc` | Satış ekranını kapatır |
+| `Ctrl + F` | Ürün ara ve sepete ekle |
+| `F` | Ürünün fiyatını gösterir |
+| `+` | Sepetteki ürün adetini artırır |
+| `-` | Sepetteki ürün adetini azaltır |
+| `*` | Sepetteki ürün adetini çarpar |
+| `F3` | Sepetten ürün siler |
+| `F5` | Seçili sepeti siler |
+| `F9` | Stok kartları ekranını açar |
+| `F10` | Cari kartlar ekranını açar |
+| `F11` | Kasa ekranını açar |
+| `F12` | Ayarlar ekranını açar |
+| `← →` | Sepetler arası geçiş |
+| `↑ ↓` | Sepetteki seçili ürünü değiştirir |
 
-#### Stok ekranı klavye kısayolları
+### Stok Ekranı
 
-| Tuş   |     | Tuş    | İşlevi                            |
-| :---  | :-: | :----: | ---:                              |
-| F1    |     |        | Yeni stok kartı açar              |
-| F2    |     |        | Tabloda ki seçili kartı düzenler  |
-| F3    |     |        | Tabloda ki seçili kartı siler     |
-| F4    |     |        | Tabloda ki seçili kartı stok ekler|
-| F5    |     |        | Tabloda ki seçili kartı stok düşer|
-| Esc   |     |        | Stok ekranını kapatır             |
+| Kısayol | İşlev |
+|---------|-------|
+| `F1` | Yeni stok kartı açar |
+| `F2` | Seçili kartı düzenler |
+| `F3` | Seçili kartı siler |
+| `F4` | Seçili karta stok ekler |
+| `F5` | Seçili karttan stok düşer |
+| `Esc` | Stok ekranını kapatır |
 
-#### Satış ekranı klavye kısayolları
+### Satış Ekranı
 
-| Tuş   |     | Tuş    | İşlevi                            |
-| :---  | :-: | :----: | ---:                              |
-| F     |     |        | Fiş yazdırma aktif/pasif          |
-| Enter |     |        | Satış yapar                       |
+| Kısayol | İşlev |
+|---------|-------|
+| `F` | Fiş yazdırma aktif/pasif |
+| `Enter` | Satışı tamamlar |
+
+## Lisans
+
+Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
+
+---
+
+© 2021 — Mehmet AKDEMİR · [bilgi@basat.dev](mailto:bilgi@basat.dev)
