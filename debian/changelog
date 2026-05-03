@@ -1,0 +1,16 @@
+mhss (0.2.8-1) unstable; urgency=medium
+
+  * PostgreSQL prepared statement hatasi cozuldu (exec(QString) kullanimi)
+  * stokhareketleri tablosuna birim_f, toplam_f, kdv kolonlari eklendi
+  * kasahareketleri.islem kolonu integer'dan text'e cevrildi
+  * Veritabani migration otomatiklestirildi (postinst betigi)
+
+ -- mamoo <mamoo81@gmail.com>  Sun, 03 May 2026 19:45:00 +0300
+
+mhss (0.2.7-1) unstable; urgency=medium
+
+  * Yazici etiket duzeltmeleri (sayfa boyutu, DPI, barkod boyutlari)
+  * Ses sorunu cozumu (QSoundEffect heap'te olusturuldu)
+  * Ayarlar dialogu temizligi (eski slotlar kaldirildi)
+
+ -- mamoo <mamoo81@gmail.com>  Sat, 02 May 2026 01:48:05 +0300

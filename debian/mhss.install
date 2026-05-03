@@ -1,0 +1,3 @@
+mhss.desktop usr/share/applications/
+mhss.png usr/share/icons/
+db_migrate_v0.2.8.sql usr/share/mhss/

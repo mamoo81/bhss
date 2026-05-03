@@ -19,7 +19,6 @@ public:
     CariYonetimi();
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu;
     FaturaYonetimi faturaYonetimi = FaturaYonetimi();
     StokYonetimi stokYonetimi = StokYonetimi();
     KasaYonetimi kasaYonetimi = KasaYonetimi();

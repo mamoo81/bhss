@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        # PostgreSQL servisinin çalıştığını kontrol et
+        if pg_isready -q 2>/dev/null; then
+            # mhss_data veritabanının var olduğunu kontrol et
+            if su - postgres -c "psql -lqt | cut -d \| -f 1 | grep -qw mhss_data" 2>/dev/null; then
+                echo "MHSS: Veritabani migration betigi calistiriliyor..."
+                su - postgres -c "psql -d mhss_data -f /usr/share/mhss/db_migrate_v0.2.8.sql" || true
+            else
+                echo "MHSS: mhss_data veritabani bulunamadi. Migration atlaniyor."
+            fi
+        else
+            echo "MHSS: PostgreSQL calismiyor. Migration atlaniyor."
+        fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

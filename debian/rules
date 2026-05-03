@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=qmake
+
+override_dh_auto_configure:
+	qmake6 PREFIX=/usr

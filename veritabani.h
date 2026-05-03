@@ -41,7 +41,6 @@ public:
     ~Veritabani();
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu{db};
 //    QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
 //    QSqlQueryModel *stokHareketleriModel = new QSqlQueryModel();
 //    QSqlQueryModel *cariKartIsımleriModel = new QSqlQueryModel();

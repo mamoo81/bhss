@@ -1,0 +1,23 @@
+Source: mhss
+Section: utils
+Priority: optional
+Maintainer: mamoo <mamoo81@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               qt6-base-dev,
+               qt6-multimedia-dev,
+               qt6-charts-dev,
+               qt6-serialport-dev,
+               libqt6opengl6-dev,
+               libpq-dev
+Standards-Version: 4.6.2
+Homepage: https://github.com/mamoo81/bhss
+Vcs-Browser: https://github.com/mamoo81/bhss
+Vcs-Git: https://github.com/mamoo81/bhss.git
+
+Package: mhss
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, zint, postgresql-client
+Description: MHSS - Market Hizli Satis Sistemi
+ MHSS (Market Hizli Satis Sistemi), magazalar ve marketler icin
+ barkodlu satis, stok takibi, cari hesap ve kasa yonetimi
+ ozelliklerini bir arada sunan bir masaustu uygulamasidir.

@@ -49,11 +49,12 @@ Veritabani::~Veritabani()
 
 bool Veritabani::loginControl(QString _UserName, QString _Password)
 {
-    sorgu.prepare("SELECT username, password FROM kullanicilar WHERE username = ?");
-    sorgu.bindValue(0, _UserName);
-    sorgu.exec();
-    if(sorgu.next()){
-        if(sorgu.value(0) == _Password){
+    QSqlQuery query(db);
+    query.prepare("SELECT username, password FROM kullanicilar WHERE username = ?");
+    query.bindValue(0, _UserName);
+    query.exec();
+    if(query.next()){
+        if(query.value(0) == _Password){
             return true;
         }
         else{
@@ -67,16 +68,18 @@ bool Veritabani::loginControl(QString _UserName, QString _Password)
 
 QStringList Veritabani::getSonIslemler()
 {
+    QSqlQuery query(db);
     QStringList islemler;
-    sorgu.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date AND tipi = 2 ORDER BY tarih DESC");
-    while(sorgu.next()){
-        islemler.append(sorgu.value(0).toString() + " " + sorgu.value(1).toTime().toString("hh:mm:ss"));
+    query.exec("SELECT fatura_no, tarih FROM faturalar WHERE tarih::date = now()::date AND tipi = 2 ORDER BY tarih DESC");
+    while(query.next()){
+        islemler.append(query.value(0).toString() + " " + query.value(1).toTime().toString("hh:mm:ss"));
     }
     return islemler;
 }
 
 bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
+    QSqlQuery query(db);
     QString yedeklemeKomutu = "pg_dump -Fc -U postgres mhss_data > ";
     yedeklemeKomutu += _dirNameAndFileName + ".sql";
     int exitCode = system(qPrintable(yedeklemeKomutu));
@@ -91,6 +94,7 @@ bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 
 bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
 {
+    QSqlQuery query(db);
     db.close();
     db.setDatabaseName("postgres");
     //veritabanını silme
@@ -131,6 +135,7 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
 
 bool Veritabani::veritabaniSifirla()
 {
+    QSqlQuery query(db);
     // başka bir yerde bağlantı açıksa veya açık kaldıysa mhss_data veritabanına açık tüm bağlantıları sonlandırma.
     QSqlQuery vtTumBaglantiKesmeSorgu = QSqlQuery(db);
     vtTumBaglantiKesmeSorgu.exec("SELECT pg_terminate_backend(pg_stat_activity.pid) "
@@ -158,6 +163,7 @@ bool Veritabani::veritabaniSifirla()
 
 void Veritabani::setHizliButon(StokKarti _stokKarti)
 {
+    QSqlQuery query(db);
     QSettings hizliButonBarkodlar(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     for (QString buttonName : hizliButonBarkodlar.childGroups()) {
         hizliButonBarkodlar.beginGroup(buttonName);
@@ -174,25 +180,26 @@ void Veritabani::setHizliButon(StokKarti _stokKarti)
 
 void Veritabani::setOturum(User _user)
 {
-    sorgu.exec("SELECT * FROM oturum");
-    if(sorgu.next()){
-        if(sorgu.value(1).toString() != _user.getUserName()){
-            sorgu.prepare("UPDATE oturum SET username = ?, giristarihi = ? WHERE id = 1");
-            sorgu.bindValue(0, _user.getUserName());
-            sorgu.bindValue(1, QDateTime::currentDateTime());
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    query.exec("SELECT * FROM oturum");
+    if(query.next()){
+        if(query.value(1).toString() != _user.getUserName()){
+            query.prepare("UPDATE oturum SET username = ?, giristarihi = ? WHERE id = 1");
+            query.bindValue(0, _user.getUserName());
+            query.bindValue(1, QDateTime::currentDateTime());
+            query.exec();
+            if(query.lastError().isValid()){
+                qDebug() << qPrintable(query.lastError().text());
             }
         }
     }
     else{
-        sorgu.prepare("INSERT INTO oturum(id, username, giristarihi) VALUES('1', ?,?)");
-        sorgu.bindValue(0, _user.getUserName());
-        sorgu.bindValue(1, QDateTime::currentDateTime());
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << qPrintable(sorgu.lastError().text());
+        query.prepare("INSERT INTO oturum(id, username, giristarihi) VALUES('1', ?,?)");
+        query.bindValue(0, _user.getUserName());
+        query.bindValue(1, QDateTime::currentDateTime());
+        query.exec();
+        if(query.lastError().isValid()){
+            qDebug() << qPrintable(query.lastError().text());
         }
     }
 }
@@ -209,17 +216,19 @@ QSqlQuery Veritabani::getOturum()
 
 void Veritabani::oturumSonlandir()
 {
-    sorgu.exec("DELETE FROM oturum WHERE id = 1");
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    query.exec("DELETE FROM oturum WHERE id = 1");
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }
 
 bool Veritabani::veritabaniVarmi()
 {
+    QSqlQuery query(db);
     //mhss_data veritabanı varmı kontrol
-    sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
-    if(sorgu.next()){
+    query.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
+    if(query.next()){
         db.setDatabaseName("mhss_data");
         db.open();
         return true;
@@ -232,46 +241,48 @@ bool Veritabani::veritabaniVarmi()
 
 User Veritabani::GetUserInfos(QString _UserName)
 {
+    QSqlQuery query(db);
     User u;
-    sorgu.prepare("SELECT * FROM kullanicilar WHERE username = ?");
-    sorgu.bindValue(0, _UserName);
-    sorgu.exec();
-    if(sorgu.next()){
-        u.setUserID(sorgu.value(0).toString());
-        u.setUserName(sorgu.value(1).toString());
-        u.setPassWord(sorgu.value(2).toString());
-        u.setAd(sorgu.value(3).toString());
-        u.setSoyad(sorgu.value(4).toString());
-        u.setCepNo(sorgu.value(5).toString());
-        u.setTarih(sorgu.value(6).toDateTime());
-        u.setKasaYetki(sorgu.value(7).toBool());
-        u.setIadeYetki(sorgu.value(8).toBool());
-        u.setStokYetki(sorgu.value(9).toBool());
-        u.setAyaryetki(sorgu.value(10).toBool());
-        u.setCariyetki(sorgu.value(11).toBool());
+    query.prepare("SELECT * FROM kullanicilar WHERE username = ?");
+    query.bindValue(0, _UserName);
+    query.exec();
+    if(query.next()){
+        u.setUserID(query.value(0).toString());
+        u.setUserName(query.value(1).toString());
+        u.setPassWord(query.value(2).toString());
+        u.setAd(query.value(3).toString());
+        u.setSoyad(query.value(4).toString());
+        u.setCepNo(query.value(5).toString());
+        u.setTarih(query.value(6).toDateTime());
+        u.setKasaYetki(query.value(7).toBool());
+        u.setIadeYetki(query.value(8).toBool());
+        u.setStokYetki(query.value(9).toBool());
+        u.setAyaryetki(query.value(10).toBool());
+        u.setCariyetki(query.value(11).toBool());
     }
     return u;
 }
 
 bool Veritabani::updateUser(User _NewUserInfos)
 {
-    sorgu.prepare("UPDATE kullanicilar "
+    QSqlQuery query(db);
+    query.prepare("UPDATE kullanicilar "
                     "SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ?, ayaryetki = ?, cariyetki = ? "
                     "WHERE id = ?");
-    sorgu.bindValue(0, _NewUserInfos.getPassWord());
-    sorgu.bindValue(1, _NewUserInfos.getAd());
-    sorgu.bindValue(2, _NewUserInfos.getSoyad());
-    sorgu.bindValue(3, _NewUserInfos.getCepNo());
-    sorgu.bindValue(4, _NewUserInfos.getTarih());
-    sorgu.bindValue(5, _NewUserInfos.getKasaYetki());
-    sorgu.bindValue(6, _NewUserInfos.getIadeYetki());
-    sorgu.bindValue(7, _NewUserInfos.getStokYetki());
-    sorgu.bindValue(8, _NewUserInfos.getAyaryetki());
-    sorgu.bindValue(9, _NewUserInfos.getCariyetki());
-    sorgu.bindValue(10, _NewUserInfos.getUserID());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, _NewUserInfos.getPassWord());
+    query.bindValue(1, _NewUserInfos.getAd());
+    query.bindValue(2, _NewUserInfos.getSoyad());
+    query.bindValue(3, _NewUserInfos.getCepNo());
+    query.bindValue(4, _NewUserInfos.getTarih());
+    query.bindValue(5, _NewUserInfos.getKasaYetki());
+    query.bindValue(6, _NewUserInfos.getIadeYetki());
+    query.bindValue(7, _NewUserInfos.getStokYetki());
+    query.bindValue(8, _NewUserInfos.getAyaryetki());
+    query.bindValue(9, _NewUserInfos.getCariyetki());
+    query.bindValue(10, _NewUserInfos.getUserID());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return false;
     }
     return true;
@@ -279,33 +290,35 @@ bool Veritabani::updateUser(User _NewUserInfos)
 
 bool Veritabani::CreateNewUser(User _NewUser)
 {
-    sorgu.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki)"
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki)"
                     " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, _NewUser.getUserName());
-    sorgu.bindValue(1, _NewUser.getPassWord());
-    sorgu.bindValue(2, _NewUser.getAd());
-    sorgu.bindValue(3, _NewUser.getSoyad());
-    sorgu.bindValue(4, _NewUser.getCepNo());
-    sorgu.bindValue(5, _NewUser.getTarih());
-    sorgu.bindValue(6, _NewUser.getKasaYetki());
-    sorgu.bindValue(7, _NewUser.getIadeYetki());
-    sorgu.bindValue(8, _NewUser.getStokYetki());
-    sorgu.bindValue(9, _NewUser.getAyaryetki());
-    sorgu.bindValue(10, _NewUser.getCariyetki());
-    if(sorgu.exec()){
+    query.bindValue(0, _NewUser.getUserName());
+    query.bindValue(1, _NewUser.getPassWord());
+    query.bindValue(2, _NewUser.getAd());
+    query.bindValue(3, _NewUser.getSoyad());
+    query.bindValue(4, _NewUser.getCepNo());
+    query.bindValue(5, _NewUser.getTarih());
+    query.bindValue(6, _NewUser.getKasaYetki());
+    query.bindValue(7, _NewUser.getIadeYetki());
+    query.bindValue(8, _NewUser.getStokYetki());
+    query.bindValue(9, _NewUser.getAyaryetki());
+    query.bindValue(10, _NewUser.getCariyetki());
+    if(query.exec()){
         return true;
     }
     else{
-        qDebug() << qPrintable(sorgu.lastError().text());
+        qDebug() << qPrintable(query.lastError().text());
     }
     return false;
 }
 
 void Veritabani::deleteUser(QString _DeletedUserName)
 {
-    sorgu.prepare("DELETE FROM kullanicilar WHERE username = ?");
-    sorgu.bindValue(0, _DeletedUserName);
-    if(sorgu.exec()){
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM kullanicilar WHERE username = ?");
+    query.bindValue(0, _DeletedUserName);
+    if(query.exec()){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
         msg->setWindowTitle("Başarılı");
@@ -316,12 +329,12 @@ void Veritabani::deleteUser(QString _DeletedUserName)
         msg->exec();
     }
     else{
-        if(sorgu.lastError().isValid()){
+        if(query.lastError().isValid()){
             QMessageBox *msg = new QMessageBox(0);
             msg->setIcon(QMessageBox::Information);
             msg->setWindowTitle("Hata");
             msg->setText("Kullanıcı silinemedi!");
-            msg->setInformativeText(sorgu.lastError().text());
+            msg->setInformativeText(query.lastError().text());
             msg->setStandardButtons(QMessageBox::Ok);
             msg->setDefaultButton(QMessageBox::Ok);
             // msg->setButtonText(QMessageBox::Ok, "Tamam");
@@ -332,47 +345,51 @@ void Veritabani::deleteUser(QString _DeletedUserName)
 
 QStringList Veritabani::getOdemeTipleri()
 {
+    QSqlQuery query(db);
     QStringList odemeTipleri;
-    sorgu.exec("SELECT * FROM odemetipleri");
-    while (sorgu.next()) {
-        odemeTipleri.append(sorgu.value(1).toString());
+    query.exec("SELECT * FROM odemetipleri");
+    while (query.next()) {
+        odemeTipleri.append(query.value(1).toString());
     }
     return odemeTipleri;
 }
 
 QStringList Veritabani::getIller()
 {
+    QSqlQuery query(db);
     QStringList ilList;
     ilList.append("İl seçiniz.");
-    sorgu.exec("SELECT il FROM iller");
-    while (sorgu.next()) {
-        ilList.append(sorgu.value(0).toString());
+    query.exec("SELECT il FROM iller");
+    while (query.next()) {
+        ilList.append(query.value(0).toString());
     }
     return ilList;
 }
 
 QStringList Veritabani::getIlceler(int _plaka)
 {
+    QSqlQuery query(db);
     QStringList ilcelerList;
     ilcelerList.append("İlçe seçiniz.");
-    sorgu.prepare("SELECT ilce FROM ilceler WHERE ilid = ?");
-    sorgu.bindValue(0, _plaka);
-    sorgu.exec();
-    while (sorgu.next()) {
-        ilcelerList.append(sorgu.value(0).toString());
+    query.prepare("SELECT ilce FROM ilceler WHERE ilid = ?");
+    query.bindValue(0, _plaka);
+    query.exec();
+    while (query.next()) {
+        ilcelerList.append(query.value(0).toString());
     }
     return ilcelerList;
 }
 
 QStringList Veritabani::GetUsers()
 {
+    QSqlQuery query(db);
     QStringList users;
-    sorgu.exec("SELECT username FROM kullanicilar");
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.exec("SELECT username FROM kullanicilar");
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
-    while (sorgu.next()) {
-        users << sorgu.value(0).toString();
+    while (query.next()) {
+        users << query.value(0).toString();
     }
     return users;
 }
@@ -380,50 +397,54 @@ QStringList Veritabani::GetUsers()
 
 QStringList Veritabani::stokGruplariGetir()
 {
-    sorgu.exec("SELECT grup FROM stokgruplari");
+    QSqlQuery query(db);
+    query.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
-    while (sorgu.next()) {
-        liste.append(sorgu.value(0).toString());
+    while (query.next()) {
+        liste.append(query.value(0).toString());
     }
     return liste;
 }
 
 int Veritabani::getGrupID(QString pGrup)
 {
-    sorgu.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
-    sorgu.bindValue(0, pGrup);
-    sorgu.exec();
-    if(sorgu.next()){
-        return sorgu.value(0).toInt();
+    QSqlQuery query(db);
+    query.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
+    query.bindValue(0, pGrup);
+    query.exec();
+    if(query.next()){
+        return query.value(0).toInt();
     }
     return 0;
 }
 
 QStringList Veritabani::getTeraziler()
 {
+    QSqlQuery query(db);
     QStringList teraziler;
-    sorgu.exec("SELECT * FROM teraziler");
-    while (sorgu.next()) {
-        teraziler.append(sorgu.value(1).toString());
+    query.exec("SELECT * FROM teraziler");
+    while (query.next()) {
+        teraziler.append(query.value(1).toString());
     }
     return teraziler;
 }
 
 QStringList Veritabani::getTeraziModeller(QString Marka)
 {
+    QSqlQuery query(db);
     QStringList modeller;
     // markanın id sini alma
-    sorgu.prepare("SELECT id FROM teraziler WHERE marka = ? ORDER BY marka ASC");
-    sorgu.bindValue(0, Marka);
-    sorgu.exec();
-    sorgu.next();
-    int id = sorgu.value(0).toInt();
+    query.prepare("SELECT id FROM teraziler WHERE marka = ? ORDER BY marka ASC");
+    query.bindValue(0, Marka);
+    query.exec();
+    query.next();
+    int id = query.value(0).toInt();
     // markanın modellerini getirme
-    sorgu.prepare("SELECT model FROM terazimodel WHERE id = ? ORDER BY model ASC");
-    sorgu.bindValue(0, id);
-    sorgu.exec();
-    while (sorgu.next()) {
-        modeller.append(sorgu.value(0).toString());
+    query.prepare("SELECT model FROM terazimodel WHERE id = ? ORDER BY model ASC");
+    query.bindValue(0, id);
+    query.exec();
+    while (query.next()) {
+        modeller.append(query.value(0).toString());
     }
     return modeller;
 }

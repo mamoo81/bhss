@@ -29,7 +29,6 @@ public:
     };
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu;
     QSqlQueryModel *stokKartlariModel = new QSqlQueryModel();
     QSqlQueryModel *stokHareketleriModel = new QSqlQueryModel();
 

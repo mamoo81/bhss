@@ -1,6 +1,15 @@
 #include "faturayonetimi.h"
 
-FaturaYonetimi::FaturaYonetimi() : sorgu(db)
+#include <QList>
+
+// SQL string'lerinde tek tırnak kaçışı için yardımcı
+static QString esc(const QString &s) {
+    QString r = s;
+    r.replace("'", "''");
+    return r;
+}
+
+FaturaYonetimi::FaturaYonetimi()
 {
 
 }
@@ -18,101 +27,99 @@ FaturaYonetimi::~FaturaYonetimi()
 void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, int satisYapilanCariID)
 {
     QString FaturaNo = yeniFaturaNo();
+    QString dtStr = QDateTime::currentDateTime().toString(Qt::ISODate);
+    double odenen = satilacakSepet.getOdenenTutar();
+    double toplam = satilacakSepet.sepetToplamTutari();
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, odemetipi) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.bindValue(1, satisYapilanCariID);
-    sorgu.bindValue(2, 2);// 2 = satış faturası (veritabanında faturatipleri.tip)
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.bindValue(4, satisYapanKullanici.getUserID());
-    sorgu.bindValue(5, satilacakSepet.sepetToplamTutari());
-    if(satilacakSepet.getOdenenTutar() > satilacakSepet.sepetToplamTutari()){ // ödenen tutar sepet toplamından büyükse
-        sorgu.bindValue(6, satilacakSepet.sepetToplamTutari());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, odemetipi) "
+                              "VALUES (nextval('faturalar_sequence'), '%1', %2, 2, '%3'::timestamp, %4, %5, %6, %7, 1)")
+                          .arg(esc(FaturaNo))
+                          .arg(satisYapilanCariID)
+                          .arg(dtStr)
+                          .arg(satisYapanKullanici.getUserID())
+                          .arg(toplam)
+                          .arg((odenen > toplam) ? toplam : odenen)
+                          .arg(satilacakSepet.getKalanTutar());
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << q.lastError().text();
+        }
     }
-    else if(satilacakSepet.getOdenenTutar() <= satilacakSepet.sepetToplamTutari()){ // ödenen tutar sepet toplam tutarından küçükse
-        sorgu.bindValue(6, satilacakSepet.getOdenenTutar());
-    }
-    sorgu.bindValue(7, satilacakSepet.getKalanTutar());
-    sorgu.bindValue(8, 1);//nakit ödeme tipinde satış
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
-    }
+
     //kasa hareketi girme ve kasaya ödenen para kadar giriş
-    if(satilacakSepet.getOdenenTutar() > 0){// kasanın tutması için. cariye veresiye kaydedecekse odenen tutar 0 dan büyükse
-        // odenen para büyük veya eşitse sepettoplamtutarina sepetin tamamı ödendi demek.
-        if(satilacakSepet.getOdenenTutar() >= satilacakSepet.sepetToplamTutari()){
+    if(odenen > 0){
+        if(odenen >= toplam){
             kasaYonetimi.KasaHareketiEkle(satisYapanKullanici,
                              KasaYonetimi::KasaHareketi::Giris,
-                             satilacakSepet.sepetToplamTutari(),
+                             toplam,
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
                              satilacakSepet.getSepettekiKazanc());
 
             if(satilacakSepet.getFazlaTutarAlacaklandir()){
-                //yeni alış fatura bilgisi girme başlangıcı cariYonetimi classını bu sayfaya ekleyemediğim için böyle geçici çözdüm.
-
-                double fazlaTutar = satilacakSepet.getOdenenTutar() - satilacakSepet.sepetToplamTutari();
-                sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
-                                "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                sorgu.bindValue(0, yeniFaturaNo());
-                sorgu.bindValue(1, satisYapilanCariID);
-                sorgu.bindValue(2, 1);
-                sorgu.bindValue(3, QDateTime::currentDateTime());
-                sorgu.bindValue(4, satisYapanKullanici.getUserID());
-                sorgu.bindValue(5, fazlaTutar);
-                sorgu.bindValue(6, 0);
-                sorgu.bindValue(7, fazlaTutar);
-                sorgu.bindValue(8, "");
-                sorgu.bindValue(9, FaturaNo + "'lu işlemde fazla ödenen tutar alacaklandirildi");
-                sorgu.bindValue(10, 1);
-                sorgu.exec();
-                if(sorgu.lastError().isValid()){
-                    qDebug() << qPrintable(sorgu.lastError().text());
+                double fazlaTutar = odenen - toplam;
+                QString yeniFazlaFaturaNo = yeniFaturaNo();
+                QSqlQuery q(db);
+                QString sql = QString("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+                                      "VALUES (nextval('faturalar_sequence'), '%1', %2, 1, '%3'::timestamp, %4, %5, 0, %6, '', '%7', 1)")
+                                  .arg(esc(yeniFazlaFaturaNo))
+                                  .arg(satisYapilanCariID)
+                                  .arg(QDateTime::currentDateTime().toString(Qt::ISODate))
+                                  .arg(satisYapanKullanici.getUserID())
+                                  .arg(fazlaTutar)
+                                  .arg(fazlaTutar)
+                                  .arg(esc(FaturaNo + "'lu işlemde fazla ödenen tutar alacaklandirildi"));
+                q.exec(sql);
+                if(q.lastError().isValid()){
+                    qDebug() << qPrintable(q.lastError().text());
                 }
             }
-
-            //********************************************************
         }
-        // odenen para küçükse sepettoplamtutarindan sepet eksik veya veresiye ödendi.
-        if(satilacakSepet.getOdenenTutar() < satilacakSepet.sepetToplamTutari()){
+        if(odenen < toplam){
             kasaYonetimi.KasaHareketiEkle(satisYapanKullanici,
                              KasaYonetimi::KasaHareketi::Giris,
-                             satilacakSepet.getOdenenTutar(),
+                             odenen,
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
-                             satilacakSepet.getSepettekiKazanc());// veresiye veya eksik ödediği için kar olarak eklemiyorum.
+                             satilacakSepet.getSepettekiKazanc());
         }
+    }
+
+    // KDV değerlerini döngüden ÖNCE önbelleğe alıyorum
+    QHash<QString, int> kdvMap;
+    for (auto urun : satilacakSepet.urunler) {
+        kdvMap[urun.barkod] = stokYonetimi.getStokKarti(urun.barkod).getKdv();
     }
 
     //sepetteki ürünlerin stok hareketlerine girişi
     for (auto urun : satilacakSepet.urunler) {
-        sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama, birim_f, toplam_f, kdv) "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        sorgu.bindValue(0, urun.barkod);
-        sorgu.bindValue(1, FaturaNo);
-        sorgu.bindValue(2, "SATIŞ");
-        sorgu.bindValue(3, urun.miktar);
-        sorgu.bindValue(4, QDateTime::currentDateTime());
-        sorgu.bindValue(5, satisYapanKullanici.getUserID());
-        sorgu.bindValue(6, "SATIŞ");
-        sorgu.bindValue(7, urun.birimFiyat);
-        sorgu.bindValue(8, urun.birimFiyat * urun.miktar);
-        sorgu.bindValue(9, stokYonetimi.getStokKarti(urun.barkod).getKdv());
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << sorgu.lastError().text();
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama, birim_f, toplam_f, kdv) "
+                              "VALUES ('%1', '%2', 'SATIŞ', %3, '%4'::timestamp, %5, 'SATIŞ', %6, %7, %8)")
+                          .arg(esc(urun.barkod))
+                          .arg(esc(FaturaNo))
+                          .arg(urun.miktar)
+                          .arg(dtStr)
+                          .arg(satisYapanKullanici.getUserID())
+                          .arg(urun.birimFiyat)
+                          .arg(urun.birimFiyat * urun.miktar)
+                          .arg(kdvMap[urun.barkod]);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << q.lastError().text();
         }
     }
     //sepetteki ürünlerin stoklardan düşülmesi
     for (auto urun : satilacakSepet.urunler) {
-        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
-        sorgu.bindValue(0, urun.stokMiktari - urun.miktar);
-        sorgu.bindValue(1, urun.barkod);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << sorgu.lastError().text();
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE stokkartlari SET miktar = %1 WHERE barkod = '%2'")
+                          .arg(urun.stokMiktari - urun.miktar)
+                          .arg(esc(urun.barkod));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << q.lastError().text();
         }
     }
 }
@@ -148,13 +155,23 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
 Sepet FaturaYonetimi::getSatis(QString _faturaNo)
 {
     Sepet satilmisSepet;
-    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
-    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
-    satisSorgu.bindValue(0, _faturaNo);
-    satisSorgu.exec();
+    QSqlQuery satisSorgu(db);
+    QString sql = QString("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = '%1'")
+                      .arg(_faturaNo.replace("'", "''"));
+    satisSorgu.exec(sql);
+    // aynı db bağlantısı üzerinde iç içe sorgu yapmamak için sonuçları tampona alıyorum
+    struct SatisRow {
+        QString barkod;
+        float miktar;
+        double birimFiyat;
+    };
+    QList<SatisRow> rows;
     while (satisSorgu.next()) {
-        StokKarti sk = stokYonetimi.getStokKarti(satisSorgu.value(0).toString());
-        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble());
+        rows.append({satisSorgu.value(0).toString(), satisSorgu.value(3).toFloat(), satisSorgu.value(6).toDouble()});
+    }
+    for (const auto& row : rows) {
+        StokKarti sk = stokYonetimi.getStokKarti(row.barkod);
+        satilmisSepet.urunEkle(sk, row.miktar, row.birimFiyat);
     }
     // faturanın ödenen ve kalan tutar bilgisini alma.
     QSqlQuery islem = getIslemInfo(_faturaNo);
@@ -166,10 +183,10 @@ Sepet FaturaYonetimi::getSatis(QString _faturaNo)
 
 QSqlQuery FaturaYonetimi::getIslemInfo(QString _faturaNo)
 {
-    QSqlQuery islemSorgu = QSqlQuery(db);
-    islemSorgu.prepare("SELECT id, fatura_no, kullanici, toplamtutar, odenentutar, kalantutar, tarih, tipi, cari FROM faturalar WHERE fatura_no = ?");
-    islemSorgu.bindValue(0, _faturaNo);
-    islemSorgu.exec();
+    QSqlQuery islemSorgu(db);
+    QString sql = QString("SELECT id, fatura_no, kullanici, toplamtutar, odenentutar, kalantutar, tarih, tipi, cari FROM faturalar WHERE fatura_no = '%1'")
+                      .arg(_faturaNo.replace("'", "''"));
+    islemSorgu.exec(sql);
     islemSorgu.next();
     return islemSorgu;
 }
@@ -177,56 +194,65 @@ QSqlQuery FaturaYonetimi::getIslemInfo(QString _faturaNo)
 void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici)
 {
     QString iadeFaturaNo = yeniFaturaNo();
+    QString dtStr = QDateTime::currentDateTime().toString(Qt::ISODate);
     // faturalar tablosuna iade fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odemetipi) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, iadeFaturaNo);
-    sorgu.bindValue(1, 1);// DİREKT cari id
-    sorgu.bindValue(2, 3);// 3 = iade
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.bindValue(4, kullanici.getUserID());
-    sorgu.bindValue(5, iadeSepet.sepetToplamTutari());
-    sorgu.bindValue(6, 1);//1 = nakit ödeme tipi
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odemetipi) "
+                              "VALUES (nextval('faturalar_sequence'), '%1', 1, 3, '%2'::timestamp, %3, %4, 1)")
+                          .arg(esc(iadeFaturaNo))
+                          .arg(dtStr)
+                          .arg(kullanici.getUserID())
+                          .arg(iadeSepet.sepetToplamTutari());
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     // kasaya eksi para girme
-    sorgu.exec("SELECT * FROM kasa");
-    sorgu.next();
-    double suankiPara = sorgu.value(1).toDouble();
+    double suankiPara = 0;
+    {
+        QSqlQuery q(db);
+        q.exec("SELECT * FROM kasa");
+        q.next();
+        suankiPara = q.value(1).toDouble();
+    }
     double guncelKasaPara = suankiPara - iadeSepet.sepetToplamTutari();
-    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-    sorgu.bindValue(0, guncelKasaPara);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                          .arg(guncelKasaPara);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     kasaYonetimi.KasaHareketiEkle(kullanici, KasaYonetimi::KasaHareketi::Iade, iadeSepet.sepetToplamTutari(), ("İADE İŞLEMİ:" + iadeFaturaNo), QDateTime::currentDateTime(), -iadeSepet.getSepettekiKazanc());
     //sepetteki iade ürünlerin stok hareketlerine girişi
     for (auto urun : iadeSepet.urunler) {
-        sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
-        sorgu.bindValue(0, urun.barkod);
-        sorgu.bindValue(1, iadeFaturaNo);
-        sorgu.bindValue(2, 3);// 3 = iade
-        sorgu.bindValue(3, urun.miktar);
-        sorgu.bindValue(4, QDateTime::currentDateTime());
-        sorgu.bindValue(5, kullanici.getUserID());
-        sorgu.bindValue(6, "İADE FATURA NO:" + iadeFaturaNo);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << sorgu.lastError().text();
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+                              "VALUES ('%1', '%2', 3, %3, '%4'::timestamp, %5, 'İADE FATURA NO:%6')")
+                          .arg(esc(urun.barkod))
+                          .arg(esc(iadeFaturaNo))
+                          .arg(urun.miktar)
+                          .arg(dtStr)
+                          .arg(kullanici.getUserID())
+                          .arg(esc(iadeFaturaNo));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << q.lastError().text();
         }
     }
     // sepetteki iade ürünlerin stoğa eklenmesi
     for (Urun urun : iadeSepet.urunler) {
-        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
-        sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
-        sorgu.bindValue(1, urun.barkod);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << "iade ürün stoğa geri ekleme hatası:\n" << qPrintable(sorgu.lastError().text());
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE stokkartlari SET miktar = %1 WHERE barkod = '%2'")
+                          .arg(urun.miktar + urun.stokMiktari)
+                          .arg(esc(urun.barkod));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << "iade ürün stoğa geri ekleme hatası:\n" << qPrintable(q.lastError().text());
         }
     }
 }
@@ -234,80 +260,92 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici)
 void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici, Cari iadeCari, QString faturaNo)
 {
     QString iadeFaturaNo = yeniFaturaNo();
+    QString dtStr = QDateTime::currentDateTime().toString(Qt::ISODate);
     // iade fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, evrakno) "
-                    "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, iadeFaturaNo);
-    sorgu.bindValue(1, iadeCari.getId());
-    sorgu.bindValue(2, 3);// iade fatura tipi
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.bindValue(4, kullanici.getUserID());
-    sorgu.bindValue(5, iadeSepet.sepetToplamTutari());
-    sorgu.bindValue(6, faturaNo);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO faturalar (id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, evrakno) "
+                              "VALUES (nextval('faturalar_sequence'), '%1', %2, 3, '%3'::timestamp, %4, %5, '%6')")
+                          .arg(esc(iadeFaturaNo))
+                          .arg(iadeCari.getId())
+                          .arg(dtStr)
+                          .arg(kullanici.getUserID())
+                          .arg(iadeSepet.sepetToplamTutari())
+                          .arg(esc(faturaNo));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     // kasaya eksi para girme
-    sorgu.exec("SELECT * FROM kasa");
-    sorgu.next();
-    double suankiPara = sorgu.value(1).toDouble();
+    double suankiPara = 0;
+    {
+        QSqlQuery q(db);
+        q.exec("SELECT * FROM kasa");
+        q.next();
+        suankiPara = q.value(1).toDouble();
+    }
     double guncelKasaPara = suankiPara - iadeSepet.getOdenenTutar();
-    sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-    sorgu.bindValue(0, guncelKasaPara);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                          .arg(guncelKasaPara);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     //kasa hareketlerini girme
-    sorgu.clear();
-    sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, kar, tarih, aciklama) "
-                  "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, iadeSepet.getOdenenTutar());
-    sorgu.bindValue(1, kullanici.getUserID());
-    sorgu.bindValue(2, "İADE");
-    sorgu.bindValue(3, (iadeSepet.getSepettekiKazanc() * -1));
-    sorgu.bindValue(4, QDateTime::currentDateTime());
-    sorgu.bindValue(5, "İADESİ YAPILAN FAT.NO:" + faturaNo);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, kar, tarih, aciklama) "
+                              "VALUES (nextval('kasahareketleri_sequence'), %1, %2, 'İADE', %3, '%4'::timestamp, 'İADESİ YAPILAN FAT.NO:%5')")
+                          .arg(iadeSepet.getOdenenTutar())
+                          .arg(kullanici.getUserID())
+                          .arg(iadeSepet.getSepettekiKazanc() * -1)
+                          .arg(dtStr)
+                          .arg(esc(faturaNo));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     //sepetteki iade ürünlerin stok hareketlerine girişi
     for (auto urun : iadeSepet.urunler) {
-        sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
-        sorgu.bindValue(0, urun.barkod);
-        sorgu.bindValue(1, iadeFaturaNo);
-        sorgu.bindValue(2, "İADE");
-        sorgu.bindValue(3, urun.miktar);
-        sorgu.bindValue(4, QDateTime::currentDateTime());
-        sorgu.bindValue(5, kullanici.getUserID());
-        sorgu.bindValue(6, "İADE");
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << qPrintable(sorgu.lastError().text());
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO stokhareketleri(barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+                              "VALUES ('%1', '%2', 'İADE', %3, '%4'::timestamp, %5, 'İADE')")
+                          .arg(esc(urun.barkod))
+                          .arg(esc(iadeFaturaNo))
+                          .arg(urun.miktar)
+                          .arg(dtStr)
+                          .arg(kullanici.getUserID());
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
         }
     }
     // sepetteki iade ürünlerin stoğa eklenmesi
     for (Urun urun : iadeSepet.urunler) {
-        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE barkod = ?");
-        sorgu.bindValue(0, urun.miktar + urun.stokMiktari);
-        sorgu.bindValue(1, urun.barkod);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qWarning() << "iade ürün stoğa geri ekleme hatası:\n" << qPrintable(sorgu.lastError().text());
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE stokkartlari SET miktar = %1 WHERE barkod = '%2'")
+                          .arg(urun.miktar + urun.stokMiktari)
+                          .arg(esc(urun.barkod));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qWarning() << "iade ürün stoğa geri ekleme hatası:\n" << qPrintable(q.lastError().text());
         }
     }
 }
 
 bool FaturaYonetimi::iadeAlinmismi(QString FaturaNo)
 {
-    sorgu.prepare("SELECT * FROM faturalar WHERE evrakno = ? AND tipi = 3");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.exec();
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM faturalar WHERE evrakno = ? AND tipi = 3");
+    query.bindValue(0, FaturaNo);
+    query.exec();
     // satışı yapılmış fatura no sunun iade faturası da varsa true döndürür
-    if(sorgu.next()){
+    if(query.next()){
         return true;
     }
     return false;
@@ -315,15 +353,16 @@ bool FaturaYonetimi::iadeAlinmismi(QString FaturaNo)
 
 bool FaturaYonetimi::faturayiSil(QString faturaNo)
 {
+    QSqlQuery query(db);
     if(!iadeAlinmismi(faturaNo)){
-        sorgu.prepare("DELETE FROM faturalar WHERE fatura_no = ?");
-        sorgu.bindValue(0, faturaNo);
-        if(sorgu.exec()){
+        query.prepare("DELETE FROM faturalar WHERE fatura_no = ?");
+        query.bindValue(0, faturaNo);
+        if(query.exec()){
             return true;
         }
         else{
             return false;
-            qDebug() << qPrintable(sorgu.lastError().text());
+            qDebug() << qPrintable(query.lastError().text());
         }
     }
     return false;
@@ -331,30 +370,32 @@ bool FaturaYonetimi::faturayiSil(QString faturaNo)
 
 QString FaturaYonetimi::yeniFaturaNo()
 {
-    sorgu.exec("SELECT * FROM faturalar");
+    QSqlQuery query(db);
+    query.exec("SELECT * FROM faturalar");
     // ilk fatura girişi ise faturalar_sequence değerini gönder.
-    if(!sorgu.next()){
+    if(!query.next()){
         //yeni fatura numarası için faturalar_sequence'den son değeri alma
-        sorgu.exec("SELECT last_value FROM faturalar_sequence");
-        sorgu.next();
-        if(sorgu.lastError().isValid()){
-            qDebug() << sorgu.lastError().text();
+        query.exec("SELECT last_value FROM faturalar_sequence");
+        query.next();
+        if(query.lastError().isValid()){
+            qDebug() << query.lastError().text();
         }
-        return QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt());
+        return QDate::currentDate().toString("ddMMyy") + QString::number(query.value(0).toUInt());
     }
     //yeni fatura numarası için faturalar_sequence'den son değeri alma
-    sorgu.exec("SELECT last_value FROM faturalar_sequence");
-    sorgu.next();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
+    query.exec("SELECT last_value FROM faturalar_sequence");
+    query.next();
+    if(query.lastError().isValid()){
+        qDebug() << query.lastError().text();
     }
-    return QDate::currentDate().toString("ddMMyy") + QString::number(sorgu.value(0).toUInt() + 1);
+    return QDate::currentDate().toString("ddMMyy") + QString::number(query.value(0).toUInt() + 1);
 }
 
 QString FaturaYonetimi::sonIslemNumarasi()
 {
-    sorgu.exec("SELECT fatura_no, tarih FROM faturalar ORDER BY tarih DESC LIMIT 1");
-    sorgu.next();
-    return sorgu.value(0).toString();
+    QSqlQuery query(db);
+    query.exec("SELECT fatura_no, tarih FROM faturalar ORDER BY tarih DESC LIMIT 1");
+    query.next();
+    return query.value(0).toString();
 }
 

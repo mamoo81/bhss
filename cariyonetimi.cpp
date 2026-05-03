@@ -1,33 +1,34 @@
 #include "cariyonetimi.h"
 
-CariYonetimi::CariYonetimi() : sorgu(db)
+CariYonetimi::CariYonetimi()
 {
 
 }
 
 Cari CariYonetimi::getCariKart(QString cariID)
 {
+    QSqlQuery query(db);
     Cari kart;
-    sorgu.prepare("SELECT * FROM carikartlar WHERE id = ?");
-    sorgu.bindValue(0, cariID);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.prepare("SELECT * FROM carikartlar WHERE id = ?");
+    query.bindValue(0, cariID);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
-    if(sorgu.next()){
-        kart.setId(sorgu.value(0).toInt());
-        kart.setAd(sorgu.value(1).toString());
-        kart.setTip(sorgu.value(2).toInt());
-        kart.setVerigino(sorgu.value(3).toString());
-        kart.setVergiDaire(sorgu.value(4).toString());
-        kart.setIl(sorgu.value(5).toString());
-        kart.setIlce(sorgu.value(6).toString());
-        kart.setAdres(sorgu.value(7).toString());
-        kart.setMail(sorgu.value(8).toString());
-        kart.setTelefon(sorgu.value(9).toString());
-        kart.setTarih(sorgu.value(10).toDateTime());
-        kart.setAciklama(sorgu.value(11).toString());
-        kart.setYetkili(sorgu.value(12).toString());
+    if(query.next()){
+        kart.setId(query.value(0).toInt());
+        kart.setAd(query.value(1).toString());
+        kart.setTip(query.value(2).toInt());
+        kart.setVerigino(query.value(3).toString());
+        kart.setVergiDaire(query.value(4).toString());
+        kart.setIl(query.value(5).toString());
+        kart.setIlce(query.value(6).toString());
+        kart.setAdres(query.value(7).toString());
+        kart.setMail(query.value(8).toString());
+        kart.setTelefon(query.value(9).toString());
+        kart.setTarih(query.value(10).toDateTime());
+        kart.setAciklama(query.value(11).toString());
+        kart.setYetkili(query.value(12).toString());
         return kart;
     }
     else{
@@ -37,25 +38,26 @@ Cari CariYonetimi::getCariKart(QString cariID)
 
 QList<Cari> CariYonetimi::getCariKartlar()
 {
+    QSqlQuery query(db);
     QList<Cari> kartlar;
-    sorgu.exec("SELECT * FROM carikartlar WHERE id NOT IN('1') ORDER BY ad ASC");
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.exec("SELECT * FROM carikartlar WHERE id NOT IN('1') ORDER BY ad ASC");
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
-    while (sorgu.next()) {
+    while (query.next()) {
         Cari kart;
-        kart.setId(sorgu.value(0).toInt());
-        kart.setAd(sorgu.value(1).toString());
-        kart.setTip(sorgu.value(2).toInt());
-        kart.setVerigino(sorgu.value(3).toString());
-        kart.setVergiDaire(sorgu.value(4).toString());
-        kart.setIl(sorgu.value(5).toString());
-        kart.setIlce(sorgu.value(6).toString());
-        kart.setAdres(sorgu.value(7).toString());
-        kart.setMail(sorgu.value(8).toString());
-        kart.setTelefon(sorgu.value(9).toString());
-        kart.setTarih(sorgu.value(10).toDateTime());
-        kart.setAciklama(sorgu.value(11).toString());
+        kart.setId(query.value(0).toInt());
+        kart.setAd(query.value(1).toString());
+        kart.setTip(query.value(2).toInt());
+        kart.setVerigino(query.value(3).toString());
+        kart.setVergiDaire(query.value(4).toString());
+        kart.setIl(query.value(5).toString());
+        kart.setIlce(query.value(6).toString());
+        kart.setAdres(query.value(7).toString());
+        kart.setMail(query.value(8).toString());
+        kart.setTelefon(query.value(9).toString());
+        kart.setTarih(query.value(10).toDateTime());
+        kart.setAciklama(query.value(11).toString());
         kartlar.append(kart);
     }
     return kartlar;
@@ -80,23 +82,24 @@ QSqlQueryModel *CariYonetimi::getCariKartIsimleri()
 
 bool CariYonetimi::yeniCariKart(Cari cariKart)
 {
-    sorgu.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO carikartlar(id, ad, tip, vergi_no, vergi_daire, il, ilce, adres, mail, telefon, tarih, aciklama, yetkili) "
                   "VALUES(nextval('carikartlar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, cariKart.getAd());
-    sorgu.bindValue(1, cariKart.getTip());
-    sorgu.bindValue(2, cariKart.getVerigino());
-    sorgu.bindValue(3, cariKart.getVergiDaire());
-    sorgu.bindValue(4, cariKart.getIl());
-    sorgu.bindValue(5, cariKart.getIlce());
-    sorgu.bindValue(6, cariKart.getAdres());
-    sorgu.bindValue(7, cariKart.getMail());
-    sorgu.bindValue(8, cariKart.getTelefon());
-    sorgu.bindValue(9, cariKart.getTarih());
-    sorgu.bindValue(10, cariKart.getAciklama());
-    sorgu.bindValue(11, cariKart.getYetkili());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, cariKart.getAd());
+    query.bindValue(1, cariKart.getTip());
+    query.bindValue(2, cariKart.getVerigino());
+    query.bindValue(3, cariKart.getVergiDaire());
+    query.bindValue(4, cariKart.getIl());
+    query.bindValue(5, cariKart.getIlce());
+    query.bindValue(6, cariKart.getAdres());
+    query.bindValue(7, cariKart.getMail());
+    query.bindValue(8, cariKart.getTelefon());
+    query.bindValue(9, cariKart.getTarih());
+    query.bindValue(10, cariKart.getAciklama());
+    query.bindValue(11, cariKart.getYetkili());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return false;
     }
     return true;
@@ -104,24 +107,25 @@ bool CariYonetimi::yeniCariKart(Cari cariKart)
 
 bool CariYonetimi::cariKartDuzenle(Cari cariKart)
 {
-    sorgu.prepare("UPDATE carikartlar "
+    QSqlQuery query(db);
+    query.prepare("UPDATE carikartlar "
                     "SET ad = ?, tip = ?, vergi_no = ?, vergi_daire = ?, il = ?, ilce = ?, adres = ?, mail = ?, telefon = ?, aciklama = ?, yetkili = ? "
                     "WHERE id = ?") ;
-    sorgu.bindValue(0, cariKart.getAd());
-    sorgu.bindValue(1, cariKart.getTip());
-    sorgu.bindValue(2, cariKart.getVerigino());
-    sorgu.bindValue(3, cariKart.getVergiDaire());
-    sorgu.bindValue(4, cariKart.getIl());
-    sorgu.bindValue(5, cariKart.getIlce());
-    sorgu.bindValue(6, cariKart.getAdres());
-    sorgu.bindValue(7, cariKart.getMail());
-    sorgu.bindValue(8, cariKart.getTelefon());
-    sorgu.bindValue(9, QDateTime::currentDateTime().toString() + " <- tarihinde güncellendi.");
-    sorgu.bindValue(10, cariKart.getYetkili());
-    sorgu.bindValue(11, cariKart.getId());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, cariKart.getAd());
+    query.bindValue(1, cariKart.getTip());
+    query.bindValue(2, cariKart.getVerigino());
+    query.bindValue(3, cariKart.getVergiDaire());
+    query.bindValue(4, cariKart.getIl());
+    query.bindValue(5, cariKart.getIlce());
+    query.bindValue(6, cariKart.getAdres());
+    query.bindValue(7, cariKart.getMail());
+    query.bindValue(8, cariKart.getTelefon());
+    query.bindValue(9, QDateTime::currentDateTime().toString() + " <- tarihinde güncellendi.");
+    query.bindValue(10, cariKart.getYetkili());
+    query.bindValue(11, cariKart.getId());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return false;
     }
     return true;
@@ -152,42 +156,45 @@ QSqlQueryModel *CariYonetimi::getCariHareketleri(QString cariID)
 
 QStringList CariYonetimi::getCariTipleri()
 {
+    QSqlQuery query(db);
     QStringList cariTipList;
-    sorgu.exec("SELECT * FROM caritipleri");
-    while (sorgu.next()) {
-        cariTipList.append(sorgu.value(1).toString());
+    query.exec("SELECT * FROM caritipleri");
+    while (query.next()) {
+        cariTipList.append(query.value(1).toString());
     }
     return cariTipList;
 }
 
 QStringList CariYonetimi::getVergiDaireleri()
 {
+    QSqlQuery query(db);
     QStringList liste;
-    sorgu.exec("SELECT ad FROM vergidaireleri");
-    while (sorgu.next()) {
-        liste.append(sorgu.value(0).toString());
+    query.exec("SELECT ad FROM vergidaireleri");
+    while (query.next()) {
+        liste.append(query.value(0).toString());
     }
     return liste;
 }
 
 double CariYonetimi::getCariToplamAlacak(QString cariID)
 {
+    QSqlQuery query(db);
     if(cariID != "1"){// DİREKT CARİSİ İSE ES GEÇSİN
         double kalanTutar, odenenTutar;
-        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 1");
-        sorgu.bindValue(0, cariID);
-        sorgu.exec();
-        if(sorgu.next()){
-            kalanTutar = sorgu.value(0).toDouble();
+        query.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 1");
+        query.bindValue(0, cariID);
+        query.exec();
+        if(query.next()){
+            kalanTutar = query.value(0).toDouble();
         }
         else{
             kalanTutar = 0;
         }
-        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 4");
-        sorgu.bindValue(0, cariID);
-        sorgu.exec();
-        if(sorgu.next()){
-            odenenTutar = sorgu.value(0).toDouble();
+        query.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 4");
+        query.bindValue(0, cariID);
+        query.exec();
+        if(query.next()){
+            odenenTutar = query.value(0).toDouble();
         }
         else{
             odenenTutar = 0;
@@ -201,6 +208,7 @@ double CariYonetimi::getCariToplamAlacak(QString cariID)
 
 double CariYonetimi::getCariToplamBorc(QString cariID)
 {
+    QSqlQuery query(db);
     double odenenTutar = 0, toplamTutar = 0;
 
 //    Cari cariKart = getCariKart(cariID);
@@ -245,20 +253,20 @@ double CariYonetimi::getCariToplamBorc(QString cariID)
 //        return toplamTutar - odenenTutar;
 //    }
 //    else{
-//        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
-//        sorgu.bindValue(0, cariID);
-//        sorgu.exec();
-//        if(sorgu.next()){
-//            kalanTutar = sorgu.value(0).toDouble();
+//        query.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari = ? AND tipi = 2");
+//        query.bindValue(0, cariID);
+//        query.exec();
+//        if(query.next()){
+//            kalanTutar = query.value(0).toDouble();
 //        }
 //        else{
 //            kalanTutar = 0;
 //        }
-//        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
-//        sorgu.bindValue(0, cariID);
-//        sorgu.exec();
-//        if(sorgu.next()){
-//            odenenTutar = sorgu.value(0).toDouble();
+//        query.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari = ? AND tipi = 5");
+//        query.bindValue(0, cariID);
+//        query.exec();
+//        if(query.next()){
+//            odenenTutar = query.value(0).toDouble();
 //        }
 //        else{
 //            odenenTutar = 0;
@@ -269,19 +277,20 @@ double CariYonetimi::getCariToplamBorc(QString cariID)
 
 double CariYonetimi::getCarilerToplamAlacak()
 {
+    QSqlQuery query(db);
     double kalanTutar, odenenTutar;
-    sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 1");
-    sorgu.exec();
-    if(sorgu.next()){
-        kalanTutar = sorgu.value(0).toDouble();
+    query.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 1");
+    query.exec();
+    if(query.next()){
+        kalanTutar = query.value(0).toDouble();
     }
     else{
         kalanTutar = 0;
     }
-    sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 4");
-    sorgu.exec();
-    if(sorgu.next()){
-        odenenTutar = sorgu.value(0).toDouble();
+    query.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 4");
+    query.exec();
+    if(query.next()){
+        odenenTutar = query.value(0).toDouble();
     }
     else{
         odenenTutar = 0;
@@ -291,24 +300,25 @@ double CariYonetimi::getCarilerToplamAlacak()
 
 double CariYonetimi::getcarilerToplamBorc(QDateTime startDate, QDateTime endDate)
 {
+    QSqlQuery query(db);
     double kalanTutar = 0, odenenTutar = 0;
 //    if(!guncel){
-        sorgu.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 2 AND tarih BETWEEN ? AND ?"); // cari 1 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
-        sorgu.bindValue(0, startDate);
-        sorgu.bindValue(1, endDate);
-        sorgu.exec();
-        if(sorgu.next()){
-            kalanTutar = sorgu.value(0).toDouble();
+        query.prepare("SELECT SUM(kalantutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 2 AND tarih BETWEEN ? AND ?"); // cari 1 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+        query.bindValue(0, startDate);
+        query.bindValue(1, endDate);
+        query.exec();
+        if(query.next()){
+            kalanTutar = query.value(0).toDouble();
         }
         else{
             kalanTutar = 0;
         }
-        sorgu.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 5 AND tarih BETWEEN ? AND ?"); // cari 1 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
-        sorgu.bindValue(0, startDate);
-        sorgu.bindValue(1, endDate);
-        sorgu.exec();
-        if(sorgu.next()){
-            odenenTutar = sorgu.value(0).toDouble();
+        query.prepare("SELECT SUM(odenentutar) FROM faturalar WHERE cari NOT IN('1') AND tipi = 5 AND tarih BETWEEN ? AND ?"); // cari 1 'e eşit olmayanları select ediyorum ki direkt carisini dahil etmesin.
+        query.bindValue(0, startDate);
+        query.bindValue(1, endDate);
+        query.exec();
+        if(query.next()){
+            odenenTutar = query.value(0).toDouble();
         }
         else{
             odenenTutar = 0;
@@ -362,6 +372,7 @@ double CariYonetimi::getcarilerToplamBorc(QDateTime startDate, QDateTime endDate
 
 bool CariYonetimi::cariHareketiSil(QString faturaNo, User kullanici, Cari cari)
 {
+    QSqlQuery query(db);
     //    3 ana adım
     //    faturanın silinmesi
     //    sepetteki ürünlerin stoğa geri eklenmesi
@@ -386,11 +397,12 @@ bool CariYonetimi::cariHareketiSil(QString faturaNo, User kullanici, Cari cari)
 
 bool CariYonetimi::carininTumHareketleriniSil(Cari cari)
 {
-    sorgu.prepare("DELETE FROM faturalar WHERE cari = ?");
-    sorgu.bindValue(0, cari.getId());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM faturalar WHERE cari = ?");
+    query.bindValue(0, cari.getId());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return false;
     }
     return true;
@@ -398,6 +410,7 @@ bool CariYonetimi::carininTumHareketleriniSil(Cari cari)
 
 void CariYonetimi::caridenTahsilatYap(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama)
 {
+    QSqlQuery query(db);
     double guncelBorc = getCariToplamBorc(cariID);
     double odenenTutar = tutar;
     if(guncelBorc < odenenTutar){// tahsilat _tutar'ı büyükse toplam borçtan. falza tutarı carinin alacağına ekle.
@@ -406,23 +419,23 @@ void CariYonetimi::caridenTahsilatYap(QString cariID, double tutar, QDateTime ta
     }
     QString FaturaNo = faturaYonetimi.yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+    query.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.bindValue(1, cariID);
-    sorgu.bindValue(2, faturaTipi);
+    query.bindValue(0, FaturaNo);
+    query.bindValue(1, cariID);
+    query.bindValue(2, faturaTipi);
     tarih.setTime(QTime::currentTime());
-    sorgu.bindValue(3, tarih);
-    sorgu.bindValue(4, islemYapanKullanici.getUserID());
-    sorgu.bindValue(5, 0);
-    sorgu.bindValue(6, tutar);
-    sorgu.bindValue(7, 0);
-    sorgu.bindValue(8, evrakNo);
-    sorgu.bindValue(9, aciklama);
-    sorgu.bindValue(10, odemeTipi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(3, tarih);
+    query.bindValue(4, islemYapanKullanici.getUserID());
+    query.bindValue(5, 0);
+    query.bindValue(6, tutar);
+    query.bindValue(7, 0);
+    query.bindValue(8, evrakNo);
+    query.bindValue(9, aciklama);
+    query.bindValue(10, odemeTipi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 
     // tahsilatı kasaya girme
@@ -431,9 +444,10 @@ void CariYonetimi::caridenTahsilatYap(QString cariID, double tutar, QDateTime ta
 
 void CariYonetimi::cariKartSil(QString cariID)
 {
-    sorgu.prepare("DELETE FROM carikartlar WHERE id = ?");
-    sorgu.bindValue(0, cariID);
-    if(sorgu.exec()){
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM carikartlar WHERE id = ?");
+    query.bindValue(0, cariID);
+    if(query.exec()){
         QMessageBox msg(0);
         msg.setWindowTitle("Bilgi");
         msg.setIcon(QMessageBox::Information);
@@ -442,79 +456,82 @@ void CariYonetimi::cariKartSil(QString cariID)
         // msg.setButtonText(QMessageBox::Ok, "Tamam");
         msg.exec();
     }
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }
 
 void CariYonetimi::cariyiAlacaklandır(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama)
 {
+    QSqlQuery query(db);
     QString FaturaNo = faturaYonetimi.yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+    query.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.bindValue(1, cariID);
-    sorgu.bindValue(2, faturaTipi);
+    query.bindValue(0, FaturaNo);
+    query.bindValue(1, cariID);
+    query.bindValue(2, faturaTipi);
     tarih.setTime(QTime::currentTime());
-    sorgu.bindValue(3, tarih);
-    sorgu.bindValue(4, islemYapanKullanici.getUserID());
-    sorgu.bindValue(5, tutar);
-    sorgu.bindValue(6, 0);
-    sorgu.bindValue(7, tutar);
-    sorgu.bindValue(8, evrakNo);
-    sorgu.bindValue(9, aciklama);
-    sorgu.bindValue(10, odemeTipi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(3, tarih);
+    query.bindValue(4, islemYapanKullanici.getUserID());
+    query.bindValue(5, tutar);
+    query.bindValue(6, 0);
+    query.bindValue(7, tutar);
+    query.bindValue(8, evrakNo);
+    query.bindValue(9, aciklama);
+    query.bindValue(10, odemeTipi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }
 
 void CariYonetimi::cariyeOdemeYap(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama)
 {
+    QSqlQuery query(db);
     QString FaturaNo = faturaYonetimi.yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+    query.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.bindValue(1, cariID);
-    sorgu.bindValue(2, faturaTipi);
+    query.bindValue(0, FaturaNo);
+    query.bindValue(1, cariID);
+    query.bindValue(2, faturaTipi);
     tarih.setTime(QTime::currentTime());
-    sorgu.bindValue(3, tarih);
-    sorgu.bindValue(4, islemYapanKullanici.getUserID());
-    sorgu.bindValue(5, 0);
-    sorgu.bindValue(6, tutar);
-    sorgu.bindValue(7, 0);
-    sorgu.bindValue(8, evrakNo);
-    sorgu.bindValue(9, aciklama);
-    sorgu.bindValue(10, odemeTipi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(3, tarih);
+    query.bindValue(4, islemYapanKullanici.getUserID());
+    query.bindValue(5, 0);
+    query.bindValue(6, tutar);
+    query.bindValue(7, 0);
+    query.bindValue(8, evrakNo);
+    query.bindValue(9, aciklama);
+    query.bindValue(10, odemeTipi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }
 
 void CariYonetimi::cariyiBorclandir(QString cariID, double tutar, QDateTime tarih, int faturaTipi, int odemeTipi, User islemYapanKullanici, QString evrakNo, QString aciklama)
 {
+    QSqlQuery query(db);
     QString FaturaNo = faturaYonetimi.yeniFaturaNo();
     //yeni fatura bilgisi girme başlangıcı
-    sorgu.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
+    query.prepare("INSERT INTO faturalar(id, fatura_no, cari, tipi, tarih, kullanici, toplamtutar, odenentutar, kalantutar, evrakno, aciklama, odemetipi) "
                     "VALUES (nextval('faturalar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, FaturaNo);
-    sorgu.bindValue(1, cariID);
-    sorgu.bindValue(2, faturaTipi);
+    query.bindValue(0, FaturaNo);
+    query.bindValue(1, cariID);
+    query.bindValue(2, faturaTipi);
     tarih.setTime(QTime::currentTime());
-    sorgu.bindValue(3, tarih);
-    sorgu.bindValue(4, islemYapanKullanici.getUserID());
-    sorgu.bindValue(5, tutar);
-    sorgu.bindValue(6, 0);
-    sorgu.bindValue(7, tutar);
-    sorgu.bindValue(8, evrakNo);
-    sorgu.bindValue(9, aciklama);
-    sorgu.bindValue(10, odemeTipi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(3, tarih);
+    query.bindValue(4, islemYapanKullanici.getUserID());
+    query.bindValue(5, tutar);
+    query.bindValue(6, 0);
+    query.bindValue(7, tutar);
+    query.bindValue(8, evrakNo);
+    query.bindValue(9, aciklama);
+    query.bindValue(10, odemeTipi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }

@@ -41,8 +41,16 @@ KasaDialogForm::~KasaDialogForm()
 
 void KasaDialogForm::FormLoad()
 {
+    ui->BaslangicdateTimeEdit->blockSignals(true);
+    ui->BitisdateTimeEdit->blockSignals(true);
     ui->BaslangicdateTimeEdit->setDate(QDate::currentDate());
     ui->BitisdateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    baslangicTarih = QDateTime(QDate::currentDate(), QTime());
+    bitisTarih = QDateTime::currentDateTime();
+    bitisTarih.setTime(QTime(23, 59, 59, 999));
+    ui->BaslangicdateTimeEdit->blockSignals(false);
+    ui->BitisdateTimeEdit->blockSignals(false);
+    KasaHareketleriListele();
 }
 
 void KasaDialogForm::on_BaslangicdateTimeEdit_dateTimeChanged(const QDateTime &dateTime)

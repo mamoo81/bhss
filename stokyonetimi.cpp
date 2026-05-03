@@ -3,8 +3,9 @@
 
 #include <QProcess>
 #include <QStringList>
+#include <QList>
 
-StokYonetimi::StokYonetimi() : sorgu(db)
+StokYonetimi::StokYonetimi()
 {
 
 }
@@ -17,10 +18,11 @@ StokYonetimi::~StokYonetimi()
 
 bool StokYonetimi::barkodVarmi(const QString barkod)
 {
-    sorgu.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
-    sorgu.bindValue(0, barkod);
-    sorgu.exec();
-    if(sorgu.next()){
+    QSqlQuery query(db);
+    query.prepare("SELECT barkod FROM stokkartlari WHERE barkod = ?");
+    query.bindValue(0, barkod);
+    query.exec();
+    if(query.next()){
         return true;
     }
     return false;
@@ -28,73 +30,74 @@ bool StokYonetimi::barkodVarmi(const QString barkod)
 
 StokKarti StokYonetimi::getStokKarti(QString barkod)
 {
+    QSqlQuery query(db);
     StokKarti kart = StokKarti();
-    sorgu.prepare("SELECT stokkartlari.id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama "
-                    "FROM stokkartlari "
-//                    "LEFT JOIN stokbirimleri ON stokkartlari.birim = stokbirimleri.id "
-                    "WHERE barkod = ?");
-    sorgu.bindValue(0, barkod);
-    sorgu.exec();
-    if(sorgu.next()){
-        kart.setId(sorgu.value(0).toString());
-        kart.setBarkod(sorgu.value(1).toString());
-        kart.setKod(sorgu.value(2).toString());
-        kart.setAd(sorgu.value(3).toString());
-        kart.setBirim(sorgu.value(4).toInt());
-        kart.setMiktar(sorgu.value(5).toFloat());
-        kart.setGrup(sorgu.value(6).toInt());
-        kart.setAFiyat(sorgu.value(7).toDouble());
-        kart.setSFiyat(sorgu.value(8).toDouble());
-        kart.setKdv(sorgu.value(9).toInt());
-        kart.setOtv(sorgu.value(10).toInt());
-        kart.setKdvdahil(sorgu.value(11).toBool());
-        kart.setOtvdahil(sorgu.value(12).toBool());
-        kart.setTarih(sorgu.value(13).toDateTime());
-        kart.setAciklama(sorgu.value(14).toString());
+    QString sql = QString("SELECT stokkartlari.id, barkod, kod, ad, birim, miktar, grup, CAST(afiyat AS DECIMAL), CAST(sfiyat AS DECIMAL), kdv, otv, kdvdahil, otvdahil, tarih, aciklama "
+                          "FROM stokkartlari "
+                          "WHERE barkod = '%1'")
+                      .arg(barkod.replace("'", "''"));
+    query.exec(sql);
+    if(query.next()){
+        kart.setId(query.value(0).toString());
+        kart.setBarkod(query.value(1).toString());
+        kart.setKod(query.value(2).toString());
+        kart.setAd(query.value(3).toString());
+        kart.setBirim(query.value(4).toInt());
+        kart.setMiktar(query.value(5).toFloat());
+        kart.setGrup(query.value(6).toInt());
+        kart.setAFiyat(query.value(7).toDouble());
+        kart.setSFiyat(query.value(8).toDouble());
+        kart.setKdv(query.value(9).toInt());
+        kart.setOtv(query.value(10).toInt());
+        kart.setKdvdahil(query.value(11).toBool());
+        kart.setOtvdahil(query.value(12).toBool());
+        kart.setTarih(query.value(13).toDateTime());
+        kart.setAciklama(query.value(14).toString());
     }
     else{
-        qDebug() << qPrintable(sorgu.lastError().text());
+        qDebug() << qPrintable(query.lastError().text());
     }
     return kart;
 }
 
 bool StokYonetimi::setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi hareket, float miktar)
 {
+    QSqlQuery query(db);
     Q_UNUSED(kullanici)
     //    bool cevap = false;
 //    float mevcutStokMiktari = 0;
-//    sorgu.prepare("SELECT miktar FROM stokkartlari WHERE id = ?");
-//    sorgu.bindValue(0, kart.getId());
-//    sorgu.exec();
-//    if(sorgu.next()){
-//        mevcutStokMiktari = sorgu.value(0).toFloat();
+//    query.prepare("SELECT miktar FROM stokkartlari WHERE id = ?");
+//    query.bindValue(0, kart.getId());
+//    query.exec();
+//    if(query.next()){
+//        mevcutStokMiktari = query.value(0).toFloat();
 //    }
 //    QString barkod = "";
-//    sorgu.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
-//    sorgu.bindValue(0, kart.getId());
-//    sorgu.exec();
-//    if(sorgu.next()){
-//        barkod = sorgu.value(0).toString();
+//    query.prepare("SELECT barkod FROM stokkartlari WHERE id = ?");
+//    query.bindValue(0, kart.getId());
+//    query.exec();
+//    if(query.next()){
+//        barkod = query.value(0).toString();
 //    }
 //    if(islem == "GİRİŞ"){
-//        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
-//        sorgu.bindValue(0, mevcutStokMiktari + miktar);
-//        sorgu.bindValue(1, kart.getId());
-//        sorgu.exec();
-//        if(sorgu.lastError().isValid()){
-//            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+//        query.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+//        query.bindValue(0, mevcutStokMiktari + miktar);
+//        query.bindValue(1, kart.getId());
+//        query.exec();
+//        if(query.lastError().isValid()){
+//            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << query.lastError().text();
 //        }
 //        stokHareketiEkle(kullanici, kart.getBarkod(), islem, miktar);
 //        cevap = true;
 //    }
 //    else if(islem == "ÇIKIŞ"){
 //        if(mevcutStokMiktari >= miktar){
-//            sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
-//            sorgu.bindValue(0, (mevcutStokMiktari - miktar));
-//            sorgu.bindValue(1, kart.getId());
-//            sorgu.exec();
-//            if(sorgu.lastError().isValid()){
-//                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+//            query.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+//            query.bindValue(0, (mevcutStokMiktari - miktar));
+//            query.bindValue(1, kart.getId());
+//            query.exec();
+//            if(query.lastError().isValid()){
+//                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << query.lastError().text();
 //            }
 //            stokHareketiEkle(kullanici, kart.getBarkod(), islem, miktar);
 //            cevap = true;
@@ -106,24 +109,24 @@ bool StokYonetimi::setStokMiktari(const User kullanici, const StokKarti kart, St
 
     switch (hareket) {
     case StokHareketi::Giris:
-        sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
-        sorgu.bindValue(0, mevcutStokMiktari + miktar);
-        sorgu.bindValue(1, kart.getId());
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+        query.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+        query.bindValue(0, mevcutStokMiktari + miktar);
+        query.bindValue(1, kart.getId());
+        query.exec();
+        if(query.lastError().isValid()){
+            qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << query.lastError().text();
         }
         stokHareketiEkle(kullanici, kart.getBarkod(), hareket, miktar);
         cevap = true;
         break;
     case StokHareketi::Cikis:
         if(mevcutStokMiktari >= miktar){
-            sorgu.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
-            sorgu.bindValue(0, (mevcutStokMiktari - miktar));
-            sorgu.bindValue(1, kart.getId());
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << sorgu.lastError().text();
+            query.prepare("UPDATE stokkartlari SET miktar = ? WHERE id = ?");
+            query.bindValue(0, (mevcutStokMiktari - miktar));
+            query.bindValue(1, kart.getId());
+            query.exec();
+            if(query.lastError().isValid()){
+                qDebug() << "stok kartı miktar ekleme/çıkarma hatası:\n" << query.lastError().text();
             }
             stokHareketiEkle(kullanici, kart.getBarkod(), hareket, miktar);
             cevap = true;
@@ -140,31 +143,33 @@ bool StokYonetimi::setStokMiktari(const User kullanici, const StokKarti kart, St
 
 QSqlError StokYonetimi::yeniStokKartiOlustur(StokKarti stokKarti, User *kullanici)
 {
-    sorgu.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, uretici, tedarikci, aciklama) "
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO stokkartlari (id, barkod, kod, ad, birim, miktar, grup, afiyat, sfiyat, kdv, otv, kdvdahil, otvdahil, tarih, uretici, tedarikci, aciklama) "
                     "VALUES (nextval('stokkartlari_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, stokKarti.getBarkod());
-    sorgu.bindValue(1, stokKarti.getKod());
-    sorgu.bindValue(2, stokKarti.getAd());
-    sorgu.bindValue(3, stokKarti.getBirim());
-    sorgu.bindValue(4, stokKarti.getMiktar());
-    sorgu.bindValue(5, stokKarti.getGrup());
-    sorgu.bindValue(6, stokKarti.getAFiyat());
-    sorgu.bindValue(7, stokKarti.getSFiyat());
-    sorgu.bindValue(8, stokKarti.getKdv());
-    sorgu.bindValue(9, stokKarti.getOtv());
-    sorgu.bindValue(10, stokKarti.getKdvdahil());
-    sorgu.bindValue(11, stokKarti.getOtvdahil());
-    sorgu.bindValue(12, stokKarti.getTarih());
-    sorgu.bindValue(13, stokKarti.getUretici().toInt());
-    sorgu.bindValue(14, stokKarti.getTedarikci().toInt());
-    sorgu.bindValue(15, stokKarti.getAciklama() + " [" + kullanici->getUserName() + "]");
-    sorgu.exec();
-    return sorgu.lastError();
+    query.bindValue(0, stokKarti.getBarkod());
+    query.bindValue(1, stokKarti.getKod());
+    query.bindValue(2, stokKarti.getAd());
+    query.bindValue(3, stokKarti.getBirim());
+    query.bindValue(4, stokKarti.getMiktar());
+    query.bindValue(5, stokKarti.getGrup());
+    query.bindValue(6, stokKarti.getAFiyat());
+    query.bindValue(7, stokKarti.getSFiyat());
+    query.bindValue(8, stokKarti.getKdv());
+    query.bindValue(9, stokKarti.getOtv());
+    query.bindValue(10, stokKarti.getKdvdahil());
+    query.bindValue(11, stokKarti.getOtvdahil());
+    query.bindValue(12, stokKarti.getTarih());
+    query.bindValue(13, stokKarti.getUretici().toInt());
+    query.bindValue(14, stokKarti.getTedarikci().toInt());
+    query.bindValue(15, stokKarti.getAciklama() + " [" + kullanici->getUserName() + "]");
+    query.exec();
+    return query.lastError();
 }
 
 QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici, bool fiyatDegistimi)
 {
-    sorgu.prepare("UPDATE stokkartlari SET "
+    QSqlQuery query(db);
+    query.prepare("UPDATE stokkartlari SET "
                   "barkod = ?, "
                   "kod = ?, "
                   "ad = ?, "
@@ -182,29 +187,29 @@ QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, Use
                   "tedarikci = ?, "
                   "aciklama = ? "
                   "WHERE id = ?");
-    sorgu.bindValue(0, duzenlenecekStokKarti.getBarkod());
-    sorgu.bindValue(1, duzenlenecekStokKarti.getKod());
-    sorgu.bindValue(2, duzenlenecekStokKarti.getAd());
-    sorgu.bindValue(3, duzenlenecekStokKarti.getBirim());
-    sorgu.bindValue(4, duzenlenecekStokKarti.getMiktar());
-    sorgu.bindValue(5, duzenlenecekStokKarti.getGrup());
-    sorgu.bindValue(6, duzenlenecekStokKarti.getAFiyat());
-    sorgu.bindValue(7, duzenlenecekStokKarti.getSFiyat());
-    sorgu.bindValue(8, duzenlenecekStokKarti.getKdv());
-    sorgu.bindValue(9, duzenlenecekStokKarti.getOtv());
-    sorgu.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
-    sorgu.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
-    sorgu.bindValue(12, duzenlenecekStokKarti.getTarih());
-    sorgu.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
-    sorgu.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
-    sorgu.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
-    sorgu.bindValue(16, duzenlenecekStokKarti.getId());
-    sorgu.exec();
-    qDebug() << "Stok karti guncelleme sorgusu:" << sorgu.lastQuery();
-    qDebug() << "Bound values:" << sorgu.boundValues();
-    qDebug() << "Etkilenen satir sayisi:" << sorgu.numRowsAffected();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, duzenlenecekStokKarti.getBarkod());
+    query.bindValue(1, duzenlenecekStokKarti.getKod());
+    query.bindValue(2, duzenlenecekStokKarti.getAd());
+    query.bindValue(3, duzenlenecekStokKarti.getBirim());
+    query.bindValue(4, duzenlenecekStokKarti.getMiktar());
+    query.bindValue(5, duzenlenecekStokKarti.getGrup());
+    query.bindValue(6, duzenlenecekStokKarti.getAFiyat());
+    query.bindValue(7, duzenlenecekStokKarti.getSFiyat());
+    query.bindValue(8, duzenlenecekStokKarti.getKdv());
+    query.bindValue(9, duzenlenecekStokKarti.getOtv());
+    query.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
+    query.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
+    query.bindValue(12, duzenlenecekStokKarti.getTarih());
+    query.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
+    query.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
+    query.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
+    query.bindValue(16, duzenlenecekStokKarti.getId());
+    query.exec();
+    qDebug() << "Stok karti guncelleme sorgusu:" << query.lastQuery();
+    qDebug() << "Bound values:" << query.boundValues();
+    qDebug() << "Etkilenen satir sayisi:" << query.numRowsAffected();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 
     //fiyatı değişti ise carilere veresiye satışların tutarlarını düzeltme
@@ -212,46 +217,55 @@ QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, Use
 
         // cari hareketlerini güncel fiyatlardan gösterme için fatura tutarlarını düzenleme ( cari borç hesaplama güncel fiyattan ise)------------------------
         // güncel fiyattan hesaplanacak cariye yapılmış veresiye satışları alır
-        sorgu.exec("SELECT fatura_no, toplamtutar, kalantutar FROM faturalar WHERE kalantutar NOT IN ('0') AND tipi = 2");
-        if(sorgu.lastError().isValid()){
-            qDebug() << qPrintable("güncellenen ürün veresiye satıldımı sorgu hatası: \n" + sorgu.lastError().text());
+        query.exec("SELECT fatura_no, toplamtutar, kalantutar FROM faturalar WHERE kalantutar NOT IN ('0') AND tipi = 2");
+        if(query.lastError().isValid()){
+            qDebug() << qPrintable("güncellenen ürün veresiye satıldımı sorgu hatası: \n" + query.lastError().text());
         }
         QStringList veresiyeFaturaNolar;
         QList<double> eskiToplamTutar;
         QList<double> eskiKalanTutar;
-        while(sorgu.next()){
-            veresiyeFaturaNolar.append(sorgu.value(0).toString());
-            eskiToplamTutar.append(sorgu.value(1).toDouble());
-            eskiKalanTutar.append(sorgu.value(2).toDouble());
+        while(query.next()){
+            veresiyeFaturaNolar.append(query.value(0).toString());
+            eskiToplamTutar.append(query.value(1).toDouble());
+            eskiKalanTutar.append(query.value(2).toDouble());
         }
         for (int index = 0; index < veresiyeFaturaNolar.length(); ++index) {
             Sepet sepet = getSatis(veresiyeFaturaNolar.at(index));
             if(sepet.urunler.contains(duzenlenecekStokKarti.getBarkod())){
-                sorgu.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
-                sorgu.bindValue(0, sepet.sepetToplamTutari());
-                sorgu.bindValue(1, ((sepet.sepetToplamTutari() - eskiToplamTutar.at(index)) + eskiKalanTutar.at(index)));
-                sorgu.bindValue(2, veresiyeFaturaNolar.at(index));
-                sorgu.exec();
-                if(sorgu.lastError().isValid()){
-                    qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + sorgu.lastError().text());
+                query.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
+                query.bindValue(0, sepet.sepetToplamTutari());
+                query.bindValue(1, ((sepet.sepetToplamTutari() - eskiToplamTutar.at(index)) + eskiKalanTutar.at(index)));
+                query.bindValue(2, veresiyeFaturaNolar.at(index));
+                query.exec();
+                if(query.lastError().isValid()){
+                    qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + query.lastError().text());
                 }
             }
         }
     }
 
-    return sorgu.lastError();
+    return query.lastError();
 }
 
 Sepet StokYonetimi::getSatis(QString _faturaNo)
 {
     Sepet satilmisSepet;
-    QSqlQuery satisSorgu = QSqlQuery(db);// aşağıda while içinde ki satis.urunEkle() metodunda çağrılacak sorgu nesnesi ile karışmasın diye yeni query nesnesi oluşturdum.
-    satisSorgu.prepare("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = ?");
-    satisSorgu.bindValue(0, _faturaNo);
-    satisSorgu.exec();
+    QSqlQuery satisSorgu(db);
+    QString sql = QString("SELECT barkod, islem_no, islem_turu, islem_miktari, tarih, kullanici, CAST(birim_f AS decimal), toplam_f, aciklama FROM stokhareketleri WHERE islem_no = '%1'")
+                      .arg(_faturaNo.replace("'", "''"));
+    satisSorgu.exec(sql);
+    // aynı db bağlantısı üzerinde iç içe sorgu yapmamak için sonuçları tampona alıyorum
+    struct SatisRow {
+        QString barkod;
+        float miktar;
+    };
+    QList<SatisRow> rows;
     while (satisSorgu.next()) {
-        StokKarti sk = getStokKarti(satisSorgu.value(0).toString());
-        satilmisSepet.urunEkle(sk, satisSorgu.value(3).toFloat()/*, sk.getSFiyat()*/);
+        rows.append({satisSorgu.value(0).toString(), satisSorgu.value(3).toFloat()});
+    }
+    for (const auto& row : rows) {
+        StokKarti sk = getStokKarti(row.barkod);
+        satilmisSepet.urunEkle(sk, row.miktar);
     }
     // faturanın ödenen ve kalan tutar bilgisini alma.
     QSqlQuery islem = getIslemInfo(_faturaNo);
@@ -291,37 +305,38 @@ Sepet StokYonetimi::getSatis(QString _faturaNo)
 
 QSqlQuery StokYonetimi::getIslemInfo(QString _faturaNo)
 {
-    QSqlQuery islemSorgu = QSqlQuery(db);
-    islemSorgu.prepare("SELECT id, fatura_no, kullanici, toplamtutar, odenentutar, kalantutar, tarih, tipi, cari FROM faturalar WHERE fatura_no = ?");
-    islemSorgu.bindValue(0, _faturaNo);
-    islemSorgu.exec();
+    QSqlQuery islemSorgu(db);
+    QString sql = QString("SELECT id, fatura_no, kullanici, toplamtutar, odenentutar, kalantutar, tarih, tipi, cari FROM faturalar WHERE fatura_no = '%1'")
+                      .arg(_faturaNo.replace("'", "''"));
+    islemSorgu.exec(sql);
     islemSorgu.next();
     return islemSorgu;
 }
 
 Cari StokYonetimi::getCariKart(QString cariID)
 {
+    QSqlQuery query(db);
     Cari kart;
-    sorgu.prepare("SELECT * FROM carikartlar WHERE id = ?");
-    sorgu.bindValue(0, cariID);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.prepare("SELECT * FROM carikartlar WHERE id = ?");
+    query.bindValue(0, cariID);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
-    if(sorgu.next()){
-        kart.setId(sorgu.value(0).toInt());
-        kart.setAd(sorgu.value(1).toString());
-        kart.setTip(sorgu.value(2).toInt());
-        kart.setVerigino(sorgu.value(3).toString());
-        kart.setVergiDaire(sorgu.value(4).toString());
-        kart.setIl(sorgu.value(5).toString());
-        kart.setIlce(sorgu.value(6).toString());
-        kart.setAdres(sorgu.value(7).toString());
-        kart.setMail(sorgu.value(8).toString());
-        kart.setTelefon(sorgu.value(9).toString());
-        kart.setTarih(sorgu.value(10).toDateTime());
-        kart.setAciklama(sorgu.value(11).toString());
-        kart.setYetkili(sorgu.value(12).toString());
+    if(query.next()){
+        kart.setId(query.value(0).toInt());
+        kart.setAd(query.value(1).toString());
+        kart.setTip(query.value(2).toInt());
+        kart.setVerigino(query.value(3).toString());
+        kart.setVergiDaire(query.value(4).toString());
+        kart.setIl(query.value(5).toString());
+        kart.setIlce(query.value(6).toString());
+        kart.setAdres(query.value(7).toString());
+        kart.setMail(query.value(8).toString());
+        kart.setTelefon(query.value(9).toString());
+        kart.setTarih(query.value(10).toDateTime());
+        kart.setAciklama(query.value(11).toString());
+        kart.setYetkili(query.value(12).toString());
         return kart;
     }
     else{
@@ -331,10 +346,11 @@ Cari StokYonetimi::getCariKart(QString cariID)
 
 bool StokYonetimi::stokKartiSil(QString stokKartiID)
 {
-    sorgu.prepare("DELETE FROM stokkartlari WHERE id = ?");
-    sorgu.bindValue(0, stokKartiID);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM stokkartlari WHERE id = ?");
+    query.bindValue(0, stokKartiID);
+    query.exec();
+    if(query.lastError().isValid()){
         return false;
     }
     return true;
@@ -342,17 +358,18 @@ bool StokYonetimi::stokKartiSil(QString stokKartiID)
 
 void StokYonetimi::stokHareketiEkle(User kullanici, QString barkod, StokHareketi hareket, float miktar)
 {
-    sorgu.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO stokhareketleri(barkod, islem_turu, islem_miktari, tarih, kullanici, aciklama) "
                     "VALUES (?, ?, ?, ?, ?, ?)");
-    sorgu.bindValue(0, barkod);
-    sorgu.bindValue(1, hareket);
-    sorgu.bindValue(2, miktar);
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.bindValue(4, kullanici.getUserID());
-    sorgu.bindValue(5, "STOK GİRİŞİ");
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << sorgu.lastError().text();
+    query.bindValue(0, barkod);
+    query.bindValue(1, hareket);
+    query.bindValue(2, miktar);
+    query.bindValue(3, QDateTime::currentDateTime());
+    query.bindValue(4, kullanici.getUserID());
+    query.bindValue(5, "STOK GİRİŞİ");
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << query.lastError().text();
     }
 }
 
@@ -457,21 +474,23 @@ QSqlQueryModel *StokYonetimi::getStokKartlariEtiket()
 
 QStringList StokYonetimi::stokGruplariGetir()
 {
-    sorgu.exec("SELECT grup FROM stokgruplari");
+    QSqlQuery query(db);
+    query.exec("SELECT grup FROM stokgruplari");
     QStringList liste;
-    while (sorgu.next()) {
-        liste.append(sorgu.value(0).toString());
+    while (query.next()) {
+        liste.append(query.value(0).toString());
     }
     return liste;
 }
 
 int StokYonetimi::getGrupID(QString pGrup)
 {
-    sorgu.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
-    sorgu.bindValue(0, pGrup);
-    sorgu.exec();
-    if(sorgu.next()){
-        return sorgu.value(0).toInt();
+    QSqlQuery query(db);
+    query.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
+    query.bindValue(0, pGrup);
+    query.exec();
+    if(query.next()){
+        return query.value(0).toInt();
     }
     return 0;
 }
@@ -500,64 +519,70 @@ QSqlQueryModel *StokYonetimi::getStokHareketleri(QString barkod, QDateTime basla
 
 void StokYonetimi::stokGrupEkle(QString eklenecekGrupAdi)
 {
-    sorgu.prepare("INSERT INTO stokgruplari(id, grup) "
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO stokgruplari(id, grup) "
                     "VALUES (nextval('stokgruplari_id_seq'), ?)");
-    sorgu.bindValue(0, eklenecekGrupAdi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qWarning() << "stok grup ekleme sorgu INSERT hatası: " << sorgu.lastError().text();
+    query.bindValue(0, eklenecekGrupAdi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qWarning() << "stok grup ekleme sorgu INSERT hatası: " << query.lastError().text();
     }
 }
 
 void StokYonetimi::stokGrupSil(QString silinecekGrupAdi)
 {
-    sorgu.prepare("DELETE FROM stokgruplari WHERE grup = ?");
-    sorgu.bindValue(0, silinecekGrupAdi);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qWarning() << "stok grup silme sorgu DELETE hatası: " << sorgu.lastError().text();
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM stokgruplari WHERE grup = ?");
+    query.bindValue(0, silinecekGrupAdi);
+    query.exec();
+    if(query.lastError().isValid()){
+        qWarning() << "stok grup silme sorgu DELETE hatası: " << query.lastError().text();
     }
 }
 
 void StokYonetimi::stokBirimEkle(QString birim)
 {
-    sorgu.prepare("INSERT INTO stokbirimleri(id, birim) VALUES(nextval('stokbirimleri_sequence'), ?)");
-    sorgu.bindValue(0, birim);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO stokbirimleri(id, birim) VALUES(nextval('stokbirimleri_sequence'), ?)");
+    query.bindValue(0, birim);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
 }
 
 void StokYonetimi::stokBirimSil(QString birim)
 {
-    sorgu.prepare("DELETE FROM stokbirimleri WHERE birim = ?");
-    sorgu.bindValue(0, birim);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << "stok birim silme hatası: \n" << sorgu.lastError().text();
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM stokbirimleri WHERE birim = ?");
+    query.bindValue(0, birim);
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << "stok birim silme hatası: \n" << query.lastError().text();
     }
 }
 
 QStringList StokYonetimi::getStokBirimleri()
 {
+    QSqlQuery query(db);
     QStringList stokbirimleri;
     stokbirimleri.clear();
     stokbirimleri.append("Birim Seçin...");
-    sorgu.exec("SELECT * FROM stokbirimleri");
-    while (sorgu.next()) {
-        stokbirimleri.append(sorgu.value(1).toString());
+    query.exec("SELECT * FROM stokbirimleri");
+    while (query.next()) {
+        stokbirimleri.append(query.value(1).toString());
     }
     return stokbirimleri;
 }
 
 int StokYonetimi::getBirimID(QString pBirim)
 {
-    sorgu.prepare("SELECT id FROM stokbirimleri WHERE birim = ?");
-    sorgu.bindValue(0, pBirim);
-    sorgu.exec();
-    if(sorgu.next()){
-        return sorgu.value(0).toInt();
+    QSqlQuery query(db);
+    query.prepare("SELECT id FROM stokbirimleri WHERE birim = ?");
+    query.bindValue(0, pBirim);
+    query.exec();
+    if(query.next()){
+        return query.value(0).toInt();
     }
     return 0;
 }
@@ -579,124 +604,133 @@ QString StokYonetimi::getBirimAd(int birimID)
 
 QHash<QString, float> StokYonetimi::getgunlukAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
+    QSqlQuery query(db);
     sonTarih = sonTarih.addDays(1);// bir gün eklemezsem saati 00:00:00 aldığı için 1 gün eksik hesaplıyor.
 
-    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('day', tarih::timestamp) FROM stokhareketleri "
+    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('day', tarih::timestamp) FROM stokhareketleri "
                   "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
                   "GROUP BY DATE_TRUNC('day', tarih::timestamp) ORDER BY DATE_TRUNC('day', tarih::timestamp)");
-    sorgu.bindValue(0, ilkTarih);
-    sorgu.bindValue(1, sonTarih);
-    sorgu.bindValue(2, kart.getBarkod());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, ilkTarih);
+    query.bindValue(1, sonTarih);
+    query.bindValue(2, kart.getBarkod());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
     QHash<QString, float> adetler;
-    while (sorgu.next()) {
-        adetler.insert(sorgu.value(1).toDate().toString(), sorgu.value(0).toFloat());
+    while (query.next()) {
+        adetler.insert(query.value(1).toDate().toString(), query.value(0).toFloat());
     }
     return adetler;
 }
 
 QHash<QString, float> StokYonetimi::getAylikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
+    QSqlQuery query(db);
     sonTarih = sonTarih.addMonths(1);// bir ay eklemezsem saati 00:00:00 aldığı için 1 ay eksik hesaplıyor.
 
-    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('month', tarih::timestamp) FROM stokhareketleri "
+    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('month', tarih::timestamp) FROM stokhareketleri "
                   "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
                   "GROUP BY DATE_TRUNC('month', tarih::timestamp) ORDER BY DATE_TRUNC('month', tarih::timestamp)");
-    sorgu.bindValue(0, ilkTarih);
-    sorgu.bindValue(1, sonTarih);
-    sorgu.bindValue(2, kart.getBarkod());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, ilkTarih);
+    query.bindValue(1, sonTarih);
+    query.bindValue(2, kart.getBarkod());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
     QHash<QString, float> adetler;
-    while (sorgu.next()) {
-        adetler.insert(sorgu.value(1).toDate().toString("MM.yyyy MMMM"), sorgu.value(0).toFloat());
+    while (query.next()) {
+        adetler.insert(query.value(1).toDate().toString("MM.yyyy MMMM"), query.value(0).toFloat());
     }
     return adetler;
 }
 
 QHash<QString, float> StokYonetimi::getYillikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
+    QSqlQuery query(db);
     sonTarih = sonTarih.addYears(1);// bir yıl eklemezsem saati 00:00:00 aldığı için 1 yıl eksik hesaplıyor.
 
-    sorgu.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('year', tarih::timestamp) FROM stokhareketleri "
+    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('year', tarih::timestamp) FROM stokhareketleri "
                   "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
                   "GROUP BY DATE_TRUNC('year', tarih::timestamp) ORDER BY DATE_TRUNC('year', tarih::timestamp)");
-    sorgu.bindValue(0, ilkTarih);
-    sorgu.bindValue(1, sonTarih);
-    sorgu.bindValue(2, kart.getBarkod());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    query.bindValue(0, ilkTarih);
+    query.bindValue(1, sonTarih);
+    query.bindValue(2, kart.getBarkod());
+    query.exec();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
     }
     QHash<QString, float> adetler;
-    while (sorgu.next()) {
-        adetler.insert(sorgu.value(1).toDate().toString("yyyy"), sorgu.value(0).toFloat());
+    while (query.next()) {
+        adetler.insert(query.value(1).toDate().toString("yyyy"), query.value(0).toFloat());
     }
     return adetler;
 }
 
 QStringList StokYonetimi::getUreticiler()
 {
+    QSqlQuery query(db);
     QStringList liste;
     liste.append("Üretici seçin...");
-    sorgu.exec("SELECT ad FROM ureticiler ORDER BY ad ASC");
-    while (sorgu.next()) {
-        liste.append(sorgu.value(0).toString());
+    query.exec("SELECT ad FROM ureticiler ORDER BY ad ASC");
+    while (query.next()) {
+        liste.append(query.value(0).toString());
     }
     return liste;
 }
 
 int StokYonetimi::getUreticiID(QString ureticiAd)
 {
-    sorgu.prepare("SELECT id FROM ureticiler WHERE ad = ?");
-    sorgu.bindValue(0, ureticiAd);
-    sorgu.exec();
-    if(!sorgu.next()){
+    QSqlQuery query(db);
+    query.prepare("SELECT id FROM ureticiler WHERE ad = ?");
+    query.bindValue(0, ureticiAd);
+    query.exec();
+    if(!query.next()){
         return 0;
     }
-    return sorgu.value(0).toInt();
+    return query.value(0).toInt();
 }
 
 QString StokYonetimi::getUreticiAD(int ID)
 {
-    sorgu.prepare("SELECT ad FROM ureticiler WHERE id = ?");
-    sorgu.bindValue(0, ID);
-    sorgu.exec();
-    if(sorgu.lastError().isValid() || !sorgu.next()){
+    QSqlQuery query(db);
+    query.prepare("SELECT ad FROM ureticiler WHERE id = ?");
+    query.bindValue(0, ID);
+    query.exec();
+    if(query.lastError().isValid() || !query.next()){
         return 0;
     }
-    return sorgu.value(0).toString();
+    return query.value(0).toString();
 }
 
 QStringList StokYonetimi::getTedarikciler()
 {
+    QSqlQuery query(db);
     QStringList liste;
     liste.append("Tedarikçi seçin...");
-    sorgu.exec("SELECT ad FROM carikartlar WHERE tip = 2 ORDER BY ad ASC");
-    while (sorgu.next()) {
-        liste.append(sorgu.value(0).toString());
+    query.exec("SELECT ad FROM carikartlar WHERE tip = 2 ORDER BY ad ASC");
+    while (query.next()) {
+        liste.append(query.value(0).toString());
     }
     return liste;
 }
 
 int StokYonetimi::getTedarikciID(QString tedarikciAd)
 {
-    sorgu.prepare("SELECT id FROM carikartlar WHERE tip = 2 AND ad = ?");
-    sorgu.bindValue(0, tedarikciAd);
-    sorgu.exec();
-    if(!sorgu.next()){
+    QSqlQuery query(db);
+    query.prepare("SELECT id FROM carikartlar WHERE tip = 2 AND ad = ?");
+    query.bindValue(0, tedarikciAd);
+    query.exec();
+    if(!query.next()){
         return 0;
     }
-    return sorgu.value(0).toInt();
+    return query.value(0).toInt();
 }
 
 bool StokYonetimi::csvAktar(QString dosyaYolu)
 {
+    QSqlQuery query(db);
     QFile csvDosya(dosyaYolu);
     csvDosya.open(QIODevice::WriteOnly);
     csvDosya.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser);

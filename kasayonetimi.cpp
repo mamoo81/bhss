@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 
-KasaYonetimi::KasaYonetimi() : sorgu(db)
+KasaYonetimi::KasaYonetimi()
 {
 
 }
@@ -15,17 +15,18 @@ KasaYonetimi::~KasaYonetimi()
 
 double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 1 AND tarih BETWEEN ? AND ?"); // islem = 1 = GİRİŞ
-    sorgu.bindValue(0, baslangicTarih);
-    sorgu.bindValue(1, bitisTarih);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 'GİRİŞ' AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+                      .arg(baslangicTarih.toString(Qt::ISODate))
+                      .arg(bitisTarih.toString(Qt::ISODate));
+    query.exec(sql);
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return 0;
     }
     else{
-        if(sorgu.next()){
-            return sorgu.value(0).toDouble();
+        if(query.next()){
+            return query.value(0).toDouble();
         }
         else{
             return 0;
@@ -35,17 +36,18 @@ double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime biti
 
 double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    sorgu.prepare("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN ('2','4') AND tarih BETWEEN ? AND ?");
-    sorgu.bindValue(0, baslangicTarih);
-    sorgu.bindValue(1, bitisTarih);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN ('ÇIKIŞ','İADE') AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+                      .arg(baslangicTarih.toString(Qt::ISODate))
+                      .arg(bitisTarih.toString(Qt::ISODate));
+    query.exec(sql);
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return 0;
     }
     else{
-        if(sorgu.next()){
-            return sorgu.value(0).toDouble();
+        if(query.next()){
+            return query.value(0).toDouble();
         }
         else{
             return 0;
@@ -55,17 +57,14 @@ double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime biti
 
 QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    QSqlQuery query(db);
-    query.prepare("SELECT kasahareketleri.id, kasahareketadlari.ad, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
-                    "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
-                    "INNER JOIN kasahareketadlari ON kasahareketleri.islem = kasahareketadlari.id "
-                    "WHERE kasahareketleri.tarih BETWEEN ? AND ? "
-                    "ORDER BY kasahareketleri.id DESC");
-    query.bindValue(0, baslangicTarih);
-    query.bindValue(1, bitisTarih);
-    query.exec();
+    QString sql = QString("SELECT kasahareketleri.id, kasahareketleri.islem, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
+                          "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
+                          "WHERE kasahareketleri.tarih BETWEEN '%1'::timestamp AND '%2'::timestamp "
+                          "ORDER BY kasahareketleri.id DESC")
+                      .arg(baslangicTarih.toString(Qt::ISODate))
+                      .arg(bitisTarih.toString(Qt::ISODate));
     kasaHareketlerimodel->clear();
-    kasaHareketlerimodel->setQuery(std::move(query));
+    kasaHareketlerimodel->setQuery(sql, db);
     kasaHareketlerimodel->setHeaderData(0, Qt::Horizontal, "ID");
     kasaHareketlerimodel->setHeaderData(1, Qt::Horizontal, "Hareket");
     kasaHareketlerimodel->setHeaderData(2, Qt::Horizontal, "Miktar");
@@ -73,8 +72,8 @@ QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDate
     kasaHareketlerimodel->setHeaderData(4, Qt::Horizontal, "Kullanici");
     kasaHareketlerimodel->setHeaderData(5, Qt::Horizontal, "Evrak No");
     kasaHareketlerimodel->setHeaderData(6, Qt::Horizontal, "Açıklama");
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    if(kasaHareketlerimodel->lastError().isValid()){
+        qDebug() << qPrintable(kasaHareketlerimodel->lastError().text());
         return NULL;
     }
     else{
@@ -84,17 +83,18 @@ QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDate
 
 double KasaYonetimi::getNetKar(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    sorgu.prepare("SELECT SUM(CAST(kar AS DECIMAL)) FROM kasahareketleri WHERE tarih BETWEEN ? AND ?");
-    sorgu.bindValue(0, baslangicTarih);
-    sorgu.bindValue(1, bitisTarih);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    QString sql = QString("SELECT SUM(CAST(kar AS DECIMAL)) FROM kasahareketleri WHERE tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+                      .arg(baslangicTarih.toString(Qt::ISODate))
+                      .arg(bitisTarih.toString(Qt::ISODate));
+    query.exec(sql);
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return 0;
     }
     else{
-        if(sorgu.next()){
-            return sorgu.value(0).toDouble();
+        if(query.next()){
+            return query.value(0).toDouble();
         }
         else{
             return 0;
@@ -104,21 +104,31 @@ double KasaYonetimi::getNetKar(QDateTime baslangicTarih, QDateTime bitisTarih)
 
 int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar, QString aciklama, QDateTime tarih, QString evrakno, double netKar)
 {
-    // KASAYA PARA GİRİŞ/ÇIKIŞ İŞLEMİ BAŞLANGIÇ
-    sorgu.exec("select para FROM kasa");
     double mevcutPara = 0;
+    bool kasaOk = false;
+    {
+        QSqlQuery q(db);
+        q.exec("select para FROM kasa");
+        if(q.next()){
+            mevcutPara = q.value(0).toDouble();
+            kasaOk = true;
+        }
+    }
     double sonPara = 0;
-    if(sorgu.next()){
-        mevcutPara = sorgu.value(0).toDouble();
-
+    if(kasaOk){
+        QString dtStr = tarih.toString(Qt::ISODate);
+        QString hareketStr = enumToString(hareket);
         switch (hareket) {
         case KasaHareketi::Giris:
             sonPara = mevcutPara + tutar;
-            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-            sorgu.bindValue(0, sonPara);
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qDebug() << "kasahareketiekle() hata:\n" << qPrintable(sorgu.lastError().text());
+            {
+                QSqlQuery q(db);
+                QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                                  .arg(sonPara);
+                q.exec(sql);
+                if(q.lastError().isValid()){
+                    qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
+                }
             }
             break;
         case KasaHareketi::Cikis:
@@ -134,11 +144,12 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
                 return 0;
             }
             else{
-                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-                sorgu.bindValue(0, sonPara);
-                sorgu.exec();
-                if(sorgu.lastError().isValid()){
-                    qDebug() << "kasahareketiekle() hata:\n" << qPrintable(sorgu.lastError().text());
+                QSqlQuery q(db);
+                QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                                  .arg(sonPara);
+                q.exec(sql);
+                if(q.lastError().isValid()){
+                    qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
                 }
             }
             break;
@@ -150,18 +161,21 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             break;
         }
         //HAREKET EKLEME BAŞLANGICI
-        sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
-                        "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?, ?)");
-        sorgu.bindValue(0, tutar);
-        sorgu.bindValue(1, user.getUserID().toInt());
-        sorgu.bindValue(2, hareket);
-        sorgu.bindValue(3, tarih);
-        sorgu.bindValue(4, netKar);
-        sorgu.bindValue(5, evrakno);
-        sorgu.bindValue(6, aciklama);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << qPrintable(sorgu.lastError().text());
+        {
+            QSqlQuery q(db);
+            QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
+                                  "VALUES (nextval('kasahareketleri_sequence'), %1, %2, '%3', '%4'::timestamp, %5, '%6', '%7')")
+                              .arg(tutar)
+                              .arg(user.getUserID().toInt())
+                              .arg(hareketStr)
+                              .arg(dtStr)
+                              .arg(netKar)
+                              .arg(evrakno.isEmpty() ? QString() : evrakno.replace("'", "''"))
+                              .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
+            q.exec(sql);
+            if(q.lastError().isValid()){
+                qDebug() << qPrintable(q.lastError().text());
+            }
         }
         QMessageBox msg(0);
         msg.setWindowTitle("Bilgi");
@@ -182,65 +196,75 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
 
 int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar, QString aciklama, QDateTime tarih, double netKar)
 {
-    // KASAYA PARA GİRİŞ/ÇIKIŞ İŞLEMİ BAŞLANGIÇ
-    sorgu.exec("select para FROM kasa");
     double mevcutPara = 0;
+    {
+        QSqlQuery q(db);
+        q.exec("select para FROM kasa");
+        if(q.next()){
+            mevcutPara = q.value(0).toDouble();
+        }
+    }
     double sonPara = 0;
-    if(sorgu.next()){
-        mevcutPara = sorgu.value(0).toDouble();
+    QString dtStr = tarih.toString(Qt::ISODate);
+    QString hareketStr = enumToString(hareket);
+    switch (hareket) {
+    case KasaHareketi::Giris:
+        sonPara = mevcutPara + tutar;
+        {
+            QSqlQuery q(db);
+            QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                              .arg(sonPara);
+            q.exec(sql);
+            if(q.lastError().isValid()){
+                qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
+            }
+        }
+        break;
+    case KasaHareketi::Cikis:
+        sonPara = mevcutPara - tutar;
+        {
+            QSqlQuery q(db);
+            QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
+                              .arg(sonPara);
+            q.exec(sql);
+            if(q.lastError().isValid()){
+                qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
+            }
+        }
+        break;
+    case KasaHareketi::Satis:
+        break;
+    case KasaHareketi::Iade:
+        break;
+    case KasaHareketi::BankaVirman:
+        break;
+    }
 
+    //HAREKET EKLEME BAŞLANGICI
+    {
+        double karDegeri = 0;
         switch (hareket) {
         case KasaHareketi::Giris:
-            sonPara = mevcutPara + tutar;
-            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-            sorgu.bindValue(0, sonPara);
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qDebug() << "kasahareketiekle() hata:\n" << qPrintable(sorgu.lastError().text());
-            }
+            karDegeri = netKar;
             break;
         case KasaHareketi::Cikis:
-            sonPara = mevcutPara - tutar;
-            sorgu.prepare("UPDATE kasa SET para = ? WHERE id = '1'");
-            sorgu.bindValue(0, sonPara);
-            sorgu.exec();
-            if(sorgu.lastError().isValid()){
-                qDebug() << "kasahareketiekle() hata:\n" << qPrintable(sorgu.lastError().text());
-            }
+            karDegeri = netKar * -1;
             break;
-        case KasaHareketi::Satis:
-            break;
-        case KasaHareketi::Iade:
-            break;
-        case KasaHareketi::BankaVirman:
+        default:
             break;
         }
-
-        //HAREKET EKLEME BAŞLANGICI
-        sorgu.prepare("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
-                        "VALUES (nextval('kasahareketleri_sequence'), ?, ?, ?, ?, ?, ?)");
-        sorgu.bindValue(0, tutar);
-        sorgu.bindValue(1, user.getUserID().toInt());
-        sorgu.bindValue(2, hareket);
-        sorgu.bindValue(3, tarih);
-        switch (hareket) {
-        case KasaHareketi::Giris:
-            sorgu.bindValue(4, netKar);
-            break;
-        case KasaHareketi::Cikis:
-            sorgu.bindValue(4, (netKar * -1));
-            break;
-        case KasaHareketi::Satis:
-            break;
-        case KasaHareketi::Iade:
-            break;
-        case KasaHareketi::BankaVirman:
-            break;
-        }
-        sorgu.bindValue(5, aciklama);
-        sorgu.exec();
-        if(sorgu.lastError().isValid()){
-            qDebug() << qPrintable(sorgu.lastError().text());
+        QSqlQuery q(db);
+        QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
+                              "VALUES (nextval('kasahareketleri_sequence'), %1, %2, '%3', '%4'::timestamp, %5, '%6')")
+                          .arg(tutar)
+                          .arg(user.getUserID().toInt())
+                          .arg(hareketStr)
+                          .arg(dtStr)
+                          .arg(karDegeri)
+                          .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
         }
     }
     return 1;
@@ -248,29 +272,36 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
 
 int KasaYonetimi::kasaHareketiDuzenle(User user, QString hareketID, KasaHareketi hareket, double tutar, QString aciklama, QDateTime tarih, QString evrakNo)
 {
-    //KASA HAREKETİNİ DÜZELTMEDEN ÖNCE, düzeltilecek işlemin şuan ki HAREKET TUTARINI AL. metodun EN SON da +/- YÖNDE kasadaki paraya ekle
-    sorgu.prepare("SELECT islem, CAST(miktar AS DECIMAL) FROM kasahareketleri WHERE id = ?");
-    sorgu.bindValue(0, hareketID);
-    sorgu.exec();
     double oncekiTutar = 0;
     KasaHareketi oncekiHareket = KasaHareketi::Giris;
-    if(sorgu.next()){
-        oncekiTutar = sorgu.value(1).toDouble();
-        oncekiHareket = enumFromString(sorgu.value(0).toString());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("SELECT islem, CAST(miktar AS DECIMAL) FROM kasahareketleri WHERE id = %1")
+                          .arg(hareketID);
+        q.exec(sql);
+        if(q.next()){
+            oncekiTutar = q.value(1).toDouble();
+            oncekiHareket = enumFromString(q.value(0).toString());
+        }
     }
     //----------------------------------------
     //KASA HAREKETLERİ TABLOSUNU DÜZELTME
-    sorgu.prepare("UPDATE kasahareketleri "
-                    "SET miktar = ?, kullanici = ?, islem = ?, tarih = ?, evrakno = ?, aciklama = ?");
-    sorgu.bindValue(0, tutar);
-    sorgu.bindValue(1, user.getUserID());
-    sorgu.bindValue(2, hareket);
-    sorgu.bindValue(3, tarih);
-    sorgu.bindValue(4, evrakNo);
-    sorgu.bindValue(5, "İŞLEM DÜZELTME:" + aciklama);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasahareketleri "
+                              "SET miktar = %1, kullanici = %2, islem = '%3', tarih = '%4'::timestamp, evrakno = '%5', aciklama = '%6' "
+                              "WHERE id = %7")
+                          .arg(tutar)
+                          .arg(user.getUserID())
+                          .arg(enumToString(hareket))
+                          .arg(tarih.toString(Qt::ISODate))
+                          .arg(evrakNo.isEmpty() ? QString() : evrakNo.replace("'", "''"))
+                          .arg(QString("İŞLEM DÜZELTME:%1").arg(aciklama).replace("'", "''"))
+                          .arg(hareketID);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << qPrintable(q.lastError().text());
+        }
     }
     // DÜZELTME YAPILACAK HAREKET DEĞİŞTİ İSE TUTARI KASAda ki paraya EKLE/ÇIKAR
     if(hareket != oncekiHareket){
@@ -278,27 +309,39 @@ int KasaYonetimi::kasaHareketiDuzenle(User user, QString hareketID, KasaHareketi
             case KasaHareketi::Giris:{
                 double suankiPara = getKasadakiPara();
                 double guncelPara = suankiPara - oncekiTutar;
-                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-                sorgu.bindValue(0, guncelPara);
-                sorgu.exec();
+                {
+                    QSqlQuery q(db);
+                    QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                                      .arg(guncelPara);
+                    q.exec(sql);
+                }
                 guncelPara = getKasadakiPara();
                 guncelPara -= tutar;
-                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-                sorgu.bindValue(0, guncelPara);
-                sorgu.exec();
+                {
+                    QSqlQuery q(db);
+                    QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                                      .arg(guncelPara);
+                    q.exec(sql);
+                }
                 break;
             }
             case KasaHareketi::Cikis:{
                 double suankiPara = getKasadakiPara();
                 double guncelPara = suankiPara + oncekiTutar;
-                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-                sorgu.bindValue(0, guncelPara);
-                sorgu.exec();
+                {
+                    QSqlQuery q(db);
+                    QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                                      .arg(guncelPara);
+                    q.exec(sql);
+                }
                 guncelPara = getKasadakiPara();
                 guncelPara += tutar;
-                sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-                sorgu.bindValue(0, guncelPara);
-                sorgu.exec();
+                {
+                    QSqlQuery q(db);
+                    QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                                      .arg(guncelPara);
+                    q.exec(sql);
+                }
                 break;
             }
             case KasaHareketi::Satis:{
@@ -318,23 +361,28 @@ int KasaYonetimi::kasaHareketiDuzenle(User user, QString hareketID, KasaHareketi
 bool KasaYonetimi::kasaHareketiSil(QString hareketID, QString hareket, double tutar)
 {
     // kasahareketleri tablosundan kayıdı silme
-    sorgu.prepare("DELETE FROM kasahareketleri WHERE id = ?");
-    sorgu.bindValue(0, hareketID);
-    sorgu.exec();
+    {
+        QSqlQuery q(db);
+        QString sql = QString("DELETE FROM kasahareketleri WHERE id = %1")
+                          .arg(hareketID);
+        q.exec(sql);
+    }
     //kasadan silinen işlemin parasını düşme.
     if(hareket == "GİRİŞ"){
         double suankiPara = getKasadakiPara();
         double guncelPara = suankiPara - tutar;
-        sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-        sorgu.bindValue(0, guncelPara);
-        sorgu.exec();
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                          .arg(guncelPara);
+        q.exec(sql);
     }
     else if(hareket == "ÇIKIŞ"){
         double suankiPara = getKasadakiPara();
         double guncelPara = suankiPara + tutar;
-        sorgu.prepare("UPDATE kasa SET para = ? WHERE id = 1");
-        sorgu.bindValue(0, guncelPara);
-        sorgu.exec();
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasa SET para = %1 WHERE id = 1")
+                          .arg(guncelPara);
+        q.exec(sql);
     }
     return true;
 }
@@ -343,47 +391,53 @@ void KasaYonetimi::kasadanParaCek(double cekilecekTutar, User kullanici)
 {
     // kasada ki parayı güncelleme
     double kasadaKalanPara = getKasadakiPara() - cekilecekTutar;
-    sorgu.prepare("UPDATE kasa SET para = ?");
-    sorgu.bindValue(0, kasadaKalanPara);
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qWarning() << "kasadanParaCek UPDATE hatası:\n" << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString sql = QString("UPDATE kasa SET para = %1")
+                          .arg(kasadaKalanPara);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qWarning() << "kasadanParaCek UPDATE hatası:\n" << qPrintable(q.lastError().text());
+        }
     }
     //kasa hareketlerini girme
-    sorgu.prepare("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'),?,?,?,?)");
-    sorgu.bindValue(0, cekilecekTutar);
-    sorgu.bindValue(1, kullanici.getUserID());
-    sorgu.bindValue(2, "ÇIKIŞ");
-    sorgu.bindValue(3, QDateTime::currentDateTime());
-    sorgu.exec();
-    if(sorgu.lastError().isValid()){
-        qDebug() << "kasadanParaCek kasa hareketleri hatası:\n" << qPrintable(sorgu.lastError().text());
+    {
+        QSqlQuery q(db);
+        QString dtStr = QDateTime::currentDateTime().toString(Qt::ISODate);
+        QString sql = QString("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'), %1, %2, 'ÇIKIŞ', '%3'::timestamp)")
+                          .arg(cekilecekTutar)
+                          .arg(kullanici.getUserID())
+                          .arg(dtStr);
+        q.exec(sql);
+        if(q.lastError().isValid()){
+            qDebug() << "kasadanParaCek kasa hareketleri hatası:\n" << qPrintable(q.lastError().text());
+        }
     }
 }
 
 double KasaYonetimi::getKasadakiPara()
 {
-    sorgu.exec("SELECT * FROM kasa");
-    sorgu.next();
-    if(sorgu.lastError().isValid()){
+    QSqlQuery query(db);
+    query.exec("SELECT * FROM kasa");
+    query.next();
+    if(query.lastError().isValid()){
         return 0;
     }
-    return sorgu.value(1).toDouble();
+    return query.value(1).toDouble();
 }
 
 double KasaYonetimi::getGunlukCiro()
 {
-    sorgu.prepare("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > ? AND islem IN(?,?)");
-    sorgu.bindValue(0, QDateTime::currentDateTime().date());
-    sorgu.bindValue(1, "GİRİŞ");
-    sorgu.bindValue(2, "İADE");
-    sorgu.exec();
-    sorgu.next();
-    if(sorgu.lastError().isValid()){
-        qDebug() << qPrintable(sorgu.lastError().text());
+    QSqlQuery query(db);
+    QString sql = QString("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > '%1'::timestamp AND islem IN('GİRİŞ','İADE')")
+                      .arg(QDateTime::currentDateTime().date().toString(Qt::ISODate));
+    query.exec(sql);
+    query.next();
+    if(query.lastError().isValid()){
+        qDebug() << qPrintable(query.lastError().text());
         return 0;
     }
-    return sorgu.value(0).toDouble();
+    return query.value(0).toDouble();
 }
 
 QString KasaYonetimi::enumToString(KasaYonetimi::KasaHareketi value)

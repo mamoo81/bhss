@@ -28,7 +28,6 @@ public:
     };
 
     QSqlDatabase db = QSqlDatabase::database("mhss_data");
-    QSqlQuery sorgu;
     QSqlQueryModel *kasaHareketlerimodel = new QSqlQueryModel();
 
     double getKasaToplamGiren(QDateTime baslangicTarih, QDateTime bitisTarih);
