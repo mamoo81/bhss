@@ -76,38 +76,54 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QRadioButton" name="barkodRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>60</y>
-     <width>199</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Barkod numarasında</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="adRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>99</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Adında</string>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-  </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>65</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ara:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="aramaTuruComboBox">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>60</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monospace</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>Ad</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Barkod No</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Stok Kodu</string>
+     </property>
+    </item>
+   </widget>
+
   <widget class="QToolButton" name="araBtn">
    <property name="geometry">
     <rect>
@@ -134,19 +150,7 @@
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="kodRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>141</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Stok kodunda</string>
-   </property>
-  </widget>
+
   <widget class="QToolButton" name="dosyadanToolButton">
    <property name="geometry">
     <rect>
@@ -365,19 +369,17 @@
    </property>
   </widget>
  </widget>
- <tabstops>
-  <tabstop>AraLineEdit</tabstop>
-  <tabstop>araBtn</tabstop>
-  <tabstop>YeniBtn</tabstop>
-  <tabstop>StokKartlaritableView</tabstop>
-  <tabstop>dosyadanToolButton</tabstop>
-  <tabstop>kodRadioButton</tabstop>
-  <tabstop>adRadioButton</tabstop>
-  <tabstop>barkodRadioButton</tabstop>
-  <tabstop>TopluEtikettoolButton</tabstop>
-  <tabstop>SilBtn</tabstop>
-  <tabstop>DuzenleBtn</tabstop>
- </tabstops>
+  <tabstops>
+   <tabstop>AraLineEdit</tabstop>
+   <tabstop>araBtn</tabstop>
+   <tabstop>YeniBtn</tabstop>
+   <tabstop>StokKartlaritableView</tabstop>
+   <tabstop>dosyadanToolButton</tabstop>
+   <tabstop>aramaTuruComboBox</tabstop>
+   <tabstop>TopluEtikettoolButton</tabstop>
+   <tabstop>SilBtn</tabstop>
+   <tabstop>DuzenleBtn</tabstop>
+  </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

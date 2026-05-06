@@ -166,82 +166,50 @@ QSqlError StokYonetimi::yeniStokKartiOlustur(StokKarti stokKarti, User *kullanic
     return query.lastError();
 }
 
-QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici, bool fiyatDegistimi)
+QSqlError StokYonetimi::stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici)
 {
     QSqlQuery query(db);
-    query.prepare("UPDATE stokkartlari SET "
-                  "barkod = ?, "
-                  "kod = ?, "
-                  "ad = ?, "
-                  "birim = ?, "
-                  "miktar = ?, "
-                  "grup = ?, "
-                  "afiyat = ?, "
-                  "sfiyat = ?, "
-                  "kdv = ?, "
-                  "otv = ?, "
-                  "kdvdahil = ?, "
-                  "otvdahil = ?, "
-                  "tarih = ?, "
-                  "uretici = ?, "
-                  "tedarikci = ?, "
-                  "aciklama = ? "
-                  "WHERE id = ?");
-    query.bindValue(0, duzenlenecekStokKarti.getBarkod());
-    query.bindValue(1, duzenlenecekStokKarti.getKod());
-    query.bindValue(2, duzenlenecekStokKarti.getAd());
-    query.bindValue(3, duzenlenecekStokKarti.getBirim());
-    query.bindValue(4, duzenlenecekStokKarti.getMiktar());
-    query.bindValue(5, duzenlenecekStokKarti.getGrup());
-    query.bindValue(6, duzenlenecekStokKarti.getAFiyat());
-    query.bindValue(7, duzenlenecekStokKarti.getSFiyat());
-    query.bindValue(8, duzenlenecekStokKarti.getKdv());
-    query.bindValue(9, duzenlenecekStokKarti.getOtv());
-    query.bindValue(10, duzenlenecekStokKarti.getKdvdahil());
-    query.bindValue(11, duzenlenecekStokKarti.getOtvdahil());
-    query.bindValue(12, duzenlenecekStokKarti.getTarih());
-    query.bindValue(13, duzenlenecekStokKarti.getUretici().toInt());
-    query.bindValue(14, duzenlenecekStokKarti.getTedarikci().toInt());
-    query.bindValue(15, duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName());
-    query.bindValue(16, duzenlenecekStokKarti.getId());
-    query.exec();
-    qDebug() << "Stok karti guncelleme sorgusu:" << query.lastQuery();
-    qDebug() << "Bound values:" << query.boundValues();
-    qDebug() << "Etkilenen satir sayisi:" << query.numRowsAffected();
+    QString barkod = duzenlenecekStokKarti.getBarkod();
+    QString kod = duzenlenecekStokKarti.getKod();
+    QString ad = duzenlenecekStokKarti.getAd();
+    QString sql = QString("UPDATE stokkartlari SET "
+                          "barkod = '%1', "
+                          "kod = '%2', "
+                          "ad = '%3', "
+                          "birim = %4, "
+                          "miktar = %5, "
+                          "grup = %6, "
+                          "afiyat = %7, "
+                          "sfiyat = %8, "
+                          "kdv = %9, "
+                          "otv = %10, "
+                          "kdvdahil = %11, "
+                          "otvdahil = %12, "
+                          "tarih = '%13'::timestamp, "
+                          "uretici = %14, "
+                          "tedarikci = %15, "
+                          "aciklama = '%16' "
+                          "WHERE id = %17")
+                      .arg(barkod.replace("'", "''"))
+                      .arg(kod.replace("'", "''"))
+                      .arg(ad.replace("'", "''"))
+                      .arg(duzenlenecekStokKarti.getBirim())
+                      .arg(duzenlenecekStokKarti.getMiktar())
+                      .arg(duzenlenecekStokKarti.getGrup())
+                      .arg(duzenlenecekStokKarti.getAFiyat())
+                      .arg(duzenlenecekStokKarti.getSFiyat())
+                      .arg(duzenlenecekStokKarti.getKdv())
+                      .arg(duzenlenecekStokKarti.getOtv())
+                      .arg(duzenlenecekStokKarti.getKdvdahil() ? "true" : "false")
+                      .arg(duzenlenecekStokKarti.getOtvdahil() ? "true" : "false")
+                      .arg(duzenlenecekStokKarti.getTarih().toString(Qt::ISODate))
+                      .arg(duzenlenecekStokKarti.getUretici().toInt())
+                      .arg(duzenlenecekStokKarti.getTedarikci().toInt())
+                      .arg(QString(duzenlenecekStokKarti.getAciklama() + " " + kullanici->getUserName()).replace("'", "''"))
+                      .arg(duzenlenecekStokKarti.getId());
+    query.exec(sql);
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
-    }
-
-    //fiyatı değişti ise carilere veresiye satışların tutarlarını düzeltme
-    if(fiyatDegistimi){
-
-        // cari hareketlerini güncel fiyatlardan gösterme için fatura tutarlarını düzenleme ( cari borç hesaplama güncel fiyattan ise)------------------------
-        // güncel fiyattan hesaplanacak cariye yapılmış veresiye satışları alır
-        query.exec("SELECT fatura_no, toplamtutar, kalantutar FROM faturalar WHERE kalantutar NOT IN ('0') AND tipi = 2");
-        if(query.lastError().isValid()){
-            qDebug() << qPrintable("güncellenen ürün veresiye satıldımı sorgu hatası: \n" + query.lastError().text());
-        }
-        QStringList veresiyeFaturaNolar;
-        QList<double> eskiToplamTutar;
-        QList<double> eskiKalanTutar;
-        while(query.next()){
-            veresiyeFaturaNolar.append(query.value(0).toString());
-            eskiToplamTutar.append(query.value(1).toDouble());
-            eskiKalanTutar.append(query.value(2).toDouble());
-        }
-        for (int index = 0; index < veresiyeFaturaNolar.length(); ++index) {
-            Sepet sepet = getSatis(veresiyeFaturaNolar.at(index));
-            if(sepet.urunler.contains(duzenlenecekStokKarti.getBarkod())){
-                query.prepare("UPDATE faturalar SET toplamtutar = ?, kalantutar = ? WHERE fatura_no = ?");
-                query.bindValue(0, sepet.sepetToplamTutari());
-                query.bindValue(1, ((sepet.sepetToplamTutari() - eskiToplamTutar.at(index)) + eskiKalanTutar.at(index)));
-                query.bindValue(2, veresiyeFaturaNolar.at(index));
-                query.exec();
-                if(query.lastError().isValid()){
-                    qDebug() << qPrintable("veresiyeTutarlariGuncelle() hatasi: \n" + query.lastError().text());
-                }
-            }
-        }
     }
 
     return query.lastError();

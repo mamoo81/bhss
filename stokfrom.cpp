@@ -117,6 +117,10 @@ void StokFrom::formLoad()
     key_F7 = new QShortcut(this);
     key_F7->setKey(Qt::Key_F7);
     connect(key_F7, SIGNAL(activated()), this, SLOT(key_F7_Slot()));
+    // fiyat güncelleme penceresini açar
+    key_F8 = new QShortcut(this);
+    key_F8->setKey(Qt::Key_F8);
+    connect(key_F8, SIGNAL(activated()), this, SLOT(key_F8_Slot()));
 
 //    regEXPbarkod = QRegExp("[0-9]{8,13}");
 //    ui->BarkodLnEdit->setValidator(new QRegExpValidator(regEXPbarkod, this));
@@ -332,6 +336,12 @@ void StokFrom::stokKartlariniListele()
     ui->StokKartlaritableView->setColumnWidth(3, 450);
     connect(ui->StokKartlaritableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
     ui->StokKartiAdetLabel->setText(QString::number(ui->StokKartlaritableView->model()->rowCount()));
+
+    gosterilenSatirlar.clear();
+    for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+        gosterilenSatirlar.append(i);
+    }
+    sonSecilenGosterilenSatirIndexi = 0;
 }
 
 void StokFrom::on_YeniBtn_clicked()
@@ -584,17 +594,36 @@ void StokFrom::on_SilBtn_clicked()
 void StokFrom::stokKartiAra(QString aranacakMetin)
 {
     bool varmi = false;
-    if(ui->barkodRadioButton->isChecked()){
+    int aramaTuru = ui->aramaTuruComboBox->currentIndex();
+
+    if(aramaTuru == 0){ // Ad
+        if(gosterilenSatirlar.count() > 0){
+            ui->StokKartlaritableView->selectRow(gosterilenSatirlar.first());
+            varmi = true;
+        }
+    }
+    else if(aramaTuru == 1){ // Barkod No
         for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
             if(ui->StokKartlaritableView->model()->index(i, 1).data().toString() == aranacakMetin){
                 ui->StokKartlaritableView->selectRow(i);
+                sonSecilenGosterilenSatirIndexi = i;
+                varmi = true;
+                break;
+            }
+        }
+    }
+    else if(aramaTuru == 2){ // Stok Kodu
+        for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+            if(ui->StokKartlaritableView->model()->index(i, 2).data().toString() == aranacakMetin){
+                ui->StokKartlaritableView->selectRow(i);
+                sonSecilenGosterilenSatirIndexi = i;
                 varmi = true;
                 break;
             }
         }
     }
 
-    if(!varmi){
+    if(!varmi && !aranacakMetin.isEmpty()){
         uyariSesi.play();
         QMessageBox msg(this);
         msg.setWindowTitle("Uyarı");
@@ -679,7 +708,7 @@ void StokFrom::on_StokKartlaritableView_doubleClicked(const QModelIndex &index)
 
 void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 {
-    if(ui->adRadioButton->isChecked()){
+    if(ui->aramaTuruComboBox->currentIndex() == 0){ // Ad
 
         gosterilenSatirlar.clear();
         ui->StokKartlaritableView->clearSelection();
@@ -695,6 +724,7 @@ void StokFrom::on_AraLineEdit_textChanged(const QString &arg1)
 
         if(gosterilenSatirlar.count() > 0){
             ui->StokKartlaritableView->selectRow(gosterilenSatirlar.first());// gösterilen satırlardan ilk indexi seçiyorum.
+            sonSecilenGosterilenSatirIndexi = 0;
         }
 
         if(arg1.length() == 0){// arama metni uzunluğu 0 ise satır seçimini ve son gösterilenindexi 0 yap
@@ -871,6 +901,11 @@ void StokFrom::key_F7_Slot()
     }
 }
 
+void StokFrom::key_F8_Slot()
+{
+    fiyatGuncelle_Slot();
+}
+
 void StokFrom::fiyatGuncelle_Slot()
 {
     seciliIndex = ui->StokKartlaritableView->currentIndex().row();
@@ -903,32 +938,40 @@ void StokFrom::fiyatGuncelle_Slot()
     }
 }
 
-void StokFrom::on_barkodRadioButton_clicked()
+void StokFrom::on_aramaTuruComboBox_currentIndexChanged(int index)
 {
+    Q_UNUSED(index);
     ui->AraLineEdit->setFocus();
     ui->AraLineEdit->selectAll();
+
+    // Show all rows (in case Ad mode had hidden some)
+    for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+        ui->StokKartlaritableView->showRow(i);
+    }
+    gosterilenSatirlar.clear();
+    for (int i = 0; i < ui->StokKartlaritableView->model()->rowCount(); ++i) {
+        gosterilenSatirlar.append(i);
+    }
+    sonSecilenGosterilenSatirIndexi = 0;
+
+    // If switched to Ad mode and there's text, apply filter
+    if(ui->aramaTuruComboBox->currentIndex() == 0 && !ui->AraLineEdit->text().isEmpty()){
+        on_AraLineEdit_textChanged(ui->AraLineEdit->text());
+    }
+}
+
+void StokFrom::on_AraLineEdit_returnPressed()
+{
+    stokKartiAra(ui->AraLineEdit->text());
 }
 
 void StokFrom::on_StokKartlaritableView_clicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
-    if(ui->barkodRadioButton->isChecked()){
+    ui->AraLineEdit->setFocus();
+    if(ui->aramaTuruComboBox->currentIndex() != 0){
         ui->AraLineEdit->selectAll();
-        ui->AraLineEdit->setFocus();
     }
-    else if(ui->adRadioButton->isChecked()){
-        ui->AraLineEdit->setFocus();
-    }
-}
-
-void StokFrom::on_adRadioButton_clicked()
-{
-    ui->AraLineEdit->setFocus();
-}
-
-void StokFrom::on_kodRadioButton_clicked()
-{
-    ui->AraLineEdit->setFocus();
 }
 
 //void StokFrom::on_BarkodLnEdit_textChanged(const QString &arg1)

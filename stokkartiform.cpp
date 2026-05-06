@@ -305,14 +305,7 @@ void StokKartiForm::on_KaydetpushButton_clicked()
         guncellenenKart.setAciklama("stok kartı güncelleme");
 
         if(degisimVarmi(guncellenecekKart, guncellenenKart)){
-            // fiyat değiştiyse stokkartiniguncelle metodunda ona göre işlem yapsın.
-            QSqlError sqlcvp;
-            if(guncellenecekKart.getSFiyat() != guncellenenKart.getSFiyat()){
-                sqlcvp = stokYonetimi.stokKartiniGuncelle(guncellenenKart, &kullanici, true);
-            }
-            else{
-                sqlcvp = stokYonetimi.stokKartiniGuncelle(guncellenenKart, &kullanici, false);
-            }
+            QSqlError sqlcvp = stokYonetimi.stokKartiniGuncelle(guncellenenKart, &kullanici);
 
             if(!sqlcvp.isValid()){
                 fiyatGuncellendi = true;

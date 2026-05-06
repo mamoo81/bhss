@@ -113,15 +113,15 @@ private slots:
 
     void key_F7_Slot();
 
-    void fiyatGuncelle_Slot();
+    void key_F8_Slot();
 
-    void on_barkodRadioButton_clicked();
+    void fiyatGuncelle_Slot();
 
     void on_StokKartlaritableView_clicked(const QModelIndex &index);
 
-    void on_adRadioButton_clicked();
+    void on_aramaTuruComboBox_currentIndexChanged(int index);
 
-    void on_kodRadioButton_clicked();
+    void on_AraLineEdit_returnPressed();
 
     void on_TopluEtikettoolButton_clicked();
 
@@ -147,6 +147,7 @@ private:
     QShortcut *key_F5;
     QShortcut *key_F6;
     QShortcut *key_F7;
+    QShortcut *key_F8;
     QShortcut *key_Down;
     QShortcut *key_DownArrow;
     QShortcut *key_Up;

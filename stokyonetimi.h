@@ -36,7 +36,7 @@ public:
     StokKarti getStokKarti(QString barkod);
     bool setStokMiktari(const User kullanici, const StokKarti kart, StokHareketi islem, float miktar);
     QSqlError yeniStokKartiOlustur(StokKarti stokKarti, User *kullanici);
-    QSqlError stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici, bool fiyatDegistimi);
+    QSqlError stokKartiniGuncelle(StokKarti duzenlenecekStokKarti, User *kullanici);
     Sepet getSatis(QString _faturaNo);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
 //    Sepet getSatis(QString _faturaNo, Cari cari);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
     QSqlQuery getIslemInfo(QString _faturaNo);// fatura yönetim classını stokyonetimi classına ekleyemediğim için bu metodu burayada kopyaladım.
