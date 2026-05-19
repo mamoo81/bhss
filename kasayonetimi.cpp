@@ -16,7 +16,7 @@ KasaYonetimi::~KasaYonetimi()
 double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 'GİRİŞ' AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 1 AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
                       .arg(baslangicTarih.toString(Qt::ISODate))
                       .arg(bitisTarih.toString(Qt::ISODate));
     query.exec(sql);
@@ -37,7 +37,7 @@ double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime biti
 double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN ('ÇIKIŞ','İADE') AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN (2,4) AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
                       .arg(baslangicTarih.toString(Qt::ISODate))
                       .arg(bitisTarih.toString(Qt::ISODate));
     query.exec(sql);
@@ -57,7 +57,7 @@ double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime biti
 
 QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    QString sql = QString("SELECT kasahareketleri.id, kasahareketleri.islem, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
+    QString sql = QString("SELECT kasahareketleri.id, CASE kasahareketleri.islem WHEN 1 THEN 'GİRİŞ' WHEN 2 THEN 'ÇIKIŞ' WHEN 3 THEN 'SATIŞ' WHEN 4 THEN 'İADE' WHEN 5 THEN 'BANKA VİRMAN' END, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
                           "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
                           "WHERE kasahareketleri.tarih BETWEEN '%1'::timestamp AND '%2'::timestamp "
                           "ORDER BY kasahareketleri.id DESC")
@@ -164,10 +164,10 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
         {
             QSqlQuery q(db);
             QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
-                                  "VALUES (nextval('kasahareketleri_sequence'), %1, %2, '%3', '%4'::timestamp, %5, '%6', '%7')")
+                                  "VALUES (nextval('kasahareketleri_sequence'), %1, %2, %3, '%4'::timestamp, %5, '%6', '%7')")
                               .arg(tutar)
                               .arg(user.getUserID().toInt())
-                              .arg(hareketStr)
+                              .arg(static_cast<int>(hareket))
                               .arg(dtStr)
                               .arg(netKar)
                               .arg(evrakno.isEmpty() ? QString() : evrakno.replace("'", "''"))
@@ -255,10 +255,10 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
         }
         QSqlQuery q(db);
         QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
-                              "VALUES (nextval('kasahareketleri_sequence'), %1, %2, '%3', '%4'::timestamp, %5, '%6')")
+                              "VALUES (nextval('kasahareketleri_sequence'), %1, %2, %3, '%4'::timestamp, %5, '%6')")
                           .arg(tutar)
                           .arg(user.getUserID().toInt())
-                          .arg(hareketStr)
+                          .arg(static_cast<int>(hareket))
                           .arg(dtStr)
                           .arg(karDegeri)
                           .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
@@ -289,11 +289,11 @@ int KasaYonetimi::kasaHareketiDuzenle(User user, QString hareketID, KasaHareketi
     {
         QSqlQuery q(db);
         QString sql = QString("UPDATE kasahareketleri "
-                              "SET miktar = %1, kullanici = %2, islem = '%3', tarih = '%4'::timestamp, evrakno = '%5', aciklama = '%6' "
+                              "SET miktar = %1, kullanici = %2, islem = %3, tarih = '%4'::timestamp, evrakno = '%5', aciklama = '%6' "
                               "WHERE id = %7")
                           .arg(tutar)
                           .arg(user.getUserID())
-                          .arg(enumToString(hareket))
+                          .arg(static_cast<int>(hareket))
                           .arg(tarih.toString(Qt::ISODate))
                           .arg(evrakNo.isEmpty() ? QString() : evrakNo.replace("'", "''"))
                           .arg(QString("İŞLEM DÜZELTME:%1").arg(aciklama).replace("'", "''"))
@@ -404,7 +404,7 @@ void KasaYonetimi::kasadanParaCek(double cekilecekTutar, User kullanici)
     {
         QSqlQuery q(db);
         QString dtStr = QDateTime::currentDateTime().toString(Qt::ISODate);
-        QString sql = QString("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'), %1, %2, 'ÇIKIŞ', '%3'::timestamp)")
+        QString sql = QString("INSERT INTO kasahareketleri(id, miktar, kullanici, islem, tarih) VALUES (nextval('kasahareketleri_sequence'), %1, %2, 2, '%3'::timestamp)")
                           .arg(cekilecekTutar)
                           .arg(kullanici.getUserID())
                           .arg(dtStr);
@@ -429,7 +429,7 @@ double KasaYonetimi::getKasadakiPara()
 double KasaYonetimi::getGunlukCiro()
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > '%1'::timestamp AND islem IN('GİRİŞ','İADE')")
+    QString sql = QString("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > '%1'::timestamp AND islem IN(1,4)")
                       .arg(QDateTime::currentDateTime().date().toString(Qt::ISODate));
     query.exec(sql);
     query.next();
@@ -463,19 +463,19 @@ QString KasaYonetimi::enumToString(KasaYonetimi::KasaHareketi value)
 
 KasaYonetimi::KasaHareketi KasaYonetimi::enumFromString(QString value)
 {
-    if(value == "Giris"){
+    if(value == "GİRİŞ" || value == "Giris" || value == "1"){
         return KasaHareketi::Giris;
     }
-    else if(value == "Cikis"){
+    else if(value == "ÇIKIŞ" || value == "Cikis" || value == "2"){
         return KasaHareketi::Cikis;
     }
-    else if(value == "Satis"){
+    else if(value == "SATIŞ" || value == "Satis" || value == "3"){
         return KasaHareketi::Satis;
     }
-    else if(value == "Iade"){
+    else if(value == "İADE" || value == "Iade" || value == "4"){
         return KasaHareketi::Iade;
     }
-    else if(value == "BankaVirman"){
+    else if(value == "BANKA VİRMAN" || value == "BankaVirman" || value == "5"){
         return KasaHareketi::BankaVirman;
     }
     return KasaHareketi::Giris;

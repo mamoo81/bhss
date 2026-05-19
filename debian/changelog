@@ -1,3 +1,12 @@
+mhss (0.3.8-1) unstable; urgency=medium
+
+  * Kasa hareketleri düzeltildi (islem sütunu integer, string karşılaştırma hatası giderildi)
+  * enumFromString hem Türkçe hem sayısal değerleri destekliyor
+  * getKasaHareketleri SQL'de CASE ile islem adları gösteriliyor
+  * Tüm kasa INSERT/UPDATE sorgularında islem integer olarak veriliyor
+
+ -- mamoo <mamoo81@gmail.com>  Tue, 19 May 2026 23:35:00 +0300
+
 mhss (0.3.7-1) unstable; urgency=medium
 
   * QProcess::waitForFinished yerine QEventLoop kullanıldı (GUI donmuyor)
