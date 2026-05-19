@@ -9,9 +9,8 @@ Cari CariYonetimi::getCariKart(QString cariID)
 {
     QSqlQuery query(db);
     Cari kart;
-    query.prepare("SELECT * FROM carikartlar WHERE id = ?");
-    query.bindValue(0, cariID);
-    query.exec();
+    QString sql = QString("SELECT * FROM carikartlar WHERE id = %1").arg(cariID);
+    query.exec(sql);
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
     }

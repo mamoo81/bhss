@@ -69,6 +69,10 @@ void SatisGosterDialog::sepetiCek()
         break;
     }
 
+    int cariID = qr.value(8).toInt();
+    if(cariID > 0){
+        cari = cariYonetimi.getCariKart(QString::number(cariID));
+    }
     ui->islemYapilanCariLabel->setText(cari.getAd());
     ui->odenenLabel->setText("₺" + QString::number(satilmisSepet.getOdenenTutar(), 'f', 2));
     ui->kalanLabel->setText("₺" + QString::number(qr.value(5).toDouble(), 'f', 2));

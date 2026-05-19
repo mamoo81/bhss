@@ -1,3 +1,11 @@
+mhss (0.3.9-1) unstable; urgency=medium
+
+  * Geçmiş satışlarda cari adı görünmüyordu, SatisGosterDialog::sepetiCek() düzeltildi
+  * CariYonetimi::getCariKart prepare()/bindValue() kaldırıldı, QString::arg() eklendi
+  * Kasa hareketleri evrak no sütununa minimum genişlik ayarlandı
+
+ -- mamoo <mamoo81@gmail.com>  Tue, 19 May 2026 23:45:00 +0300
+
 mhss (0.3.8-1) unstable; urgency=medium
 
   * Kasa hareketleri düzeltildi (islem sütunu integer, string karşılaştırma hatası giderildi)
