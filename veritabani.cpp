@@ -36,6 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QSettings>
 #include <QStandardPaths>
 #include <QHash>
+#include <QEventLoop>
 
 Veritabani::Veritabani()
 {
@@ -165,8 +166,18 @@ bool Veritabani::veritabaniSifirla()
 
     // psql ile schema'yı çalıştır (COPY, SEQUENCE, CONSTRAINT hepsi desteklenir)
     QProcess prcs;
+    QEventLoop loop;
+    QObject::connect(&prcs, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            &loop, &QEventLoop::quit);
     prcs.start("psql", QStringList() << "-d" << "mhss_data" << "-f" << "/tmp/mhss_schema.sql");
-    prcs.waitForFinished(120000);
+    if(!prcs.waitForStarted(5000)){
+        qDebug() << "psql başlatılamadı:" << prcs.errorString();
+        tempSql.remove();
+        return false;
+    }
+
+    loop.exec(); // Local event loop - GUI donmaz, splash screen kapanır
+
     QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
     QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
     if(!stdoutStr.isEmpty()) qDebug() << "psql stdout:" << stdoutStr;

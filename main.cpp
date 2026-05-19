@@ -40,6 +40,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QLibraryInfo>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QEventLoop>
 //***********************
 #include <unistd.h>
 #include <pwd.h>
@@ -72,11 +73,26 @@ public:
 
     bool run(const QStringList &args) {
         QProcess prcs;
+        QEventLoop loop;
+        QObject::connect(&prcs, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                &loop, &QEventLoop::quit);
+
         prcs.start("sudo", QStringList() << "-S" << "-k" << args);
-        if(!m_password.isEmpty()) {
-            prcs.write(m_password.toUtf8() + "\n");
+        if(!prcs.waitForStarted(5000)){
+            m_errors += QString("Komut başlatılamadı: sudo %1\n").arg(args.join(" "));
+            return false;
         }
-        prcs.waitForFinished(300000);
+        if(m_password.isEmpty()) {
+            if(!askPassword(nullptr)){
+                m_errors += "Yönetici şifresi girilmedi.\n";
+                return false;
+            }
+        }
+        prcs.write(m_password.toUtf8() + "\n");
+        prcs.closeWriteChannel();
+
+        loop.exec(); // Local event loop - GUI donmaz, splash screen kapanır
+
         QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
         QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
         if(prcs.exitCode() != 0){
