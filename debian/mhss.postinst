@@ -1,20 +1,79 @@
 #!/bin/sh
 set -e
 
+LOG_FILE="/tmp/mhss_postinst.log"
+
 case "$1" in
     configure)
+        echo "MHSS postinst basladi: $(date)" > "$LOG_FILE"
+
         # PostgreSQL servisinin çalıştığını kontrol et
         if pg_isready -q 2>/dev/null; then
-            # mhss_data veritabanının var olduğunu kontrol et
             if su - postgres -c "psql -lqt | cut -d \| -f 1 | grep -qw mhss_data" 2>/dev/null; then
-                echo "MHSS: Veritabani migration betigi calistiriliyor..."
-                su - postgres -c "psql -d mhss_data -f /usr/share/mhss/db_migrate_v0.2.8.sql" || true
+                echo "MHSS: Veritabani migration betigi calistiriliyor..." >> "$LOG_FILE"
+                su - postgres -c "psql -d mhss_data -f /usr/share/mhss/db_migrate_v0.2.8.sql" >> "$LOG_FILE" 2>&1 || true
             else
-                echo "MHSS: mhss_data veritabani bulunamadi. Migration atlaniyor."
+                echo "MHSS: mhss_data veritabani bulunamadi. Migration atlaniyor." >> "$LOG_FILE"
             fi
         else
-            echo "MHSS: PostgreSQL calismiyor. Migration atlaniyor."
+            echo "MHSS: PostgreSQL calismiyor. Migration atlaniyor." >> "$LOG_FILE"
         fi
+
+        # Masaüstüne başlatıcı ekle
+        echo "MHSS: Masaustu baslaticisi ayarlaniyor..." >> "$LOG_FILE"
+
+        # Kullanıcıyı tespit et (çeşitli yöntemlerle)
+        TARGET_USER=""
+        if [ -n "$SUDO_USER" ]; then
+            TARGET_USER="$SUDO_USER"
+            echo "MHSS: SUDO_USER bulundu: $TARGET_USER" >> "$LOG_FILE"
+        elif [ -n "$PKEXEC_UID" ]; then
+            TARGET_USER=$(getent passwd "$PKEXEC_UID" | cut -d: -f1)
+            echo "MHSS: PKEXEC_UID kullanici: $TARGET_USER" >> "$LOG_FILE"
+        else
+            TARGET_USER=$(logname 2>/dev/null || true)
+            if [ -z "$TARGET_USER" ] || [ "$TARGET_USER" = "root" ]; then
+                # Aktif oturumdaki kullanıcıları bul
+                TARGET_USER=$(who | grep -v "^root " | awk '{print $1}' | head -n 1)
+                echo "MHSS: who komutu kullanici: $TARGET_USER" >> "$LOG_FILE"
+            fi
+        fi
+
+        if [ -z "$TARGET_USER" ] || [ "$TARGET_USER" = "root" ]; then
+            echo "MHSS: HATA - Hedef kullanici tespit edilemedi!" >> "$LOG_FILE"
+        else
+            USER_HOME=$(getent passwd "$TARGET_USER" | cut -d: -f6)
+            echo "MHSS: Hedef kullanici: $TARGET_USER, Ev dizini: $USER_HOME" >> "$LOG_FILE"
+
+            if [ -n "$USER_HOME" ]; then
+                # Masaüstü dizinini bul
+                DESKTOP_DIR=""
+                for d in "$USER_HOME/Desktop" "$USER_HOME/Masaüstü" "$USER_HOME/masaüstü"; do
+                    if [ -d "$d" ]; then
+                        DESKTOP_DIR="$d"
+                        break
+                    fi
+                done
+
+                if [ -z "$DESKTOP_DIR" ]; then
+                    DESKTOP_DIR=$(su - "$TARGET_USER" -c 'xdg-user-dir DESKTOP' 2>/dev/null || true)
+                    echo "MHSS: xdg-user-dir sonucu: $DESKTOP_DIR" >> "$LOG_FILE"
+                fi
+
+                if [ -n "$DESKTOP_DIR" ] && [ -d "$DESKTOP_DIR" ]; then
+                    cp /usr/share/applications/mhss.desktop "$DESKTOP_DIR/mhss.desktop"
+                    chown "$TARGET_USER:$TARGET_USER" "$DESKTOP_DIR/mhss.desktop"
+                    chmod +x "$DESKTOP_DIR/mhss.desktop"
+                    echo "MHSS: Masaustune baslatici eklendi: $DESKTOP_DIR/mhss.desktop" >> "$LOG_FILE"
+                else
+                    echo "MHSS: HATA - Masaustu dizini bulunamadi! Dizin: $DESKTOP_DIR" >> "$LOG_FILE"
+                fi
+            else
+                echo "MHSS: HATA - Kullanici ev dizini bulunamadi!" >> "$LOG_FILE"
+            fi
+        fi
+
+        echo "MHSS postinst tamamlandi: $(date)" >> "$LOG_FILE"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

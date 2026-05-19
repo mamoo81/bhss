@@ -40,6 +40,8 @@ public:
     LoginForm(QWidget *parent = nullptr);
     ~LoginForm();
 
+
+
     Veritabani vt = Veritabani();
 
     QSoundEffect uyariSesi;

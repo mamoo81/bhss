@@ -1,8 +1,8 @@
 Package: mhss
-Version: 0.4.0-1
+Version: 0.4.1-1
 Architecture: amd64
 Maintainer: mamoo <mamoo81@gmail.com>
-Installed-Size: 5868
+Installed-Size: 5870
 Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libqt6charts6 (>= 6.6.1), libqt6core6t64 (>= 6.8.2), libqt6gui6 (>= 6.1.2), libqt6multimedia6 (>= 6.6.1), libqt6network6 (>= 6.1.2), libqt6printsupport6 (>= 6.1.2), libqt6serialport6 (>= 6.6.0), libqt6sql6 (>= 6.8.2), libqt6widgets6 (>= 6.1.2), libstdc++6 (>= 5), libqt6sql6-psql, zint, postgresql, postgresql-client
 Section: utils
 Priority: optional

@@ -76,7 +76,8 @@ QStringList Veritabani::getSonIslemler()
 bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
     // -h localhost kaldırıldı (Unix socket + local/trust auth)
-    QString yedeklemeKomutu = "pg_dump -Fc mhss_data > " + _dirNameAndFileName + ".sql";
+    // --no-password: şifre sormayı engelle (askıda kalmasın)
+    QString yedeklemeKomutu = "pg_dump --no-password -Fc mhss_data > " + _dirNameAndFileName + ".sql";
     int exitCode = system(qPrintable(yedeklemeKomutu));
     return (exitCode == 0);
 }
@@ -114,13 +115,22 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     // -h localhost kaldırıldı (Unix socket kullan, local/trust auth ile çalışsın)
     // --no-password: şifre sormayı engelle (askıda kalmasın)
     QProcess prcs;
+    QEventLoop loop;
+    QObject::connect(&prcs, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            &loop, &QEventLoop::quit);
     prcs.start("pg_restore", QStringList() << "--no-owner" << "--no-password" << "-d" << "mhss_data" << _dosyaYolu);
-    prcs.waitForFinished(120000);
+    if(!prcs.waitForStarted(5000)){
+        qDebug() << "pg_restore başlatılamadı:" << prcs.errorString();
+        QFile(_dosyaYolu).remove();
+        return false;
+    }
+    loop.exec();
     QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
     QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
     if(!stdoutStr.isEmpty()) qDebug() << "pg_restore stdout:" << stdoutStr;
     if(!stderrStr.isEmpty()) qDebug() << "pg_restore stderr:" << stderrStr;
     qDebug() << "pg_restore exit code:" << prcs.exitCode();
+    bool restoreOk = (prcs.exitCode() == 0);
     QFile(_dosyaYolu).remove();
 
     // Bağlantıyı tekrar aç
@@ -128,6 +138,7 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     if(!db.open()){
         qDebug() << "mhss_data yeniden açılamadı:" << db.lastError().text();
     }
+    return restoreOk;
 
     return (prcs.exitCode() == 0);
 }

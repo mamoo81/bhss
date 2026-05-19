@@ -1,6 +1,6 @@
-dae43192a04c851b162d6e6114c0e8d1  usr/bin/mhss
+d2fd8dcf3a3dc50b1fa8cd86d8e377a2  usr/bin/mhss
 413413bc7775b6d4c3ddda459ce1a33a  usr/share/applications/mhss.desktop
-3f5dbb06df677716c2c2bd5d2d1dec12  usr/share/doc/mhss/changelog.Debian.gz
+3c44eac8eda1535f25fce0f8b5117733  usr/share/doc/mhss/changelog.Debian.gz
 397b1ceed28bd702e0c5b4553ed436bf  usr/share/doc/mhss/copyright
 c8d03fc89cdab21793acd98513bb823c  usr/share/icons/mhss.png
 0dff3dddd5573e0c28fb03ae6910e9aa  usr/share/mhss/db_migrate_v0.2.8.sql
