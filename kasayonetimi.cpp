@@ -63,6 +63,7 @@ QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDate
                           "ORDER BY kasahareketleri.id DESC")
                       .arg(baslangicTarih.toString(Qt::ISODate))
                       .arg(bitisTarih.toString(Qt::ISODate));
+    qDebug() << "getKasaHareketleri SQL:" << sql;
     kasaHareketlerimodel->clear();
     kasaHareketlerimodel->setQuery(sql, db);
     kasaHareketlerimodel->setHeaderData(0, Qt::Horizontal, "ID");
@@ -172,23 +173,12 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
                               .arg(netKar)
                               .arg(evrakno.isEmpty() ? QString() : evrakno.replace("'", "''"))
                               .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
+            qDebug() << "KasaHareketiEkle SQL:" << sql;
             q.exec(sql);
             if(q.lastError().isValid()){
                 qDebug() << qPrintable(q.lastError().text());
             }
         }
-        QMessageBox msg(0);
-        msg.setWindowTitle("Bilgi");
-        msg.setIcon(QMessageBox::Information);
-        if(hareket == KasaHareketi::Giris){// hareket giriş ise
-            msg.setText("Kasaya " + QString::number(tutar, 'f', 2) + " TL giriş yapıldı.");
-        }
-        else if(hareket == KasaHareketi::Cikis){// hareket çıkış ise
-            msg.setText("Kasadan " + QString::number(tutar, 'f', 2) + " TL çıkış yapıldı.");
-        }
-        msg.setStandardButtons(QMessageBox::Ok);
-        // msg.setButtonText(QMessageBox::Ok, "Tamam");
-        msg.exec();
         return 1;
     }
     return 0;

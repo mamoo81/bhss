@@ -56,6 +56,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
                              toplam,
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
+                             FaturaNo,
                              satilacakSepet.getSepettekiKazanc());
 
             if(satilacakSepet.getFazlaTutarAlacaklandir()){
@@ -83,6 +84,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
                              odenen,
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
+                             FaturaNo,
                              satilacakSepet.getSepettekiKazanc());
         }
     }
@@ -227,7 +229,7 @@ void FaturaYonetimi::iadeAl(Sepet iadeSepet, User kullanici)
             qDebug() << qPrintable(q.lastError().text());
         }
     }
-    kasaYonetimi.KasaHareketiEkle(kullanici, KasaYonetimi::KasaHareketi::Iade, iadeSepet.sepetToplamTutari(), ("İADE İŞLEMİ:" + iadeFaturaNo), QDateTime::currentDateTime(), -iadeSepet.getSepettekiKazanc());
+    kasaYonetimi.KasaHareketiEkle(kullanici, KasaYonetimi::KasaHareketi::Iade, iadeSepet.sepetToplamTutari(), ("İADE İŞLEMİ:" + iadeFaturaNo), QDateTime::currentDateTime(), iadeFaturaNo, -iadeSepet.getSepettekiKazanc());
     //sepetteki iade ürünlerin stok hareketlerine girişi
     for (auto urun : iadeSepet.urunler) {
         QSqlQuery q(db);
