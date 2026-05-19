@@ -16,7 +16,7 @@ Vcs-Git: https://github.com/mamoo81/bhss.git
 
 Package: mhss
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, zint, postgresql, postgresql-client
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt6sql6-psql, zint, postgresql, postgresql-client
 Description: MHSS - Market Hizli Satis Sistemi
  MHSS (Market Hizli Satis Sistemi), magazalar ve marketler icin
  barkodlu satis, stok takibi, cari hesap ve kasa yonetimi

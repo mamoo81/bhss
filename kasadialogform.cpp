@@ -73,13 +73,15 @@ void KasaDialogForm::KasaHareketleriListele()
     // kasa hareketlerini getirme
     ui->KasaHareketleritableView->setModel(kasaYonetimi.getKasaHareketleri(baslangicTarih, bitisTarih));
     ui->KasaHareketleritableView->setSortingEnabled(true);
-    ui->KasaHareketleritableView->resizeColumnsToContents();
     ui->KasaHareketleritableView->hideColumn(0);
     ui->KasaHareketleritableView->clearSelection();
-    // evrakno sütunu boşsa bile minimum genişlik ayarla
-    if(ui->KasaHareketleritableView->columnWidth(5) < 80){
-        ui->KasaHareketleritableView->setColumnWidth(5, 80);
-    }
+    // sabit sütun genişlikleri (resizeColumnsToContents boş hücreleri 0 yapıyordu)
+    ui->KasaHareketleritableView->setColumnWidth(1, 80);  // Hareket
+    ui->KasaHareketleritableView->setColumnWidth(2, 90);  // Miktar
+    ui->KasaHareketleritableView->setColumnWidth(3, 140); // Tarih
+    ui->KasaHareketleritableView->setColumnWidth(4, 100); // Kullanici
+    ui->KasaHareketleritableView->setColumnWidth(5, 120); // Evrak No
+    ui->KasaHareketleritableView->setColumnWidth(6, 200); // Açıklama
     // kasaya toplam giren parayı getirme
     ui->ToplamGirislabel->setText("₺" + QString::number(kasaYonetimi.getKasaToplamGiren(baslangicTarih, bitisTarih), 'f', 2));
     // kasadan toplam çıkan parayı getirme
