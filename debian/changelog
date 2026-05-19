@@ -1,3 +1,10 @@
+mhss (0.4.1-1) unstable; urgency=medium
+
+  * Kullanıcı ekleme/güncelleme boolean hatası düzeltildi (TRUE/FALSE)
+  * veritabani.cpp: QString::number(bool) yerine ternary operator kullanılıyor
+
+ -- mamoo <mamoo81@gmail.com>  Wed, 20 May 2026 00:05:00 +0300
+
 mhss (0.4.0-1) unstable; urgency=medium
 
   * Satış/iade yapıldığında kasa hareketlerine evrak no (fatura no) otomatik yazılıyor

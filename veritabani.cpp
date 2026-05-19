@@ -301,11 +301,11 @@ bool Veritabani::updateUser(User _NewUserInfos)
     query.exec(QString("UPDATE kullanicilar SET password = '%1', ad = '%2', soyad = '%3', cepno = '%4', tarih = '%5', kasayetki = %6, iadeyetki = %7, stokyetki = %8, ayaryetki = %9, cariyetki = %10 WHERE id = %11")
         .arg(pw, ad, soyad, cepno,
              _NewUserInfos.getTarih().toString("yyyy-MM-dd hh:mm:ss"),
-             QString::number(_NewUserInfos.getKasaYetki()),
-             QString::number(_NewUserInfos.getIadeYetki()),
-             QString::number(_NewUserInfos.getStokYetki()),
-             QString::number(_NewUserInfos.getAyaryetki()),
-             QString::number(_NewUserInfos.getCariyetki()),
+             _NewUserInfos.getKasaYetki() ? "TRUE" : "FALSE",
+             _NewUserInfos.getIadeYetki() ? "TRUE" : "FALSE",
+             _NewUserInfos.getStokYetki() ? "TRUE" : "FALSE",
+             _NewUserInfos.getAyaryetki() ? "TRUE" : "FALSE",
+             _NewUserInfos.getCariyetki() ? "TRUE" : "FALSE",
              _NewUserInfos.getUserID()));
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
@@ -325,11 +325,11 @@ bool Veritabani::CreateNewUser(User _NewUser)
     if(query.exec(QString("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki) VALUES(nextval('kullanicilar_sequence'), '%1', '%2', '%3', '%4', '%5', '%6', %7, %8, %9, %10, %11)")
         .arg(uname, pw, ad, soyad, cepno,
              _NewUser.getTarih().toString("yyyy-MM-dd hh:mm:ss"),
-             QString::number(_NewUser.getKasaYetki()),
-             QString::number(_NewUser.getIadeYetki()),
-             QString::number(_NewUser.getStokYetki()),
-             QString::number(_NewUser.getAyaryetki()),
-             QString::number(_NewUser.getCariyetki())))){
+             _NewUser.getKasaYetki() ? "TRUE" : "FALSE",
+             _NewUser.getIadeYetki() ? "TRUE" : "FALSE",
+             _NewUser.getStokYetki() ? "TRUE" : "FALSE",
+             _NewUser.getAyaryetki() ? "TRUE" : "FALSE",
+             _NewUser.getCariyetki() ? "TRUE" : "FALSE"))){
         return true;
     }
     else{
