@@ -107,18 +107,25 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
         qDebug() << yedekSorgu.lastError().text();
     }
     db.close();
-    db.setDatabaseName("mhss_data");
-    db.open();
-    QString geriYuklemeKomutu = "pg_restore --no-owner -h localhost -d mhss_data < " + _dosyaYolu;
-    int exitCode = system(qPrintable(geriYuklemeKomutu));
+
+    // pg_restore ile binary dump'ı yükle (shell redirection yerine dosya adı olarak ver)
+    QProcess prcs;
+    prcs.start("pg_restore", QStringList() << "--no-owner" << "-h" << "localhost" << "-d" << "mhss_data" << _dosyaYolu);
+    prcs.waitForFinished(120000);
+    QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
+    QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
+    if(!stdoutStr.isEmpty()) qDebug() << "pg_restore stdout:" << stdoutStr;
+    if(!stderrStr.isEmpty()) qDebug() << "pg_restore stderr:" << stderrStr;
+    qDebug() << "pg_restore exit code:" << prcs.exitCode();
     QFile(_dosyaYolu).remove();
-    if(exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut süreci normal olarak bittiyse
-        // komut başarılı
-        return true;
-    } else {
-        // komut başarısız.
-        return false;
+
+    // Bağlantıyı tekrar aç
+    db.setDatabaseName("mhss_data");
+    if(!db.open()){
+        qDebug() << "mhss_data yeniden açılamadı:" << db.lastError().text();
     }
+
+    return (prcs.exitCode() == 0);
 }
 
 bool Veritabani::veritabaniSifirla()

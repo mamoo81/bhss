@@ -1,3 +1,12 @@
+mhss (0.3.2-1) unstable; urgency=medium
+
+  * pg_restore shell redirection hatasi duzeltildi
+  * pg_restore artik dosya adini arguman olarak aliyor
+  * veritabaniYedektenGeriYukle QProcess ile calistiriliyor
+  * pg_restore stdout/stderr loglaniyor
+
+ -- mamoo <mamoo81@gmail.com>  Tue, 19 May 2026 22:15:00 +0300
+
 mhss (0.3.1-1) unstable; urgency=medium
 
   * Veritabani ilklendirme kritik hatalar duzeltildi
