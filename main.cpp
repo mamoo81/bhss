@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
         qWarning() << "Qt translator load failed";
     }
     a.installTranslator(tr_translator);
-    a.setApplicationVersion(QString("0.3.4"));
+    a.setApplicationVersion(QString("0.3.5"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 

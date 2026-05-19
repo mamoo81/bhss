@@ -74,7 +74,8 @@ QStringList Veritabani::getSonIslemler()
 
 bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
-    QString yedeklemeKomutu = "pg_dump -Fc -h localhost mhss_data > " + _dirNameAndFileName + ".sql";
+    // -h localhost kaldırıldı (Unix socket + local/trust auth)
+    QString yedeklemeKomutu = "pg_dump -Fc mhss_data > " + _dirNameAndFileName + ".sql";
     int exitCode = system(qPrintable(yedeklemeKomutu));
     return (exitCode == 0);
 }
@@ -108,9 +109,11 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     }
     db.close();
 
-    // pg_restore ile binary dump'ı yükle (shell redirection yerine dosya adı olarak ver)
+    // pg_restore ile binary dump'ı yükle
+    // -h localhost kaldırıldı (Unix socket kullan, local/trust auth ile çalışsın)
+    // --no-password: şifre sormayı engelle (askıda kalmasın)
     QProcess prcs;
-    prcs.start("pg_restore", QStringList() << "--no-owner" << "-h" << "localhost" << "-d" << "mhss_data" << _dosyaYolu);
+    prcs.start("pg_restore", QStringList() << "--no-owner" << "--no-password" << "-d" << "mhss_data" << _dosyaYolu);
     prcs.waitForFinished(120000);
     QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
     QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
