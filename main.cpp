@@ -65,7 +65,7 @@ bool runPostgresAdmin(const QString &sql)
     return true;
 }
 
-void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
+void veritabaniIlkleme(QSqlDatabase &pDB, Veritabani &pVT){
     QString currentUser = getCurrentOsUser();
     if(currentUser.isEmpty()){
         QMessageBox msg(0);
@@ -83,8 +83,15 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
     if(!roleCheck.next()){
         pDB.close();
         runPostgresAdmin(QString("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '%1') THEN CREATE ROLE %1 WITH LOGIN SUPERUSER CREATEDB; END IF; END $$;").arg(currentUser));
-        pDB.setDatabaseName("postgres");
-        pDB.open();
+        if(!pDB.open()){
+            QMessageBox err(0);
+            err.setWindowTitle("Hata");
+            err.setIcon(QMessageBox::Critical);
+            err.setText("PostgreSQL rolü oluşturuldu ancak bağlantı kurulamadı.\nLütfen servisin çalıştığından emin olun.");
+            err.setStandardButtons(QMessageBox::Ok);
+            err.exec();
+            return;
+        }
     }
 
     // Check if mhss_data exists
@@ -100,9 +107,25 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
             pDB.close();
-            runPostgresAdmin(QString("CREATE DATABASE mhss_data OWNER %1;").arg(currentUser));
+            if(!runPostgresAdmin(QString("CREATE DATABASE mhss_data OWNER %1;").arg(currentUser))){
+                QMessageBox err(0);
+                err.setWindowTitle("Hata");
+                err.setIcon(QMessageBox::Critical);
+                err.setText("mhss_data veritabanı oluşturulamadı.\nLütfen PostgreSQL servisinin çalıştığından emin olun.");
+                err.setStandardButtons(QMessageBox::Ok);
+                err.exec();
+                return;
+            }
             pDB.setDatabaseName("mhss_data");
-            pDB.open();
+            if(!pDB.open()){
+                QMessageBox err(0);
+                err.setWindowTitle("Hata");
+                err.setIcon(QMessageBox::Critical);
+                err.setText("mhss_data veritabanına bağlanılamadı.");
+                err.setStandardButtons(QMessageBox::Ok);
+                err.exec();
+                return;
+            }
 
             QMessageBox msg2(0);
             msg2.setWindowTitle("Bilgi");
@@ -120,10 +143,15 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
     else {
         pDB.close();
         pDB.setDatabaseName("mhss_data");
-        pDB.open();
-    }
-    if(pDB.lastError().isValid()){
-        qDebug() << qPrintable(pDB.lastError().text());
+        if(!pDB.open()){
+            QMessageBox err(0);
+            err.setWindowTitle("Hata");
+            err.setIcon(QMessageBox::Critical);
+            err.setText("mhss_data veritabanına bağlanılamadı.");
+            err.setStandardButtons(QMessageBox::Ok);
+            err.exec();
+            return;
+        }
     }
 }
 
@@ -138,7 +166,7 @@ int main(int argc, char *argv[])
         qWarning() << "Qt translator load failed";
     }
     a.installTranslator(tr_translator);
-    a.setApplicationVersion(QString("0.3.0"));
+    a.setApplicationVersion(QString("0.3.1"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
@@ -195,53 +223,93 @@ int main(int argc, char *argv[])
     else{
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisine bağlanılamadı! Yüklenilsin mi?\n\nDikkat bu işlem:\n\"/etc/postgresql/<versiyon>/main/pg_hba.conf\"\ndosyasını değiştirecek.\nEğer başka bir uygulama için özel bir ayar barındırıyorsa yedek alın ve gözden geçirin.\n\nİşlem için bir kaç kez root şifresi isteyebilir.");
+        msg.setText("PostgreSQL servisine bağlanılamadı!\n\nOtomatik kurulum yapılsın mı?\n\nDikkat:\n- Bu işlem pg_hba.conf dosyasını değiştirecek.\n- Root şifresi isteyebilir.\n\nVeya terminalde şunu çalıştırabilirsiniz:\nsudo apt install postgresql\nsudo systemctl start postgresql");
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         if(msg.exec() == QMessageBox::Yes){
 
-            // postgresql in yüklenmesi
-            QProcess *prcs = new QProcess();
-            prcs->start("pkexec", {"apt", "install", "postgresql", "-y"});
-            msg.setWindowTitle("Paketler kuruluyor... Lütfen bekleyin.");
-            msg.setText("PostgreSQL kuruluyor... Lütfen bekleyin.");
-            msg.setStandardButtons(QMessageBox::NoButton);
-            msg.open();
-            prcs->waitForFinished(300000);
-            qDebug() << prcs->readAllStandardOutput().toStdString().c_str();
-            prcs->kill();
-            msg.close();
-            msg.setText("PostgreSQL kuruldu.");
-            msg.setStandardButtons(QMessageBox::Ok);
-            msg.exec();
+            // postgresql kurulu mu kontrol et
+            QProcess checkPsql;
+            checkPsql.start("dpkg", QStringList() << "-l" << "postgresql");
+            checkPsql.waitForFinished(10000);
+            QString checkOutput = QString::fromLocal8Bit(checkPsql.readAllStandardOutput());
+            bool psqlInstalled = checkOutput.contains("postgresql");
 
-            // pg_hba.conf dosyasını değiştir. trust
-            QFile pg_hba(":/dosyalar/pg_hba.conf");
-            pg_hba.copy(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/pg_hba.conf");
-            QDir etcpostgresql("/etc/postgresql/");
-            QStringList psqlDirList = etcpostgresql.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-            for (QString dirName : psqlDirList) {
-                QProcess *prcs2 = new QProcess();
-                prcs2->start("pkexec", {"cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
-                prcs2->waitForFinished();
-                qDebug() << prcs2->readAllStandardOutput().toStdString().c_str();
-                qDebug() << "pg_hba.conf aktarımı tamamlandı.";
-                prcs2->kill();
+            if(!psqlInstalled){
+                // postgresql in yüklenmesi
+                QProcess *prcs = new QProcess();
+                prcs->start("pkexec", QStringList() << "apt" << "install" << "postgresql" << "-y");
+                msg.setWindowTitle("Paketler kuruluyor...");
+                msg.setText("PostgreSQL kuruluyor... Lütfen bekleyin.");
+                msg.setStandardButtons(QMessageBox::NoButton);
+                msg.open();
+                prcs->waitForFinished(300000);
+                qDebug() << prcs->readAllStandardOutput().toStdString().c_str();
+                qDebug() << prcs->readAllStandardError().toStdString().c_str();
+                prcs->kill();
+                msg.close();
+                msg.setText("PostgreSQL kurulumu tamamlandı.");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+            }
+
+            // pg_hba.conf dosyasını sed ile güncelle (peer/md5 -> trust)
+            QProcess prcs_hba;
+            prcs_hba.start("pkexec", QStringList() << "bash" << "-c" <<
+                           "for f in /etc/postgresql/*/main/pg_hba.conf; do "
+                           "sed -i 's/peer/trust/g' \"$f\"; "
+                           "sed -i 's/md5/trust/g' \"$f\"; "
+                           "sed -i 's/scram-sha-256/trust/g' \"$f\"; "
+                           "done");
+            prcs_hba.waitForFinished(30000);
+            qDebug() << prcs_hba.readAllStandardOutput().toStdString().c_str();
+            qDebug() << prcs_hba.readAllStandardError().toStdString().c_str();
+            qDebug() << "pg_hba.conf güncellendi.";
+
+            // Cluster kontrolü ve oluşturma
+            QProcess prcs_ls;
+            prcs_ls.start("pg_lsclusters");
+            prcs_ls.waitForFinished(10000);
+            QString clusterOutput = QString::fromLocal8Bit(prcs_ls.readAllStandardOutput()).trimmed();
+            if(clusterOutput.isEmpty()){
+                QProcess prcs_create;
+                prcs_create.start("pkexec", QStringList() << "bash" << "-c" <<
+                                  "ver=$(pg_lsclusters 2>/dev/null | awk 'NR==2{print $1}'); "
+                                  "if [ -z \"$ver\" ]; then ver=$(ls /usr/lib/postgresql/ 2>/dev/null | sort -V | tail -n 1); fi; "
+                                  "if [ -n \"$ver\" ]; then pg_createcluster $ver main --start; fi");
+                prcs_create.waitForFinished(30000);
+                qDebug() << prcs_create.readAllStandardOutput().toStdString().c_str();
+                qDebug() << prcs_create.readAllStandardError().toStdString().c_str();
             }
 
             // postgresql servisini yeniden başlatma
             QProcess *prcs3 = new QProcess();
-            prcs3->start("pkexec", {"systemctl", "restart", "postgresql"});
-            prcs3->waitForFinished();
+            prcs3->start("pkexec", QStringList() << "systemctl" << "restart" << "postgresql");
+            prcs3->waitForFinished(30000);
             qDebug() << prcs3->readAllStandardOutput().toStdString().c_str();
-            qDebug()<< "Postgresql Servisi yeniden başlatıldı.";
+            qDebug() << "Postgresql Servisi yeniden başlatıldı.";
             prcs3->kill();
 
-            // Create DB role for current user
-            runPostgresAdmin(QString("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '%1') THEN CREATE ROLE %1 WITH LOGIN SUPERUSER CREATEDB; END IF; END $$;").arg(currentUser));
+            // Yeni bağlantı nesnesi oluştur (eski kapalı olabilir)
+            QSqlDatabase::removeDatabase("mhss_data");
+            db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
+            db.setHostName("localhost");
+            db.setUserName(currentUser);
 
-            veritabaniIlkleme(db, vt);
+            if(db.open()){
+                // Create DB role for current user
+                runPostgresAdmin(QString("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '%1') THEN CREATE ROLE %1 WITH LOGIN SUPERUSER CREATEDB; END IF; END $$;").arg(currentUser));
+                veritabaniIlkleme(db, vt);
+            }
+            else{
+                QMessageBox err(0);
+                err.setWindowTitle("Hata");
+                err.setIcon(QMessageBox::Critical);
+                err.setText("PostgreSQL servisine hala bağlanılamadı.\n\nLütfen terminalde şu komutları çalıştırın:\n\nsudo apt install postgresql\nsudo systemctl start postgresql\nsudo systemctl enable postgresql\n\nArdından programı yeniden başlatın.");
+                err.setStandardButtons(QMessageBox::Ok);
+                err.exec();
+            }
         }
     }
     LoginForm w;
