@@ -145,18 +145,37 @@ bool Veritabani::veritabaniSifirla()
     // veritabani sıfırlandığı için hizli butonları da sıfırla
     QSettings hizlibutonlariINI(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/mhss/hizlibutonlar.ini", QSettings::IniFormat);
     hizlibutonlariINI.clear();
-    QFile mhss_data_sifir(":/dosyalar/dosyalar/mhss_data.sql");
-    if(!QFileInfo().exists("/tmp/mhss_data.sql")){
-        mhss_data_sifir.copy("/tmp/mhss_data.sql");
-    }
-    QFile dosya("/tmp/mhss_data.sql");
-//    qDebug() << QFileInfo(dosya).absoluteFilePath();
-    if(veritabaniYedektenGeriYukle(QFileInfo(dosya).absoluteFilePath())){
-        return true;
-    }
-    else{
+
+    // Schema SQL dosyasını geçici konuma çıkar (psql stdin/file olarak çalıştırabilmek için)
+    QFile schemaRes(":/dosyalar/dosyalar/mhss_schema.sql");
+    if(!schemaRes.open(QIODevice::ReadOnly)){
+        qDebug() << "Schema dosyası açılamadı:" << schemaRes.errorString();
         return false;
     }
+    QByteArray sqlData = schemaRes.readAll();
+    schemaRes.close();
+
+    QFile tempSql("/tmp/mhss_schema.sql");
+    if(!tempSql.open(QIODevice::WriteOnly | QIODevice::Truncate)){
+        qDebug() << "Geçici dosya oluşturulamadı:" << tempSql.errorString();
+        return false;
+    }
+    tempSql.write(sqlData);
+    tempSql.close();
+
+    // psql ile schema'yı çalıştır (COPY, SEQUENCE, CONSTRAINT hepsi desteklenir)
+    QProcess prcs;
+    prcs.start("psql", QStringList() << "-d" << "mhss_data" << "-f" << "/tmp/mhss_schema.sql");
+    prcs.waitForFinished(120000);
+    QString stdoutStr = QString::fromLocal8Bit(prcs.readAllStandardOutput());
+    QString stderrStr = QString::fromLocal8Bit(prcs.readAllStandardError());
+    if(!stdoutStr.isEmpty()) qDebug() << "psql stdout:" << stdoutStr;
+    if(!stderrStr.isEmpty()) qDebug() << "psql stderr:" << stderrStr;
+    qDebug() << "psql exit code:" << prcs.exitCode();
+
+    tempSql.remove();
+
+    return (prcs.exitCode() == 0);
 }
 
 void Veritabani::setHizliButon(StokKarti _stokKarti)

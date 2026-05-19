@@ -89,5 +89,6 @@
         <file>mhss.desktop</file>
         <file>dosyalar/mhss_data_eski.sql</file>
         <file>dosyalar/mhss_data.sql</file>
+        <file>dosyalar/mhss_schema.sql</file>
     </qresource>
 </RCC>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=0.2.5
+Name=mhss
+GenericName=Milis Fast Selling System
+GenericName[tr]=Milis Hızlı Satış Sistemi
+Comment=Barcode sales system for small businesses
+Comment[tr]=Küçük ölçekli işletmeler için barkodlu satış sistemi
+Icon=/usr/share/icons/mhss.png
+Exec=/usr/bin/mhss
+Terminal=false
+Categories=System;Monitor;General;
+Keywords=system;sales;selling;barcode;barkod;hızlı;satış;

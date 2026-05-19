@@ -124,28 +124,24 @@ void veritabaniIlkleme(QSqlDatabase &pDB, Veritabani &pVT, SudoRunner &sudo, QSt
     QSqlQuery sorgu(pDB);
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
-        QMessageBox msg(0);
-        msg.setText("Veritabanı bulunamadı.\n\nSıfırdan oluşturmak ister misiniz?");
-        msg.setWindowTitle("Dikkat");
-        msg.setIcon(QMessageBox::Question);
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msg.setDefaultButton(QMessageBox::No);
-        int cevap = msg.exec();
-        if(cevap == QMessageBox::Yes){
-            pDB.close();
-            if(!runPostgresAdmin(sudo, QString("CREATE DATABASE mhss_data OWNER %1;").arg(currentUser))){
-                outErrors += "mhss_data veritabanı oluşturulamadı.\n";
-                return;
-            }
-            pDB.setDatabaseName("mhss_data");
-            if(!pDB.open()){
-                outErrors += "mhss_data veritabanına bağlanılamadı.\n";
-                return;
-            }
+        qDebug() << "mhss_data bulunamadi, otomatik olusturuluyor...";
+        pDB.close();
+        if(!runPostgresAdmin(sudo, QString("CREATE DATABASE mhss_data OWNER %1;").arg(currentUser))){
+            outErrors += "mhss_data veritabanı oluşturulamadı.\n";
+            return;
+        }
+        pDB.setDatabaseName("mhss_data");
+        if(!pDB.open()){
+            outErrors += "mhss_data veritabanına bağlanılamadı.\n";
+            return;
+        }
 
-            if(!pVT.veritabaniSifirla()){
-                outErrors += "Veritabanı şeması yüklenemedi (pg_restore başarısız).\n";
-            }
+        qDebug() << "Schema yukleniyor...";
+        if(!pVT.veritabaniSifirla()){
+            outErrors += "Veritabanı şeması yüklenemedi (pg_restore başarısız).\n";
+        }
+        else {
+            qDebug() << "Schema basariyla yuklendi.";
         }
     }
     else {
@@ -218,92 +214,147 @@ int main(int argc, char *argv[])
     SudoRunner sudo;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
-    db.setHostName("localhost");
+    db.setHostName(""); // Unix domain socket kullan (local auth satırı çalışsın)
     db.setUserName(currentUser);
-    db.setDatabaseName("postgres"); // İlk bağlantı için postgres DB (her zaman vardır)
     Veritabani vt;
 
-    qDebug() << "DB bağlantı deneniyor:" << currentUser << "@localhost/postgres";
+    // Önce mhss_data veritabanına doğrudan bağlanmayı dene
+    db.setDatabaseName("mhss_data");
+    qDebug() << "DB bağlantı deneniyor:" << currentUser << "@unix_socket/mhss_data";
 
     if(db.open()){
-        qDebug() << "DB bağlantısı başarılı.";
-        veritabaniIlkleme(db, vt, sudo, initErrors);
+        qDebug() << "mhss_data bağlantısı başarılı.";
     }
-    else{
-        qDebug() << "DB bağlantı hatası:" << db.lastError().text();
-        QMessageBox msg(0);
-        msg.setWindowTitle("Uyarı");
-        msg.setText(QString("PostgreSQL servisine bağlanılamadı!\n\nHata: %1\n\nKullanıcı: %2\n\nOtomatik kurulum yapılsın mı?\n\nDikkat:\n- Bu işlem pg_hba.conf dosyasını değiştirecek.\n- Bir kez root şifresi istenecek.\n\nVeya terminalde şunu çalıştırabilirsiniz:\nsudo apt install postgresql\nsudo systemctl start postgresql")
-            .arg(db.lastError().text(), currentUser));
-        msg.setIcon(QMessageBox::Information);
-        msg.setDefaultButton(QMessageBox::Ok);
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        if(msg.exec() == QMessageBox::Yes){
-            if(!sudo.askPassword(nullptr)){
-                initErrors += "Yönetici şifresi girilmedi.\n";
+    else {
+        QString errText = db.lastError().text();
+        qDebug() << "mhss_data bağlantı hatası:" << errText;
+
+        // mhss_data yoksa postgres DB'sine bağlan (her zaman vardır)
+        db.setDatabaseName("postgres");
+        qDebug() << "DB bağlantı deneniyor:" << currentUser << "@unix_socket/postgres";
+
+        if(db.open()){
+            qDebug() << "postgres bağlantısı başarılı. veritabaniIlkleme() çağrılıyor.";
+            veritabaniIlkleme(db, vt, sudo, initErrors);
+        }
+        else {
+            QString errText2 = db.lastError().text();
+            qDebug() << "postgres bağlantı hatası:" << errText2;
+
+            // Eğer hata "rol mevcut değil" ise, rol oluşturup tekrar dene
+            if(errText2.contains("rolü mevcut değil", Qt::CaseInsensitive) ||
+               errText2.contains("role does not exist", Qt::CaseInsensitive)){
+
+                QMessageBox msg(0);
+                msg.setWindowTitle("PostgreSQL Rolü Eksik");
+                msg.setText(QString("'%1' PostgreSQL kullanıcı rolü mevcut değil.\n\nOtomatik oluşturulsun mu?\n\nRoot şifresi istenecek.").arg(currentUser));
+                msg.setIcon(QMessageBox::Question);
+                msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                msg.setDefaultButton(QMessageBox::Yes);
+                if(msg.exec() == QMessageBox::Yes){
+                    if(!sudo.askPassword(nullptr)){
+                        initErrors += "Yönetici şifresi girilmedi, rol oluşturulamadı.\n";
+                    }
+                    else {
+                        sudo.run(QStringList() << "bash" << "-c" <<
+                                 "for f in /etc/postgresql/*/main/pg_hba.conf; do "
+                                 "sed -i 's/peer/trust/g' \"$f\"; "
+                                 "sed -i 's/md5/trust/g' \"$f\"; "
+                                 "sed -i 's/scram-sha-256/trust/g' \"$f\"; "
+                                 "done");
+                        sudo.run(QStringList() << "systemctl" << "restart" << "postgresql");
+
+                        if(!sudo.run(QStringList() << "-u" << "postgres" << "createuser" << "--superuser" << "--createdb" << currentUser)){
+                            initErrors += "PostgreSQL rolü oluşturulamadı.\n";
+                        }
+                        else {
+                            QSqlDatabase::removeDatabase("mhss_data");
+                            db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
+                            db.setHostName("");
+                            db.setUserName(currentUser);
+                            db.setDatabaseName("postgres");
+                            if(db.open()){
+                                veritabaniIlkleme(db, vt, sudo, initErrors);
+                            }
+                            else{
+                                initErrors += "Rol oluşturuldu ama bağlantı kurulamadı: " + db.lastError().text() + "\n";
+                            }
+                        }
+                    }
+                }
             }
             else {
-                // postgresql kurulu mu kontrol et
-                QProcess checkPsql;
-                checkPsql.start("dpkg", QStringList() << "-l" << "postgresql");
-                checkPsql.waitForFinished(10000);
-                QString checkOutput = QString::fromLocal8Bit(checkPsql.readAllStandardOutput());
-                bool psqlInstalled = checkOutput.contains("postgresql");
-
-                if(!psqlInstalled){
-                    msg.setWindowTitle("Paketler kuruluyor...");
-                    msg.setText("PostgreSQL kuruluyor... Lütfen bekleyin.");
-                    msg.setStandardButtons(QMessageBox::NoButton);
-                    msg.open();
-                    if(!sudo.run(QStringList() << "apt" << "install" << "postgresql" << "-y")){
-                        initErrors += "PostgreSQL paketi kurulamadı.\n";
+                // Diğer hatalar (servis çalışmıyor vs.)
+                QMessageBox msg(0);
+                msg.setWindowTitle("Uyarı");
+                msg.setText(QString("PostgreSQL servisine bağlanılamadı!\n\nHata: %1\n\nKullanıcı: %2\n\nOtomatik kurulum yapılsın mı?\n\nDikkat:\n- Bu işlem pg_hba.conf dosyasını değiştirecek.\n- Bir kez root şifresi istenecek.\n\nVeya terminalde şunu çalıştırabilirsiniz:\nsudo apt install postgresql\nsudo systemctl start postgresql")
+                    .arg(errText2, currentUser));
+                msg.setIcon(QMessageBox::Information);
+                msg.setDefaultButton(QMessageBox::Ok);
+                msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                if(msg.exec() == QMessageBox::Yes){
+                    if(!sudo.askPassword(nullptr)){
+                        initErrors += "Yönetici şifresi girilmedi.\n";
                     }
-                    msg.close();
-                    msg.setText("PostgreSQL kurulumu tamamlandı.");
-                    msg.setStandardButtons(QMessageBox::Ok);
-                    msg.exec();
-                }
+                    else {
+                        QProcess checkPsql;
+                        checkPsql.start("dpkg", QStringList() << "-l" << "postgresql");
+                        checkPsql.waitForFinished(10000);
+                        QString checkOutput = QString::fromLocal8Bit(checkPsql.readAllStandardOutput());
+                        bool psqlInstalled = checkOutput.contains("postgresql");
 
-                // pg_hba.conf dosyasını sed ile güncelle (peer/md5 -> trust)
-                if(!sudo.run(QStringList() << "bash" << "-c" <<
-                               "for f in /etc/postgresql/*/main/pg_hba.conf; do "
-                               "sed -i 's/peer/trust/g' \"$f\"; "
-                               "sed -i 's/md5/trust/g' \"$f\"; "
-                               "sed -i 's/scram-sha-256/trust/g' \"$f\"; "
-                               "done")){
-                    initErrors += "pg_hba.conf güncellenemedi.\n";
-                }
+                        if(!psqlInstalled){
+                            msg.setWindowTitle("Paketler kuruluyor...");
+                            msg.setText("PostgreSQL kuruluyor... Lütfen bekleyin.");
+                            msg.setStandardButtons(QMessageBox::NoButton);
+                            msg.open();
+                            if(!sudo.run(QStringList() << "apt" << "install" << "postgresql" << "-y")){
+                                initErrors += "PostgreSQL paketi kurulamadı.\n";
+                            }
+                            msg.close();
+                            msg.setText("PostgreSQL kurulumu tamamlandı.");
+                            msg.setStandardButtons(QMessageBox::Ok);
+                            msg.exec();
+                        }
 
-                // Cluster kontrolü ve oluşturma
-                QProcess prcs_ls;
-                prcs_ls.start("pg_lsclusters");
-                prcs_ls.waitForFinished(10000);
-                QString clusterOutput = QString::fromLocal8Bit(prcs_ls.readAllStandardOutput()).trimmed();
-                if(clusterOutput.isEmpty()){
-                    if(!sudo.run(QStringList() << "bash" << "-c" <<
-                                      "ver=$(pg_lsclusters 2>/dev/null | awk 'NR==2{print $1}'); "
-                                      "if [ -z \"$ver\" ]; then ver=$(ls /usr/lib/postgresql/ 2>/dev/null | sort -V | tail -n 1); fi; "
-                                      "if [ -n \"$ver\" ]; then pg_createcluster $ver main --start; fi")){
-                        initErrors += "PostgreSQL cluster oluşturulamadı.\n";
+                        if(!sudo.run(QStringList() << "bash" << "-c" <<
+                                       "for f in /etc/postgresql/*/main/pg_hba.conf; do "
+                                       "sed -i 's/peer/trust/g' \"$f\"; "
+                                       "sed -i 's/md5/trust/g' \"$f\"; "
+                                       "sed -i 's/scram-sha-256/trust/g' \"$f\"; "
+                                       "done")){
+                            initErrors += "pg_hba.conf güncellenemedi.\n";
+                        }
+
+                        QProcess prcs_ls;
+                        prcs_ls.start("pg_lsclusters");
+                        prcs_ls.waitForFinished(10000);
+                        QString clusterOutput = QString::fromLocal8Bit(prcs_ls.readAllStandardOutput()).trimmed();
+                        if(clusterOutput.isEmpty()){
+                            if(!sudo.run(QStringList() << "bash" << "-c" <<
+                                              "ver=$(pg_lsclusters 2>/dev/null | awk 'NR==2{print $1}'); "
+                                              "if [ -z \"$ver\" ]; then ver=$(ls /usr/lib/postgresql/ 2>/dev/null | sort -V | tail -n 1); fi; "
+                                              "if [ -n \"$ver\" ]; then pg_createcluster $ver main --start; fi")){
+                                initErrors += "PostgreSQL cluster oluşturulamadı.\n";
+                            }
+                        }
+
+                        if(!sudo.run(QStringList() << "systemctl" << "restart" << "postgresql")){
+                            initErrors += "PostgreSQL servisi yeniden başlatılamadı.\n";
+                        }
+
+                        QSqlDatabase::removeDatabase("mhss_data");
+                        db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
+                        db.setHostName("");
+                        db.setUserName(currentUser);
+
+                        if(db.open()){
+                            veritabaniIlkleme(db, vt, sudo, initErrors);
+                        }
+                        else{
+                            initErrors += "PostgreSQL servisine hala bağlanılamadı.\n";
+                        }
                     }
-                }
-
-                // postgresql servisini yeniden başlatma
-                if(!sudo.run(QStringList() << "systemctl" << "restart" << "postgresql")){
-                    initErrors += "PostgreSQL servisi yeniden başlatılamadı.\n";
-                }
-
-                // Yeni bağlantı nesnesi oluştur (eski kapalı olabilir)
-                QSqlDatabase::removeDatabase("mhss_data");
-                db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
-                db.setHostName("localhost");
-                db.setUserName(currentUser);
-
-                if(db.open()){
-                    veritabaniIlkleme(db, vt, sudo, initErrors);
-                }
-                else{
-                    initErrors += "PostgreSQL servisine hala bağlanılamadı.\n";
                 }
             }
         }
