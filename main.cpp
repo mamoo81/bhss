@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
         qWarning() << "Qt translator load failed";
     }
     a.installTranslator(tr_translator);
-    a.setApplicationVersion(QString("0.3.3"));
+    a.setApplicationVersion(QString("0.3.4"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
@@ -220,15 +220,21 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
     db.setUserName(currentUser);
+    db.setDatabaseName("postgres"); // İlk bağlantı için postgres DB (her zaman vardır)
     Veritabani vt;
 
+    qDebug() << "DB bağlantı deneniyor:" << currentUser << "@localhost/postgres";
+
     if(db.open()){
+        qDebug() << "DB bağlantısı başarılı.";
         veritabaniIlkleme(db, vt, sudo, initErrors);
     }
     else{
+        qDebug() << "DB bağlantı hatası:" << db.lastError().text();
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisine bağlanılamadı!\n\nOtomatik kurulum yapılsın mı?\n\nDikkat:\n- Bu işlem pg_hba.conf dosyasını değiştirecek.\n- Bir kez root şifresi istenecek.\n\nVeya terminalde şunu çalıştırabilirsiniz:\nsudo apt install postgresql\nsudo systemctl start postgresql");
+        msg.setText(QString("PostgreSQL servisine bağlanılamadı!\n\nHata: %1\n\nKullanıcı: %2\n\nOtomatik kurulum yapılsın mı?\n\nDikkat:\n- Bu işlem pg_hba.conf dosyasını değiştirecek.\n- Bir kez root şifresi istenecek.\n\nVeya terminalde şunu çalıştırabilirsiniz:\nsudo apt install postgresql\nsudo systemctl start postgresql")
+            .arg(db.lastError().text(), currentUser));
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
