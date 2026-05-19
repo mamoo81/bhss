@@ -1,3 +1,26 @@
+mhss (0.3.0-1) unstable; urgency=medium
+
+  * Veritabani ilklendirme tamamen yenilendi
+  * Program artik calisan OS kullanicisi ile veritabanina baglaniyor
+  * PostgreSQL 'postgres' kullanicisi sabit sifresi kaldirildi
+  * pg_hba.conf trust auth ile calisacak sekilde guncellendi
+  * Mevcut kullanici otomatik PostgreSQL SUPERUSER rolune aliniyor
+  * Stok karti arama combobox eklendi (Ad/Barkod No/Stok Kodu)
+  * F8 kisayolu ile fiyat guncelleme penceresi acilmasi eklendi
+  * Enter tusu ile stok karti arama calistirildi
+  * Barkod ile arama sonrasi asagi/yukari ok tuslari duzeltildi
+
+ -- mamoo <mamoo81@gmail.com>  Tue, 19 May 2026 21:30:00 +0300
+
+mhss (0.2.9-1) unstable; urgency=medium
+
+  * Stok karti arama combobox eklendi (Ad/Barkod No/Stok Kodu)
+  * F8 kisayolu ile fiyat guncelleme penceresi acilmasi eklendi
+  * Enter tusu ile stok karti arama calistirildi
+  * Barkod ile arama sonrasi asagi/yukari ok tuslari duzeltildi
+
+ -- mamoo <mamoo81@gmail.com>  Wed, 06 May 2026 14:00:00 +0300
+
 mhss (0.2.8-1) unstable; urgency=medium
 
   * PostgreSQL prepared statement hatasi cozuldu (exec(QString) kullanimi)

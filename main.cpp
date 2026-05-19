@@ -38,9 +38,56 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
+//***********************
+#include <unistd.h>
+#include <pwd.h>
+#include <sys/types.h>
+
+QString getCurrentOsUser()
+{
+    QString user = qgetenv("USER");
+    if(!user.isEmpty()) return user;
+    struct passwd *pw = getpwuid(getuid());
+    if(pw) return QString::fromLocal8Bit(pw->pw_name);
+    return QString();
+}
+
+bool runPostgresAdmin(const QString &sql)
+{
+    QProcess prcs;
+    prcs.start("pkexec", QStringList() << "sudo" << "-u" << "postgres" << "psql" << "-tAc" << sql);
+    prcs.waitForFinished(30000);
+    QString err = QString::fromLocal8Bit(prcs.readAllStandardError());
+    if(prcs.exitCode() != 0){
+        qDebug() << "Postgres admin failed:" << err;
+        return false;
+    }
+    return true;
+}
 
 void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
-    //mhss_data veritabanı varmı. yoksa oluştur.
+    QString currentUser = getCurrentOsUser();
+    if(currentUser.isEmpty()){
+        QMessageBox msg(0);
+        msg.setWindowTitle("Hata");
+        msg.setIcon(QMessageBox::Critical);
+        msg.setText("Sistem kullanıcısı tespit edilemedi.");
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        return;
+    }
+
+    // Ensure current user has a PostgreSQL role
+    QSqlQuery roleCheck(pDB);
+    roleCheck.exec(QString("SELECT 1 FROM pg_roles WHERE rolname = '%1'").arg(currentUser));
+    if(!roleCheck.next()){
+        pDB.close();
+        runPostgresAdmin(QString("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '%1') THEN CREATE ROLE %1 WITH LOGIN SUPERUSER CREATEDB; END IF; END $$;").arg(currentUser));
+        pDB.setDatabaseName("postgres");
+        pDB.open();
+    }
+
+    // Check if mhss_data exists
     QSqlQuery sorgu(pDB);
     sorgu.exec("SELECT datname FROM pg_database WHERE datname = 'mhss_data'");
     if(!sorgu.next()){
@@ -50,28 +97,31 @@ void veritabaniIlkleme(QSqlDatabase pDB, Veritabani &pVT){
         msg.setIcon(QMessageBox::Question);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msg.setDefaultButton(QMessageBox::No);
-        // msg.setButtonText(QMessageBox::Yes, "Evet");
-        // msg.setButtonText(QMessageBox::No, "Hayır");
         int cevap = msg.exec();
         if(cevap == QMessageBox::Yes){
-            QMessageBox msg(0);
-            msg.setWindowTitle("Bilgi");
-            msg.setIcon(QMessageBox::Information);
-            msg.setText("Veritabanı oluşturuldu");
-            msg.setStandardButtons(QMessageBox::Ok);
-            // msg.setButtonText(QMessageBox::Ok, "Tamam");
-            if(pVT.veritabaniSifirla()){// sıfırla metodu vt yi yeniden yüklediği için bunu çağırıyorum.
-                msg.exec();
+            pDB.close();
+            runPostgresAdmin(QString("CREATE DATABASE mhss_data OWNER %1;").arg(currentUser));
+            pDB.setDatabaseName("mhss_data");
+            pDB.open();
+
+            QMessageBox msg2(0);
+            msg2.setWindowTitle("Bilgi");
+            msg2.setIcon(QMessageBox::Information);
+            if(pVT.veritabaniSifirla()){
+                msg2.setText("Veritabanı oluşturuldu");
             }
             else {
-                msg.setText("Veritabanı oluşturulamadı");
-                msg.exec();
+                msg2.setText("Veritabanı oluşturulamadı");
             }
+            msg2.setStandardButtons(QMessageBox::Ok);
+            msg2.exec();
         }
     }
-    pDB.close();
-    pDB.setDatabaseName("mhss_data");
-    pDB.open();
+    else {
+        pDB.close();
+        pDB.setDatabaseName("mhss_data");
+        pDB.open();
+    }
     if(pDB.lastError().isValid()){
         qDebug() << qPrintable(pDB.lastError().text());
     }
@@ -88,7 +138,7 @@ int main(int argc, char *argv[])
         qWarning() << "Qt translator load failed";
     }
     a.installTranslator(tr_translator);
-    a.setApplicationVersion(QString("0.2.9"));
+    a.setApplicationVersion(QString("0.3.0"));
 
     QPixmap splashscreenimage(":/images/ui/basat-splash-screen.png");
 
@@ -132,10 +182,12 @@ int main(int argc, char *argv[])
         QDir().mkdir(barkodlarDizin);
     }
 
+    QString currentUser = getCurrentOsUser();
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "mhss_data");
     db.setHostName("localhost");
-    db.setUserName("postgres");
-    db.setPassword("postgres");
+    db.setUserName(currentUser);
+    // No password needed with trust auth for localhost
     Veritabani vt;
     if(db.open()){
         veritabaniIlkleme(db, vt);
@@ -143,7 +195,7 @@ int main(int argc, char *argv[])
     else{
         QMessageBox msg(0);
         msg.setWindowTitle("Uyarı");
-        msg.setText("PostgreSQL servisine bağlanılamadı! yüklenilsin mi?\n\nDikkat bu işlem:\n\"/etc/postgresql/<versiyon>/main/pg_hba.conf\"\ndosyasını değiştirecek.\nEğer başka bir uygulama için özel bir ayar barındırıyorsa yedek alın ve gözden geçirin.\n\nİşlem için bir kaç kez root şifresi isteyebilir.");
+        msg.setText("PostgreSQL servisine bağlanılamadı! Yüklenilsin mi?\n\nDikkat bu işlem:\n\"/etc/postgresql/<versiyon>/main/pg_hba.conf\"\ndosyasını değiştirecek.\nEğer başka bir uygulama için özel bir ayar barındırıyorsa yedek alın ve gözden geçirin.\n\nİşlem için bir kaç kez root şifresi isteyebilir.");
         msg.setIcon(QMessageBox::Information);
         msg.setDefaultButton(QMessageBox::Ok);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -151,22 +203,16 @@ int main(int argc, char *argv[])
 
             // postgresql in yüklenmesi
             QProcess *prcs = new QProcess();
-            if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
-
-            }
-            else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
-                prcs->start("pkexec", {"sudo", "apt", "--reinstall", "install", "postgresql", "-y"});
-            }
+            prcs->start("pkexec", {"apt", "install", "postgresql", "-y"});
             msg.setWindowTitle("Paketler kuruluyor... Lütfen bekleyin.");
-            msg.setText("postgresql kuruluyor... Lütfen bekleyin.                    .");
+            msg.setText("PostgreSQL kuruluyor... Lütfen bekleyin.");
             msg.setStandardButtons(QMessageBox::NoButton);
             msg.open();
-            if(prcs->waitForFinished()){
-                qDebug() << prcs->readAllStandardOutput().toStdString().c_str();
-                prcs->kill();
-                msg.close();
-            }
-            msg.setText("postgresql kuruldu.");
+            prcs->waitForFinished(300000);
+            qDebug() << prcs->readAllStandardOutput().toStdString().c_str();
+            prcs->kill();
+            msg.close();
+            msg.setText("PostgreSQL kuruldu.");
             msg.setStandardButtons(QMessageBox::Ok);
             msg.exec();
 
@@ -177,60 +223,24 @@ int main(int argc, char *argv[])
             QStringList psqlDirList = etcpostgresql.entryList(QDir::Dirs | QDir::NoDot | QDir::NoDotAndDotDot | QDir::NoSymLinks);
             for (QString dirName : psqlDirList) {
                 QProcess *prcs2 = new QProcess();
-                prcs2->start("pkexec", {"sudo", "cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
-                if(prcs2->waitForFinished()){
-                    qDebug() << prcs2->readAllStandardOutput().toStdString().c_str();
-                    qDebug() << "pg_hba.conf aktarımı tamamlandı.";
-                    prcs2->kill();
-                }
+                prcs2->start("pkexec", {"cp", "/tmp/pg_hba.conf", QString(etcpostgresql.absolutePath() + "/" + dirName + "/main/pg_hba.conf")});
+                prcs2->waitForFinished();
+                qDebug() << prcs2->readAllStandardOutput().toStdString().c_str();
+                qDebug() << "pg_hba.conf aktarımı tamamlandı.";
+                prcs2->kill();
             }
 
             // postgresql servisini yeniden başlatma
             QProcess *prcs3 = new QProcess();
-            prcs3->start("pkexec", {"sudo", "systemctl", "restart", "postgresql"});
-            if(prcs3->waitForFinished()){
-                qDebug() << prcs3->readAllStandardOutput().toStdString().c_str();
-                qDebug()<< "Postgresql Servisi yeniden başlatıldı.";
-                prcs3->kill();
-            }
+            prcs3->start("pkexec", {"systemctl", "restart", "postgresql"});
+            prcs3->waitForFinished();
+            qDebug() << prcs3->readAllStandardOutput().toStdString().c_str();
+            qDebug()<< "Postgresql Servisi yeniden başlatıldı.";
+            prcs3->kill();
 
-            // postgres kullanıcısının şifresini postgres yapma
-            QProcess *prcs4 = new QProcess();
-            prcs4->setProcessChannelMode(QProcess::MergedChannels);
-            prcs4->start("pkexec", {"sudo", "passwd", "postgres"});
-            if(prcs4->waitForReadyRead()){
-                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
-            }
-            else {
-                qDebug() << prcs4->errorString();
-            }
-            prcs4->write("postgres\n"); // \n eklemek gerekiyor yazılacak stringin sonuna
-            if(prcs4->waitForReadyRead()){
-                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
-            }
-            else {
-                qDebug() << prcs4->errorString();
-            }
-            prcs4->write("postgres\n");
-            if(prcs4->waitForReadyRead()){
-                qDebug() << prcs4->readAllStandardOutput().toStdString().c_str();
-            }
-            else {
-                qDebug() << prcs4->errorString();
-            }
-            prcs4->kill();
+            // Create DB role for current user
+            runPostgresAdmin(QString("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '%1') THEN CREATE ROLE %1 WITH LOGIN SUPERUSER CREATEDB; END IF; END $$;").arg(currentUser));
 
-            // postgresql sunucuda postgres şifresini güncelleme
-            QProcess *prcs5 = new QProcess();
-            prcs5->setProcessChannelMode(QProcess::MergedChannels);
-            prcs5->start("pkexec", {"psql", "-U", "postgres", "-c", "alter user postgres with password 'postgres';"});
-            if(prcs5->waitForReadyRead()){
-                qDebug() << prcs5->readAllStandardOutput().toStdString().c_str();
-            }
-            else{
-                qDebug() << prcs5->errorString().toStdString().c_str();
-            }
-            prcs5->kill();
             veritabaniIlkleme(db, vt);
         }
     }

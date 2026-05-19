@@ -50,20 +50,15 @@ Veritabani::~Veritabani()
 bool Veritabani::loginControl(QString _UserName, QString _Password)
 {
     QSqlQuery query(db);
-    query.prepare("SELECT username, password FROM kullanicilar WHERE username = ?");
-    query.bindValue(0, _UserName);
-    query.exec();
+    QString escapedUser = _UserName;
+    escapedUser.replace("'", "''");
+    query.exec(QString("SELECT username, password FROM kullanicilar WHERE username = '%1'").arg(escapedUser));
     if(query.next()){
-        if(query.value(0) == _Password){
+        if(query.value(1).toString() == _Password){
             return true;
         }
-        else{
-            return false;
-        }
     }
-    else{
-        return false;
-    }
+    return false;
 }
 
 QStringList Veritabani::getSonIslemler()
@@ -79,17 +74,9 @@ QStringList Veritabani::getSonIslemler()
 
 bool Veritabani::veritabaniYedekle(QString _dirNameAndFileName)
 {
-    QSqlQuery query(db);
-    QString yedeklemeKomutu = "pg_dump -Fc -U postgres mhss_data > ";
-    yedeklemeKomutu += _dirNameAndFileName + ".sql";
+    QString yedeklemeKomutu = "pg_dump -Fc -h localhost mhss_data > " + _dirNameAndFileName + ".sql";
     int exitCode = system(qPrintable(yedeklemeKomutu));
-    if(exitCode == QProcess::NormalExit && exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut normal olarak bittiyse
-        // komut başarılı
-        return true;
-    } else {
-        // komut başarısız.
-        return false;
-    }
+    return (exitCode == 0);
 }
 
 bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
@@ -109,19 +96,20 @@ bool Veritabani::veritabaniYedektenGeriYukle(QString _dosyaYolu)
     qDebug() << qPrintable(vtTumBaglantiKesmeSorgu.lastError().text());
 
     QSqlQuery yedekSorgu = QSqlQuery(db);
-    yedekSorgu.exec("DROP DATABASE mhss_data");
+    yedekSorgu.exec("DROP DATABASE IF EXISTS mhss_data");
     if(!QString(yedekSorgu.lastError().text()).isEmpty()){
         qDebug() << yedekSorgu.lastError().text();
     }
     //veritabanını oluşturma
-    yedekSorgu.exec("CREATE DATABASE mhss_data OWNER postgres");
+    QString dbOwner = db.userName().isEmpty() ? "postgres" : db.userName();
+    yedekSorgu.exec(QString("CREATE DATABASE mhss_data OWNER %1").arg(dbOwner));
     if(!QString(yedekSorgu.lastError().text()).isEmpty()){
         qDebug() << yedekSorgu.lastError().text();
     }
     db.close();
     db.setDatabaseName("mhss_data");
     db.open();
-    QString geriYuklemeKomutu = "pg_restore -U postgres -d mhss_data < " + _dosyaYolu;
+    QString geriYuklemeKomutu = "pg_restore --no-owner -h localhost -d mhss_data < " + _dosyaYolu;
     int exitCode = system(qPrintable(geriYuklemeKomutu));
     QFile(_dosyaYolu).remove();
     if(exitCode == QProcess::NormalExit){// system() ile gönderdiğim komut süreci normal olarak bittiyse
@@ -184,20 +172,20 @@ void Veritabani::setOturum(User _user)
     query.exec("SELECT * FROM oturum");
     if(query.next()){
         if(query.value(1).toString() != _user.getUserName()){
-            query.prepare("UPDATE oturum SET username = ?, giristarihi = ? WHERE id = 1");
-            query.bindValue(0, _user.getUserName());
-            query.bindValue(1, QDateTime::currentDateTime());
-            query.exec();
+            QString userName = _user.getUserName();
+            userName.replace("'", "''");
+            query.exec(QString("UPDATE oturum SET username = '%1', giristarihi = '%2' WHERE id = 1")
+                .arg(userName, QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
             if(query.lastError().isValid()){
                 qDebug() << qPrintable(query.lastError().text());
             }
         }
     }
     else{
-        query.prepare("INSERT INTO oturum(id, username, giristarihi) VALUES('1', ?,?)");
-        query.bindValue(0, _user.getUserName());
-        query.bindValue(1, QDateTime::currentDateTime());
-        query.exec();
+        QString userName = _user.getUserName();
+        userName.replace("'", "''");
+        query.exec(QString("INSERT INTO oturum(id, username, giristarihi) VALUES(1, '%1', '%2')")
+            .arg(userName, QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
         if(query.lastError().isValid()){
             qDebug() << qPrintable(query.lastError().text());
         }
@@ -243,9 +231,9 @@ User Veritabani::GetUserInfos(QString _UserName)
 {
     QSqlQuery query(db);
     User u;
-    query.prepare("SELECT * FROM kullanicilar WHERE username = ?");
-    query.bindValue(0, _UserName);
-    query.exec();
+    QString escapedUser = _UserName;
+    escapedUser.replace("'", "''");
+    query.exec(QString("SELECT * FROM kullanicilar WHERE username = '%1'").arg(escapedUser));
     if(query.next()){
         u.setUserID(query.value(0).toString());
         u.setUserName(query.value(1).toString());
@@ -266,21 +254,19 @@ User Veritabani::GetUserInfos(QString _UserName)
 bool Veritabani::updateUser(User _NewUserInfos)
 {
     QSqlQuery query(db);
-    query.prepare("UPDATE kullanicilar "
-                    "SET password = ?, ad = ?, soyad = ?, cepno = ?, tarih = ?, kasayetki = ?, iadeyetki = ?, stokyetki = ?, ayaryetki = ?, cariyetki = ? "
-                    "WHERE id = ?");
-    query.bindValue(0, _NewUserInfos.getPassWord());
-    query.bindValue(1, _NewUserInfos.getAd());
-    query.bindValue(2, _NewUserInfos.getSoyad());
-    query.bindValue(3, _NewUserInfos.getCepNo());
-    query.bindValue(4, _NewUserInfos.getTarih());
-    query.bindValue(5, _NewUserInfos.getKasaYetki());
-    query.bindValue(6, _NewUserInfos.getIadeYetki());
-    query.bindValue(7, _NewUserInfos.getStokYetki());
-    query.bindValue(8, _NewUserInfos.getAyaryetki());
-    query.bindValue(9, _NewUserInfos.getCariyetki());
-    query.bindValue(10, _NewUserInfos.getUserID());
-    query.exec();
+    QString pw = _NewUserInfos.getPassWord(); pw.replace("'", "''");
+    QString ad = _NewUserInfos.getAd(); ad.replace("'", "''");
+    QString soyad = _NewUserInfos.getSoyad(); soyad.replace("'", "''");
+    QString cepno = _NewUserInfos.getCepNo(); cepno.replace("'", "''");
+    query.exec(QString("UPDATE kullanicilar SET password = '%1', ad = '%2', soyad = '%3', cepno = '%4', tarih = '%5', kasayetki = %6, iadeyetki = %7, stokyetki = %8, ayaryetki = %9, cariyetki = %10 WHERE id = %11")
+        .arg(pw, ad, soyad, cepno,
+             _NewUserInfos.getTarih().toString("yyyy-MM-dd hh:mm:ss"),
+             QString::number(_NewUserInfos.getKasaYetki()),
+             QString::number(_NewUserInfos.getIadeYetki()),
+             QString::number(_NewUserInfos.getStokYetki()),
+             QString::number(_NewUserInfos.getAyaryetki()),
+             QString::number(_NewUserInfos.getCariyetki()),
+             _NewUserInfos.getUserID()));
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
         return false;
@@ -291,20 +277,19 @@ bool Veritabani::updateUser(User _NewUserInfos)
 bool Veritabani::CreateNewUser(User _NewUser)
 {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki)"
-                    " VALUES(nextval('kullanicilar_sequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    query.bindValue(0, _NewUser.getUserName());
-    query.bindValue(1, _NewUser.getPassWord());
-    query.bindValue(2, _NewUser.getAd());
-    query.bindValue(3, _NewUser.getSoyad());
-    query.bindValue(4, _NewUser.getCepNo());
-    query.bindValue(5, _NewUser.getTarih());
-    query.bindValue(6, _NewUser.getKasaYetki());
-    query.bindValue(7, _NewUser.getIadeYetki());
-    query.bindValue(8, _NewUser.getStokYetki());
-    query.bindValue(9, _NewUser.getAyaryetki());
-    query.bindValue(10, _NewUser.getCariyetki());
-    if(query.exec()){
+    QString uname = _NewUser.getUserName(); uname.replace("'", "''");
+    QString pw = _NewUser.getPassWord(); pw.replace("'", "''");
+    QString ad = _NewUser.getAd(); ad.replace("'", "''");
+    QString soyad = _NewUser.getSoyad(); soyad.replace("'", "''");
+    QString cepno = _NewUser.getCepNo(); cepno.replace("'", "''");
+    if(query.exec(QString("INSERT INTO kullanicilar(id, username, password, ad, soyad, cepno, tarih, kasayetki, iadeyetki, stokyetki, ayaryetki, cariyetki) VALUES(nextval('kullanicilar_sequence'), '%1', '%2', '%3', '%4', '%5', '%6', %7, %8, %9, %10, %11)")
+        .arg(uname, pw, ad, soyad, cepno,
+             _NewUser.getTarih().toString("yyyy-MM-dd hh:mm:ss"),
+             QString::number(_NewUser.getKasaYetki()),
+             QString::number(_NewUser.getIadeYetki()),
+             QString::number(_NewUser.getStokYetki()),
+             QString::number(_NewUser.getAyaryetki()),
+             QString::number(_NewUser.getCariyetki())))){
         return true;
     }
     else{
@@ -316,16 +301,15 @@ bool Veritabani::CreateNewUser(User _NewUser)
 void Veritabani::deleteUser(QString _DeletedUserName)
 {
     QSqlQuery query(db);
-    query.prepare("DELETE FROM kullanicilar WHERE username = ?");
-    query.bindValue(0, _DeletedUserName);
-    if(query.exec()){
+    QString uname = _DeletedUserName;
+    uname.replace("'", "''");
+    if(query.exec(QString("DELETE FROM kullanicilar WHERE username = '%1'").arg(uname))){
         QMessageBox *msg = new QMessageBox(0);
         msg->setIcon(QMessageBox::Information);
         msg->setWindowTitle("Başarılı");
         msg->setText(_DeletedUserName + " kullanıcısı silindi.");
         msg->setStandardButtons(QMessageBox::Ok);
         msg->setDefaultButton(QMessageBox::Ok);
-        // msg->setButtonText(QMessageBox::Ok, "Tamam");
         msg->exec();
     }
     else{
@@ -337,7 +321,6 @@ void Veritabani::deleteUser(QString _DeletedUserName)
             msg->setInformativeText(query.lastError().text());
             msg->setStandardButtons(QMessageBox::Ok);
             msg->setDefaultButton(QMessageBox::Ok);
-            // msg->setButtonText(QMessageBox::Ok, "Tamam");
             msg->exec();
         }
     }
@@ -371,9 +354,7 @@ QStringList Veritabani::getIlceler(int _plaka)
     QSqlQuery query(db);
     QStringList ilcelerList;
     ilcelerList.append("İlçe seçiniz.");
-    query.prepare("SELECT ilce FROM ilceler WHERE ilid = ?");
-    query.bindValue(0, _plaka);
-    query.exec();
+    query.exec(QString("SELECT ilce FROM ilceler WHERE ilid = %1").arg(_plaka));
     while (query.next()) {
         ilcelerList.append(query.value(0).toString());
     }
@@ -409,9 +390,9 @@ QStringList Veritabani::stokGruplariGetir()
 int Veritabani::getGrupID(QString pGrup)
 {
     QSqlQuery query(db);
-    query.prepare("SELECT id FROM stokgruplari WHERE grup = ?");
-    query.bindValue(0, pGrup);
-    query.exec();
+    QString grup = pGrup;
+    grup.replace("'", "''");
+    query.exec(QString("SELECT id FROM stokgruplari WHERE grup = '%1'").arg(grup));
     if(query.next()){
         return query.value(0).toInt();
     }
@@ -433,16 +414,14 @@ QStringList Veritabani::getTeraziModeller(QString Marka)
 {
     QSqlQuery query(db);
     QStringList modeller;
+    QString marka = Marka;
+    marka.replace("'", "''");
     // markanın id sini alma
-    query.prepare("SELECT id FROM teraziler WHERE marka = ? ORDER BY marka ASC");
-    query.bindValue(0, Marka);
-    query.exec();
+    query.exec(QString("SELECT id FROM teraziler WHERE marka = '%1' ORDER BY marka ASC").arg(marka));
     query.next();
     int id = query.value(0).toInt();
     // markanın modellerini getirme
-    query.prepare("SELECT model FROM terazimodel WHERE id = ? ORDER BY model ASC");
-    query.bindValue(0, id);
-    query.exec();
+    query.exec(QString("SELECT model FROM terazimodel WHERE id = %1 ORDER BY model ASC").arg(id));
     while (query.next()) {
         modeller.append(query.value(0).toString());
     }
