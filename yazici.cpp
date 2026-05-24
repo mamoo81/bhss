@@ -34,6 +34,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <QPainter>
 #include <QThread>
 
+static QString escapeHtml(const QString &text)
+{
+    QString escaped = text;
+    escaped.replace("&", "&amp;");
+    escaped.replace("<", "&lt;");
+    escaped.replace(">", "&gt;");
+    escaped.replace("\"", "&quot;");
+    return escaped;
+}
+
 Yazici::Yazici()
 {
 
@@ -92,10 +102,10 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                          "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 8pt\">Tutar</font></font></p>"
                          "</td>"
                          "</tr>";
-    for (auto urun : _sepet.urunler) {
+    for (const auto &urun : _sepet.urunler) {
         html.append(QString(
             "<tr valign=\"top\">"
-            "<td width=\"58%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + urun.ad + "</strong></font></font></p></td>"
+            "<td width=\"58%\" style=\"border: none; padding: 0in\"><p align=\"left\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"1\" style=\"font-size: 7pt\"><strong>" + escapeHtml(urun.ad) + "</strong></font></font></p></td>"
                         "<td width=\"18%\" style=\"border: none; padding: 0in\"><p align=\"center\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.miktar) + "</strong></font></font></p></td>"
                                              "<td width=\"24%\" style=\"border: none; padding: 0in\"><p align=\"right\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 7pt\"><strong>" + QString::number(urun.toplam, 'f', 2) + "</strong></font></font></p></td>"
                                                      "</tr>"
@@ -113,33 +123,35 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
                                                                 "</table>"
                                                                 "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\">"               /*</br> ekleyebilirsin 1 satır boşluk bırakır*/
                                                                 "</p>"
-                                                                "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">NO:" + _fisNo + "</font></font></p>"
+                                                                 "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">NO:" + escapeHtml(_fisNo) + "</font></font></p>"
                    "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\">"/*             </br> ekleyebilirsin 1 satır boşluk bırakır*/
                    "</p>"
                    "<p align=\"center\" style=\"margin-bottom: 0in; line-height: 100%\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">BİLGİ FİŞİDİR MALİ DEĞERİ YOKTUR</font></font></p>"
                    "</body>"
                    "</html>"));
 
-    QTextDocument document;
-    document.setPageSize(QSize(204,595));
-    document.setHtml(html);
-
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPageSize(QPageSize(QSize(72, 210)));
+    printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     printer.setOutputFileName("/tmp/mhss-fis.pdf");
+
+    QTextDocument document;
+    document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+    document.setHtml(html);
 
     document.print(&printer);
 
     QProcess *processIslem = new QProcess();
     QString program;
     QStringList arguments;
-    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+    QString osName = QSysInfo::prettyProductName().toLower();
+    bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
+    if(osName.contains("milis", Qt::CaseInsensitive)){
         program = "lpr";
         arguments << "-P" << yaziciModel << "/tmp/mhss-fis.pdf";
     }
-    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+    else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
         program = "lp";
         arguments << "-d" << yaziciModel << "/tmp/mhss-fis.pdf";
     }
@@ -252,7 +264,7 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             painter.drawText(QPoint(172, 95), QString::number(kart.getSFiyat(), 'f', 2));
 
         // yerli ürün logosu
-        if(!kart.getBarkod().isEmpty() && kart.getBarkod().front() == '8'){
+        if(!kart.getBarkod().isEmpty() && kart.getBarkod().startsWith('8')){
             painter.drawImage(QPoint(0, 95), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png"));
         }
             if(!painter.end()){
@@ -284,7 +296,7 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
             painter.drawText(QPoint(0,-256), kart.getAd());
 
         // yerli ürün logosu
-        if(!kart.getBarkod().isEmpty() && kart.getBarkod().front() == '8'){
+        if(!kart.getBarkod().isEmpty() && kart.getBarkod().startsWith('8')){
             painter.drawImage(QPoint(54, -240), QImage(":/dosyalar/dosyalar/yerli-uretim-logo.png")/*, QRect(0,0,190,100)*/);
         }
 
@@ -327,11 +339,13 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
     QProcess *processIslem = new QProcess();
     QString program;
     QStringList arguments;
-    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+    QString osName = QSysInfo::prettyProductName().toLower();
+    bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
+    if(osName.contains("milis", Qt::CaseInsensitive)){
         program = "lpr";
         arguments << "-P" << etiketYazici << pdfPath;
     }
-    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+    else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
         program = "lp";
         arguments << "-d" << etiketYazici << "-o" << "media=Custom.38x100mm" << pdfPath;
     }
@@ -346,9 +360,6 @@ void Yazici::rafEtiketiBas(StokKarti kart, int kagit)
     });
     qDebug() << "Yazdirma komutu:" << program << arguments;
     processIslem->start(program, arguments);
-    if(!processIslem->waitForStarted(5000)){
-        qDebug() << "Process baslatilamadi:" << processIslem->errorString();
-    }
 }
 
 void Yazici::cikisRaporuBas(User _user)
@@ -374,6 +385,10 @@ void Yazici::cikisRaporuBas(User _user)
         }
         // veritabanından giriş yapan kullanıcının oturum bilgilerini alıyorum.
         QSqlQuery raporSorgu = vt.getOturum();
+        if(!raporSorgu.next()){
+            qDebug() << "Oturum bulunamadi, cikis raporu yazdirilamiyor.";
+            return;
+        }
         QString oturumGirisSaati = raporSorgu.value(2).toTime().toString("hh:mm");
         QString oturumGirisTarihi = raporSorgu.value(2).toDate().toString("dd.MM.yyyy");
         double giren = kasaYonetimi.getKasaToplamGiren(raporSorgu.value(2).toDateTime(), QDateTime::currentDateTime());
@@ -461,26 +476,28 @@ void Yazici::cikisRaporuBas(User _user)
                                                                         "</body>"
                                                                         "</html>";
 
-        QTextDocument document;
-        document.setPageSize(QSize(204,595));
-        document.setHtml(html);
-
         QPrinter printer(QPrinter::PrinterResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPageSize(QPageSize(QSize(72,210)));
+        printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
         printer.setPageMargins(QMarginsF(0, 0, 0, 0));
         printer.setOutputFileName("/tmp/mhss-kasa-rapor.pdf");
+
+        QTextDocument document;
+        document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+        document.setHtml(html);
 
         document.print(&printer);
 
         QProcess *processIslem = new QProcess();
         QString program;
         QStringList arguments;
-        if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+        QString osName = QSysInfo::prettyProductName().toLower();
+        bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
+        if(osName.contains("milis", Qt::CaseInsensitive)){
             program = "lpr";
             arguments << "-P" << yaziciModel << "/tmp/mhss-kasa-rapor.pdf";
         }
-        else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+        else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
             program = "lp";
             arguments << "-d" << yaziciModel << "/tmp/mhss-kasa-rapor.pdf";
         }
@@ -530,8 +547,8 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
         "</head>"
         "<body lang=\"tr-TR\" link=\"#000080\" vlink=\"#800000\" dir=\"ltr\"><p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\">"
         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">MHSS TAHSİLAT BİLGİ FİŞİ</font></font></p>"
-        "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + sirketAdi + "</font></font></p>"
-                      "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + sirketAdresi + "</font></font></p>"
+        "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(sirketAdi) + "</font></font></p>"
+                      "<p align=\"center\" style=\"line-height: 100%; margin-bottom: 0in\"><font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(sirketAdresi) + "</font></font></p>"
                          "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">"
                          "<col width=\"84*\"/>"
                          "<col width=\"172*\"/>"
@@ -540,7 +557,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                          "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Tarih</font></font></p>"
                          "</td>"
                          "<td width=\"67%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
-                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + tarih + "</font></font></p>"
+                         "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(tarih) + "</font></font></p>"
                   "</td>"
                   "</tr>"
                   "<tr>"
@@ -548,7 +565,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                   "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Kullanıcı</font></font></p>"
                   "</td>"
                   "<td width=\"67%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                  "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _user.getUserName() + "</font></font></p>"
+                  "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(_user.getUserName()) + "</font></font></p>"
                                 "</td>"
                                 "</tr>"
                                 "<tr>"
@@ -556,7 +573,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                                 "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Cari</font></font></p>"
                                 "</td>"
                                 "<td width=\"67%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                                "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _cari.getAd() + "</font></font></p>"
+                                "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(_cari.getAd()) + "</font></font></p>"
                           "</td>"
                           "</tr>"
                           "<tr>"
@@ -564,7 +581,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                           "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">Açıklama</font></font></p>"
                           "</td>"
                           "<td width=\"67%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                          "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _aciklama + "</font></font></p>"
+                          "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(_aciklama) + "</font></font></p>"
                       "</td>"
                       "</tr>"
                       "</table>"
@@ -579,7 +596,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                       "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">İşlem No</font></font></p>"
                       "</td>"
                       "<td width=\"62%\" style=\"border: 1px solid #000000; padding: 0.04in\"><p align=\"center\">"
-                      "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _islemNo + "</font></font></p>"
+                      "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(_islemNo) + "</font></font></p>"
                      "</td>"
                      "</tr>"
                      "<tr>"
@@ -587,7 +604,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                      "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 9pt\">Ödeme tarihi</font></font></p>"
                      "</td>"
                      "<td width=\"62%\" style=\"border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in\"><p align=\"center\">"
-                     "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + _islemTarihi.toString("hh:mm dd.MM.yyyy") + "</font></font></p>"
+                     "<font face=\"DejaVu Sans Mono, monospace\"><font size=\"2\" style=\"font-size: 10pt\">" + escapeHtml(_islemTarihi.toString("hh:mm dd.MM.yyyy")) + "</font></font></p>"
                                                       "</td>"
                                                       "</tr>"
                                                       "<tr>"
@@ -611,26 +628,28 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
                                                     "</body>"
                                                     "</html>";
 
-    QTextDocument document;
-    document.setPageSize(QSize(204,595));
-    document.setHtml(html);
-
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPageSize(QPageSize(QSize(72,210)));
+    printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
     printer.setOutputFileName("/tmp/mhss-tahsilat-fis.pdf");
+
+    QTextDocument document;
+    document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+    document.setHtml(html);
 
     document.print(&printer);
 
     QProcess *processIslem = new QProcess();
     QString program;
     QStringList arguments;
-    if(QSysInfo::prettyProductName().contains("milis", Qt::CaseInsensitive)){
+    QString osName = QSysInfo::prettyProductName().toLower();
+    bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
+    if(osName.contains("milis", Qt::CaseInsensitive)){
         program = "lpr";
         arguments << "-P" << yaziciModel << "/tmp/mhss-tahsilat-fis.pdf";
     }
-    else if(QSysInfo::prettyProductName().contains("pardus", Qt::CaseInsensitive)){
+    else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
         program = "lp";
         arguments << "-d" << yaziciModel << "/tmp/mhss-tahsilat-fis.pdf";
     }

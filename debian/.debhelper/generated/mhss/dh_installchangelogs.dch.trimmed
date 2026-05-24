@@ -1,3 +1,13 @@
+mhss (0.4.2-1) unstable; urgency=medium
+
+  * Veritabanı yedekleme ve geri yükleme fonksiyonları güncellendi
+  * pg_dump/pg_restore --no-password eklendi, QEventLoop ile GUI donma çözüldü
+  * Login ekranı versiyonu QApplication::applicationVersion() ile okunuyor
+  * Masaüstü başlatıcı (postinst) çoklu kullanıcı tespiti ve debug logu eklendi
+  * debian/control: libqt6sql6-psql bağımlılığı eklendi
+
+ -- mamoo <mamoo81@gmail.com>  Wed, 20 May 2026 00:15:00 +0300
+
 mhss (0.4.1-1) unstable; urgency=medium
 
   * Kullanıcı ekleme/güncelleme boolean hatası düzeltildi (TRUE/FALSE)
