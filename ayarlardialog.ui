@@ -2325,9 +2325,9 @@
        </property>
       </widget>
      </widget>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tabHakkinda">
+     </widget>
+     </widget>
+     <widget class="QWidget" name="tabHakkinda">
     <attribute name="title">
      <string>Hakkında</string>
     </attribute>

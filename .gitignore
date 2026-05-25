@@ -71,4 +71,8 @@ Thumbs.db
 *.dll
 *.exe
 
+# Build directory and binary
+build/
+mhss
+
 Readme.md

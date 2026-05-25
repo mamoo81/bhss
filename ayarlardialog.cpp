@@ -54,7 +54,7 @@ AyarlarDialog::~AyarlarDialog()
 
 void AyarlarDialog::formLoad()
 {
-    ui->labelVersion->setText("0.2.3");
+    ui->labelVersion->setText(QApplication::applicationVersion());
 
     // oto başlangıç okuma ayarını okuma
     // oto başlangıç için İşletim sistemi belirleme
@@ -410,6 +410,7 @@ void AyarlarDialog::on_pushButton_clicked()
         cronJobSil();
     }
     genelAyarlar.endGroup();
+
     // genel.ini dosyasına kayıt etme bitiş.
     this->close();
 }
@@ -897,7 +898,5 @@ void AyarlarDialog::on_StokTakibicheckBox_stateChanged(int arg1)
         ui->labelStokMiktar->setEnabled(false);
     }
 }
-
-
 
 

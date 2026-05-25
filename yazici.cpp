@@ -75,7 +75,7 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
         "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>"
         "<title></title>"
         "<style type=\"text/css\">"
-        "@page { size: 2.83in 8.27in; margin-left: 0.1in; margin-right: 0.1in }"
+        "@page { size: 72mm 297mm; margin: 0 }"
         "td p { orphans: 0; widows: 0; background: transparent }"
         "p { margin-bottom: 0.1in; line-height: 115%; background: transparent }"
         "</style>"
@@ -132,12 +132,13 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
+    printer.setPageSize(QPageSize(QSizeF(72, 297), QPageSize::Millimeter));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
+    printer.setResolution(203);
     printer.setOutputFileName("/tmp/mhss-fis.pdf");
 
     QTextDocument document;
-    document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+    document.setPageSize(printer.pageRect(QPrinter::Point).size());
     document.setHtml(html);
 
     document.print(&printer);
@@ -149,11 +150,11 @@ void Yazici::fisBas(QString _fisNo, Sepet _sepet)
     bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
     if(osName.contains("milis", Qt::CaseInsensitive)){
         program = "lpr";
-        arguments << "-P" << yaziciModel << "/tmp/mhss-fis.pdf";
+        arguments << "-P" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-fis.pdf";
     }
     else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
         program = "lp";
-        arguments << "-d" << yaziciModel << "/tmp/mhss-fis.pdf";
+        arguments << "-d" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-fis.pdf";
     }
     else{
         qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
@@ -397,7 +398,7 @@ void Yazici::cikisRaporuBas(User _user)
             "<html>"
             "<head>"
             "<style type=\"text/css\">"
-            "@page { size: 2.83in 8.27in; margin-left: 0.1in; margin-right: 0.1in }"
+            "@page { size: 72mm 297mm; margin: 0 }"
             "td p { orphans: 0; widows: 0; background: transparent }"
             "p { line-height: 115%; margin-bottom: 0.1in; background: transparent }"
             "</style>"
@@ -478,12 +479,13 @@ void Yazici::cikisRaporuBas(User _user)
 
         QPrinter printer(QPrinter::PrinterResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
+        printer.setPageSize(QPageSize(QSizeF(72, 297), QPageSize::Millimeter));
         printer.setPageMargins(QMarginsF(0, 0, 0, 0));
+        printer.setResolution(203);
         printer.setOutputFileName("/tmp/mhss-kasa-rapor.pdf");
 
         QTextDocument document;
-        document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+        document.setPageSize(printer.pageRect(QPrinter::Point).size());
         document.setHtml(html);
 
         document.print(&printer);
@@ -495,11 +497,11 @@ void Yazici::cikisRaporuBas(User _user)
         bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
         if(osName.contains("milis", Qt::CaseInsensitive)){
             program = "lpr";
-            arguments << "-P" << yaziciModel << "/tmp/mhss-kasa-rapor.pdf";
+            arguments << "-P" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-kasa-rapor.pdf";
         }
         else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
             program = "lp";
-            arguments << "-d" << yaziciModel << "/tmp/mhss-kasa-rapor.pdf";
+            arguments << "-d" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-kasa-rapor.pdf";
         }
         else{
             qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
@@ -540,7 +542,7 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
         "<html>"
         "<head>"
         "<style type=\"text/css\">"
-        "@page { size: 2.83in 8.27in; margin-left: 0.1in; margin-right: 0.1in }"
+        "@page { size: 72mm 297mm; margin: 0 }"
         "td p { orphans: 0; widows: 0; background: transparent }"
         "p { line-height: 115%; margin-bottom: 0.1in; background: transparent }"
         "</style>"
@@ -630,12 +632,13 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPageSize(QPageSize(QSizeF(80, 297), QPageSize::Millimeter));
+    printer.setPageSize(QPageSize(QSizeF(72, 297), QPageSize::Millimeter));
     printer.setPageMargins(QMarginsF(0, 0, 0, 0));
+    printer.setResolution(203);
     printer.setOutputFileName("/tmp/mhss-tahsilat-fis.pdf");
 
     QTextDocument document;
-    document.setPageSize(printer.pageRect(QPrinter::DevicePixel).size());
+    document.setPageSize(printer.pageRect(QPrinter::Point).size());
     document.setHtml(html);
 
     document.print(&printer);
@@ -647,11 +650,11 @@ void Yazici::tahsilatMakbuzuBas(User _user, Cari _cari, const double _tutar, QSt
     bool isLinux = (QSysInfo::kernelType() == "linux") || osName.contains("linux");
     if(osName.contains("milis", Qt::CaseInsensitive)){
         program = "lpr";
-        arguments << "-P" << yaziciModel << "/tmp/mhss-tahsilat-fis.pdf";
+        arguments << "-P" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-tahsilat-fis.pdf";
     }
     else if(isLinux || osName.contains("pardus", Qt::CaseInsensitive)){
         program = "lp";
-        arguments << "-d" << yaziciModel << "/tmp/mhss-tahsilat-fis.pdf";
+        arguments << "-d" << yaziciModel << "-o" << "media=Custom.72x297mm" << "/tmp/mhss-tahsilat-fis.pdf";
     }
     else{
         qDebug() << "Yazdırma için İşletim Sistemi tespit edilemedi.";
