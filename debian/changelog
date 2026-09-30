@@ -1,3 +1,10 @@
+mhss (0.4.4-1) unstable; urgency=medium
+
+  * Kasa ekraninda net kar hesabi duzeltildi (kismi odeme orani, ondalik yuvarlama)
+  * Stok karti satis grafigi duzeltildi (yalniz SATIS/IADE, tarih araligi, eksenler)
+
+ -- mamoo <mamoo81@gmail.com>  Thu, 01 Oct 2026 00:09:53 +0300
+
 mhss (0.4.2-1) unstable; urgency=medium
 
   * Veritabanı yedekleme ve geri yükleme fonksiyonları güncellendi

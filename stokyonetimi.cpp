@@ -573,13 +573,13 @@ QString StokYonetimi::getBirimAd(int birimID)
 QHash<QString, float> StokYonetimi::getgunlukAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
     QSqlQuery query(db);
-    sonTarih = sonTarih.addDays(1);// bir gün eklemezsem saati 00:00:00 aldığı için 1 gün eksik hesaplıyor.
+    sonTarih = sonTarih.addDays(1);
 
-    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('day', tarih::timestamp) FROM stokhareketleri "
-                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+    query.prepare("SELECT SUM(CASE WHEN islem_turu = 'İADE' THEN -islem_miktari ELSE islem_miktari END), DATE_TRUNC('day', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih >= ? AND tarih < ? AND barkod = ? AND islem_turu IN ('SATIŞ', 'İADE') "
                   "GROUP BY DATE_TRUNC('day', tarih::timestamp) ORDER BY DATE_TRUNC('day', tarih::timestamp)");
-    query.bindValue(0, ilkTarih);
-    query.bindValue(1, sonTarih);
+    query.bindValue(0, QDateTime(ilkTarih, QTime(0, 0)));
+    query.bindValue(1, QDateTime(sonTarih, QTime(0, 0)));
     query.bindValue(2, kart.getBarkod());
     query.exec();
     if(query.lastError().isValid()){
@@ -587,7 +587,7 @@ QHash<QString, float> StokYonetimi::getgunlukAdetler(QDate ilkTarih, QDate sonTa
     }
     QHash<QString, float> adetler;
     while (query.next()) {
-        adetler.insert(query.value(1).toDate().toString(), query.value(0).toFloat());
+        adetler.insert(query.value(1).toDate().toString("dd.MM.yyyy"), query.value(0).toFloat());
     }
     return adetler;
 }
@@ -595,13 +595,14 @@ QHash<QString, float> StokYonetimi::getgunlukAdetler(QDate ilkTarih, QDate sonTa
 QHash<QString, float> StokYonetimi::getAylikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
     QSqlQuery query(db);
-    sonTarih = sonTarih.addMonths(1);// bir ay eklemezsem saati 00:00:00 aldığı için 1 ay eksik hesaplıyor.
+    ilkTarih = QDate(ilkTarih.year(), ilkTarih.month(), 1);
+    sonTarih = QDate(sonTarih.year(), sonTarih.month(), 1).addMonths(1);
 
-    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('month', tarih::timestamp) FROM stokhareketleri "
-                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+    query.prepare("SELECT SUM(CASE WHEN islem_turu = 'İADE' THEN -islem_miktari ELSE islem_miktari END), DATE_TRUNC('month', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih >= ? AND tarih < ? AND barkod = ? AND islem_turu IN ('SATIŞ', 'İADE') "
                   "GROUP BY DATE_TRUNC('month', tarih::timestamp) ORDER BY DATE_TRUNC('month', tarih::timestamp)");
-    query.bindValue(0, ilkTarih);
-    query.bindValue(1, sonTarih);
+    query.bindValue(0, QDateTime(ilkTarih, QTime(0, 0)));
+    query.bindValue(1, QDateTime(sonTarih, QTime(0, 0)));
     query.bindValue(2, kart.getBarkod());
     query.exec();
     if(query.lastError().isValid()){
@@ -617,13 +618,14 @@ QHash<QString, float> StokYonetimi::getAylikAdetler(QDate ilkTarih, QDate sonTar
 QHash<QString, float> StokYonetimi::getYillikAdetler(QDate ilkTarih, QDate sonTarih, StokKarti kart)
 {
     QSqlQuery query(db);
-    sonTarih = sonTarih.addYears(1);// bir yıl eklemezsem saati 00:00:00 aldığı için 1 yıl eksik hesaplıyor.
+    ilkTarih = QDate(ilkTarih.year(), 1, 1);
+    sonTarih = QDate(sonTarih.year(), 1, 1).addYears(1);
 
-    query.prepare("SELECT SUM(islem_miktari), DATE_TRUNC('year', tarih::timestamp) FROM stokhareketleri "
-                  "WHERE tarih BETWEEN ? AND ? AND barkod = ? "
+    query.prepare("SELECT SUM(CASE WHEN islem_turu = 'İADE' THEN -islem_miktari ELSE islem_miktari END), DATE_TRUNC('year', tarih::timestamp) FROM stokhareketleri "
+                  "WHERE tarih >= ? AND tarih < ? AND barkod = ? AND islem_turu IN ('SATIŞ', 'İADE') "
                   "GROUP BY DATE_TRUNC('year', tarih::timestamp) ORDER BY DATE_TRUNC('year', tarih::timestamp)");
-    query.bindValue(0, ilkTarih);
-    query.bindValue(1, sonTarih);
+    query.bindValue(0, QDateTime(ilkTarih, QTime(0, 0)));
+    query.bindValue(1, QDateTime(sonTarih, QTime(0, 0)));
     query.bindValue(2, kart.getBarkod());
     query.exec();
     if(query.lastError().isValid()){

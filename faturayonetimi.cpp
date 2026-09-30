@@ -85,7 +85,7 @@ void FaturaYonetimi::satisYap(Sepet satilacakSepet, User satisYapanKullanici, in
                              "SATIŞ FAT.NO:" + FaturaNo,
                              QDateTime::currentDateTime(),
                              FaturaNo,
-                             satilacakSepet.getSepettekiKazanc());
+                             (toplam > 0 ? satilacakSepet.getSepettekiKazanc() * odenen / toplam : 0));
         }
     }
 

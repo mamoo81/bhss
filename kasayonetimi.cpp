@@ -125,7 +125,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             {
                 QSqlQuery q(db);
                 QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
-                                  .arg(sonPara);
+                                  .arg(sonPara, 0, 'f', 2);
                 q.exec(sql);
                 if(q.lastError().isValid()){
                     qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
@@ -147,7 +147,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             else{
                 QSqlQuery q(db);
                 QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
-                                  .arg(sonPara);
+                                  .arg(sonPara, 0, 'f', 2);
                 q.exec(sql);
                 if(q.lastError().isValid()){
                     qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
@@ -166,11 +166,11 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             QSqlQuery q(db);
             QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, evrakno, aciklama) "
                                   "VALUES (nextval('kasahareketleri_sequence'), %1, %2, %3, '%4'::timestamp, %5, '%6', '%7')")
-                              .arg(tutar)
+                              .arg(tutar, 0, 'f', 2)
                               .arg(user.getUserID().toInt())
                               .arg(static_cast<int>(hareket))
                               .arg(dtStr)
-                              .arg(netKar)
+                              .arg(netKar, 0, 'f', 2)
                               .arg(evrakno.isEmpty() ? QString() : evrakno.replace("'", "''"))
                               .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
             qDebug() << "KasaHareketiEkle SQL:" << sql;
@@ -203,7 +203,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
         {
             QSqlQuery q(db);
             QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
-                              .arg(sonPara);
+                              .arg(sonPara, 0, 'f', 2);
             q.exec(sql);
             if(q.lastError().isValid()){
                 qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
@@ -215,7 +215,7 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
         {
             QSqlQuery q(db);
             QString sql = QString("UPDATE kasa SET para = %1 WHERE id = '1'")
-                              .arg(sonPara);
+                              .arg(sonPara, 0, 'f', 2);
             q.exec(sql);
             if(q.lastError().isValid()){
                 qDebug() << "kasahareketiekle() hata:\n" << qPrintable(q.lastError().text());
@@ -241,16 +241,17 @@ int KasaYonetimi::KasaHareketiEkle(User user, KasaHareketi hareket, double tutar
             karDegeri = netKar * -1;
             break;
         default:
+            karDegeri = netKar;
             break;
         }
         QSqlQuery q(db);
         QString sql = QString("INSERT INTO kasahareketleri (id, miktar, kullanici, islem, tarih, kar, aciklama) "
                               "VALUES (nextval('kasahareketleri_sequence'), %1, %2, %3, '%4'::timestamp, %5, '%6')")
-                          .arg(tutar)
+                          .arg(tutar, 0, 'f', 2)
                           .arg(user.getUserID().toInt())
                           .arg(static_cast<int>(hareket))
                           .arg(dtStr)
-                          .arg(karDegeri)
+                          .arg(karDegeri, 0, 'f', 2)
                           .arg(aciklama.isEmpty() ? QString() : aciklama.replace("'", "''"));
         q.exec(sql);
         if(q.lastError().isValid()){

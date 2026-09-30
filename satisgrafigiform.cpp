@@ -125,160 +125,85 @@ void SatisGrafigiForm::on_yillikradioButton_clicked()
 
 void SatisGrafigiForm::on_gosterpushButton_clicked()
 {
-    // ilkleme
     barset = new QBarSet(kart.getAd());
     barSeries = new QBarSeries();
     categoryaxis = new QBarCategoryAxis();
 
+    QStringList etiketler;
+    QStringList anahtarlar;
+    QHash<QString, float> adetlerList;
+    QDate ilk = ui->baslangicdateEdit->date();
+    QDate son = ui->bitisdateEdit->date();
+
     if(ui->gunlukradioButton->isChecked()){
-
-        // günlük bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
-        qint64 kacGun = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
-
-        // gün sayısı kadar günleri listeye ekleme
-        for (int var = 0; var <= kacGun; ++var) {
-            gunler.append(ui->baslangicdateEdit->date().addDays(var).toString("dd.MM.yyyy dddd"));
-            gunlerTamFormat.append(ui->baslangicdateEdit->date().addDays(var).toString());// aşağıdaki karşılaştırma için.
+        for (QDate d = ilk; d <= son; d = d.addDays(1)) {
+            etiketler.append(d.toString("dd.MM.yyyy dddd"));
+            anahtarlar.append(d.toString("dd.MM.yyyy"));
         }
-        categoryaxis->append(gunler);// gün adlarını chart altına yazıyorum.
-
-        // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = stokYonetimi.getgunlukAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
-        if(!adetlerList.isEmpty()){
-            for (int var = 0; var < gunler.count(); ++var) {
-                if(adetlerList.contains(gunlerTamFormat.value(var))){
-                    barset->append(adetlerList.value(gunlerTamFormat.at(var)));
-                }
-                else{
-                    barset->append(0);
-                }
-            }
-            // en çok, en az ve ortalama alma
-            QList<float> lii = adetlerList.values();
-
-            std::sort(lii.begin(), lii.end());
-            ui->EnAzlabel->setText(QString::number(lii.first()));
-            ui->EnCoklabel->setText(QString::number(lii.last()));
-            float toplam = 0;
-            for (int var = 0; var < lii.count(); ++var) {
-                toplam = toplam + lii.value(var);
-            }
-            ui->Ortalamalabel->setText(QString::number((toplam / lii.count()), 'f', 2));
+        adetlerList = stokYonetimi.getgunlukAdetler(ilk, son, kart);
+    }
+    else if(ui->aylikradioButton->isChecked()){
+        QDate d(ilk.year(), ilk.month(), 1);
+        QDate sonAy(son.year(), son.month(), 1);
+        for (; d <= sonAy; d = d.addMonths(1)) {
+            etiketler.append(d.toString("MM.yyyy MMMM"));
+            anahtarlar.append(d.toString("MM.yyyy MMMM"));
         }
-        else{
-            ui->EnAzlabel->setText(QString::number(0));
-            ui->EnCoklabel->setText(QString::number(0));
-            ui->Ortalamalabel->setText(QString::number(0));
+        adetlerList = stokYonetimi.getAylikAdetler(ilk, son, kart);
+    }
+    else if(ui->yillikradioButton->isChecked()){
+        for (int y = ilk.year(); y <= son.year(); ++y) {
+            etiketler.append(QString::number(y));
+            anahtarlar.append(QString::number(y));
+        }
+        adetlerList = stokYonetimi.getYillikAdetler(ilk, son, kart);
+    }
+    categoryaxis->append(etiketler);
+
+    float enAz = 0, enCok = 0, toplam = 0;
+    for (int i = 0; i < anahtarlar.count(); ++i) {
+        float v = adetlerList.value(anahtarlar.at(i), 0);
+        barset->append(v);
+        toplam += v;
+        if(i == 0 || v < enAz){
+            enAz = v;
+        }
+        if(i == 0 || v > enCok){
+            enCok = v;
         }
     }
-    if(ui->aylikradioButton->isChecked()){
+    ui->EnAzlabel->setText(QString::number(enAz));
+    ui->EnCoklabel->setText(QString::number(enCok));
+    ui->Ortalamalabel->setText(QString::number(anahtarlar.isEmpty() ? 0 : toplam / anahtarlar.count(), 'f', 2));
 
-        // aylik bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
-        qint64 kacGunluk = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
-
-        int KacAylik = kacGunluk/30;
-
-        // ay sayısı kadar ayları listeye ekleme
-        for (int var = 0; var <= KacAylik; ++var) {
-            aylar.append(ui->baslangicdateEdit->date().addMonths(var).toString("MM.yyyy MMMM"));
-            aylarTamFormat.append(ui->baslangicdateEdit->date().addMonths(var).toString("MM.yyyy MMMM"));// aşağıdaki karşılaştırma için.
-        }
-        categoryaxis->append(aylar);// ay adlarını chart altına yazıyorum.
-
-        // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = stokYonetimi.getAylikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
-        if(!adetlerList.isEmpty()){
-            for (int var = 0; var < aylar.count(); ++var) {
-                if(adetlerList.contains(aylarTamFormat.value(var))){
-                    barset->append(adetlerList.value(aylarTamFormat.at(var)));
-                }
-                else{
-                    barset->append(0);
-                }
-            }
-            // en çok, en az ve ortalama alma
-            QList<float> lii = adetlerList.values();
-            std::sort(lii.begin(), lii.end());
-
-            ui->EnAzlabel->setText(QString::number(lii.first()));
-            ui->EnCoklabel->setText(QString::number(lii.last()));
-            float toplam = 0;
-            for (int var = 0; var < lii.count(); ++var) {
-                toplam = toplam + lii.value(var);
-            }
-            ui->Ortalamalabel->setText(QString::number((toplam / lii.count()), 'f', 2));
-        }
-        else{
-            ui->EnAzlabel->setText(QString::number(0));
-            ui->EnCoklabel->setText(QString::number(0));
-            ui->Ortalamalabel->setText(QString::number(0));
-        }
-    }
-    if(ui->yillikradioButton->isChecked()){
-
-        // yıllık bazında gösterileceği için 2 tarih arası kaç gün olduğunu bulma
-        qint64 kacGunluk = ui->bitisdateEdit->date().toJulianDay() - ui->baslangicdateEdit->date().toJulianDay();
-
-        int KacYillik = kacGunluk/365;
-
-        // yıl sayısı kadar yılları listeye ekleme
-        for (int var = 0; var <= KacYillik; ++var) {
-            yillar.append(ui->baslangicdateEdit->date().addYears(var).toString("yyyy"));
-            yillarTamFormat.append(ui->baslangicdateEdit->date().addYears(var).toString("yyyy"));// aşağıdaki karşılaştırma için.
-        }
-        categoryaxis->append(yillar);// yıl adlarını chart altına yazıyorum.
-
-        // adetleri bulma ve girme
-        QHash<QString, float> adetlerList = stokYonetimi.getYillikAdetler(ui->baslangicdateEdit->date(), ui->bitisdateEdit->date(), kart);
-        if(!adetlerList.isEmpty()){
-            for (int var = 0; var < yillar.count(); ++var) {
-                if(adetlerList.contains(yillarTamFormat.value(var))){
-                    barset->append(adetlerList.value(yillarTamFormat.at(var)));
-                }
-                else{
-                    barset->append(0);
-                }
-            }
-            // en çok, en az ve ortalama alma
-            QList<float> lii = adetlerList.values();
-            std::sort(lii.begin(), lii.end());
-
-            ui->EnAzlabel->setText(QString::number(lii.first()));
-            ui->EnCoklabel->setText(QString::number(lii.last()));
-            float toplam = 0;
-            for (int var = 0; var < lii.count(); ++var) {
-                toplam = toplam + lii.value(var);
-            }
-            ui->Ortalamalabel->setText(QString::number((toplam / lii.count()), 'f', 2));
-        }
-        else{
-            ui->EnAzlabel->setText(QString::number(0));
-            ui->EnCoklabel->setText(QString::number(0));
-            ui->Ortalamalabel->setText(QString::number(0));
-        }
-    }
-
-    //önemsiz detaylar.
     barSeries->setBarWidth(1);
     barSeries->setVisible(true);
     barSeries->setLabelsPosition(QAbstractBarSeries::LabelsInsideEnd);
     barSeries->setLabelsVisible(true);
-    //
     barSeries->append(barset);
 
     chart->removeAllSeries();
+    const auto eskiEksenler = chart->axes();
+    for (auto eksen : eskiEksenler) {
+        chart->removeAxis(eksen);
+        eksen->deleteLater();
+    }
     chart->addSeries(barSeries);
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
     categoryaxis->setLabelsAngle(90);
     categoryaxis->setLabelsVisible(true);
 
-    chart->createDefaultAxes();
     chart->addAxis(categoryaxis, Qt::AlignBottom);
     barSeries->attachAxis(categoryaxis);
+    QValueAxis *degerEkseni = new QValueAxis();
+    degerEkseni->setLabelFormat("%g");
+    degerEkseni->setRange(qMin(0.0f, enAz), qMax(1.0f, enCok));
+    degerEkseni->applyNiceNumbers();
+    chart->addAxis(degerEkseni, Qt::AlignLeft);
+    barSeries->attachAxis(degerEkseni);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
-
 }
 
 void SatisGrafigiForm::on_EklepushButton_clicked()
