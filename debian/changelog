@@ -1,3 +1,9 @@
+mhss (0.4.5-1) unstable; urgency=medium
+
+  * Kasa hareketleri listesi ve giris/cikis toplamlari islem sutunu text veya integer olsa da calisir hale getirildi
+
+ -- mamoo <mamoo81@gmail.com>  Sat, 03 Oct 2026 22:21:05 +0300
+
 mhss (0.4.4-1) unstable; urgency=medium
 
   * Kasa ekraninda net kar hesabi duzeltildi (kismi odeme orani, ondalik yuvarlama)

@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QDebug>
 
+static const QString ISLEM_SQL = QStringLiteral("(CASE kasahareketleri.islem::text WHEN '1' THEN 1 WHEN 'GİRİŞ' THEN 1 WHEN '2' THEN 2 WHEN 'ÇIKIŞ' THEN 2 WHEN '3' THEN 3 WHEN 'SATIŞ' THEN 3 WHEN '4' THEN 4 WHEN 'İADE' THEN 4 WHEN '5' THEN 5 WHEN 'BANKA VİRMAN' THEN 5 END)");
+
 KasaYonetimi::KasaYonetimi()
 {
 
@@ -16,9 +18,9 @@ KasaYonetimi::~KasaYonetimi()
 double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem = 1 AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE %3 = 1 AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
                       .arg(baslangicTarih.toString(Qt::ISODate))
-                      .arg(bitisTarih.toString(Qt::ISODate));
+                      .arg(bitisTarih.toString(Qt::ISODate)).arg(ISLEM_SQL);
     query.exec(sql);
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
@@ -37,9 +39,9 @@ double KasaYonetimi::getKasaToplamGiren(QDateTime baslangicTarih, QDateTime biti
 double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE islem IN (2,4) AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE %3 IN (2,4) AND tarih BETWEEN '%1'::timestamp AND '%2'::timestamp")
                       .arg(baslangicTarih.toString(Qt::ISODate))
-                      .arg(bitisTarih.toString(Qt::ISODate));
+                      .arg(bitisTarih.toString(Qt::ISODate)).arg(ISLEM_SQL);
     query.exec(sql);
     if(query.lastError().isValid()){
         qDebug() << qPrintable(query.lastError().text());
@@ -57,12 +59,12 @@ double KasaYonetimi::getKasaToplamCikan(QDateTime baslangicTarih, QDateTime biti
 
 QSqlQueryModel *KasaYonetimi::getKasaHareketleri(QDateTime baslangicTarih, QDateTime bitisTarih)
 {
-    QString sql = QString("SELECT kasahareketleri.id, CASE kasahareketleri.islem WHEN 1 THEN 'GİRİŞ' WHEN 2 THEN 'ÇIKIŞ' WHEN 3 THEN 'SATIŞ' WHEN 4 THEN 'İADE' WHEN 5 THEN 'BANKA VİRMAN' END, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
+    QString sql = QString("SELECT kasahareketleri.id, CASE %3 WHEN 1 THEN 'GİRİŞ' WHEN 2 THEN 'ÇIKIŞ' WHEN 3 THEN 'SATIŞ' WHEN 4 THEN 'İADE' WHEN 5 THEN 'BANKA VİRMAN' END, CAST(miktar AS DECIMAL), kasahareketleri.tarih, kullanicilar.username, evrakno, kasahareketleri.aciklama FROM kasahareketleri "
                           "INNER JOIN kullanicilar ON kasahareketleri.kullanici = kullanicilar.id "
                           "WHERE kasahareketleri.tarih BETWEEN '%1'::timestamp AND '%2'::timestamp "
                           "ORDER BY kasahareketleri.id DESC")
                       .arg(baslangicTarih.toString(Qt::ISODate))
-                      .arg(bitisTarih.toString(Qt::ISODate));
+                      .arg(bitisTarih.toString(Qt::ISODate)).arg(ISLEM_SQL);
     qDebug() << "getKasaHareketleri SQL:" << sql;
     kasaHareketlerimodel->clear();
     kasaHareketlerimodel->setQuery(sql, db);
@@ -420,8 +422,9 @@ double KasaYonetimi::getKasadakiPara()
 double KasaYonetimi::getGunlukCiro()
 {
     QSqlQuery query(db);
-    QString sql = QString("SELECT SUM(miktar) FROM kasahareketleri WHERE tarih > '%1'::timestamp AND islem IN(1,4)")
-                      .arg(QDateTime::currentDateTime().date().toString(Qt::ISODate));
+    QString sql = QString("SELECT SUM(CAST(miktar AS DECIMAL)) FROM kasahareketleri WHERE tarih > '%1'::timestamp AND %2 IN (1,4)")
+                      .arg(QDateTime::currentDateTime().date().toString(Qt::ISODate))
+                      .arg(ISLEM_SQL);
     query.exec(sql);
     query.next();
     if(query.lastError().isValid()){
